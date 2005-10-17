@@ -1,0 +1,30 @@
+rsc - rsc SuperCollider Client
+
+rsc [1] is a set of extensions to the PLT Scheme implementation [2]
+that facilitate using Scheme as a client to the SuperCollider [3]
+synthesis server.  The rsc interaction environment is written for GNU
+Emacs [4].
+
+rsc runs under Linux, OSX and Windows.
+
+rsc is by Rohan Drape.  SuperCollider is by James McCartney.  PLT is
+by Matthew Flatt and others.  Emacs is by Richard Stallman and others.
+
+(c) Rohan Drape,  1998-2005
+
+[1] <http://www.slavepianos.org/rd/>
+[2] <http://www.plt-scheme.org>
+[3] <http://www.audiosynth.com/>
+[4] <http://www.gnu.org/software/emacs>
+
+This is a source archive distributed subject to the terms of the GNU
+General Public License Version 2, see "COPYING".
+
+Source layout:
+
+buffer        - 
+graphdef      - generate and parse the binary graph format used by scsynth
+server        -
+ugen          -
+uspec         -
+supercollider -  
