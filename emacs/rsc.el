@@ -410,6 +410,7 @@ The symbol at point is preprocessed by `rsc-cleanup-symbol'."
     (list "(\\(letH\\)\\>" '(1 font-lock-keyword-face))
     (list "(\\(lambdaH\\)\\>" '(1 font-lock-keyword-face))
     (list "(\\(condH\\)\\>" '(1 font-lock-keyword-face))
+    (list "(\\(begin!\\)\\>" '(1 font-lock-keyword-face))
     (cons "\\<\\sw+:\\>" font-lock-builtin-face))))
 
 (defun rsc-font-lock-ugen-names ()
@@ -420,7 +421,7 @@ The symbol at point is preprocessed by `rsc-cleanup-symbol'."
    (list 
     ;; UGens with a rate suffix, ordinary UGens.
     (list "\\<\\([\+\-\/\*\%\<\>\=_A-Za-z0-9]*\\)\\.[akidxg]r\\>" 1 font-lock-type-face)
-    
+    (list "\\<\\([a-z0-9]*\\)\\U\\>" 1 font-lock-type-face)
     ;; Compound/Lisp UGens.
     (cons "\\<\\(Mix\\)\\>" font-lock-type-face))))
 
