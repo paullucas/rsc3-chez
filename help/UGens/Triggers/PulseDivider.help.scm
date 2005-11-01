@@ -1,8 +1,8 @@
-;;; (PulseDivider trig div start)
+;; (PulseDivider trig div start)
  
-;;; Outputs one impulse each time it receives a certain number of
-;;; triggers at its input.  A trigger happens when the signal changes
-;;; from non-positive to positive.
+;; Outputs one impulse each time it receives a certain number of
+;; triggers at its input.  A trigger happens when the signal changes
+;; from non-positive to positive.
 
 (let* ((p (Impulse.ar 8))
        (a (SinOsc.ar 1200 0 (Decay2.ar p 0.005 0.1)))

@@ -1,8 +1,8 @@
-;;; (Index bufnum in)
+;; (Index bufnum in)
 
-;;; Index into a table with a signal.  The input signal value is
-;;; truncated to an integer value and used as an index into the table.
-;;; Out of range index values are clipped to the valid range.
+;; Index into a table with a signal.  The input signal value is
+;; truncated to an integer value and used as an index into the table.
+;; Out of range index values are clipped to the valid range.
 
 ;; Allocate and set values at buffer 10.
 

@@ -1,4 +1,4 @@
-;;; (MouseX minval maxval warp lag) - Cursor UGen
+;; (MouseX minval maxval warp lag) - Cursor UGen
 
 ;; Report mouse location on root window of the machine that the
 ;; synthesis server is running on.

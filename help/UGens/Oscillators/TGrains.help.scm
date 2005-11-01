@@ -1,8 +1,8 @@
-;;; (TGrains numChannels trigger bufnum rate centerPos dur pan amp interp)
+;; (TGrains numChannels trigger bufnum rate centerPos dur pan amp interp)
 
-;;; Buffer granulator.  Triggers generate grains from a buffer. Each
-;;; grain has a Hanning envelope (sin^2(x) for x from 0 to pi) and is
-;;; panned between two channels of multiple outputs.
+;; Buffer granulator.  Triggers generate grains from a buffer. Each
+;; grain has a Hanning envelope (sin^2(x) for x from 0 to pi) and is
+;; panned between two channels of multiple outputs.
 
 ;; numChannels - number of output channels.
 	

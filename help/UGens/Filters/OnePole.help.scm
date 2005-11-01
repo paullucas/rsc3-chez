@@ -1,4 +1,4 @@
-;;; (OnePole in coef)
+;; (OnePole in coef)
 
 ;; A one pole filter.  Implements the formula: out(i) = ((1 -
 ;; abs(coef)) * in(i)) + (coef * out(i-1)).

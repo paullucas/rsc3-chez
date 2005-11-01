@@ -1,6 +1,6 @@
-;;; (FOS in a0 a1 b1)
+;; (FOS in a0 a1 b1)
 
-;;; First order filter section.
+;; First order filter section.
 
 ;; Same as OnePole.
 

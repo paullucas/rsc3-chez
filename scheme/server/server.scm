@@ -10,16 +10,17 @@
       (if p (loop (cons p r)) (reverse r)))))
 
 (defineH -><! s (list r m)
-  (letH z (<-*! s 0)
-    (begin!
-     (if (not (null? z))
-	 (inform! "-><: queued messages" z))
-     (->! s m)
-     (letH p (<-! s 1.0)
-       (condH
-	(not p)                    (error! "-><: timed out")
-	(not (string=? (car p) r)) (error! "-><: bad return packet" p r)
-	else                       p)))))
+  (begin!
+    (letH q (<-*! s 0.0)
+      (if (null? q)
+	  #f
+	  (inform! "-><!: queued" q)))
+    (->! s m)
+    (letH p (<-! s 1.0)
+      (condH
+        (not p)                    (error! "-><: timed out")
+        (not (string=? (car p) r)) (error! "-><: bad return packet" p r)
+        else                       p))))
 
 (defineH =>! s t m
   (->! s (list t m)))

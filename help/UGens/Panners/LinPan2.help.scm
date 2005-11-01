@@ -1,6 +1,6 @@
-;;; (LinPan2 in pos level)
+;; (LinPan2 in pos level)
 
-;;; Two channel linear pan.  See Pan2.
+;; Two channel linear pan.  See Pan2.
 
 (LinPan2.ar (PinkNoise.ar) (FSinOsc.kr 2))
 

@@ -1,6 +1,6 @@
-;;; (Select which array)
+;; (Select which array)
 
-;;; The output is selected from an array of inputs.
+;; The output is selected from an array of inputs.
 
 (let ((a (list (SinOsc.ar) (Saw.ar) (Pulse.ar)))
       (cycle 3/2))

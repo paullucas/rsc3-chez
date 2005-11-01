@@ -1,14 +1,14 @@
-;;; (BufRd numChannels bufnum phase loop interpolation)
+;; (BufRd numChannels bufnum phase loop interpolation)
 
-;;; Plays the content of a buffer.
+;; Plays the content of a buffer.
 
-;;; The number of channels must be a fixed integer. The architechture
-;;; of the SynthDef cannot change after it is compiled. NOTE: if you
-;;; supply a bufnum of a buffer that has a different numChannels then
-;;; you have specified to the BufRd, it will fail silently.
+;; The number of channels must be a fixed integer. The architechture
+;; of the SynthDef cannot change after it is compiled. NOTE: if you
+;; supply a bufnum of a buffer that has a different numChannels then
+;; you have specified to the BufRd, it will fail silently.
 
-;;; The interpolation type is an integer: 1 no interpolation, 2 linear
-;;; interpolation, 4 cubic interpolation.
+;; The interpolation type is an integer: 1 no interpolation, 2 linear
+;; interpolation, 4 cubic interpolation.
 
 (-> "/b_allocRead" 0 (resolve "audio/metal.wav"))
 

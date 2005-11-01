@@ -1,7 +1,7 @@
-;;; (Impulse freq iphase)
+;; (Impulse freq iphase)
 
-;;; Impulse oscillator.  Outputs non band limited single sample
-;;; impulses.
+;; Impulse oscillator.  Outputs non band limited single sample
+;; impulses.
 
 ;; freq - frequency in Hertz
 ;; phase - phase offset in cycles (0..1)

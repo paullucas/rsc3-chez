@@ -1,8 +1,7 @@
-;;; (Compander input control thresh slopeBelow slopeAbove clampTime relaxTime)
+;; (Compander input control thresh slopeBelow slopeAbove clampTime relaxTime)
 
-;;; Compressor, expander, limiter, gate, ducker.  General purpose
-;;; dynamics processor.
-
+;; Compressor, expander, limiter, gate, ducker.  General purpose
+;; dynamics processor.
 
 ;; Example signal to process.
 

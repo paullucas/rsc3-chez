@@ -1,6 +1,6 @@
-;;; (Demand trig reset ugens)
+;; (Demand trig reset ugens)
 
-;;; Demand results from demand rate ugens.
+;; Demand results from demand rate ugens.
 
 ;; When there is a trigger at the trig input, a value is demanded each
 ;; ugen in the list and output. The unit generators in the list should

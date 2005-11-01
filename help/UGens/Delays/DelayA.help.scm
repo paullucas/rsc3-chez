@@ -1,4 +1,4 @@
-;;; (DelayA in maxDelayTime delayTime)
+;; (DelayA in maxDelayTime delayTime)
 
-;;; See DelayN help file.
+;; See DelayN help file.
 

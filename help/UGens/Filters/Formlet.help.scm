@@ -1,6 +1,6 @@
-;;; (Formlet in freq attackTime decayTime) 
+;; (Formlet in freq attackTime decayTime) 
 
-;;; FOF-like filter
+;; FOF-like filter
 
 (Formlet.ar (Impulse.ar 20 0.5) 1000 0.01 0.1)
 

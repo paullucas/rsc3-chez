@@ -1,4 +1,4 @@
-;;; (Gendy1 ampdist durdist adparam ddparam minfreq maxfreq ampscale durscale initCPs knum)
+;; (Gendy1 ampdist durdist adparam ddparam minfreq maxfreq ampscale durscale initCPs knum)
 
 ;; An implementation of the dynamic stochastic synthesis generator
 ;; conceived by Iannis Xenakis and described in Formalized Music

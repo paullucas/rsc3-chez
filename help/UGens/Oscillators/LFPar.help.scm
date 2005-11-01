@@ -1,5 +1,5 @@
-;;; (LFPar freq iphase)  
+;; (LFPar freq iphase)  
  
-;;; A sine-like shape made of two parabolas. Has audible odd
-;;; harmonics.  See LFCub.
+;; A sine-like shape made of two parabolas. Has audible odd
+;; harmonics.  See LFCub.
  

@@ -1,9 +1,9 @@
-;;; (Ringz in freq decayTime)
+;; (Ringz in freq decayTime)
 
-;;; Ringing filter.  This is the same as Resonz, except that instead
-;;; of a resonance parameter, the bandwidth is specified in a 60dB
-;;; ring decay time. One Ringz is equivalent to one component of the
-;;; Klank UGen.
+;; Ringing filter.  This is the same as Resonz, except that instead of
+;; a resonance parameter, the bandwidth is specified in a 60dB ring
+;; decay time. One Ringz is equivalent to one component of the Klank
+;; UGen.
 
 (Ringz.ar (Dust.ar 3 0.3) 2000 2)
 

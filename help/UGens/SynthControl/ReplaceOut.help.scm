@@ -1,6 +1,6 @@
-;;; (ReplaceOut bufferIndex inputs)
+;; (ReplaceOut bufferIndex inputs)
 
-;;; Send signal to a bus, overwrite existing signal.
+;; Send signal to a bus, overwrite existing signal.
 
 (begin (Out.ar 0 (SinOsc.ar '(330 331) 0 0.1))
        (ReplaceOut.ar 0 (SinOsc.ar '(880 881) 0 0.1))

@@ -1,7 +1,7 @@
-;;; (SumSqr a b)
+;; (SumSqr a b)
 
-;;; Return the value of (a*a) + (b*b). This is more efficient than
-;;; using separate unit generators for each operation.
+;; Return the value of (a*a) + (b*b). This is more efficient than
+;; using separate unit generators for each operation.
 
 (Mul (SumSqr (FSinOsc.ar 800) (FSinOsc.ar (XLine.kr 200 500 5))) 0.125)
 

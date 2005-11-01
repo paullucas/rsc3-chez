@@ -1,11 +1,11 @@
-;;; (Decay2 in attackTime decayTime)			
+;; (Decay2 in attackTime decayTime)			
 
-;;; Exponential decay.  Decay has a very sharp attack and can produce
-;;; clicks. Decay2 rounds off the attack by subtracting one Decay from
-;;; another. 
+;; Exponential decay.  Decay has a very sharp attack and can produce
+;; clicks. Decay2 rounds off the attack by subtracting one Decay from
+;; another.
 
-;;; (Decay2.ar in attackTime decayTime) is equivalent to (Sub
-;;; (Decay.ar in decayTime) (Decay.ar in attackTime)).
+;; (Decay2.ar in attackTime decayTime) is equivalent to (Sub (Decay.ar
+;; in decayTime) (Decay.ar in attackTime)).
 
 ;; Used as an envelope
 

@@ -1,8 +1,8 @@
-;;; (PauseSelf src)
+;; (PauseSelf src)
 
-;;; Pause enclosing synth when input signal crosses from non-positive
-;;; to positive.  If the synth is restarted and the gate reset the
-;;; synthis *not* paused a second time.
+;; Pause enclosing synth when input signal crosses from non-positive
+;; to positive.  If the synth is restarted and the gate reset the
+;; synthis *not* paused a second time.
 
 (synthdef-send
  (synthdef

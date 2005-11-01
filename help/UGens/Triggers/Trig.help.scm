@@ -1,6 +1,6 @@
-;;; (Trig in dur)
+;; (Trig in dur)
 
-;;; When `in' is trigerred output the trigger value for `dur' seconds.
+;; When `in' is trigerred output the trigger value for `dur' seconds.
 
 (Mul (Trig.ar (Dust.ar 1) 0.2)
      (FSinOsc.ar 800 0.5))

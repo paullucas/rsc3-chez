@@ -1,4 +1,4 @@
-;;; (CombL in maxDelayTime delayTime decayTime)
+;; (CombL in maxDelayTime delayTime decayTime)
 
-;;; See CombN help file.
+;; See CombN help file.
 

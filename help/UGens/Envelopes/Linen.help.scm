@@ -1,7 +1,7 @@
-;;; (Linen gate attackTime susLevel releaseTime doneAction)
+;; (Linen gate attackTime susLevel releaseTime doneAction)
 
-;;; A linear envelope generator.  The done flag is set when the
-;;; envelope reaches zero. 
+;; A linear envelope generator.  The done flag is set when the
+;; envelope reaches zero.
 
 ;; Note that the sustain level input is consulted only at the instant
 ;; when the gate is opened.

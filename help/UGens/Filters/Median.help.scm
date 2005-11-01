@@ -1,6 +1,6 @@
-;;; (Median length in) 
+;; (Median length in) 
 
-;;; Median filter.
+;; Median filter.
 
 ;; Signal with impulse noise.
 

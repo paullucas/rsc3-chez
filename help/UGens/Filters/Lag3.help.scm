@@ -1,4 +1,4 @@
-;;; (Lag2 in lagTime)
+;; (Lag2 in lagTime)
 
 ;; Lag3 is the same as (Lag.kr (Lag.kr (Lag.kr in time) time) time).
 

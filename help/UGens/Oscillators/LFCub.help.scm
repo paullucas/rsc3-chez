@@ -1,6 +1,6 @@
-;;; (LFCub freq iphase)  
+;; (LFCub freq iphase)  
  
-;;; A sine like shape made of two cubic pieces. Smoother than LFPar.
+;; A sine like shape made of two cubic pieces. Smoother than LFPar.
 
 (LFCub.ar (LFCub.kr (LFCub.kr 0.2 0 8 10) 0 400 800) 0 0.1)
 (LFCub.ar (LFCub.kr 0.2 0 400 800) 0 0.1)

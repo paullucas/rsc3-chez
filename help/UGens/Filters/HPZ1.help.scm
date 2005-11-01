@@ -1,5 +1,5 @@
-;;; (HPZ1 in)
+;; (HPZ1 in)
 
-;;; Two point difference filter.
+;; Two point difference filter.
 
 (HPZ1.ar (WhiteNoise.ar 0.25))

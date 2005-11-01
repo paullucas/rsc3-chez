@@ -1,6 +1,6 @@
-;;; (Saw freq)
+;; (Saw freq)
 
-;;; Band limited sawtooth wave generator.
+;; Band limited sawtooth wave generator.
 
 (Saw.ar (XLine.kr 40 4000 6) 0.2)
 

@@ -1,6 +1,6 @@
-;;; (FreeSelfWhenDone src)
+;; (FreeSelfWhenDone src)
 
-;;; Free the synth when the 'done' flag of the unit at `src' is set.
+;; Free the synth when the 'done' flag of the unit at `src' is set.
 
 (let ((env (Linen.kr (MouseX.kr -1 1) 1 0.1 1 doneAction: removeSynth)))
   (SinOsc.ar 440 0 env))

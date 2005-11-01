@@ -1,6 +1,6 @@
-;;; (BPF in freq rq) 
+;; (BPF in freq rq) 
 
-;;; Second order Butterworth bandpass filter
+;; Second order Butterworth bandpass filter
 
 ;; in    - input signal to be processed
 ;; freq  - cutoff frequency in Hertz.

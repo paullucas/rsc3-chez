@@ -1,6 +1,6 @@
-;;; (Pulse freq width)
+;; (Pulse freq width)
 
-;;; Bandlimited pulse wave generator.
+;; Bandlimited pulse wave generator.
 
 ;; Modulate frequency
 

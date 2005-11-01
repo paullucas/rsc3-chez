@@ -1,6 +1,6 @@
-;;; (Mix in ...)
+;; (Mix in ...)
 
-;;; Sum a list of signals.  
+;; Sum a list of signals.  
 
 (Mul (Mix (FSinOsc.ar '(600.2 622.0 641.3 677.7))) 0.1)
 

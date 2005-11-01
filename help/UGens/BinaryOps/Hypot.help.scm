@@ -1,4 +1,4 @@
-;;; (Hypot x y)
+;; (Hypot x y)
 
 ;; Returns the square root of the sum of the squares of a and b. Or
 ;; equivalently, the distance from the origin to the point (x, y).

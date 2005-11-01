@@ -1,6 +1,6 @@
-;;; (OneZero in coef)
+;; (OneZero in coef)
 
-;;; One zero filter
+;; One zero filter
 
 (OneZero.ar (WhiteNoise.ar 0.5) 0.5)
 

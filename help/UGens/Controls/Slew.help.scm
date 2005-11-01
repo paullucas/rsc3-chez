@@ -1,4 +1,4 @@
-;;; (Slew in up dn)
+;; (Slew in up dn)
 
 ;; Has the effect of removing transients and higher frequencies.
 

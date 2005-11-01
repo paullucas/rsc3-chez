@@ -1,7 +1,7 @@
 ;; (RunningSum in numsamp)
 
-;;; A running sum over a user specified number of samples, useful for
-;;; running RMS power windowing.
+;; A running sum over a user specified number of samples, useful for
+;; running RMS power windowing.
 
 ;; in     - Input signal
 ;; numsamp - How many samples to take the running sum over (initialisation rate)
