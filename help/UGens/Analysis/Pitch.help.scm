@@ -13,12 +13,12 @@
 ;; 'sat', and long 'i' sound as in 'fire', contains enough overtone
 ;; energy to confuse the algorithm.
 
-(let* ((in (SinOsc.ar (MouseX.kr 220 660) 0 (MouseY.kr 0.05 0.25)))
-       (amp (Amplitude.kr in 0.05 0.05))
-       (freq+ (Pitch.kr in 'ampThreshold: 0.02 'median: 7)))
-  (list in (SinOsc.ar (FDiv (car freq+) 2) 0 amp)))
+(let* ((in (SinOsc ar (MouseX kr 220 660) 0 (MouseY kr 0.05 0.25)))
+       (amp (Amplitude kr in 0.05 0.05))
+       (freq+ (Pitch kr in 'ampThreshold: 0.02 'median: 7)))
+  (list in (SinOsc ar (FDiv (car freq+) 2) 0 amp)))
 
-(let* ((in (AudioIn.ar 1))
-       (amp (Amplitude.kr in 0.05 0.05))
-       (freq+ (Pitch.kr in 'ampThreshold: 0.02 'median: 7)))
-  (list in (SinOsc.ar (car freq+) 0 amp)))
+(let* ((in (AudioIn ar 1))
+       (amp (Amplitude kr in 0.05 0.05))
+       (freq+ (Pitch kr in 'ampThreshold: 0.02 'median: 7)))
+  (list in (SinOsc ar (car freq+) 0 amp)))

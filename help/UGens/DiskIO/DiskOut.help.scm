@@ -16,10 +16,10 @@
    (synthdef
     "DiskOut-Help"
     (letc ((bufnum 0))
-      (let ((z (Clip2.ar 
-		(RLPF.ar (LFPulse.ar (SinOsc.kr 0.2 0 10 21) 
+      (let ((z (Clip2 ar 
+		(RLPF ar (LFPulse ar (SinOsc kr 0.2 0 10 21) 
 				     '(0 0.1) 0.1) 100 0.1) 0.4)))
-	(DiskOut.ar bufnum z)))))))
+	(DiskOut ar bufnum z)))))))
 
 (define b (bID!))
 

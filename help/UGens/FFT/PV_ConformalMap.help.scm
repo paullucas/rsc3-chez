@@ -14,9 +14,9 @@
 (define b 0)
 (-><! s (/b_alloc b 1024 1))
 
-(Pan2.ar 
- (IFFT.ar 
-  (PV_ConformalMap.kr 
-   (FFT.kr b (Mul (AudioIn.ar 1) 0.5)) (MouseX.kr -1.0 1.0) 
-   (MouseY.kr -1.0 1.0)))
+(Pan2 ar 
+ (IFFT ar 
+  (PV_ConformalMap kr 
+   (FFT kr b (Mul (AudioIn ar 1) 0.5)) (MouseX kr -1.0 1.0) 
+   (MouseY kr -1.0 1.0)))
  0)

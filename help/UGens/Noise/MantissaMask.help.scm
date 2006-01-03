@@ -7,10 +7,10 @@
 ;; in - input signal
 ;; bits - the number of mantissa bits to preserve. a number from 0 to 23.
 
-(MantissaMask.ar (SinOsc.ar (SinOsc.kr 0.2 0 400 500) 0 0.4) 3)
+(MantissaMask ar (SinOsc ar (SinOsc kr 0.2 0 400 500) 0 0.4) 3)
 
-(SinOsc.ar (SinOsc.kr 0.2 0 400 500) 0 0.4)
+(SinOsc ar (SinOsc kr 0.2 0 400 500) 0 0.4)
 
-(let ((in (SinOsc.ar (SinOsc.kr 0.2 0400 500) 0 0.4)))
-  (Sub in (MantissaMask.ar in 3)))
+(let ((in (SinOsc ar (SinOsc kr 0.2 0400 500) 0 0.4)))
+  (Sub in (MantissaMask ar in 3)))
 

@@ -8,9 +8,9 @@
 
 ;; Run an oscillator with the trigger at bus 10.
 
-(let ((t (InTrig.kr 10)))
-  (Mul (SinOsc.ar)
-       (EnvGen.kr envelope: (Env.perc) 
+(let ((t (InTrig kr 10)))
+  (Mul (SinOsc ar)
+       (EnvGen kr envelope: (Env.perc) 
 		  gate: t
 		  levelScale: t)))
 

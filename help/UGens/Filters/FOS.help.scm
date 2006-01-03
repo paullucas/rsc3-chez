@@ -4,10 +4,10 @@
 
 ;; Same as OnePole.
 
-(let ((x (LFTri.ar 0.4 0 0.99)))
-  (FOS.ar (LFSaw.ar 200 0 0.2) (Sub 1 (Abs x)) 0 x))
+(let ((x (LFTri ar 0.4 0 0.99)))
+  (FOS ar (LFSaw ar 200 0 0.2) (Sub 1 (Abs x)) 0 x))
 
 ;; Same as OneZero
 
-(let ((x (LFTri.ar 0.4 0 0.99)))
-  (FOS.ar (LFSaw.ar 200 0 0.2) (Sub 1 (Abs x)) x 0))
+(let ((x (LFTri ar 0.4 0 0.99)))
+  (FOS ar (LFSaw ar 200 0 0.2) (Sub 1 (Abs x)) x 0))

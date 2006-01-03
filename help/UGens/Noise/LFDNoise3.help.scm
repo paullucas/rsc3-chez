@@ -15,12 +15,12 @@
 ;; Try wiggling mouse quickly; LFNoise frequently seems stuck,
 ;; LFDNoise changes smoothly.
 
-(SinOsc.ar (LFNoise2.ar (MouseX.kr 0.1 1000 1) 200 500) 0 0.2)
+(SinOsc ar (LFNoise2 ar (MouseX kr 0.1 1000 1) 200 500) 0 0.2)
 
-(SinOsc.ar (LFDNoise3.ar (MouseX.kr 0.1 1000 1) 200 500) 0 0.2)
+(SinOsc ar (LFDNoise3 ar (MouseX kr 0.1 1000 1) 200 500) 0 0.2)
 
 ;; LFNoise quantizes time steps at high freqs, LFDNoise does not:
 
-(LFNoise2.ar (XLine.kr 1000 20000 10) 0.1)
+(LFNoise2 ar (XLine kr 1000 20000 10) 0.1)
 
-(LFDNoise3.ar (XLine.kr 1000 20000 10) 0.1)
+(LFDNoise3 ar (XLine kr 1000 20000 10) 0.1)

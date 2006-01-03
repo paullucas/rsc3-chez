@@ -17,12 +17,12 @@
 ;; The number of harmonics may be lowered internally if it would
 ;; cause aliasing.
 
-(Blip.ar 440 200 0.1)
+(Blip ar 440 200 0.1)
 
 ;; Modulate frequency
 
-(Blip.ar (XLine.kr 20000 200 6) 100 0.2)
+(Blip ar (XLine kr 20000 200 6) 100 0.2)
 
 ;; Modulate number of harmonics.
 
-(Blip.ar 200 (Line.kr 1 100 20) 0.2)
+(Blip ar 200 (Line kr 1 100 20) 0.2)

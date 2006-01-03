@@ -17,8 +17,8 @@
 ;; polygon. Then the first speaker will be the one left of
 ;; center. Default is 0.5.
 
-(let* ((p (PinkNoise.ar))
-       (encoded (PanB2.ar p (MouseX.kr -1 1) 0.1))
-       (decoded (DecodeB2.ar 4 (first encoded) (second encoded) (third encoded))))
+(let* ((p (PinkNoise ar))
+       (encoded (PanB2 ar p (MouseX kr -1 1) 0.1))
+       (decoded (DecodeB2 ar 4 (first encoded) (second encoded) (third encoded))))
   decoded)
 

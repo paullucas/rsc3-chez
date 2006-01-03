@@ -12,20 +12,20 @@
 
 (-> "/b_allocRead" 0 (resolve "audio/metal.wav"))
 
-(BufRd.ar 1 0 (Mul (SinOsc.ar 0.1) (BufFrames.ir 0)))
+(BufRd ar 1 0 (Mul (SinOsc ar 0.1) (BufFrames ir 0)))
 
-(BufRd.ar 1 0 (Mul (LFNoise1.ar 1) (BufFrames.ir 0)))
+(BufRd ar 1 0 (Mul (LFNoise1 ar 1) (BufFrames ir 0)))
 
-(BufRd.ar 1 0 (Mul (LFNoise1.ar 10) (BufFrames.ir 0)))
+(BufRd ar 1 0 (Mul (LFNoise1 ar 10) (BufFrames ir 0)))
 
-(BufRd.ar 1 0 (Add (LFTri.ar 0.1) (Mul (LFTri.ar 0.23) (BufFrames.ir 0))))
+(BufRd ar 1 0 (Add (LFTri ar 0.1) (Mul (LFTri ar 0.23) (BufFrames ir 0))))
 
 ;; Use a phasor index into the file
 
-(BufRd.ar 1 0 (Phasor.ar 0 (Mul (MouseX.kr 0.5 2) (BufRateScale.kr 0)) 0 (BufFrames.kr 0)) 1 (MouseY.kr 0 5))
+(BufRd ar 1 0 (Phasor ar 0 (Mul (MouseX kr 0.5 2) (BufRateScale kr 0)) 0 (BufFrames kr 0)) 1 (MouseY kr 0 5))
 
 ;; Write into the buffer with a BufWr and read it with a BufRd.
 
 (begin
-  (BufWr.ar 0 (Phasor.ar 0 (Mul (BufRateScale.kr 0) (MouseX.kr 0.5 2) 0 (BufFrames.kr 0))) 1 (SinOsc.ar (LFNoise1.kr 2 300 400) 0 0.1))
-  (BufRd.ar 1 0 (Phasor.ar 0 (Mul (BufRateScale.kr 0) (MouseY.kr 0.5 2) 0 (BufFrames.kr 0)))))
+  (BufWr ar 0 (Phasor ar 0 (Mul (BufRateScale kr 0) (MouseX kr 0.5 2) 0 (BufFrames kr 0))) 1 (SinOsc ar (LFNoise1 kr 2 300 400) 0 0.1))
+  (BufRd ar 1 0 (Phasor ar 0 (Mul (BufRateScale kr 0) (MouseY kr 0.5 2) 0 (BufFrames kr 0)))))

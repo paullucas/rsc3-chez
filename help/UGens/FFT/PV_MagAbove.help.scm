@@ -9,11 +9,11 @@
 (-><! s (/b_alloc b n 1))
 
 (define signal
-  (SinOsc.ar (SinOsc.kr (Squared (SinOsc.kr 0.08 0 6 6.2)) 0 100 800)))
+  (SinOsc ar (SinOsc kr (Squared (SinOsc kr 0.08 0 6 6.2)) 0 100 800)))
 
-(Mul.ar
- (IFFT.ar 
-  (PV_MagAbove.kr 
-   (FFT.kr b signal) 
-   (MouseX.kr 1 (/ n 2))))
+(Mul ar
+ (IFFT ar 
+  (PV_MagAbove kr 
+   (FFT kr b signal) 
+   (MouseX kr 1 (/ n 2))))
  0.5)

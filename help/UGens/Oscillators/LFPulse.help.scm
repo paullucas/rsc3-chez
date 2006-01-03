@@ -8,4 +8,4 @@
 ;; iphase - initial phase offset in cycles ( 0..1 )
 ;; width - pulse width duty cycle from zero to one.
 
-(LFPulse.ar (LFPulse.kr 3 0 0.3 200 200) 0 0.2 0.1)
+(LFPulse ar (LFPulse kr 3 0 0.3 200 200) 0 0.2 0.1)

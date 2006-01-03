@@ -19,19 +19,19 @@
 ;; decayscale - a scale factor multiplied by all ring times at
 ;;              initialization time.
 
-(Klank.ar (Impulse.ar 2 0 0.1) 1 0 1 
+(Klank ar (Impulse ar 2 0 0.1) 1 0 1 
 	  (Klank.spec '(800 1071 1153 1723) '(1 1 1 1) '(1 1 1 1)))
 
-(Klank.ar (Dust.ar 8 0.1) 1 0 1 
+(Klank ar (Dust ar 8 0.1) 1 0 1 
 	  (Klank.spec '(800 1071 1353 1723) '(1 1 1 1) '(1 1 1 1)))
 
-(Klank.ar (PinkNoise.ar 0.007) 1 0 1 
+(Klank ar (PinkNoise ar 0.007) 1 0 1 
 	  (Klank.spec '(800 1071 1353 1723) '(1 1 1 1) '(1 1 1 1)))
 
-(Klank.ar (PinkNoise.ar '(0.007 0.007)) 1 0 1 
+(Klank ar (PinkNoise ar '(0.007 0.007)) 1 0 1 
 	  (Klank.spec '(200 671 1153 1723) '(1 1 1 1) '(1 1 1 1)))
 
-(Klank.ar (Decay.ar (Impulse.ar 4) 0.03 (ClipNoise.ar 0.01)) 1 0 1
+(Klank ar (Decay ar (Impulse ar 4) 0.03 (ClipNoise ar 0.01)) 1 0 1
 	  (Klank.spec (random-list 12 800 4000) '(1) (random-list 12 0.1 2)))
 
 (synthdef-send
@@ -39,7 +39,7 @@
   "Klank-Help"
   ((out 0) (freq 440) 
    (harm '(1 2 3 4)) (amp '(0.05 0.05 0.05 0.05)) (ring '(1 1 1 1)))
-  (Out.ar out (Klank.ar (ClipNoise.ar 0.03)
+  (Out ar out (Klank ar (ClipNoise ar 0.03)
 			freq 0 1 
 			(Klank.spec harm amp ring)))))
 

@@ -2,6 +2,6 @@
 
 ;; Fixed two sample delay.
 
-(let ((s (Impulse.ar 1)))
-  (Add s (Delay2.ar s)))
+(let ((s (Impulse ar 1)))
+  (Add s (Delay2 ar s)))
 

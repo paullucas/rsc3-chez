@@ -9,5 +9,5 @@
 ;; envelope for the WhiteNoise input source.  The input is mixed with
 ;; delay via the add input.
 
-(let ((z (Decay.ar (Dust.ar 1 1) 0.3 (WhiteNoise.ar))))
-  (DelayN.ar z 0.2 0.2 1 z))
+(let ((z (Decay ar (Dust ar 1 1) 0.3 (WhiteNoise ar))))
+  (DelayN ar z 0.2 0.2 1 z))

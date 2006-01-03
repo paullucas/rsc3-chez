@@ -8,6 +8,6 @@
 ;; dstlo - lower limit of output range.
 ;; dsthi - upper limit of output range.
 
-(SinOsc.ar (LinLin.kr (MouseX.kr 0 1) 0 1 440 660) 
+(SinOsc ar (LinLin kr (MouseX kr 0 1) 0 1 440 660) 
 	   0 
-	   (LinLin.kr (MouseY.kr 0 1) 0 1 0.05 0.25))
+	   (LinLin kr (MouseY kr 0 1) 0 1 0.05 0.25))

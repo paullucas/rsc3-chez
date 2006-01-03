@@ -13,6 +13,6 @@
 
 (define b (buffer-cue-sound-file path 0 1))
 
-(DiskIn.ar c (buffer-id b))
+(DiskIn ar c (buffer-id b))
 
 (buffer-free b #t)

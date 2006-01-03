@@ -6,5 +6,5 @@
 (define b 0)
 (-><! s (/b_alloc b 2048 1))
 
-(IFFT.ar (PV_BrickWall.kr (FFT.kr b (WhiteNoise.ar 0.2))
-			  (MouseX.kr -1 1)))
+(IFFT ar (PV_BrickWall kr (FFT kr b (WhiteNoise ar 0.2))
+			  (MouseX kr -1 1)))

@@ -8,7 +8,7 @@
 
 ;; Used as an envelope.
 
-(Decay.ar (Impulse.ar (XLine.kr 1 50 20) 0.25) 0.2 (PinkNoise.ar) 0)
+(Decay ar (Impulse ar (XLine kr 1 50 20) 0.25) 0.2 (PinkNoise ar) 0)
 
 
 

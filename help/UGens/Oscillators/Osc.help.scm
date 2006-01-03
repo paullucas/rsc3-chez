@@ -21,19 +21,19 @@
 
 (->< s (/b_gen b "sine1" (+ 1 2 4) 1 1/2 1/3 1/4 1/5))
 
-(Osc.ar b 220 0 0.5)
+(Osc ar b 220 0 0.5)
 
 ;; Modulate freq
 
-(Osc.ar b (XLine.kr 2000 200) 0 0.5)
+(Osc ar b (XLine kr 2000 200) 0 0.5)
 
 ;; Modulate freq
 
-(Osc.ar b (Osc.ar b (XLine.kr 1 1000 9) 0 200 800) 0 0.25)
+(Osc ar b (Osc ar b (XLine kr 1 1000 9) 0 200 800) 0 0.25)
 
 ;; Modulate phase
 
-(Osc.ar b 800 (Osc.ar b (XLine.kr 20 8000 10) 0 two-pi) 0.25)
+(Osc ar b 800 (Osc ar b (XLine kr 20 8000 10) 0 two-pi) 0.25)
 
 ;; Change the buffer while its playing 
 

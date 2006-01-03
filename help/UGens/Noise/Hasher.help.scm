@@ -5,4 +5,4 @@
 ;; produce the same output value. The input need not be from zero to
 ;; one.
 
-(Hasher.ar (Line.ar 0 1 1) 0.2)
+(Hasher ar (Line ar 0 1 1) 0.2)

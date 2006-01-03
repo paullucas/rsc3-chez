@@ -11,6 +11,6 @@
 (define (dup a) (list a a))
 
 (dup
- (IFFT.ar (PV_RandComb.kr (FFT.kr b (WhiteNoise.ar 0.8))
-			  (MouseX.kr 0.6 0.95)
-			  (Impulse.kr 0.4))))
+ (IFFT ar (PV_RandComb kr (FFT kr b (WhiteNoise ar 0.8))
+			  (MouseX kr 0.6 0.95)
+			  (Impulse kr 0.4))))

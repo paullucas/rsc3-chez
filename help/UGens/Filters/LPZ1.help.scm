@@ -1,5 +1,5 @@
-;; (LPZ1.ar in)
+;; (LPZ1 ar in)
 
 ;; Two point average filter
 
-(LPZ1.ar (WhiteNoise.ar 0.25))
+(LPZ1 ar (WhiteNoise ar 0.25))

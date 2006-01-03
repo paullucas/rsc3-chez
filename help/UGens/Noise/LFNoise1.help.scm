@@ -6,8 +6,8 @@
 
 ;; freq - approximate rate at which to generate random values.
 
-(LFNoise1.ar 1000 0.25)
+(LFNoise1 ar 1000 0.25)
 
-(LFNoise1.ar (XLine.kr 1000 10000 10) 0.25)
+(LFNoise1 ar (XLine kr 1000 10000 10) 0.25)
 
-(SinOsc.ar (LFNoise1.kr 4 400 450) 0 0.2)
+(SinOsc ar (LFNoise1 kr 4 400 450) 0 0.2)

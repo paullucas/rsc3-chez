@@ -7,12 +7,12 @@
  
 ;; Assuming normalized values 
 
-(SinOsc.ar (Select.kr (TWindex.kr (Impulse.kr 6) 0.0 '(1/5 2/5 2/5)) '(400 500 600)) 0 0.2)
+(SinOsc ar (Select kr (TWindex kr (Impulse kr 6) 0.0 '(1/5 2/5 2/5)) '(400 500 600)) 0 0.2)
 
 ;; Modulating probability values 
 
-(SinOsc.ar (Select.kr (TWindex.kr (Impulse.kr 6) 
+(SinOsc ar (Select kr (TWindex kr (Impulse kr 6) 
 				  1.0
-				  (list 1/4 1/2 (SinOsc.kr 0.3 0 0.5 0.5)))
+				  (list 1/4 1/2 (SinOsc kr 0.3 0 0.5 0.5)))
 		      '(400 500 600))
 	   0 0.2)

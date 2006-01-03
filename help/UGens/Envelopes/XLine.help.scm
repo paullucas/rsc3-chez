@@ -13,4 +13,4 @@
 ;; Note: The SC3 UGen reorders the mul and add inputs to precede the
 ;; doneAction input.
 
-(SinOsc.ar (XLine.kr 200 17000 10) 0 0.1)
+(SinOsc ar (XLine kr 200 17000 10) 0 0.1)

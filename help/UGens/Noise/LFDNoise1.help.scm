@@ -16,12 +16,12 @@
 ;; LFDNoise changes smoothly.
 
  
-(SinOsc.ar (LFNoise1.ar (MouseX.kr 0.1 1000 1) 200 500) 0 0.2)
+(SinOsc ar (LFNoise1 ar (MouseX kr 0.1 1000 1) 200 500) 0 0.2)
 
-(SinOsc.ar (LFDNoise1.ar (MouseX.kr 0.1 1000 1) 200 500) 0 0.2)
+(SinOsc ar (LFDNoise1 ar (MouseX kr 0.1 1000 1) 200 500) 0 0.2)
 
 ;; LFNoise quantizes time steps at high freqs, LFDNoise does not:
 
-(LFNoise1.ar (XLine.kr 1000 20000 10) 0.1)
+(LFNoise1 ar (XLine kr 1000 20000 10) 0.1)
 
-(LFDNoise1.ar (XLine.kr 1000 20000 10) 0.1)
+(LFDNoise1 ar (XLine kr 1000 20000 10) 0.1)

@@ -16,8 +16,8 @@
  (lambda (packet)
    (inform "Packet arrived:" packet)))
 
-(let ((s (Dust.ar 0.1 0 0.9)))
-  (SendTrig.ar s)
+(let ((s (Dust ar 0.1 0 0.9)))
+  (SendTrig ar s)
   s)
 
 

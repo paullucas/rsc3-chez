@@ -10,22 +10,22 @@
 ;; Since the allpass delay has no audible effect as a resonator on
 ;; steady state sound ... 
 
-(AllpassC.ar (WhiteNoise.ar 0.1) 0.01 (XLine.kr 0.0001 0.01 20) 0.2)
+(AllpassC ar (WhiteNoise ar 0.1) 0.01 (XLine kr 0.0001 0.01 20) 0.2)
 
 ;; ...these examples add the input to the effected sound so that you
 ;; can hear the effect of the phase comb.
 
-(let ((z (WhiteNoise.ar 0.1)))
-  (Add z (AllpassN.ar z 0.01 (XLine.kr 0.0001 0.01 20) 0.2)))
+(let ((z (WhiteNoise ar 0.1)))
+  (Add z (AllpassN ar z 0.01 (XLine kr 0.0001 0.01 20) 0.2)))
 
-(let ((z (WhiteNoise.ar 0.1)))
-  (Add z (AllpassL.ar z 0.01 (XLine.kr 0.0001 0.01 20) 0.2)))
+(let ((z (WhiteNoise ar 0.1)))
+  (Add z (AllpassL ar z 0.01 (XLine kr 0.0001 0.01 20) 0.2)))
 
-(let ((z (WhiteNoise.ar 0.1)))
-  (Add z (AllpassC.ar z 0.01 (XLine.kr 0.0001 0.01 20) 0.2)))
+(let ((z (WhiteNoise ar 0.1)))
+  (Add z (AllpassC ar z 0.01 (XLine kr 0.0001 0.01 20) 0.2)))
 
 ;; Used as an echo - doesn't really sound different than Comb, but it
 ;; outputs the input signal immediately (inverted) and the echoes are
 ;; lower in amplitude.
 
-(AllpassN.ar (Decay.ar (Dust.ar 1 0.5) 0.2 (WhiteNoise.ar)) 0.2 0.2 3)
+(AllpassN ar (Decay ar (Dust ar 1 0.5) 0.2 (WhiteNoise ar)) 0.2 0.2 3)

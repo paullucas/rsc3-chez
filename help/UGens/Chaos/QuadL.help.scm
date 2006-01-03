@@ -1,4 +1,4 @@
-;; (QuadL.ar freq a b c xi)
+;; (QuadL ar freq a b c xi)
 
 ;; freq - iteration frequency in Hertz
 ;; a, b, c - equation variables
@@ -9,11 +9,11 @@
 ;; + c
 
 ;; default params
-(Mul.ar (QuadL.ar 4000.0) 0.2)
+(Mul ar (QuadL ar 4000.0) 0.2)
 
-(let ((r (MouseX.kr 3.5441 4)))
-  (QuadL.ar 4000.0 (Neg.kr r) r 0 0.1 0.4))
+(let ((r (MouseX kr 3.5441 4)))
+  (QuadL ar 4000.0 (Neg kr r) r 0 0.1 0.4))
 
 ;; logistic map as frequency control
-(let ((r (MouseX.kr 3.5441 4)))
-  (SinOsc.ar (QuadL.ar 4 (Neg.kr r) r 0 0.1 800 900) 0.0 0.4))
+(let ((r (MouseX kr 3.5441 4)))
+  (SinOsc ar (QuadL ar 4 (Neg kr r) r 0 0.1 800 900) 0.0 0.4))

@@ -12,6 +12,6 @@
 
 ;; Index into the above buffer for frequency values.
 
-(SinOsc.ar (Index.kr 10 (LFSaw.kr 2 3 4)) 0 0.1)
+(SinOsc ar (Index kr 10 (LFSaw kr 2 3 4)) 0 0.1)
 
 (-> '/b_free 10)

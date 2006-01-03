@@ -6,7 +6,7 @@
   ((in 0) (bufnum 0) 
    (offset 1) (recLevel 1) (preLevel 0) 
    (run 1) (loop 1) (trigger 1))
-  (RecordBuf.ar bufnum offset recLevel preLevel run loop trigger (In.ar in 1))))
+  (RecordBuf ar bufnum offset recLevel preLevel run loop trigger (In ar in 1))))
 
 (define b (buffer-alloc 44100 1 #t))
 

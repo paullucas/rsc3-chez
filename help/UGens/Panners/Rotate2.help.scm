@@ -20,23 +20,23 @@
 ;; right, +1 is behind.
 
 
-(let ((p (WhiteNoise.ar 0.05))
-      (q (Add (LFSaw.ar 200 0 0.03)
-	      (Add (LFSaw.ar 200.37 0 0.03)
-		   (LFSaw.ar 201 0 0.03)))))
-  (let* ((encoded (Add (PanB2.ar p -0.5) (PanB2.ar q -0.5)))
-	 (rotated (Rotate2.ar (second encoded) (third encoded) (MouseX.kr -1 1)))
-	 (decoded (DecodeB2.ar 4 (first encoded) (first rotated) (second rotated))))
+(let ((p (WhiteNoise ar 0.05))
+      (q (Add (LFSaw ar 200 0 0.03)
+	      (Add (LFSaw ar 200.37 0 0.03)
+		   (LFSaw ar 201 0 0.03)))))
+  (let* ((encoded (Add (PanB2 ar p -0.5) (PanB2 ar q -0.5)))
+	 (rotated (Rotate2 ar (second encoded) (third encoded) (MouseX kr -1 1)))
+	 (decoded (DecodeB2 ar 4 (first encoded) (first rotated) (second rotated))))
     decoded))
  
 ;; Rotation of stereo sound, via LFO.
 
-(Rotate2.ar (PinkNoise.ar 0.4)
-	    (Mul (LFTri.ar 800) (LFPulse.kr 3 0 0.3 0.2))
-	    (LFSaw.kr 0.1))
+(Rotate2 ar (PinkNoise ar 0.4)
+	    (Mul (LFTri ar 800) (LFPulse kr 3 0 0.3 0.2))
+	    (LFSaw kr 0.1))
 
 ;; Rotation of stereo sound, via mouse.
 
-(Rotate2.ar (Mix.fill 4 (lambda () (LFSaw.ar (random 198 202) 0 0.1)))
-	    (Mul (SinOsc.ar 900) (LFPulse.kr 3 0 0.3 0.2))
-	    (MouseX.kr 0 2))
+(Rotate2 ar (Mix.fill 4 (lambda () (LFSaw ar (random 198 202) 0 0.1)))
+	    (Mul (SinOsc ar 900) (LFPulse kr 3 0 0.3 0.2))
+	    (MouseX kr 0 2))

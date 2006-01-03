@@ -4,4 +4,4 @@
 ;; This type of noise has a high RMS level relative to its peak to
 ;; peak level.  The spectrum is emphasized towards lower frequencies.
  
-(GrayNoise.ar 0.1)
+(GrayNoise ar 0.1)

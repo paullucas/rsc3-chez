@@ -34,7 +34,7 @@
 
 ;; Oscillator at buffers 0 through 7.
 
-(VOsc.ar (MouseX.kr 0 7) '(120 121) 0 0.3)
+(VOsc ar (MouseX kr 0 7) '(120 121) 0 0.3)
 
 ;; Reallocate buffers while oscillator is running.
 
