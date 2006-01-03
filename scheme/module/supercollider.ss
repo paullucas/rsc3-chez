@@ -12,6 +12,7 @@
   (include "../supercollider/klang.scm")
   (include "../supercollider/mix.scm")
   (include "../supercollider/patterns.scm")
+  (include "../supercollider/pitch.scm")
   (include "../supercollider/play.scm")
   (include "../supercollider/score.scm")
   (include "../supercollider/spec.scm")

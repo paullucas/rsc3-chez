@@ -26,8 +26,8 @@
 ;; Co-ordinate based static envelope generator.
 
 (defineK (Env.bp (bp (0.0 1.0 1.0 1.0)) (dur 1.0) (amp 1.0))
-  (Env (map (lambda (e) (*.gr e amp)) (take-cycle (cdr bp) 2))
-       (map (lambda (e) (*.gr e dur)) (d->dx (take-cycle bp 2) -))
+  (Env (map (lambda (e) (*u e amp)) (take-cycle (cdr bp) 2))
+       (map (lambda (e) (*u e dur)) (d->dx (take-cycle bp 2) -))
        'linear -1 -1))
 
 ;; Design a standard trapezoidal envelope.  `shape' determines the
@@ -52,12 +52,12 @@
 ;; SC3 envelope generators.
 
 (defineK (Env.triangle (dur 1.0) (level 1.0))
-  (let ((half-dur (*.gr dur 0.5)))
+  (let ((half-dur (*u dur 0.5)))
     (Env (list 0.0 level 0.0) 
 	 (list half-dur half-dur))))
 
 (defineK (Env.sine (dur 1.0) (level 1.0))
-  (let ((half-dur (*.gr dur 0.5)))
+  (let ((half-dur (*u dur 0.5)))
     (Env (list 0.0 level 0.0) 
 	 (list half-dur half-dur)
 	 'sine)))
@@ -74,8 +74,8 @@
 		   (peakLevel 1.0) 
 		   (curve -4.0) 
 		   (bias 0.0))
-  (Env (map (lambda (e) (+.gr e bias))
-	    (list 0.0 peakLevel (*.gr peakLevel sustainLevel) 0.0))
+  (Env (map (lambda (e) (*u e bias))
+	    (list 0.0 peakLevel (*u peakLevel sustainLevel) 0.0))
        (list attackTime decayTime releaseTime)
        curve
        2))

@@ -1,3 +1,10 @@
+2006-01-03  Rohan Drape  <rohan@alice.localdomain>
+
+	* scheme/ugen/constructor.scm: Change UGen rate specification,
+	delete specialized constructors with sclang like dotted suffixes,
+	and instead use named rate identifiers.  That is SinOsc.ar is now
+	written SinOsc AR.
+
 2005-10-11  Rohan Drape  <rohan@giacomo.local>
 
 	* scheme/ugen/operator.scm: Create file, implement aliases for

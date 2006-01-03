@@ -8,4 +8,5 @@
 
 ;; Build a path name for an rsc file.
 
-(define (rsc-file name) (path->string (build-path rsc-directory name)))
+(define (rsc-file name) 
+  (path->string (build-path rsc-directory name)))

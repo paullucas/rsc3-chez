@@ -1,5 +1,12 @@
 ;; constructor.scm - (c) rohan drape, 2005
 
+;; Rate identifiers.
+
+(define mr -1)
+(define ir  0)
+(define kr  1)
+(define ar  2)
+
 ;; If `outputs' is a <number>, evaluate to a <list> of a length
 ;; determined by consulting the list `inputs' at index `outputs', with
 ;; `rate' at every location.  Else evaluate to a list having the same
@@ -34,6 +41,18 @@
 	 (remove-index (lambda (e) (= e (floor-exact outputs))) inputs*)
 	 inputs*))))
 
+;; Get the rate of the input value `o'.  If `o' is not a UGen, or
+;; Output Proxy, or constant, or Control, or list of such, an error is
+;; raised.
+
+(define (input-rate o)
+  (cond ((number? o)        0)
+	((control*? o)      (control*-rate o))
+	((ugen? o)          (ugen-rate o))
+	((output-proxy? o)  (ugen-rate (output-proxy-ugen o)))
+	((list? o)          (apply max (map input-rate o)))
+	(else               (error! "input-rate: illegal value" o))))
+
 ;; Evaluates to a procedure that constructs the UGen described by the
 ;; USpec `uspec'.  The first argument to the returned procedure is the
 ;; UGen calculation rate.  The second argument specifies the UGen
@@ -53,15 +72,24 @@
     (lambda (rate in)
       (let* ((inputs**  (rewriter in))
 	     (inputs*** (drop-right inputs** 2))
-	     (mul+add   (take-right inputs** 2)))
+	     (mul+add   (take-right inputs** 2))
+	     (rate* (if (= rate mr) (fold max 0 (map input-rate inputs**)) rate)))
 	(mul-add 
 	 (make-ugen/mce
 	  name
-	  rate
+	  rate*
 	  (inputs-prepare inputs*** inputs outputs)
-	  (output-rates inputs*** rate outputs)
+	  (output-rates inputs*** rate* outputs)
 	  special)
-	 rate 
+	 rate* 
 	 (car mul+add)
 	 (cadr mul+add))))))
 
+;; Accept inputs as variable arguments rather than a list.
+
+(define-syntax define-ugen
+  (syntax-rules ()
+    ((_ name uspec) 
+     (define name 
+       (let ((f (uspec->constructor uspec))) 
+	 (lambda (rate . inputs) (f rate inputs)))))))

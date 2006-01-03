@@ -405,25 +405,13 @@ The symbol at point is preprocessed by `rsc-cleanup-symbol'."
 		    ((match-beginning 3) font-lock-variable-name-face)
 		    (t font-lock-warning-face))
 	      nil t))
-    (list "(\\([a-z]*-map\\)\\>" '(1 font-lock-keyword-face))
-    (list "(\\([a-z]*-for-each\\)\\>" '(1 font-lock-keyword-face))
-    (list "(\\(letH\\)\\>" '(1 font-lock-keyword-face))
-    (list "(\\(lambdaH\\)\\>" '(1 font-lock-keyword-face))
-    (list "(\\(condH\\)\\>" '(1 font-lock-keyword-face))
-    (list "(\\(begin!\\)\\>" '(1 font-lock-keyword-face))
+    (cons "\\<[akim]r\\>" font-lock-builtin-face)
+    (cons "\\<[KI]R\\>" font-lock-builtin-face)
+    (cons "\\<[A-Z][-a-zA-Z0-9]*\\>" font-lock-type-face)
+    (cons "\\<[a-z0-9]*U\\>" font-lock-type-face)
+    (cons "\\<\\sw+H\\>" font-lock-keyword-face)
+    (cons "\\<\\sw+!\\>" font-lock-warning-face)
     (cons "\\<\\sw+:\\>" font-lock-builtin-face))))
-
-(defun rsc-font-lock-ugen-names ()
-  "Rules to font lock UGen names."
-  (interactive)
-  (font-lock-add-keywords 
-   'rsc-mode
-   (list 
-    ;; UGens with a rate suffix, ordinary UGens.
-    (list "\\<\\([\+\-\/\*\%\<\>\=_A-Za-z0-9]*\\)\\.[akidxg]r\\>" 1 font-lock-type-face)
-    (list "\\<\\([a-z0-9]*\\)\\U\\>" 1 font-lock-type-face)
-    ;; Compound/Lisp UGens.
-    (cons "\\<\\(Mix\\)\\>" font-lock-type-face))))
 
 
 
@@ -453,7 +441,6 @@ and `rsc-mode-hook' (in that order).
   (put 'letL* 'scheme-indent-function 'scheme-let-indent)
   (put 'lambdaH 'scheme-indent-function 1)
   (rsc-font-lock-special-forms)
-  (rsc-font-lock-ugen-names)
   (setq-default font-lock-keywords-case-fold-search nil))
 
 ;; Declare this mode to emacs.

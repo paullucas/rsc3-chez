@@ -31,8 +31,8 @@
 
 (define-syntax define-uspec
   (syntax-rules ()
-    ((_ n.u n i o s r) (define n.u (make-uspec 'n 'i 'o 's 'r)))
-    ((_ n.u n i o s)   (define n.u (make-uspec 'n 'i 'o 's '(0 1 2))))))
+    ((_ u n i o s r) (define u (make-uspec 'n 'i 'o 's 'r)))
+    ((_ u n i o s)   (define u (make-uspec 'n 'i 'o 's '(0 1 2))))))
 
 ;; Name accessors.
 
