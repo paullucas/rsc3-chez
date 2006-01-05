@@ -6,10 +6,6 @@
 
 (define (user-name name special)
   (cond
-   ((eq? name 'BinaryOpUGen) (binaryop-name special))
-   ((eq? name 'UnaryOpUGen)  (unaryop-name special))
-   (else                     name)))
-
-(defineH user-name/rate (ugen name rate _ _ special)
-  (symbol-++ (user-name name special)
-	     (ref '(.ir .kr .ar .dr) rate)))
+   ((string=? name "BinaryOpUGen") (binaryop-name special))
+   ((string=? name "UnaryOpUGen")  (unaryop-name special))
+   (else                           name)))

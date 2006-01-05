@@ -13,7 +13,9 @@
   (include "../ugen/mul-add.scm")
   (include "../ugen/proxied.scm")
 
-  (include "../ugen/procedures.scm")
+  (include "../ugen/oscillator.scm")
+  (include "../ugen/filter.scm")
   (include "../ugen/operator.scm")
-
+  (include "../ugen/alias.scm")
+  
   (provide (all-defined)))

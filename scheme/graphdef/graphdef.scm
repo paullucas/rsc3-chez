@@ -1,16 +1,17 @@
 ;; graphdef.scm - (c) rohan drape, 2003-2005
 
-;; A <graphdef> is the static representation of a UGen graph.
+;; A <graphdef> represents a UGen graph.
 
 (define-structure graphdef name constants defaults controls ugens)
 
-;; Accessor for indexed ugen elements.
+(defineH graphdef-ugen g n     
+  (ref (graphdef-ugens g) n))
 
-(define (graphdef-ugen g n)     (ref (graphdef-ugens g)     n))
-(define (graphdef-control g n)  (ref (graphdef-controls g)  n))
-(define (graphdef-constant g n) (ref (graphdef-constants g) n))
+(defineH graphdef-control g n  
+  (ref (graphdef-controls g) n))
 
-;; Serialize the <graphdef> g.
+(defineH graphdef-constant g n 
+  (ref (graphdef-constants g) n))
 
 (defineH graphdef->u8t (graphdef name constants defaults controls ugens)
   (list
@@ -27,5 +28,5 @@
    (i16->u8v (length ugens))
    (map ugen->u8t ugens)))
 
-(define (graphdef->u8v g)
+(defineH graphdef->u8v g
   (u8t->u8v (graphdef->u8t g)))

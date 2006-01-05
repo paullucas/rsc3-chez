@@ -8,6 +8,6 @@
     ((_ () expr) 
      expr)
     ((_ ((name default) ...) expr)
-     (let ((name (make-control* (quote name) default 1 0))
+     (let ((name (make-control* (symbol->string (quote name)) default 1 0))
 	   ...)
        expr))))

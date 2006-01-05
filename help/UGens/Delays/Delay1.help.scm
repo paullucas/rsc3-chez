@@ -2,5 +2,5 @@
 
 ;; Fixed Single sample delay.
 
-(let ((s (Impulse ar 1)))
-  (Add s (Delay1 ar s)))
+(let ((s (Impulse ar 1 0)))
+  (Add s (Delay1 s)))

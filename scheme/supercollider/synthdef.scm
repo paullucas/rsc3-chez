@@ -6,7 +6,7 @@
 ;; encapsulate it.
 
 (define (ugen->graphdef/out ugen)
-  (if (or (list? ugen)
+  (if (or (mce? ugen)
 	  (not (null? (ugen-outputs ugen))))
       (graph->graphdef "Anonymous" (letc ((bus 0.0)) (Out ar bus ugen)))
       (graph->graphdef "Anonymous" ugen)))

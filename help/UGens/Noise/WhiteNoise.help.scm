@@ -2,4 +2,4 @@
 
 ;; Generates noise whose spectrum has equal power at all frequencies.
 
-(*u (WhiteNoise ar) 0.15)
+(Mul (WhiteNoise 0 ar) 0.15)

@@ -6,16 +6,18 @@
 ;; freq - frequency in Hertz
 ;; phase - phase offset or modulator in radians
 
-(SinOsc ar 440 0 0.5)
+(Mul (SinOsc ar 440 0) 0.15)
 
 ;; Modulate freq
 
-(SinOsc ar (XLine kr 2000 200) 0 0.5)
+(Mul (SinOsc ar (XLine kr 2000 200 1 2) 0) 0.5)
 
 ;; Modulate freq
 
-(SinOsc ar (SinOsc ar (XLine kr 1 1000 9) 0 200 800) 0 0.25)
+(Mul (SinOsc ar (MulAdd (SinOsc ar (XLine kr 1 1000 9 2) 0) 200 800) 0)
+     0.25)
 
 ;; Modulate phase
 
-(SinOsc ar 800 (SinOsc ar (XLine kr 20 8000 10) 0 two-pi) 0.25)
+(Mul (SinOsc ar 800 (Mul (SinOsc ar (XLine kr 20 8000 10 2) 0) two-pi)) 
+     0.25)

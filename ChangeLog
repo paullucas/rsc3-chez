@@ -1,3 +1,9 @@
+2006-01-06  Rohan Drape  <rohan@alice.localdomain>
+
+	* scheme/ugen/constructor.scm: Make filter and operator UGens
+	implicit rate, make all constructors fixed argument (no keywords,
+	no defaults).
+
 2006-01-03  Rohan Drape  <rohan@alice.localdomain>
 
 	* scheme/ugen/constructor.scm: Change UGen rate specification,

@@ -1,15 +1,16 @@
 ;; graph.scm - (c) rohan drape, 2003-2005
 
 ;; Return the <list> of all elements of the UGen graph rooted at `u'.
-;; Nodes are values of type <ugen>|<output-proxy>|<control*>|<number>.
+;; Nodes are values of type <ugen>|<proxy>|<control*>|<number>.
 
 (define (graph-nodes u)
   (cond 
-   ((ugen? u)         (cons u (splice (map graph-nodes (ugen-inputs u)))))
-   ((output-proxy? u) (cons u (graph-nodes (output-proxy-ugen u))))
-   ((control*? u)     (list u))
-   ((number? u)       (list u))
-   (else              (error! "graph-nodes: illegal value" u))))
+   ((ugen? u)       (cons u (splice (map graph-nodes (ugen-inputs u)))))
+   ((proxy? u)      (cons u (graph-nodes (proxy-ugen u))))
+   ((control*? u)   (list u))
+   ((number? u)     (list u))
+   ((mce? u)        (concat (map graph-nodes (mce-values u))))
+   (else            (error! "graph-nodes: illegal value" u))))
 
 ;; Filters over nodes.
 
@@ -55,16 +56,16 @@
 (define (ugen->input u uu)
   (make-input (ugen-index u uu) 0))
 
-(define (output-proxy->input p uu)
-  (make-input (ugen-index (output-proxy-ugen p) uu)
-	      (output-proxy-port p)))
+(define (proxy->input p uu)
+  (make-input (ugen-index (proxy-ugen p) uu)
+	      (proxy-port p)))
 
 (define (rewrite-input i nn cc uu)
   (cond 
    ((number? i)       (number->input i nn))
    ((control*? i)     (control*->input i cc))
    ((ugen? i)         (ugen->input i uu))
-   ((output-proxy? i) (output-proxy->input i uu))
+   ((proxy? i)        (proxy->input i uu))
    (else              (error! "rewrite-input: illegal input" i))))
 
 (define (ugen-close u nn cc uu)

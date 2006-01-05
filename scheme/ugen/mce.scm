@@ -1,29 +1,46 @@
 ;; mce.scm - (c) rohan drape, 2005
 
-(define (mce-depth inputs)
-  (fold max 0 (map (lambda (e)
-		     (cond ((null? e) (error! "mce-depth: null input"))
-			   ((list? e) (length e))
-			   (else      0)))
-		   inputs)))
+(defineH mcel u
+  (cond ((mce? u) (mce-values u))
+	(else     (list u))))
 
-;; Input replication in SuperCollider is called Multi Channel
-;; Expansion (MCE).  If any input is a list, all inputs are expanded
-;; to be equal in length to the longest input, and a list of ugens are
-;; created, one for each element of each input.  The resulting set of
-;; ugens is proxied, possibly resulting in a nested list.  If
-;; expansion is required each branch is treated recursively.
+(defineH req-mce? u
+  (cond ((ugen? u) (not (null? (filter mce? (ugen-inputs u)))))
+	(else      #f)))
 
-(define (make-ugen/mce name rate inputs outputs special)
-  (let ((depth (mce-depth inputs)))
-    (if (= depth 0)
-	(make-ugen/proxies name rate inputs outputs special)
-	(let ((inputs* (map (lambda (e) (extend e depth)) inputs)))
-	  (map (lambda (i)
-		 (make-ugen/mce
-		  name 
-		  rate 
-		  (map (lambda (e) (ref e i)) inputs*)
-		  outputs 
-		  special))
-	       (iota depth))))))
+(defineH mce-depth i
+  (maximum (map mce-length (filter mce? i))))
+
+(defineH mce-extend n i
+  (if (mce? i)
+      (extend (mce-values i) n)
+      (make-list n i)))
+
+(define (invert l)
+  (let ((f (lambda (n) (map (lambda (e) (ref e n)) l))))
+    (map f (iota (length (car l))))))
+
+(defineH mce-transform (ugen n r i o s)
+  (let* ((f (lambda (i) (make-ugen n r i o s)))
+	 (d (mce-depth i))
+	 (i* (invert (map (mce-extend d) i))))
+    (make-mce (map f i*))))
+
+(defineH traverseu f u
+  (cond ((ugen? u) (f (make-ugen (ugen-name u)
+				 (ugen-rate u)
+				 (map (traverseu f) (ugen-inputs u))
+				 (ugen-outputs u)
+				 (ugen-special u))))
+	((mce? u) (f (make-mce (map (traverseu f) (mce-values u)))))
+	((proxy? u) (f (make-proxy (traverseu f (proxy-ugen u))
+		       (proxy-port u))))
+  (else u)))
+
+(defineH force-mce u
+  (mcel (traverseu (lambda (u) 
+		     (if (req-mce? u) 
+			 (mce-transform u) 
+			 u)) 
+		   u)))
+
