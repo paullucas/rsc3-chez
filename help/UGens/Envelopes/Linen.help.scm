@@ -14,7 +14,7 @@
  (synthdef
   "linen"
   ((gate 0))
-  (Out ar 0 (SinOsc ar 440 0 (Linen kr gate 0.1 0.2 0.1 0)))))
+  (Out 0 (Mul (SinOsc ar 440 0) (Linen kr gate 0.1 0.2 0.1 0)))))
 
 (-> "/s_new" "linen" 1001 1 1)
 

@@ -8,9 +8,9 @@
 (define b 0)
 (-><! s (/b_alloc b 2048 1))
 
-(define (dup a) (list a a))
+(define (Dup a) (Mce a a))
 
-(dup
- (IFFT ar (PV_RandComb kr (FFT kr b (WhiteNoise ar 0.8))
-			  (MouseX kr 0.6 0.95)
-			  (Impulse kr 0.4))))
+(Dup
+ (IFFT (PV_RandComb (FFT b (Mul (WhiteNoise 0 ar) 0.5))
+		    (MouseX kr 0.6 0.95 0 0.1)
+		    (Impulse kr 0.4 0))))

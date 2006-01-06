@@ -50,6 +50,7 @@
 (define-filter FreeSelf () 1)
 (define-filter FreeSelfWhenDone () 1)
 (define-filter Gate (in trig) 1)
+(define-filter Hasher (in) 1)
 (define-filter HPF (in freq) 1)
 (define-filter HPZ1 (in) 1)
 (define-filter HPZ2 (in) 1)
@@ -155,8 +156,17 @@
 (define-filter* Select (which array) 1)
 (define-filter* TWindex (in array normalize) 1)
 
+(define-filter* DiskOut (bufnum channelsArray) 0)
+(define-filter* LocalOut (channelsArray) 0)
+(define-filter* OffsetOut (bus channelsArray) 0)
+(define-filter* Out (bus channelsArray) 0)
+(define-filter* ReplaceOut (bus channelsArray) 0)
+(define-filter* ScopeOut (inputArray bufnum) 0)
+(define-filter* XOut (bus xfade channelsArray) 0)
+
+(define-specialized SharedOut (bus channelsArray) 0 kr)
+
 (define-filter! CoinGate (prob in) 1)
-(define-filter! Hasher (in) 1)
 
 ;; Local Variables:
 ;; truncate-lines:t

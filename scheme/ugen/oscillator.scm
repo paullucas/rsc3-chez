@@ -54,7 +54,6 @@
 (define-oscillator MouseY (min max warp lag) 1)
 (define-oscillator PlayBuf (numChannels bufnum rate trigger startPos loop) 1)
 (define-oscillator SharedIn () 1)
-(define-oscillator SharedOut () 1)
 
 (define-oscillator BufChannels (buf) 1)
 (define-oscillator BufDur (buf) 1)
@@ -73,14 +72,7 @@
 (define-oscillator SampleDur () 1)
 (define-oscillator SampleRate () 1)
 
-(define-oscillator* DiskOut (bufnum channelsArray) 1)
 (define-oscillator* Klang (specificationsArrayRef freqscale freqoffset) 1)
-(define-oscillator* LocalOut (channelsArray) 1)
-(define-oscillator* OffsetOut (bus channelsArray) 1)
-(define-oscillator* Out (bus channelsArray) 1)
-(define-oscillator* ReplaceOut (bus channelsArray) 1)
-(define-oscillator* ScopeOut (inputArray bufnum) 1)
-(define-oscillator* XOut (bus xfade channelsArray) 1)
 
 (define-oscillator! BrownNoise () 1)
 (define-oscillator! ClipNoise () 1)

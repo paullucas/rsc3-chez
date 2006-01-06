@@ -109,4 +109,13 @@
 	  (make-outputs 1 r)
 	  s))))))
 
-
+(define-syntax define-specialized
+  (syntax-rules ()
+    ((_ n (i ...) o r)
+     (define (n i ...)
+       (make-ugen/proxies
+	(symbol->string (quote n))
+	r
+	(list i ...) 
+	(make-outputs o r)
+	0)))))

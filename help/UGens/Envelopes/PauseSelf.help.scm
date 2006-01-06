@@ -9,7 +9,7 @@
   "PauseSelf-Help"
   ((gate 0))
   (begin (PauseSelf kr gate)
-	 (Out ar 0 (SinOsc ar 440 0 0.1)))))
+	 (Out 0 (Mul (SinOsc ar 440 0) 0.1)))))
 
 (define a (synth-new "PauseSelf-Help"))
 
