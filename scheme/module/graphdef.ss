@@ -11,6 +11,5 @@
   (include "../graphdef/mce.scm")
   (include "../graphdef/output.scm")
   (include "../graphdef/proxy.scm")
-  (include "../graphdef/rate.scm")
   (include "../graphdef/ugen.scm")
   (provide (all-defined)))

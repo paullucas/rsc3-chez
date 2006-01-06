@@ -11,6 +11,7 @@
   (include "../supercollider/envelope.scm")
   (include "../supercollider/klang.scm")
   (include "../supercollider/mix.scm")
+  (include "../supercollider/name.scm")
   (include "../supercollider/patterns.scm")
   (include "../supercollider/pitch.scm")
   (include "../supercollider/play.scm")

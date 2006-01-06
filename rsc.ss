@@ -12,7 +12,6 @@
 	   (all-from (lib "rscO.ss" "rscO")))
   
   (require/provide "scheme/module/graphdef.ss")
-  (require/provide "scheme/module/uspec.ss")
   (require/provide "scheme/module/server.ss")
   (require/provide "scheme/module/buffer.ss")
   (require/provide "scheme/module/ugen.ss")
