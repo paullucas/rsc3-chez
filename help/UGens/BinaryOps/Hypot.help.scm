@@ -3,7 +3,9 @@
 ;; Returns the square root of the sum of the squares of a and b. Or
 ;; equivalently, the distance from the origin to the point (x, y).
 
-(SinOsc ar 440 0 (Hypot (MouseX kr 0 0.1) (MouseY kr 0 0.1)))
+(Mul (SinOsc ar 440 0)
+     (Hypot (MouseX kr 0 0.1 0 0.1) 
+	    (MouseY kr 0 0.1 0 0.1)))
 
 ;; Object travels 200 meters in 6 secs (=120kph) passing 10 meters
 ;; from the listener

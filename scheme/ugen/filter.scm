@@ -113,8 +113,6 @@
 (define-filter RLPF (in freq rq) 1)
 (define-filter Rotate2 (x y pos) 1)
 (define-filter RunningSum (in numsamp) 1)
-(define-filter SampleDur () 1)
-(define-filter SampleRate () 1)
 (define-filter Schmidt (in lo hi) 1)
 (define-filter SendTrig (in id value) 1)
 (define-filter SetResetFF (trig reset) 1)

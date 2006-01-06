@@ -1,6 +1,6 @@
 ;; (Trig1 in dur)
 
-;; When `in' is trigerred output a unit signal for `dur' seconds.
+;; When `in' is trigered output a unit signal for `dur' seconds.
 
-(Mul (Trig1 ar (Dust ar 1) 0.2) 
-     (FSinOsc ar 800 0 0.2))
+(Mul (Trig1 (Dust 0 ar 1) 0.2) 
+     (Mul (FSinOsc ar 800 0) 0.2))

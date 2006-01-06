@@ -70,6 +70,8 @@
 (define-oscillator NumOutputBuses () 1)
 (define-oscillator NumRunningSynths () 1)
 (define-oscillator RadiansPerSample () 1)
+(define-oscillator SampleDur () 1)
+(define-oscillator SampleRate () 1)
 
 (define-oscillator* DiskOut (bufnum channelsArray) 1)
 (define-oscillator* Klang (specificationsArrayRef freqscale freqoffset) 1)
