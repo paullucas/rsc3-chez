@@ -5,7 +5,6 @@
 	   (lib "rscO.ss" "rscO")
 	   "graphdef.ss"
 	   (lib "include.ss"))
-  (include "../ugen/alias.scm")
   (include "../ugen/constructor.scm")
   (include "../ugen/filter.scm")
   (include "../ugen/graph.scm")
@@ -14,4 +13,6 @@
   (include "../ugen/operator.scm")
   (include "../ugen/oscillator.scm")
   (include "../ugen/proxied.scm")
+
+  (include "../ugen/alias.scm")
   (provide (all-defined)))
