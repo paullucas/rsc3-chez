@@ -4,16 +4,11 @@
 ;; reorders the inputs to this UGen so that the envelope is the first
 ;; argument.
 
-(Mul (EnvGen kr envelope: (Env.perc)
-		gate: 1.0 
-		doneAction: 2)
-     (SinOsc ar 440 0 0.1))
+(Mul (EnvGen kr 1 0.1 0 1 2 (env/perc 0.01 1 1 -4))
+     (SinOsc ar 440 0))
 
 ;; The break-point assistant makes a static envelope from a
 ;; co-ordinate list.  There is a duration and amplitude scalar.
 
-(Mul (EnvGen kr envelope: (Env.bp '(0 0 1/2 1 1 0))
-		gate: 1.0 
-		doneAction: 2)
-     (SinOsc ar 440 0 0.1))
-
+(Mul (EnvGen kr 1 0.1 0 1 2 (env/bp '(0 0 1/2 1 1 0) 1 1))
+     (SinOsc ar 440 0))

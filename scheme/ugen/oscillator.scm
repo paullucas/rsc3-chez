@@ -4,7 +4,6 @@
 (define-oscillator COsc (bufnum freq beats) 1)
 (define-oscillator CuspL (freq a b xi) 1)
 (define-oscillator CuspN (freq a b xi) 1)
-(define-oscillator EnvGen (envelope gate levelScale levelBias timeScale doneAction) 1)
 (define-oscillator FBSineC (freq im fb a c xi yi) 1)
 (define-oscillator FBSineL (freq im fb a c xi yi) 1)
 (define-oscillator FBSineN (freq im fb a c xi yi) 1)
@@ -73,7 +72,8 @@
 (define-oscillator-n LocalIn (numChannels) 0)
 (define-oscillator-n PlayBuf (numChannels bufnum rate trigger startPos loop) 0)
 
-(define-oscillator* Klang (specificationsArrayRef freqscale freqoffset) 1)
+(define-oscillator* EnvGen (gate levelScale levelBias timeScale doneAction envelopeArray) 1)
+(define-oscillator* Klang (freqscale freqoffset specArray) 1)
 
 (define-oscillator! BrownNoise () 1)
 (define-oscillator! ClipNoise () 1)
