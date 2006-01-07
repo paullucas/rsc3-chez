@@ -2,15 +2,13 @@
 
 (define-structure mce values)
 
-(define (make-mce* . l) 
+(defineH mce-length m
+  (length (mce-values m)))
+
+(defineH mce-ref m n
+  (ref (mce-values m) n))
+
+(define (Mce . l) 
   (if (null? l)
       (error! "empty mce")
       (make-mce l)))
-
-(define Mce make-mce*)
-
-(define (mce-length m) 
-  (length (mce-values m)))
-
-(define (mce-ref m n)
-  (ref (mce-values m) n))

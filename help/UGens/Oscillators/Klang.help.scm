@@ -4,4 +4,4 @@
 ;; create the 'spec' entry.  Note that the SC3 language reorders the
 ;; inputs, the RSC client does not.
 
-(Klang ar 1 0 (Klang.spec '(440 550 660 770 880 990 1000) '(0.05 0.02)))
+(Klang ar 1 0 (klang-data '(440 550 660 770 880 990 1000) '(0.05 0.02) 0))

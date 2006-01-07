@@ -1,20 +1,5 @@
 ;; constructor.scm - (c) rohan drape, 2005
 
-;; Rate identifiers.
-
-(define mr -1)
-(define ir  0)
-(define kr  1)
-(define ar  2)
-
-(define (rate-of o)
-  (cond ((number? o)        ir)
-	((control*? o)      (control*-rate o))
-	((ugen? o)          (ugen-rate o))
-	((proxy? o)         (ugen-rate (proxy-ugen o)))
-	((mce? o)           (maximum (map rate-of (mce-values o))))
-	(else               (error! "rate-of: illegal value" o))))
-
 (define-syntax define-oscillator
   (syntax-rules ()
     ((_ n (i ...) o) 
@@ -33,7 +18,7 @@
        (make-ugen/proxies
 	(symbol->string (quote n))
 	r
-	(append (list i ...) (force-mce v))
+	(append (list i ...) (mce-force v))
 	(make-outputs o r)
 	0)))))
 
@@ -64,7 +49,7 @@
   (syntax-rules ()
     ((_ n (i ... v) o) 
      (define (n i ... v)
-       (let* ((i* (append (list i ...) (force-mce v)))
+       (let* ((i* (append (list i ...) (mce-force v)))
 	      (r (maximum (map rate-of i*))))
 	 (make-ugen/proxies
 	  (symbol->string (quote n))

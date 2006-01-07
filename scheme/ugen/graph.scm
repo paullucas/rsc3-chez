@@ -12,6 +12,20 @@
    ((mce? u)        (concat (map graph-nodes (mce-values u))))
    (else            (error! "graph-nodes: illegal value" u))))
 
+;; Depth first traversal
+
+(defineH graph-traverse f u
+  (cond 
+   ((ugen? u)  (f (make-ugen (ugen-name u)
+			     (ugen-rate u)
+			     (map (graph-traverse f) (ugen-inputs u))
+			     (ugen-outputs u)
+			     (ugen-special u))))
+   ((proxy? u) (f (make-proxy (graph-traverse f (proxy-ugen u))
+			      (proxy-port u))))
+   ((mce? u)   (f (make-mce (map (graph-traverse f) (mce-values u)))))
+   (else       u)))
+
 ;; Filters over nodes.
 
 (define (graph-constants u)

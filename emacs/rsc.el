@@ -397,7 +397,7 @@ The symbol at point is preprocessed by `rsc-cleanup-symbol'."
   (font-lock-add-keywords 
    'rsc-mode
    (list 
-    (list (concat "(\\(define[-/]*[a-zA-Z\*]*\\)\\>"
+    (list (concat "(\\(define[-a-zA-Z\*]*\\)\\>"
 		  "[ \t]*(?"
 		  "\\(\\sw+\\)?")
 	  '(1 font-lock-keyword-face)
@@ -407,7 +407,7 @@ The symbol at point is preprocessed by `rsc-cleanup-symbol'."
 	      nil t))
     (cons "\\<[akim]r\\>" font-lock-builtin-face)
     (cons "\\<[KI]R\\>" font-lock-builtin-face)
-    (cons "\\<[A-Z][-a-zA-Z0-9]*\\>" font-lock-type-face)
+    (cons "\\<[A-Z][-_a-zA-Z0-9]*\\>" font-lock-type-face)
     (cons "\\<[a-z0-9]*U\\>" font-lock-type-face)
     (cons "\\<\\sw+H\\>" font-lock-keyword-face)
     (cons "\\<\\sw+!\\>" font-lock-warning-face)

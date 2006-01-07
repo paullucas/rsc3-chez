@@ -1,4 +1,4 @@
-;; filter.scm
+;; filter.scm - (c) rohan drape, 2005
 
 (define-filter AllpassC (in maxdelaytime delaytime decaytime) 1)
 (define-filter AllpassL (in maxdelaytime delaytime decaytime) 1)
