@@ -43,16 +43,10 @@
 (define-oscillator VOsc (bufpos freq phase) 1)
 (define-oscillator XLine (start end dur doneAction) 1)
 
-(define-oscillator BufRd (numChannels bufnum phase loop interpolation) 1)
-(define-oscillator DiskIn (numChannels bufnum) 1)
-(define-oscillator In (bus numChannels) 1)
-(define-oscillator InFeedback (bus numChannels) 1)
 (define-oscillator LagIn () 1)
-(define-oscillator LocalIn (numChannels) 1)
 (define-oscillator MouseButton (minval maxval lag) 1)
 (define-oscillator MouseX (min max warp lag) 1)
 (define-oscillator MouseY (min max warp lag) 1)
-(define-oscillator PlayBuf (numChannels bufnum rate trigger startPos loop) 1)
 (define-oscillator SharedIn () 1)
 
 (define-oscillator BufChannels (buf) 1)
@@ -71,6 +65,13 @@
 (define-oscillator RadiansPerSample () 1)
 (define-oscillator SampleDur () 1)
 (define-oscillator SampleRate () 1)
+
+(define-oscillator-n BufRd (numChannels bufnum phase loop interpolation) 0)
+(define-oscillator-n DiskIn (numChannels bufnum) 0)
+(define-oscillator-n In (bus numChannels) 1)
+(define-oscillator-n InFeedback (bus numChannels) 1)
+(define-oscillator-n LocalIn (numChannels) 0)
+(define-oscillator-n PlayBuf (numChannels bufnum rate trigger startPos loop) 0)
 
 (define-oscillator* Klang (specificationsArrayRef freqscale freqoffset) 1)
 

@@ -2,42 +2,37 @@
 
 ;; Sample playback oscillator.  Plays back a memory resident sample.
 
-(define b (buffer-alloc-read (resolve "audio/metal.wav")))
+(define b 10)
+
+(-><! s (/b_allocRead b (rsc-file "audio/metal.wav") 0 0))
 
 ;; Play once only.
 
-(let ((bufnum (buffer-id b)))
-  (PlayBuf ar 1 bufnum (BufRateScale kr bufnum)))
+(PlayBuf ar 1 b (BufRateScale kr b) 1 0 0)
 
 ;; Play in infinite loop.
 
-(let ((bufnum (buffer-id b)))
-  (PlayBuf ar 1 bufnum (BufRateScale kr bufnum) loop: 1))
+(PlayBuf ar 1 b (BufRateScale kr b) 1 0 1)
 
 ;; Trigger playback at each pulse.
 
-(let ((bufnum (buffer-id b))
-      (trig (Impulse kr 2)))
-  (PlayBuf ar 1 bufnum (BufRateScale kr bufnum) trig 0 0))
+(PlayBuf ar 1 b (BufRateScale kr b) (Impulse kr 2 0) 0 0)
 
 ;; Trigger playback at each pulse (diminishing intervals).
 
-(let ((bufnum (buffer-id b))
-      (trig (Impulse kr (XLine kr 0.1 100 30))))
-  (PlayBuf ar 1 bufnum (BufRateScale kr bufnum) trig 0 0))
+(let ((trig (Impulse kr (XLine kr 0.1 100 10 2) 0)))
+  (PlayBuf ar 1 b (BufRateScale kr b) trig 0 0))
 
 ;; Loop playback, accelerating pitch.
 
-(let ((bufnum (buffer-id b))
-      (rate (XLine kr 0.1 100 60)))
-  (PlayBuf ar 1 bufnum rate 1 0 1))
+(let ((rate (XLine kr 0.1 100 60 2)))
+  (PlayBuf ar 1 b rate 1 0 1))
 
 ;; Sine wave control of playback rate, negative rate plays backwards.
 
-(let ((bufnum (buffer-id b))
-      (rate (FSinOsc kr (XLine kr 0.2 8 30) 0 3 0.6)))
-  (PlayBuf ar 1 bufnum (Mul (BufRateScale kr bufnum) rate) 1 0 1))
+(let ((rate (MulAdd (FSinOsc kr (XLine kr 0.2 8 30 2) 0) 3 0.6)))
+  (PlayBuf ar 1 b (Mul (BufRateScale kr b) rate) 1 0 1))
 
 ;; Release buffer.
 
-(buffer-free b #t)
+(-><! s (/b_free b))

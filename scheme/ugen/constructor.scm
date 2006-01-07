@@ -11,6 +11,23 @@
 	(make-outputs o r)
 	0)))))
 
+;; Number of outputs is zth input...
+
+(define (without n l)
+  (append (take l n) (drop l (+ n 1))))
+
+(define-syntax define-oscillator-n
+  (syntax-rules ()
+    ((_ n (i ...) z) 
+     (define (n r i ...)
+       (let ((l (list i ...)))
+	 (make-ugen/proxies
+	  (symbol->string (quote n))
+	  r
+	  (without z l)
+	  (make-outputs (ref l z) r)
+	  0))))))
+
 (define-syntax define-oscillator*
   (syntax-rules ()
     ((_ n (i ... v) o)

@@ -6,6 +6,7 @@
 ;; order (0, 1).  trig = select new random ordering.
 
 (define b 0)
+
 (-><! s (/b_alloc b 2048 1))
 
 (define (Dup a) (Mce a a))

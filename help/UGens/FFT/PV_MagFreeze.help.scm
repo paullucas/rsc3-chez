@@ -6,25 +6,27 @@
 ;; frozen at current levels.
 
 (define b 0)
+
 (-><! s (/b_alloc b 2048 1))
 
-(define (dup a) (list a a))
+(define (Dup a) (Mce a a))
 
-(dup
- (Mul ar 
+(Dup
+ (Mul 
   0.25 
-  (IFFT ar 
-   (PV_MagFreeze kr
-    (FFT kr b (SinOsc ar (LFNoise1 kr 5.2 250 400)))
-    (SinOsc kr 0.2)))))
+  (IFFT 
+   (PV_MagFreeze
+    (FFT b (SinOsc ar (MulAdd (LFNoise1 0 kr 5.2) 250 400) 0))
+    (SinOsc kr 0.2 0)))))
 
 (define c 1)
+
 (-><! s (/b_allocRead c (rsc-file "audio/metal.wav") 0 0))
 
-(dup 
- (Mul ar 
+(Dup 
+ (Mul 
   0.5
-  (IFFT ar 
-   (PV_MagFreeze kr 
-    (FFT kr b (PlayBuf ar 1 c (BufRateScale kr c) 'loop: 1)) 
-    (GT kr (MouseY kr 0.0 1.0) 0.5)))))
+  (IFFT 
+   (PV_MagFreeze 
+    (FFT b (PlayBuf ar 1 c (BufRateScale kr c) 1 0 1)) 
+    (GT (MouseY kr 0 1 0 0.1) 0.5)))))

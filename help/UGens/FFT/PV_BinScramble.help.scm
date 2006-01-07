@@ -18,11 +18,11 @@
 (define c 1)
 (-><! s (/b_allocRead c (rsc-file "audio/metal.wav") 0 0))
 
-(let* ((in (PlayBuf ar 1 c (BufRateScale kr c) 'loop: 1))
-       (c0 (FFT kr b in))
-       (c1 (PV_BinScramble kr c0 
-			      (MouseX kr 0.0 1.0) 
-			      0.1
-			      (GT kr (MouseY kr 0.0 1.0) 0.5)))
-       (c2 (IFFT ar c1)))
-  (Out ar 0 (Mul ar 0.5 (list c2 c2))))
+(let* ((in (PlayBuf ar 1 c (BufRateScale kr c) 1 0 1))
+       (c0 (FFT b in))
+       (c1 (PV_BinScramble c0 
+			   (MouseX kr 0.0 1.0 0 0.1) 
+			   0.1
+			   (GT (MouseY kr 0.0 1.0 0 0.1) 0.5)))
+       (c2 (IFFT c1)))
+  (Out 0 (Mul 0.5 (Mce c2 c2))))
