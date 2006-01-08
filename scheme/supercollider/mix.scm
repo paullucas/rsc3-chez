@@ -3,11 +3,11 @@
 ;; Mix the list of UGen records at `inputs'.  This is an idiom over
 ;; the binary math operator 'Add'.
 
-(defineH mix (cons x xs)
-  (if (null? xs) x (+u x (mix xs))))
+(defineH mix u
+  (foldl1 Add (mce-force u)))
 
 ;; Use the one argument procedure `contructor' to build a list of
 ;; `degree' places, and 'Mix' that list.
 
-(define (mix/fill degree constructor)
-  (mix (tabulate degree constructor)))
+(defineH mix/fill degree constructor
+  (foldl1 Add (tabulate degree constructor)))

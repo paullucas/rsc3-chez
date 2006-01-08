@@ -10,19 +10,23 @@
 ;; The interpolation type is an integer: 1 no interpolation, 2 linear
 ;; interpolation, 4 cubic interpolation.
 
-(-> "/b_allocRead" 0 (resolve "audio/metal.wav"))
+(-><! s (/b_allocRead 0 (rsc-file "audio/metal.wav") 0 0))
 
-(BufRd ar 1 0 (Mul (SinOsc ar 0.1) (BufFrames ir 0)))
+(BufRd ar 1 0 (Mul (SinOsc ar 0.1 0) (BufFrames ir 0)) 0 2)
 
-(BufRd ar 1 0 (Mul (LFNoise1 ar 1) (BufFrames ir 0)))
+(let ((phase (Mul (LFNoise1 0 ar (MouseX kr (Mce 5 10) 100 0 0.1))
+		  (BufFrames ir 0))))
+  (BufRd ar 1 0 phase 0 2))
 
-(BufRd ar 1 0 (Mul (LFNoise1 ar 10) (BufFrames ir 0)))
-
-(BufRd ar 1 0 (Add (LFTri ar 0.1) (Mul (LFTri ar 0.23) (BufFrames ir 0))))
+(let ((phase (Add (LFTri ar 0.1 0)
+		  (Mul (LFTri ar 0.23 0) (BufFrames ir 0)))))
+  (BufRd ar 1 0 phase 0 2))
 
 ;; Use a phasor index into the file
 
-(BufRd ar 1 0 (Phasor ar 0 (Mul (MouseX kr 0.5 2) (BufRateScale kr 0)) 0 (BufFrames kr 0)) 1 (MouseY kr 0 5))
+(let ((phase (Phasor ar 0 (Mul (MouseX kr 0.5 2 0 0.1)
+			       (BufRateScale kr 0)) 0 (BufFrames kr 0) 0)))
+  (BufRd ar 1 0 phase 1 (MouseY kr 0 5 0 0.1)))
 
 ;; Write into the buffer with a BufWr and read it with a BufRd.
 
