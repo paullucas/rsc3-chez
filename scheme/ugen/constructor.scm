@@ -8,12 +8,12 @@
 ;; special = <integer>
 
 (define (construct-ugen name rate? inputs mce? outputs special) 
-  (let ((rate (if rate?
-		  rate?
-		  (maximum (map rate-of inputs))))
-	(inputs* (if mce?
-		     (++ inputs (mce-force mce?))
-		     inputs)))
+  (let* ((inputs* (if mce?
+		      (++ inputs (mce-force mce?))
+		      inputs))
+	 (rate (if rate?
+		   rate?
+		   (maximum (map rate-of inputs*)))))
     (make-ugen/proxies
      (symbol->string name)
      rate
@@ -54,6 +54,13 @@
     ((_ n (i ...) o) 
      (define (n i ...)
        (construct-ugen 'n #f (list i ...) #f o 0)))))
+
+(define-syntax define-filter-n
+  (syntax-rules ()
+    ((_ n (i ...) z)
+     (define (n i ...)
+       (let ((l (list i ...)))
+	 (construct-ugen 'n #f (without z l) #f (ref l z) 0))))))
 
 (define-syntax define-filter*
   (syntax-rules ()

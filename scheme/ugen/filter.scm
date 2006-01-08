@@ -118,7 +118,6 @@
 (define-filter SendTrig (in id value) 1)
 (define-filter SetResetFF (trig reset) 1)
 (define-filter Shaper (bufnum in) 1)
-(define-filter Silent (numChannels) 1)
 (define-filter Slew (in up dn) 1)
 (define-filter Slope (in) 1)
 (define-filter SOS (in a0 a1 a2 b1 b2) 1)
@@ -131,12 +130,10 @@
 (define-filter TDelay (in dur) 1)
 (define-filter TDuty (dur reset level doneAction) 1)
 (define-filter TExpRand (lo hi trig) 1)
-(define-filter TGrains (numChannels trigger bufnum rate centerPos dur pan amp interp) 1)
 (define-filter Timer (trig) 1)
 (define-filter TIRand (lo hi trig) 1)
 (define-filter ToggleFF (trig) 1)
 (define-filter TPulse (trig freq width) 1)
-(define-filter TRand (lo hi trig) 1)
 (define-filter Trapezoid (in a b c d) 1)
 (define-filter Trig1 (in dur) 1)
 (define-filter Trig (in dur) 1)
@@ -149,6 +146,9 @@
 (define-filter XFade2 (inA inB pan level) 1)
 (define-filter XY (xscale yscale xoff yoff rot rate) 1)
 (define-filter ZeroCrossing (in) 1)
+
+(define-filter-n Silent (numChannels) 0)
+(define-filter-n TGrains (numChannels trigger bufnum rate centerPos dur pan amp interp) 0)
 
 (define-filter* BufWr (inputArray bufnum phase loop) 1)
 (define-filter* Klank (specificationsArrayRef input freqscale freqoffset decayscale) 1)
@@ -167,6 +167,7 @@
 (define-specialized SharedOut (bus channelsArray) 0 kr)
 
 (define-filter! CoinGate (prob in) 1)
+(define-filter! TRand (lo hi trig) 1)
 
 ;; Local Variables:
 ;; truncate-lines:t

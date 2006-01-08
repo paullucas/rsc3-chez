@@ -34,35 +34,39 @@
 ;;          interpolation, (2) linear interpolation, or (4) cubic
 ;;          interpolation.
 
-(->< s (/b_allocRead 10 (path->string (rsc-file "audio/metal.wav")) 0 0))
+(-><! s (/b_allocRead 10 (rsc-file "audio/metal.wav") 0 0))
 
 (let* ((b 10)
-       (trate (MouseY kr 2 200 1))
-       (dur (FDiv 4 trate)))
-  (TGrains ar 2 (Impulse ar trate) b 1 (MouseX kr 0 (BufDur kr b)) dur 0 0.1 2))
-
-(let* ((b 10)
-       (trate (MouseY kr 8 120 1))
-       (dur (FDiv 12 trate))
-       (clk (Impulse ar trate))
-       (pos (Add (MouseX kr 0 (BufDur kr b)) (TRand kr 0 0.01 clk)))
-       (pan (WhiteNoise kr 0.6)))
-  (TGrains ar 2 clk b 1 pos dur pan 0.1))
-
-(let* ((b 10)
-       (trate (MouseY kr 8 120 1))
+       (trate (MouseY kr 2 200 1 0.1))
        (dur (FDiv 4 trate))
-       (clk (Dust ar trate))
-       (pos (Add (MouseX kr 0 (BufDur kr b)) (TRand kr 0 0.01 clk)))
-       (pan (WhiteNoise kr 0.6)))
-  (TGrains ar 2 clk b 1 pos dur pan 0.1))
+       (t (Impulse ar trate 0)))
+  (TGrains 2 t b 1 (MouseX kr 0 (BufDur kr b) 0 0.1) dur 0 0.1 2))
+
+(let* ((b 10)
+       (trate (MouseY kr 8 120 1 0.1))
+       (dur (FDiv 12 trate))
+       (clk (Impulse ar trate 0))
+       (pos (Add (MouseX kr 0 (BufDur kr b) 0 0.1) 
+		 (TRand 0 0 0.01 clk)))
+       (pan (Mul (WhiteNoise 0 kr) 0.6)))
+  (TGrains 2 clk b 1 pos dur pan 0.1 2))
+
+(let* ((b 10)
+       (trate (MouseY kr 8 120 1 0.1))
+       (dur (FDiv 4 trate))
+       (clk (Dust 0 ar trate))
+       (pos (Add (MouseX kr 0 (BufDur kr b) 0 0.1) 
+		 (TRand 0 0 0.01 clk)))
+       (pan (Mul (WhiteNoise 0 kr) 0.6)))
+  (TGrains 2 clk b 1 pos dur pan 0.1 2))
 
 ;; The SC3 ** operator is the ShiftLeft binary UGen.
 
 (let* ((b 10)
-       (trate (MouseY kr 2 120 1))
+       (trate (MouseY kr 2 120 1 0.1))
        (dur (FDiv 1.2 trate))
-       (clk (Impulse ar trate))
-       (pos (MouseX kr 0 (BufDur kr b)))
-       (pan (WhiteNoise kr 0.6)))
-  (TGrains ar 2 clk b (ShiftLeft mr 1.2 (Round (WhiteNoise kr 3) 1)) pos dur pan 0.1))
+       (clk (Impulse ar trate 0))
+       (pos (MouseX kr 0 (BufDur kr b) 0 0.1))
+       (pan (Mul (WhiteNoise 0 kr) 0.6))
+       (rate (ShiftLeft 1.2 (Round (Mul (WhiteNoise 0 kr) 3) 1))))
+  (TGrains 2 clk b rate pos dur pan 0.1 2))
