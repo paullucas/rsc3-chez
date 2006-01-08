@@ -10,6 +10,7 @@
   (include "../ugen/filter.scm")
   (include "../ugen/graph.scm")
   (include "../ugen/implicit.scm")
+  (include "../ugen/input.scm")
   (include "../ugen/mce.scm")
   (include "../ugen/operator.scm")
   (include "../ugen/oscillator.scm")
