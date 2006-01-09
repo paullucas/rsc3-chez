@@ -72,8 +72,10 @@
 (define-oscillator-n LocalIn (numChannels) 0)
 (define-oscillator-n PlayBuf (numChannels bufnum rate trigger startPos loop) 0)
 
+(define-oscillator* Duty (dur reset doneAction level) 1)
 (define-oscillator* EnvGen (gate levelScale levelBias timeScale doneAction envelopeArray) 1)
 (define-oscillator* Klang (freqscale freqoffset specArray) 1)
+(define-oscillator* TDuty (dur reset doneAction level) 1)
 
 (define-oscillator! BrownNoise () 1)
 (define-oscillator! ClipNoise () 1)

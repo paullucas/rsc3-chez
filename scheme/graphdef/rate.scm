@@ -2,13 +2,25 @@
 
 (define-structure rate value)
 
-(define ir  (make-rate 0))
-(define kr  (make-rate 1))
-(define ar  (make-rate 2))
+(define ir (make-rate 0))
+(define kr (make-rate 1))
+(define ar (make-rate 2))
+(define dr (make-rate 3))
+
+(define (rate->ordinal r)
+  (cond ((eq? r ir)  0)
+	((eq? r dr)  1)
+	((eq? r kr)  2)
+	((eq? r ar)  3)
+	(else        (error! "illegal rate"))))
+
+(define (rate-select* a b)
+  (let ((a* (rate->ordinal a))
+	(b* (rate->ordinal b)))
+    (if (> a* b*) a b)))
 
 (define (rate-select l)
-  (let ((f (lambda (a b) (if (> (rate-value a) (rate-value b)) a b))))
-    (foldl1 f l)))
+  (foldl1 rate-select* l))
 
 (define (rate-of o)
   (cond ((number? o)    ir)

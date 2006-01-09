@@ -91,3 +91,9 @@
     ((_ n (i ...) o r)
      (define (n i ...)
        (construct-ugen 'n r (list i ...) #f o 0)))))
+
+(define-syntax define-specialized*
+  (syntax-rules ()
+    ((_ n (i ... v) o r)
+     (define (n i ... v)
+       (construct-ugen 'n r (list i ...) v o 0)))))

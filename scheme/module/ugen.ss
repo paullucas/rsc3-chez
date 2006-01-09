@@ -6,6 +6,7 @@
 	   "graphdef.ss"
 	   (lib "include.ss"))
   (include "../ugen/constructor.scm")
+  (include "../ugen/demand.scm")
   (include "../ugen/fft.scm")
   (include "../ugen/filter.scm")
   (include "../ugen/graph.scm")
