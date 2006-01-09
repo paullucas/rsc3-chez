@@ -47,8 +47,8 @@
 ;; Co-ordinate based static envelope generator.
 
 (define (env/bp bp dur amp)
-  (env (map (lambda (e) (*u e amp)) (take-cycle (cdr bp) 2))
-       (map (lambda (e) (*u e dur)) (d->dx (take-cycle bp 2)))
+  (env (map (lambda (e) (Mul e amp)) (take-cycle (cdr bp) 2))
+       (map (lambda (e) (Mul e dur)) (d->dx (take-cycle bp 2)))
        'linear 
        -1 
        -1))
@@ -75,7 +75,7 @@
 ;; SC3 envelope generators.
 
 (define (env/triangle dur level)
-  (let ((half-dur (*u dur 0.5)))
+  (let ((half-dur (Mul dur 0.5)))
     (env (list 0.0 level 0.0) 
 	 (list half-dur half-dur)
 	 "linear"
@@ -83,7 +83,7 @@
 	 -1)))
 
 (define (env/sine dur level)
-  (let ((half-dur (*u dur 0.5)))
+  (let ((half-dur (Mul dur 0.5)))
     (env (list 0.0 level 0.0) 
 	 (list half-dur half-dur)
 	 "sin"
@@ -104,8 +104,8 @@
 		  peakLevel
 		  curve
 		  bias)
-  (env (map (lambda (e) (*u e bias))
-	    (list 0.0 peakLevel (*u peakLevel sustainLevel) 0.0))
+  (env (map (lambda (e) (Mul e bias))
+	    (list 0.0 peakLevel (Mul peakLevel sustainLevel) 0.0))
        (list attackTime decayTime releaseTime)
        curve
        2
@@ -124,4 +124,3 @@
        curve
        -1
        -1))
-

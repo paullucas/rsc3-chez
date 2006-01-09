@@ -16,6 +16,4 @@
   (include "../ugen/operator.scm")
   (include "../ugen/oscillator.scm")
   (include "../ugen/proxied.scm")
-
-  (include "../ugen/alias.scm")
   (provide (all-defined)))

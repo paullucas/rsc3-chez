@@ -8,9 +8,9 @@
 	   (consecutive? xs))))
 
 (define (audioin channel)
-  (let ((offset (-u (NumOutputBuses ir) 1)))
+  (let ((offset (Sub (NumOutputBuses ir) 1)))
     (if (not (list? channel))
-	(In ar (+u offset channel))
+	(In ar (Add offset channel))
 	(if (consecutive? channel)
-	    (In ar (+u offset (car channel)) (length channel))
-	    (In ar (+u offset channel))))))
+	    (In ar (Add offset (car channel)) (length channel))
+	    (In ar (Add offset channel))))))
