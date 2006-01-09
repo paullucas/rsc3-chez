@@ -13,7 +13,7 @@
 (defineH ugen->u8t (ugen name rate inputs outputs special)
   (list 
    (pstring->u8v name)
-   (i8->u8v rate)
+   (i8->u8v (rate-value rate))
    (i16->u8v (length inputs))
    (i16->u8v (length outputs))
    (i16->u8v special)

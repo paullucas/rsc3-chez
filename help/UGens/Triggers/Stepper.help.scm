@@ -5,9 +5,9 @@
 
 (-><! s (/b_alloc 10 128 1))
 
-(let ((a (list 97.999 195.998 523.251 466.164 195.998 
-	       233.082 87.307 391.995 87.307 261.626 
-	       195.998 77.782 233.082 195.998 97.999 
+(let ((a (list 97.999 195.998 523.251 466.164 195.998
+	       233.082 87.307 391.995 87.307 261.626
+	       195.998 77.782 233.082 195.998 97.999
 	       155.563)))
   (->! s (/b_setn* 10 0 a)))
 
@@ -16,29 +16,31 @@
        (env (Decay2 clock 0.002 2.5))
        (index (Stepper clock 0 0 15 1 0))
        (freq (BufRd kr 1 10 index 1 1))
-       (ffreq (Add (if #t 
-		       (Lag2 freq 1)
+       (ffreq (Add (if #t
+		       (Lag2 freq 0.1)
 		       (Mul (MouseY kr 80 1600 1 0.1) (Add (Mul env 4) 2)))
 		   (Mce 0 0.3)))
        (lfo (SinOsc kr 0.2 (Mce 0 half-pi 0.0024 0.0025))))
   (seq (out (mix (LFPulse ar (Mul freq (Mce 1 3/2 2)) 0 0.3)))
-       (RLPF out ffreq 0.3 env)
-       (RLPF out ffreq 0.3 env)
+       (Mul (RLPF out ffreq 0.3) env)
+       (Mul (RLPF out ffreq 0.3) env)
        (Mul out 0.02)
        ;; Echo
        (MulAdd (CombL out 1 (FDiv 0.66 rate) 2) 0.8 out)
        ;; Reverb
        (let ((rev out))
-	 (do-times 5 (set! rev (AllpassN ar rev 
-					    0.05 
-					    (make-mce (randl! 2 0 0.05))
-					    (rand! 1.5 2.0))))
+	 (for-each (lambda (_)
+		     (set! rev (AllpassN rev
+					 0.05
+					 (make-mce (randl! 2 0 0.05))
+					 (rand! 1.5 2.0))))
+		   (iota 5))
 	 (Add out (Mul rev 0.3)))
-       (LeakDC ar out)
+       (LeakDC out 0.1)
        ;; Flanger
-       (DelayL ar out 0.1 lfo 1 out)
+       (MulAdd (DelayL out 0.1 lfo) 1 out)
        ;; Slight bass emphasis
-       (OnePole ar out 0.9)))
+       (OnePole out 0.9)))
 
 ;; Pattern randomizer....
 
@@ -48,7 +50,7 @@
   (+ (* stepsPerOctave (quotient scaleDegree (length scale)))
      (at scale scaleDegree)))
 
-(apply -> 
+(apply ->
        "/b_setn" 10 0 16 
        (map (lambda (e) 
 	      (midi-note->frequency (+ 36 (degreeToKey e m))))

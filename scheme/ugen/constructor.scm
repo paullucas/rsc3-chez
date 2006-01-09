@@ -1,7 +1,7 @@
 ;; constructor.scm - (c) rohan drape, 2005
 
 ;; name = <string>
-;; rate? = <integer> | #f
+;; rate? = <rate> | #f
 ;; inputs = <list> of <input*>
 ;; mce? = <input*> | #f
 ;; outputs = <integer>
@@ -13,7 +13,7 @@
 		      inputs))
 	 (rate (if rate?
 		   rate?
-		   (maximum (map rate-of inputs*)))))
+		   (rate-select (map rate-of inputs*)))))
     (make-ugen/proxies
      (symbol->string name)
      rate
@@ -33,9 +33,9 @@
 (define-syntax define-oscillator-n
   (syntax-rules ()
     ((_ n (i ...) z) 
-     (define (n rate i ...)
+     (define (n r i ...)
        (let ((l (list i ...)))
-	 (construct-ugen 'n rate (without z l) #f (ref l z) 0))))))
+	 (construct-ugen 'n r (without z l) #f (ref l z) 0))))))
 
 (define-syntax define-oscillator*
   (syntax-rules ()
