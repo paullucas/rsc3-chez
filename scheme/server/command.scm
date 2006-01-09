@@ -128,6 +128,7 @@
 
 (define (/b_setn* id n l) (apply /b_setn id n (length l) l))
 (define (/c_setn* n l) (apply /c_setn n (length l) l))
+(define (/b_gen* id cmd . l) (apply /b_gen id cmd (splice l)))
 
 ;; Local Variables:
 ;; truncate-lines:t
