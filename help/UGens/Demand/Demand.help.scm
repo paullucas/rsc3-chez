@@ -14,8 +14,6 @@
 
 ;; reset - trigger. Resets the list of ugens when triggered.
 
-(define inf 1000000.0)
-
 (let* ((trig (Impulse kr 24 0))
        (seq (Drand inf (Mce (Dseq 1 (Mce* (mirror1 (iota 5 1))))
 			    (Drand 8 (Mce* (iota 7 4))))))
