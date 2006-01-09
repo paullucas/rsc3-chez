@@ -18,3 +18,7 @@
 (define (cpsoct freq)
   (+ (log2 (* freq 0.0022727272727)) 4.75))
 
+(define (degree->key degree scale steps)
+  (+ (* steps (quotient degree (length scale)))
+     (ref/wrap scale degree)))
+

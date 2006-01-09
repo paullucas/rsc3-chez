@@ -1,9 +1,10 @@
 ;; synthdef.scm - (c) rohan drape, 2003-2005
 
+;; Transform a <ugen> into a <graphdef>.
+
 (define synthdef graph->graphdef)
 
-;; Transform a <ugen> into a <graphdef>.  If ugen has output ports
-;; encapsulate it.
+;; If ugen has output ports encapsulate it.
 
 (define (ugen->graphdef/out ugen)
   (if (or (mce? ugen)

@@ -38,20 +38,13 @@
 	 (Add out (Mul rev 0.3)))
        (LeakDC out 0.1)
        ;; Flanger
-       (MulAdd (DelayL out 0.1 lfo) 1 out)
+       (Add (DelayL out 0.1 lfo) out)
        ;; Slight bass emphasis
        (OnePole out 0.9)))
 
 ;; Pattern randomizer....
 
-(define m '(0 3 5 7 10))
-
-(define-procedure (degreeToKey scaleDegree scale (stepsPerOctave 12))
-  (+ (* stepsPerOctave (quotient scaleDegree (length scale)))
-     (at scale scaleDegree)))
-
-(apply ->
-       "/b_setn" 10 0 16 
-       (map (lambda (e) 
-	      (midi-note->frequency (+ 36 (degreeToKey e m))))
-	    (randomI-list 16 0 15)))
+(let ((p (map (lambda (e)
+		(midicps (+ 36 (degree->key e (list 0 3 5 7 10) 12))))
+	      (map floor-exact (randl! 16 0 15)))))
+  (->! s (/b_setn* 10 0 p)))
