@@ -1,4 +1,6 @@
 ;; (DelayN in maxDelayTime delayTime)
+;; (DelayL in maxDelayTime delayTime)
+;; (DelayA in maxDelayTime delayTime)
 
 ;; Simple delay line.  There are three forms, DelayN uses no
 ;; interpolation, DelayL uses linear interpolation, DelayA uses all
@@ -6,8 +8,8 @@
 ;; initialization time and cannot be extended.
 
 ;; Dust randomly triggers Decay to create an exponential decay
-;; envelope for the WhiteNoise input source.  The input is mixed with
-;; delay via the add input.
+;; envelope for the WhiteNoise input source.
 
-(let ((z (Decay ar (Dust ar 1 1) 0.3 (WhiteNoise ar))))
-  (DelayN ar z 0.2 0.2 1 z))
+(let ((z (Mul (Decay (Dust r0 ar 1) 0.3)
+	      (WhiteNoise r0 ar))))
+  (Add (DelayN z 0.2 0.2) z))
