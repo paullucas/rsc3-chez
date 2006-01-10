@@ -1,1 +1,1 @@
-;; See Dbrown.help.scm
+;; See Dbrown

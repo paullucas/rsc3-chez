@@ -11,12 +11,12 @@
 ;; Diwhite returns integer values.  The arguments can be a number or
 ;; any other ugen
 
-(let* ((a (Dwhite inf 0 15))
+(let* ((a (Dwhite r0 inf 0 15))
        (trig (Impulse kr (MouseX kr 1 40 1 0.1) 0))
        (freq (MulAdd (Demand trig 0 a) 30 340)))
   (Mul (SinOsc ar freq 0) 0.1))
 
-(let* ((a (Diwhite inf 0 15))
+(let* ((a (Diwhite r0 inf 0 15))
        (trig (Impulse kr (MouseX kr 1 40 1 0.1) 0))
        (freq (MulAdd (Demand trig 0 a) 30 340)))
   (Mul (SinOsc ar freq 0) 0.1))

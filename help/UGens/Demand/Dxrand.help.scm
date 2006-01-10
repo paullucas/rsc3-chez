@@ -1,1 +1,1 @@
-;; See Drand.help.scm
+;; See Drand

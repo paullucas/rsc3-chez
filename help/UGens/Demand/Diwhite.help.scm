@@ -1,1 +1,1 @@
-;; See Dwhite.help.scm
+;; See Dwhite

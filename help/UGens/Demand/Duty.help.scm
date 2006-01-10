@@ -23,7 +23,7 @@
 ;; level: demand ugen providing the output values.
 
 (let ((freq (Duty kr
-		  (Drand inf (Mce 0.01 0.2 0.4))
+		  (Drand r0 inf (Mce 0.01 0.2 0.4))
 		  0
 		  2
 		  (Dseq inf (Mce 204 400 201 502 300 200)))))

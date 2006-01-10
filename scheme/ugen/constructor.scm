@@ -98,3 +98,15 @@
     ((_ n (i ... v) o r)
      (define (n i ... v)
        (construct-ugen 'n r (list i ...) v o 0 r0)))))
+
+(define-syntax define-specialized!
+  (syntax-rules ()
+    ((_ n (i ...) o r)
+     (define (n id i ...)
+       (construct-ugen 'n r (list i ...) #f o 0 id)))))
+
+(define-syntax define-specialized*!
+  (syntax-rules ()
+    ((_ n (i ... v) o r)
+     (define (n id i ... v)
+       (construct-ugen 'n r (list i ...) v o 0 id)))))
