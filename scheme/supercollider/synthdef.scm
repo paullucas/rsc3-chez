@@ -8,6 +8,7 @@
 
 (defineH ugen->graphdef/out ugen
   (if (or (mce? ugen)
-	  (not (null? (ugen-outputs ugen))))
+	  (and (ugen? ugen) (not (null? (ugen-outputs ugen)))))
       (graph->graphdef "Anonymous" (letc ((bus 0.0)) (Out bus ugen)))
       (graph->graphdef "Anonymous" ugen)))
+

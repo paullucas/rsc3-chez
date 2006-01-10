@@ -1,7 +1,7 @@
 ;; mce.scm - (c) rohan drape, 2005
 
 (defineH mcel u
-  (cond ((mce? u) (mce-values u))
+  (cond ((mce? u) (mce-channels u))
 	(else     (list u))))
 
 (defineH mce-required? u
@@ -9,11 +9,11 @@
 	(else      #f)))
 
 (defineH mce-depth i
-  (maximum (map mce-length (filter mce? i))))
+  (maximum (map mce-degree (filter mce? i))))
 
 (defineH mce-extend n i
   (if (mce? i)
-      (extend (mce-values i) n)
+      (extend (mce-channels i) n)
       (make-list n i)))
 
 (defineH mce-transform (ugen n r i o s id)

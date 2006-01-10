@@ -10,6 +10,7 @@
   (include "../graphdef/input.scm")
   (include "../graphdef/letc.scm")
   (include "../graphdef/mce.scm")
+  (include "../graphdef/mrg.scm")
   (include "../graphdef/output.scm")
   (include "../graphdef/proxy.scm")
   (include "../graphdef/rate.scm")

@@ -9,7 +9,8 @@
    ((proxy? u)      (cons u (graph-nodes (proxy-ugen u))))
    ((control*? u)   (list u))
    ((number? u)     (list u))
-   ((mce? u)        (concat (map graph-nodes (mce-values u))))
+   ((mce? u)        (concat (map graph-nodes (mce-channels u))))
+   ((mrg? u)        (concat (map graph-nodes (mrg-roots u))))
    (else            (error! "graph-nodes: illegal value" u))))
 
 ;; Depth first traversal
@@ -24,7 +25,8 @@
 			     (ugen-id u))))
    ((proxy? u) (f (make-proxy (graph-traverse f (proxy-ugen u))
 			      (proxy-port u))))
-   ((mce? u)   (f (make-mce (map (graph-traverse f) (mce-values u)))))
+   ((mce? u)   (f (make-mce (map (graph-traverse f) (mce-channels u)))))
+   ((mrg? u)   (f (make-mrg (map (graph-traverse f) (mrg-roots u)))))
    (else       u)))
 
 ;; Filters over nodes.
@@ -44,7 +46,7 @@
 
 (define (graph-ugens u)
   (delete-duplicates
-   (reverse (cons u (filter ugen? (graph-nodes u))))
+   (reverse (filter ugen? (graph-nodes u)))
    equal?))
 
 (define (ugen-close u nn cc uu)
