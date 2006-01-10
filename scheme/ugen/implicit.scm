@@ -7,4 +7,5 @@
 	     kr
 	     (list)
 	     (map make-output (make-list (length cc) kr))
-	     0))
+	     0
+	     r0))

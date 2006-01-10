@@ -2,12 +2,12 @@
 
 ;; Aliases to stream operations.
 
-(define-syntax Pcons 
-  (syntax-rules () 
+(define-syntax Pcons
+  (syntax-rules ()
     ((_ a b) (stream-cons a b))))
 
 (define-syntax Pdef
-  (syntax-rules () 
+  (syntax-rules ()
     ((_ a ...) (define-stream a ...))))
 
 (define Pcar  stream-car)
@@ -20,8 +20,8 @@
 
 (define-syntax Pnext!
   (syntax-rules ()
-    ((_ p) (let ((n (Pcar p))) 
-	     (begin! (set! p (Pcdr p)) 
+    ((_ p) (let ((n (Pcar p)))
+	     (begin! (set! p (Pcdr p))
 		     n)))))
 
 ;; Math based patterns.
@@ -97,7 +97,7 @@
 (define-stream (Preject p s)
   (let ((n (Pcar s))
 	(t (Preject p (Pcdr s))))
-    (if (p n) 
+    (if (p n)
 	t
 	(Pcons n t))))
 

@@ -6,6 +6,7 @@
 	   (lib "include.ss"))
   (include "../graphdef/control.scm")
   (include "../graphdef/graphdef.scm")
+  (include "../graphdef/id.scm")
   (include "../graphdef/input.scm")
   (include "../graphdef/letc.scm")
   (include "../graphdef/mce.scm")

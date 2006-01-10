@@ -1,16 +1,15 @@
 ;; (CoinGate prob in)
- 
+
 ;; When it receives a trigger, it tosses a coin, and either passes the
 ;; trigger or doesn't.
 
-(let ((prob 1/5))
-  (SinOsc ar (TRand kr 300.0 400.0 (CoinGate kr prob (Impulse kr 10))) 
-	     0 0.2))
+(Mul
+ (SinOsc ar (TRand r0 300 400 (CoinGate r0 0.8 (Impulse kr 10 0))) 0)
+ 0.2)
 
-(let ((prob 1/5)
-      (trig (Impulse ar 20 0 (SinOsc kr 0.5 0 1 1))))
+(let ((prob 0.2)
+      (trig (Mul (Impulse ar 20 0) (Add (SinOsc kr 0.5 0) 1))))
   (mix/fill 3 (lambda (_)
-		(Ringz ar (CoinGate ar (+ prob (rand! 0 0.1)) (*u trig 0.5))
-			  (TExpRand kr (make-list 2 1000.0) 12000.0 trig)
-			  0.01))))
-
+		(Ringz (CoinGate r0 (+ prob (rand! 0 0.1)) (Mul trig 0.5))
+		       (TExpRand (Mce 1000 1000) 12000 trig)
+		       0.01))))

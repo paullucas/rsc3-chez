@@ -15,8 +15,8 @@
 ;; reset - trigger. Resets the list of ugens when triggered.
 
 (let* ((trig (Impulse kr 24 0))
-       (seq (Drand inf (Mce (Dseq 1 (Mce* (mirror1 (iota 5 1))))
-			    (Drand 8 (Mce* (iota 7 4))))))
+       (seq (Drand inf (Mce (Dseq 1 (make-mce (mirror1 (iota 5 1))))
+			    (Drand 8 (make-mce (iota 7 4))))))
        (freq (Demand trig 0 (Mul seq 100))))
   (Mul (ScaleNeg (Cubed (Cubed (SinOsc ar (Mce freq (Add freq 0.7)) 0)))
 		 (MouseX kr -1 1 0 0.1))

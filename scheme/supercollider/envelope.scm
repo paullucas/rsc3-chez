@@ -35,22 +35,22 @@
 ;; convention -1, to indicate there is no such node.
 
 (define (env levels times curve release-node loop-node)
-  (make-mce 
+  (make-mce
    (++ (list (car levels) (length times) release-node loop-node)
        (splice (map (lambda (l t c)
-		      (list l 
-			    t 
-			    (curve->shape c) 
+		      (list l
+			    t
+			    (curve->shape c)
 			    (curve->value c)))
 		    (cdr levels) times (extend curve (length times)))))))
-  
+
 ;; Co-ordinate based static envelope generator.
 
 (define (env/bp bp dur amp)
   (env (map (lambda (e) (Mul e amp)) (take-cycle (cdr bp) 2))
        (map (lambda (e) (Mul e dur)) (d->dx (take-cycle bp 2)))
-       'linear 
-       -1 
+       'linear
+       -1
        -1))
 
 ;; Design a standard trapezoidal envelope.  `shape' determines the
@@ -76,7 +76,7 @@
 
 (define (env/triangle dur level)
   (let ((half-dur (Mul dur 0.5)))
-    (env (list 0.0 level 0.0) 
+    (env (list 0.0 level 0.0)
 	 (list half-dur half-dur)
 	 "linear"
 	 -1
@@ -84,21 +84,21 @@
 
 (define (env/sine dur level)
   (let ((half-dur (Mul dur 0.5)))
-    (env (list 0.0 level 0.0) 
+    (env (list 0.0 level 0.0)
 	 (list half-dur half-dur)
 	 "sin"
 	 -1
 	 -1)))
 
 (define (env/perc attackTime releaseTime level curve)
-  (env (list 0.0 level 0.0) 
+  (env (list 0.0 level 0.0)
        (list attackTime releaseTime)
        curve
        -1
        -1))
 
 (define (env/adsr attackTime
-		  decayTime 
+		  decayTime
 		  sustainLevel
 		  releaseTime
 		  peakLevel

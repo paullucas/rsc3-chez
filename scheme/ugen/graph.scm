@@ -4,7 +4,7 @@
 ;; Nodes are values of type <ugen>|<proxy>|<control*>|<number>.
 
 (define (graph-nodes u)
-  (cond 
+  (cond
    ((ugen? u)       (cons u (splice (map graph-nodes (ugen-inputs u)))))
    ((proxy? u)      (cons u (graph-nodes (proxy-ugen u))))
    ((control*? u)   (list u))
@@ -15,12 +15,13 @@
 ;; Depth first traversal
 
 (defineH graph-traverse f u
-  (cond 
+  (cond
    ((ugen? u)  (f (make-ugen (ugen-name u)
 			     (ugen-rate u)
 			     (map (graph-traverse f) (ugen-inputs u))
 			     (ugen-outputs u)
-			     (ugen-special u))))
+			     (ugen-special u)
+			     (ugen-id u))))
    ((proxy? u) (f (make-proxy (graph-traverse f (proxy-ugen u))
 			      (proxy-port u))))
    ((mce? u)   (f (make-mce (map (graph-traverse f) (mce-values u)))))
@@ -29,7 +30,7 @@
 ;; Filters over nodes.
 
 (define (graph-constants u)
-  (delete-duplicates 
+  (delete-duplicates
    (filter number? (graph-nodes u))
    equal?))
 
@@ -47,20 +48,23 @@
    equal?))
 
 (define (ugen-close u nn cc uu)
-  (make-ugen (ugen-name u)
-	     (ugen-rate u)
-	     (map (lambda (i)
-		    (input*->input i nn cc uu))
-		  (ugen-inputs u))
-	     (ugen-outputs u)
-	     (ugen-special u)))
+  (if (not (uid? (ugen-id u)))
+      (error! "not uid")
+      (make-ugen (ugen-name u)
+		 (ugen-rate u)
+		 (map (lambda (i)
+			(input*->input i nn cc uu))
+		      (ugen-inputs u))
+		 (ugen-outputs u)
+		 (ugen-special u)
+		 (ugen-id u))))
 
 (define (graph->graphdef name u)
   (let* ((nn  (graph-constants u))
 	 (cc  (graph-controls* u))
 	 (uu  (graph-ugens u))
 	 (uu* (if (null? cc) uu (cons (implicit-ugen cc) uu))))
-    (make-graphdef 
+    (make-graphdef
      name
      nn
      (map control*-default cc)

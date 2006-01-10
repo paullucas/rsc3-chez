@@ -2,11 +2,11 @@
 
 ;; Transform a <ugen> into a <graphdef>.
 
-(define synthdef graph->graphdef)
+(defineH synthdef graph->graphdef)
 
 ;; If ugen has output ports encapsulate it.
 
-(define (ugen->graphdef/out ugen)
+(defineH ugen->graphdef/out ugen
   (if (or (mce? ugen)
 	  (not (null? (ugen-outputs ugen))))
       (graph->graphdef "Anonymous" (letc ((bus 0.0)) (Out bus ugen)))

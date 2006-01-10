@@ -2,7 +2,7 @@
 
 ;; Descriptors for SuperCollider server commands.
 
-(define (supercollider-commands)
+(define supercollider-commands
   `((/quit        /done        ()                                      #f)
     (/notify      /done        (code)                                  #f)
     (/status      status.reply ()                                      #f)
@@ -72,7 +72,7 @@
 	     ,(if r
 		  `(list ,(f r) (list ,(f c) ,@a))
 		  `(list ,(f c) ,@a))))))
-  (supercollider-commands)))
+  supercollider-commands))
 |#
 
 (define (/quit) (list "/done" (list "/quit")))

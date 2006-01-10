@@ -411,6 +411,7 @@ The symbol at point is preprocessed by `rsc-cleanup-symbol'."
     (cons "\\<[a-z0-9]*U\\>" font-lock-type-face)
     (cons "\\<\\sw+H\\>" font-lock-keyword-face)
     (cons "\\<\\sw+!\\>" font-lock-warning-face)
+    (cons "\\<r[0-9]+\\>" font-lock-warning-face)
     (cons "\\<\\sw+:\\>" font-lock-builtin-face))))
 
 

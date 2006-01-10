@@ -12,5 +12,3 @@
   (if (null? l)
       (error! "empty mce")
       (make-mce l)))
-
-(define Mce* make-mce)

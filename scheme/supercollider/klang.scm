@@ -5,7 +5,7 @@
 ;; abbreviated lists subject to expansion by 'extend' to the length of
 ;; `freqs'.
 
-(define (klang-data freqs amps phases)
+(defineH klang-data freqs amps phases
   (let ((n (length freqs)))
     (make-mce
      (interleave freqs
@@ -14,4 +14,4 @@
 
 ;; Variant to generate a 'spec' list for a Klank UGen.
 
-(define klank-data klang-data)
+(defineH klank-data klang-data)

@@ -16,8 +16,8 @@
       (extend (mce-values i) n)
       (make-list n i)))
 
-(defineH mce-transform (ugen n r i o s)
-  (let* ((f (lambda (i) (make-ugen n r i o s)))
+(defineH mce-transform (ugen n r i o s id)
+  (let* ((f (lambda (i) (make-ugen n r i o s id)))
 	 (d (mce-depth i))
 	 (i* (invert (map (mce-extend d) i))))
     (make-mce (map f i*))))

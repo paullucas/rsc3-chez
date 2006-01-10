@@ -127,9 +127,7 @@
 (define-filter Sweep (trig rate) 1)
 (define-filter TBall (in g damp friction) 1)
 (define-filter TDelay (in dur) 1)
-(define-filter TExpRand (lo hi trig) 1)
 (define-filter Timer (trig) 1)
-(define-filter TIRand (lo hi trig) 1)
 (define-filter ToggleFF (trig) 1)
 (define-filter TPulse (trig freq width) 1)
 (define-filter Trapezoid (in a b c d) 1)
@@ -165,6 +163,8 @@
 (define-specialized SharedOut (bus channelsArray) 0 kr)
 
 (define-filter! CoinGate (prob in) 1)
+(define-filter! TExpRand (lo hi trig) 1)
+(define-filter! TIRand (lo hi trig) 1)
 (define-filter! TRand (lo hi trig) 1)
 
 ;; Local Variables:
