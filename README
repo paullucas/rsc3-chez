@@ -10,7 +10,7 @@ rsc runs under Linux, OSX and Windows.
 rsc is by Rohan Drape.  SuperCollider is by James McCartney.  PLT is
 by Matthew Flatt and others.  Emacs is by Richard Stallman and others.
 
-(c) Rohan Drape,  1998-2005
+(c) Rohan Drape,  1998-2006
 
 [1] <http://www.slavepianos.org/rd/>
 [2] <http://www.plt-scheme.org>
@@ -22,9 +22,8 @@ General Public License Version 2, see "COPYING".
 
 Source layout:
 
-buffer        - 
-graphdef      - generate and parse the binary graph format used by scsynth
-server        -
-ugen          -
-uspec         -
-supercollider -  
+buffer        - buffer utilities
+graphdef      - generate the binary graph format used by scsynth
+server        - server communication and commands
+ugen          - ugen constructors and graph reduction
+supercollider - supercollider compatibility
