@@ -1,4 +1,4 @@
-;; rsc.ss - (c) rohan drape, 2004-2005
+;; rsc.ss - (c) rohan drape, 2004-2006
 
 (module rsc mzscheme
 

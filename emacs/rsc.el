@@ -1,4 +1,4 @@
-;; emacs/rsc.el - (c) rohan drape, 2000-2005
+;; emacs/rsc.el - (c) rohan drape, 2000-2006
 
 ;; This mode is implemented as a derivation of `scheme' mode,
 ;; indentation and font locking is courtesy that mode.  The

@@ -1,5 +1,11 @@
 ;; filter.scm - (c) rohan drape, 2005
 
+(define-syntax define-filter
+  (syntax-rules ()
+    ((_ n (i ...) o)
+     (define (n i ...)
+       (construct-ugen 'n #f (list i ...) #f o 0 r0)))))
+
 (define-filter AllpassC (in maxdelaytime delaytime decaytime) 1)
 (define-filter AllpassL (in maxdelaytime delaytime decaytime) 1)
 (define-filter AllpassN (in maxdelaytime delaytime decaytime) 1)
@@ -139,8 +145,21 @@
 (define-filter XY (xscale yscale xoff yoff rot rate) 1)
 (define-filter ZeroCrossing (in) 1)
 
+(define-syntax define-filter-n
+  (syntax-rules ()
+    ((_ n (i ...) z)
+     (define (n i ...)
+       (let ((l (list i ...)))
+	 (construct-ugen 'n #f (without z l) #f (ref l z) 0 r0))))))
+
 (define-filter-n Silent (numChannels) 0)
 (define-filter-n TGrains (numChannels trigger bufnum rate centerPos dur pan amp interp) 0)
+
+(define-syntax define-filter*
+  (syntax-rules ()
+    ((_ n (i ... v) o)
+     (define (n i ... v)
+       (construct-ugen 'n #f (list i ...) v o 0 r0)))))
 
 (define-filter* BufWr (inputArray bufnum phase loop) 1)
 (define-filter* Klank (specificationsArrayRef input freqscale freqoffset decayscale) 1)
@@ -156,7 +175,11 @@
 (define-filter* ScopeOut (inputArray bufnum) 0)
 (define-filter* XOut (bus xfade channelsArray) 0)
 
-(define-specialized SharedOut (bus channelsArray) 0 kr)
+(define-syntax define-filter!
+  (syntax-rules ()
+    ((_ n (i ...) o)
+     (define (n id i ...)
+       (construct-ugen 'n #f (list i ...) #f o 0 id)))))
 
 (define-filter! CoinGate (prob in) 1)
 (define-filter! TExpRand (lo hi trig) 1)

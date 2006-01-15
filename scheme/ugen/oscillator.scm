@@ -1,4 +1,10 @@
-;; oscillator.scm - (c) rohan drape, 2005
+;; oscillator.scm - (c) rohan drape, 2005-2006
+
+(define-syntax define-oscillator
+  (syntax-rules ()
+    ((_ n (i ...) o)
+     (define (n r i ...)
+       (construct-ugen (quote n) r (list i ...) #f o 0 r0)))))
 
 (define-oscillator Amplitude (in attackTime releaseTime) 1)
 (define-oscillator Blip (freq numharm) 1)
@@ -72,6 +78,16 @@
 (define-oscillator SampleDur () 1)
 (define-oscillator SampleRate () 1)
 
+(define (without n l)
+  (append (take l n) (drop l (+ n 1))))
+
+(define-syntax define-oscillator-n
+  (syntax-rules ()
+    ((_ n (i ...) z)
+     (define (n r i ...)
+       (let ((l (list i ...)))
+	 (construct-ugen 'n r (without z l) #f (ref l z) 0 r0))))))
+
 (define-oscillator-n BufRd (numChannels bufnum phase loop interpolation) 0)
 (define-oscillator-n DiskIn (numChannels bufnum) 0)
 (define-oscillator-n In (bus numChannels) 1)
@@ -79,10 +95,22 @@
 (define-oscillator-n LocalIn (numChannels) 0)
 (define-oscillator-n PlayBuf (numChannels bufnum rate trigger startPos loop) 0)
 
+(define-syntax define-oscillator*
+  (syntax-rules ()
+    ((_ n (i ... v) o)
+     (define (n r i ... v)
+       (construct-ugen 'n r (list i ...) v o 0 r0)))))
+
 (define-oscillator* Duty (dur reset doneAction level) 1)
 (define-oscillator* EnvGen (gate levelScale levelBias timeScale doneAction envelopeArray) 1)
 (define-oscillator* Klang (freqscale freqoffset specArray) 1)
 (define-oscillator* TDuty (dur reset doneAction level) 1)
+
+(define-syntax define-oscillator!
+  (syntax-rules ()
+    ((_ n (i ...) o)
+     (define (n id r i ...)
+       (construct-ugen 'n r (list i ...) #f o 0 id)))))
 
 (define-oscillator! BrownNoise () 1)
 (define-oscillator! ClipNoise () 1)

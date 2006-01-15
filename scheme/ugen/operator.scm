@@ -1,5 +1,11 @@
 ;; operator.scm - (c) rohan drape, 2005
 
+(define-syntax define-unary-operator
+  (syntax-rules ()
+    ((_ n s)
+     (define (n a)
+       (construct-ugen 'UnaryOpUGen #f (list a) #f 1 s r0)))))
+
 (define-unary-operator Neg 0)
 (define-unary-operator Not 1)
 (define-unary-operator IsNil 2)
@@ -54,6 +60,12 @@
 (define-unary-operator TriWindow 51)
 (define-unary-operator _Ramp 52)
 (define-unary-operator SCurve 53)
+
+(define-syntax define-binary-operator
+  (syntax-rules ()
+    ((_ n s)
+     (define (n a b)
+       (construct-ugen 'BinaryOpUGen #f (list a b) #f 1 s r0)))))
 
 (define-binary-operator Add 0)
 (define-binary-operator Sub 1)

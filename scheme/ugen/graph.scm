@@ -3,7 +3,7 @@
 ;; Return the <list> of all elements of the UGen graph rooted at `u'.
 ;; Nodes are values of type <ugen>|<proxy>|<control*>|<number>.
 
-(define (graph-nodes u)
+(defineH graph-nodes u
   (cond
    ((ugen? u)       (cons u (splice (map graph-nodes (ugen-inputs u)))))
    ((proxy? u)      (cons u (graph-nodes (proxy-ugen u))))
@@ -31,12 +31,12 @@
 
 ;; Filters over nodes.
 
-(define (graph-constants u)
+(defineH graph-constants u
   (delete-duplicates
    (filter number? (graph-nodes u))
    equal?))
 
-(define (graph-controls* u)
+(defineH graph-controls* u
   (delete-duplicates
    (filter control*? (graph-nodes u))
    equal?))
@@ -44,12 +44,12 @@
 ;; Ordering is *essential* - the antecedents of `u' are depth first,
 ;; `u' is the last element.
 
-(define (graph-ugens u)
+(defineH graph-ugens u
   (delete-duplicates
    (reverse (filter ugen? (graph-nodes u)))
    equal?))
 
-(define (ugen-close u nn cc uu)
+(defineH ugen-close u nn cc uu
   (if (not (uid? (ugen-id u)))
       (error! "not uid")
       (make-ugen (ugen-name u)
@@ -61,7 +61,7 @@
 		 (ugen-special u)
 		 (ugen-id u))))
 
-(define (graph->graphdef name u)
+(defineH graph->graphdef name u
   (let* ((nn  (graph-constants u))
 	 (cc  (graph-controls* u))
 	 (uu  (graph-ugens u))
