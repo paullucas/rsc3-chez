@@ -10,6 +10,14 @@
 (defineH ugen-output u n
   (ref (ugen-outputs u) n))
 
+(defineH ugen-validate (ugen n r i o s id)
+  (and (string? n)
+       (rate? r)
+       (and (list? i) (every input*? i))
+       (and (list? o) (every output? o))
+       (integer? s)
+       (uid? id)))
+
 (defineH ugen->u8t (ugen name rate inputs outputs special id)
   (list 
    (pstring->u8v name)

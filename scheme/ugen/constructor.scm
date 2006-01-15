@@ -7,17 +7,21 @@
 ;; outputs = <integer>
 ;; special = <integer>
 
+;; It is significant whether MCE or Proxing occurs first, the ordering
+;; here follows that in sclang.
+
 (define (construct-ugen name rate? inputs mce? outputs special id)
   (let* ((inputs* (if mce?
-		      (++ inputs (mce-force mce?))
+		      (++ inputs (mce-channels mce?))
 		      inputs))
 	 (rate (if rate?
 		   rate?
-		   (rate-select (map rate-of inputs*)))))
-    (make-ugen/proxies
-     (symbol->string name)
-     rate
-     inputs*
-     (make-outputs outputs rate)
-     special
-     id)))
+		   (rate-select (map rate-of inputs*))))
+	 (u (make-ugen
+	     (symbol->string name)
+	     rate
+	     inputs*
+	     (make-outputs outputs rate)
+	     special
+	     id)))
+    (proxied (mced u))))

@@ -6,8 +6,6 @@
 	   "graphdef.ss"
 	   (lib "include.ss"))
   (include "../ugen/constructor.scm")
-  (include "../ugen/demand.scm")
-  (include "../ugen/fft.scm")
   (include "../ugen/filter.scm")
   (include "../ugen/graph.scm")
   (include "../ugen/implicit.scm")
@@ -16,4 +14,5 @@
   (include "../ugen/operator.scm")
   (include "../ugen/oscillator.scm")
   (include "../ugen/proxied.scm")
+  (include "../ugen/specialized.scm")
   (provide (all-defined)))

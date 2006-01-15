@@ -26,6 +26,7 @@
   (cond ((number? o)    ir)
 	((control*? o)  (control*-rate o))
 	((ugen? o)      (ugen-rate o))
-	((proxy? o)     (ugen-rate (proxy-ugen o)))
+	((proxy? o)     (rate-of (proxy-ugen o)))
 	((mce? o)       (rate-select (map rate-of (mce-channels o))))
+	((mrg? o)       (error! "rate-of: mrg?" o))
 	(else           (error! "rate-of: illegal value" o))))

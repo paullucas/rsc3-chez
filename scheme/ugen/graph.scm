@@ -50,8 +50,8 @@
    equal?))
 
 (defineH ugen-close u nn cc uu
-  (if (not (uid? (ugen-id u)))
-      (error! "not uid")
+  (if (not (ugen-validate u))
+      (error! "ugen-close: ugen invalid" u)
       (make-ugen (ugen-name u)
 		 (ugen-rate u)
 		 (map (lambda (i)

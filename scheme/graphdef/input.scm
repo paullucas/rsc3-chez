@@ -8,3 +8,10 @@
 
 (defineH input->u8t (input ugen port)
   (list (i16->u8v ugen) (i16->u8v port)))
+
+(define (input*? i)
+  (or (number? i)
+      (control*? i)
+      (ugen? i)
+      (proxy? i)
+      (mce? i)))
