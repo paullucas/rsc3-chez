@@ -24,3 +24,8 @@
   (if (mce-required? u)
       (mce-transform u)
       u))
+
+(defineH mce-l u
+  (if (mce? u)
+      (mce-channels u)
+      (list u)))

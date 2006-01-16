@@ -12,7 +12,7 @@
 
 (define (construct-ugen name rate? inputs mce? outputs special id)
   (let* ((inputs* (if mce?
-		      (++ inputs (mce-channels mce?))
+		      (++ inputs (mce-l mce?))
 		      inputs))
 	 (rate (if rate?
 		   rate?
