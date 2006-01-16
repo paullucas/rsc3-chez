@@ -92,6 +92,7 @@
 (define-oscillator-n DiskIn (numChannels bufnum) 0)
 (define-oscillator-n In (bus numChannels) 1)
 (define-oscillator-n InFeedback (bus numChannels) 1)
+(define-oscillator-n InTrig (bus numChannels) 1)
 (define-oscillator-n LocalIn (numChannels) 0)
 (define-oscillator-n PlayBuf (numChannels bufnum rate trigger startPos loop) 0)
 

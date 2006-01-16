@@ -4,4 +4,3 @@
 
 (Gate (Mul (FSinOsc ar 500 0) 1/4)
       (LFPulse ar 1 0 1/10))
-

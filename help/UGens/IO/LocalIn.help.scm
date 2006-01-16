@@ -13,10 +13,10 @@
 ;; LocalOut.
 
 (seq (local (Add (LocalIn ar 2) 
-		 (list (Mul (Decay ar (Impulse ar 0.3) 0.1)
-			    (WhiteNoise ar 0.2)) 0)))
-     (DelayN ar local 0.2 0.2)
-     (begin (LocalOut ar (Mul (reverse local) 0.8)) local))
+		 (list (Mul (Decay (Impulse ar 0.3 0) 0.1)
+			    (Mul (WhiteNoise r0 ar) 0.2)) 0)))
+     (DelayN local 0.2 0.2)
+     (begin (LocalOut (Mul (reverse local) 0.8)) local))
 
 (let ((f (lambda () 
 	   (Pan2 ar (Mul (Decay2 ar (Dust ar 0.05) 0.1 0.5 0.1)

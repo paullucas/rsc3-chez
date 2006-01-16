@@ -2,17 +2,17 @@
 
 ;; Read signal from an audio or control bus.
  
-;; Write noise to bus 10, then read it out.
-
-(begin (Out ar 10 (PinkNoise ar 0.3))
-       (In ar 10))
-
 ;; Patching input to output
 
-(In ar 2)
+(Out 0 (In ar (NumInputBuses ir) 2))
+
+;; Write noise to bus 10, then read it out.
+
+(Mrg (Out 10 (Mul (PinkNoise r0 ar) 0.3))
+     (Out 0 (In ar 10 1)))
 
 ;; Reading a control bus.
 
-(-> "/c_set" 0 (random 200 5000))
+(->! s (/c_set 0 (rand! 200 5000)))
 
-(SinOsc ar (In kr 0) 0 0.1)
+(Mul (SinOsc ar (In kr 0 1) 0) 0.1)

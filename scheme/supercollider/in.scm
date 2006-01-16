@@ -7,10 +7,11 @@
       (and (= (+ x 1) (car xs))
 	   (consecutive? xs))))
 
-(defineH audioin channel
+(defineH audioin n
   (let ((offset (Sub (NumOutputBuses ir) 1)))
-    (if (not (list? channel))
-	(In ar (Add offset channel))
-	(if (consecutive? channel)
-	    (In ar (Add offset (car channel)) (length channel))
-	    (In ar (Add offset channel))))))
+    (if (mce? n)
+	(let ((l (mce-channels n)))
+	  (if (consecutive? l)
+	      (In ar (Add offset (car l)) (length l))
+	      (In ar (Add offset n) 1)))
+	(In ar (Add offset n) 1))))

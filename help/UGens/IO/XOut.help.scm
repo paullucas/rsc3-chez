@@ -1,8 +1,10 @@
 ;; (XOut bufferIndex xfade inputs)				 
  
 ;; Send signal to a bus, crossfading with existing contents.
- 
-(begin (Out ar 0 (SinOsc ar '(220 221) 0 0.1))
-       (XOut ar 0 (MouseX kr) (SinOsc ar '(330 331) 0 0.1))
-       (XOut ar 0 (MouseY kr) (SinOsc ar '(440 441) 0 0.1))
-       (SinOsc ar '(120 121) 0 0.05))
+
+(define (pair a b) (Mul (SinOsc ar (Mce a b) 0) 0.1))
+
+(Mrg (Out  0 (pair 220 221))
+     (XOut 0 (MouseX kr 0 1 0 0.1) (pair 330 331))
+     (XOut 0 (MouseY kr 0 1 0 0.1) (pair 440 441))
+     (Out  0 (pair 120 121)))

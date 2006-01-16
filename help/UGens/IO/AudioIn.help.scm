@@ -1,11 +1,12 @@
-;; (AudioIn channel)
+;; (audioin channel)
 
 ;; Reads audio from the sound input hardware.  
 
-;; channel - input channel number to read, counting from one.
+;; channel - input channel number to read, counting from one, can be
+;; Mce.
 
-(AudioIn ar 1)
+(audioin 1)
 
-(AudioIn ar '(1 2))
+(audioin (Mce 1 2))
 
-(AudioIn ar '(1 4 7 10))
+(audioin (Mce 1 3 2 4))
