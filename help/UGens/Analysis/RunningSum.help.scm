@@ -7,5 +7,5 @@
 ;; numsamp - How many samples to take the running sum over 
 ;;           (initialisation rate)
 
-(RunningSum ar (AudioIn ar '(1 2)) 40 1/40)
-	
+(Mul (RunningSum (audioin (Mce 1 2)) 40)
+     1/40)

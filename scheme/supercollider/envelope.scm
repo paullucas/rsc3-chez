@@ -7,15 +7,16 @@
 
 (define (curve->shape curve)
   (if (string? curve)
-      (case curve
-	(("step")        0.0)
-	(("linear")      1.0)
-	(("exponential") 2.0)
-	(("sin")         3.0)
-	(("cos")         4.0)
-	(("squared")     6.0)
-	(("cubed")       7.0)
-	(else            (error! "curve->shape:" curve)))
+      (let ((f (lambda (s) (string=? s curve))))
+	(cond
+	 ((f "step")        0.0)
+	 ((f "linear")      1.0)
+	 ((f "exponential") 2.0)
+	 ((f "sin")         3.0)
+	 ((f "cos")         4.0)
+	 ((f "squared")     6.0)
+	 ((f "cubed")       7.0)
+	 (else            (error! "curve->shape:" curve))))
       5.0))
 
 ;; If the curve is a number the value is that number, else the value
