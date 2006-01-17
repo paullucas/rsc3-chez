@@ -115,8 +115,9 @@
 
 (define-oscillator! BrownNoise () 1)
 (define-oscillator! ClipNoise () 1)
-(define-oscillator! Dust2 (density) 1)
 (define-oscillator! Dust (density) 1)
+(define-oscillator! Dust2 (density) 1)
+(define-oscillator! DustR (lo hi) 1)
 (define-oscillator! ExpRand (lo hi) 1)
 (define-oscillator! GrayNoise () 1)
 (define-oscillator! IRand (lo hi) 1)
