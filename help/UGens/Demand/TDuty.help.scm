@@ -42,6 +42,3 @@
 		0
 		(Dseq inf (Mce 0.1 0.4 0.01 0.5 1.0)))))
   (Ringz t 1000 0.1))
-
-;; Demand UGen as audio oscillator
-
