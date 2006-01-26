@@ -1,4 +1,4 @@
-;; supercollider.ss - (c) rohan drape, 2004-2005
+;; supercollider.ss - (c) rohan drape, 2004-2006
 
 (module supercollider mzscheme
   (require (lib "rscB.ss" "rscB")
@@ -9,6 +9,7 @@
 	   (lib "include.ss"))
   (include "../supercollider/in.scm")
   (include "../supercollider/envelope.scm")
+  (include "../supercollider/gain.scm")
   (include "../supercollider/klang.scm")
   (include "../supercollider/mix.scm")
   (include "../supercollider/name.scm")
@@ -18,4 +19,5 @@
   (include "../supercollider/score.scm")
   (include "../supercollider/spec.scm")
   (include "../supercollider/synthdef.scm")
+  (include "../supercollider/warp.scm")
   (provide (all-defined)))
