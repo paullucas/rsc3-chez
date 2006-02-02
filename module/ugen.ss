@@ -4,9 +4,17 @@
  ugen mzscheme
  (require "collection.ss"
 	  "graphdef.ss"
-	  (only (lib "1.ss" "srfi") make-list filter delete-duplicates take drop iota)
-	  (only (lib "26.ss" "srfi") cut)
-	  (only (lib "include.ss") include))
+	  (only (lib "1.ss" "srfi")
+		make-list
+		filter
+		delete-duplicates
+		take
+		drop
+		iota)
+	  (only (lib "26.ss" "srfi")
+		cut)
+	  (only (lib "include.ss")
+		include))
  (include "../scheme/ugen/constructor.scm")
  (include "../scheme/ugen/filter.scm")
  (include "../scheme/ugen/graph.scm")

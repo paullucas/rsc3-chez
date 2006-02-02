@@ -8,6 +8,7 @@
      ((_ m) (begin (require m) (provide (all-from m))))))
  
  (require/provide "module/collection.ss")
+ (require/provide "module/structure.ss")
  (require/provide "module/random.ss")
  (require/provide "module/math.ss")
  (require/provide "module/hash.ss")
