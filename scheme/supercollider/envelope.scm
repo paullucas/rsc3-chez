@@ -16,7 +16,7 @@
 	 ((f "cos")         4.0)
 	 ((f "squared")     6.0)
 	 ((f "cubed")       7.0)
-	 (else            (error! "curve->shape:" curve))))
+	 (else            (error "curve->shape:" curve))))
       5.0))
 
 ;; If the curve is a number the value is that number, else the value

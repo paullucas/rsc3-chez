@@ -1,10 +1,11 @@
-;; server.ss - (c) rohan drape, 2004-2005
+;; server.ss - (c) rohan drape, 2004-2006
 
-(module server mzscheme
-  (require (lib "rscB.ss" "rscB")
-	   (lib "rscO.ss" "rscO")
-	   (lib "include.ss"))
-  (include "../server/command.scm")
-  (include "../server/done-action.scm")
-  (include "../server/server.scm")
-  (provide (all-defined)))
+(module 
+ server mzscheme
+ (require "osc.ss"
+	  "collection.ss"
+	  (only (lib "include.ss") include))
+ (include "../server/command.scm")
+ (include "../server/done-action.scm")
+ (include "../server/server.scm")
+ (provide (all-defined)))

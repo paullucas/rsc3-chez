@@ -1,9 +1,9 @@
-;; buffer.ss - (c) rohan drape, 2004-2005
+;; buffer.ss - (c) rohan drape, 2004-2006
 
-(module buffer mzscheme
-  (require (lib "rscB.ss" "rscB")
-	   (lib "rscO.ss" "rscO")
-	   "server.ss"
-	   (lib "include.ss"))
-  (include "../buffer/signal.scm")
-  (provide (all-defined)))
+(module
+ buffer mzscheme
+ (require "collection.ss"
+	  "server.ss"
+	  (only (lib "include.ss") include))
+ (include "../buffer/signal.scm")
+ (provide (all-defined)))

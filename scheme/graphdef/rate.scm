@@ -12,7 +12,7 @@
 	((eq? r dr)  1)
 	((eq? r kr)  2)
 	((eq? r ar)  3)
-	(else        (error! "illegal rate"))))
+	(else        (error "illegal rate"))))
 
 (define (rate-select* a b)
   (let ((a* (rate->ordinal a))
@@ -28,5 +28,5 @@
 	((ugen? o)      (ugen-rate o))
 	((proxy? o)     (rate-of (proxy-ugen o)))
 	((mce? o)       (rate-select (map rate-of (mce-channels o))))
-	((mrg? o)       (error! "rate-of: mrg?" o))
-	(else           (error! "rate-of: illegal value" o))))
+	((mrg? o)       (error "rate-of: mrg?" o))
+	(else           (error "rate-of: illegal value" o))))

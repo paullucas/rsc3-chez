@@ -16,12 +16,14 @@
       (let ((q (<-*! s 0.0)))
 	(if (null? q)
 	    #f
-	    (inform! "-><!: queued" q)))
+	    (begin (display "-><!: queued")
+		   (display q)
+		   (newline))))
       (->! s m)
       (let ((p (<-! s 1.0)))
 	(cond
-	 ((not p)                    (error! "-><: timed out"))
-	 ((not (string=? (car p) r)) (error! "-><: bad return packet" p r))
+	 ((not p)                    (error "-><: timed out"))
+	 ((not (string=? (car p) r)) (error "-><: bad return packet" p r))
 	 (else                       p))))))
 
 (define (=>! s t m)

@@ -4,5 +4,5 @@
 
 (define (Mce . channels)
   (if (null? channels)
-      (error! "empty mce")
+      (error "empty mce")
       (make-mce channels)))

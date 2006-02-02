@@ -6,7 +6,7 @@
 (define (calculate-index n nn)
   (let ((i (index (cut equal? <> n) nn)))
     (if (not i)
-	(error! "calculate-index: not located" n nn)
+	(error "calculate-index: not located" n nn)
 	i)))
 
 (define (number->input n nn)
@@ -31,6 +31,6 @@
    ((control*? i) (control*->input i cc))
    ((ugen? i)     (ugen->input i uu))
    ((proxy? i)    (proxy->input i uu))
-   ((mce? i)      (error! "input*->input: mce?" i))
-   ((mrg? i)      (error! "input*->input: mrg?" i))
-   (else          (error! "input*->input: illegal input" i))))
+   ((mce? i)      (error "input*->input: mce?" i))
+   ((mrg? i)      (error "input*->input: mrg?" i))
+   (else          (error "input*->input: illegal input" i))))

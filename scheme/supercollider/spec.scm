@@ -1,4 +1,4 @@
-;; spec.scm - (c) rohan drape, 2004-2007
+;; spec.scm - (c) rohan drape, 2004-2006
 
 ;; An interface to the warp procedures.
 
@@ -21,4 +21,4 @@
     ((bipolar pan)    (make-spec -1.0 1.0     'linear))
     ((freq frequency) (make-spec 20.0 20000.0 'linear))
     ((phase)          (make-spec  0.0 two-pi  'linear))
-    (else             (error! "symbol->spec: illegal value" s))))
+    (else             (error "symbol->spec: illegal value" s))))

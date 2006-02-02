@@ -4,5 +4,5 @@
 
 (define (Mrg . roots)
   (if (null? roots)
-      (error! "empty mrg")
+      (error "empty mrg")
       (make-mrg roots)))

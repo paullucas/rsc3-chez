@@ -11,7 +11,7 @@
    ((number? u)     (list u))
    ((mce? u)        (concat (map graph-nodes (mce-channels u))))
    ((mrg? u)        (concat (map graph-nodes (mrg-roots u))))
-   (else            (error! "graph-nodes: illegal value" u))))
+   (else            (error "graph-nodes: illegal value" u))))
 
 ;; Depth first traversal
 
@@ -52,7 +52,7 @@
 
 (define (ugen-close u nn cc uu)
   (if (not (ugen-validate u))
-      (error! "ugen-close: ugen invalid" u)
+      (error "ugen-close: ugen invalid" u)
       (make-ugen (ugen-name u)
 		 (ugen-rate u)
 		 (map (lambda (i)
