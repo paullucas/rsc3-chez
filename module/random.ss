@@ -6,8 +6,8 @@
 	  "math.ss"
 	  (only (lib "1.ss" "srfi") iota last)
 	  (only (lib "include.ss") include))
- (include "../random/distribution.scm")
- (include "../random/range.scm")
- (include "../random/choose.scm")
- (include "../random/shuffle.scm")
+ (include "../scheme/random/distribution.scm")
+ (include "../scheme/random/range.scm")
+ (include "../scheme/random/choose.scm")
+ (include "../scheme/random/shuffle.scm")
  (provide (all-defined)))

@@ -5,5 +5,5 @@
  (require "math.ss"
 	  (only (lib "19.ss" "srfi") time-second time-nanosecond make-time time-utc)
 	  (only (lib "include.ss") include))
- (include "../ntp/ntp.scm")
+ (include "../scheme/ntp/ntp.scm")
  (provide (all-defined)))

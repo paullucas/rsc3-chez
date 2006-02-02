@@ -4,5 +4,5 @@
  udp mzscheme
  (require "structure.ss"
 	  (only (lib "include.ss") include))
- (include "../udp/udp.scm")
+ (include "../scheme/udp/udp.scm")
  (provide (all-defined)))

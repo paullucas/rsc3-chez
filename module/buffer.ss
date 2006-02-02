@@ -5,5 +5,5 @@
  (require "collection.ss"
 	  "server.ss"
 	  (only (lib "include.ss") include))
- (include "../buffer/signal.scm")
+ (include "../scheme/buffer/signal.scm")
  (provide (all-defined)))
