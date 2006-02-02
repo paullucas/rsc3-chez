@@ -1,4 +1,4 @@
-;; spec.scm - (c) rohan drape, 2004-2005
+;; spec.scm - (c) rohan drape, 2004-2007
 
 ;; An interface to the warp procedures.
 

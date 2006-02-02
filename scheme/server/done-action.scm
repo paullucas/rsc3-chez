@@ -1,4 +1,4 @@
-;; done-action.scm - (c) rohan drape, 2003-2005
+;; done-action.scm - (c) rohan drape, 2003-2006
 
 ;; The doneAction values are interpreted as follows:
 

@@ -1,4 +1,4 @@
-;; signal.scm - (c) rohan drape, 2005
+;; signal.scm - (c) rohan drape, 2005-2006
 
 ;; A Signal is half the size of a Wavetable, each element is the sum
 ;; of two adjacent elements of the Wavetable.

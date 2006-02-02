@@ -1,4 +1,4 @@
-;; rsc.scm - (c) rohan drape, 2003-2005
+;; rsc.scm - (c) rohan drape, 2003-2006
 
 ;; The rsc directory.  It should be somewhere along the library
 ;; collects path.  This raises an error if the directory cannot be

@@ -1,4 +1,4 @@
-;; operator.scm - (c) rohan drape, 2005
+;; operator.scm - (c) rohan drape, 2005-2006
 
 (define-syntax define-unary-operator
   (syntax-rules ()

@@ -1,4 +1,4 @@
-;; filter.scm - (c) rohan drape, 2005
+;; filter.scm - (c) rohan drape, 2005-2006
 
 (define-syntax define-filter
   (syntax-rules ()

@@ -1,28 +1,28 @@
-;; rate.scm - (c) rohan drape, 2005
+;; rate.scm - (c) rohan drape, 2005-2006
 
 (define-structure rate value)
 
-(defineH ir (make-rate 0))
-(defineH kr (make-rate 1))
-(defineH ar (make-rate 2))
-(defineH dr (make-rate 3))
+(define ir (make-rate 0))
+(define kr (make-rate 1))
+(define ar (make-rate 2))
+(define dr (make-rate 3))
 
-(defineH rate->ordinal r
+(define (rate->ordinal r)
   (cond ((eq? r ir)  0)
 	((eq? r dr)  1)
 	((eq? r kr)  2)
 	((eq? r ar)  3)
 	(else        (error! "illegal rate"))))
 
-(defineH rate-select* a b
+(define (rate-select* a b)
   (let ((a* (rate->ordinal a))
 	(b* (rate->ordinal b)))
     (if (> a* b*) a b)))
 
-(defineH rate-select l
+(define (rate-select l)
   (foldl1 rate-select* l))
 
-(defineH rate-of o
+(define (rate-of o)
   (cond ((number? o)    ir)
 	((control*? o)  (control*-rate o))
 	((ugen? o)      (ugen-rate o))

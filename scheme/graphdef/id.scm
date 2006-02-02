@@ -1,9 +1,9 @@
-;; id.scm - (c) rohan drape, 2005
+;; id.scm - (c) rohan drape, 2005-2006
 
 (define-structure uid value)
 
-(defineH uid=? a b
+(define (uid=? a b)
   (= (uid-value a) (uid-value b)))
 
-(defineH r0 (make-uid 0))
-(defineH r1 (make-uid 1))
+(define r0 (make-uid 0))
+(define r1 (make-uid 1))

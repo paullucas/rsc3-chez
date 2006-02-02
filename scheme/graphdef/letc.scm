@@ -1,4 +1,4 @@
-;; letc.scm - (c) rohan drape, 2005
+;; letc.scm - (c) rohan drape, 2005-2006
 
 ;; Syntax for defining <control*> values.  Does not implement rate or
 ;; lag variants.  See deleted file control-set.scm for details.

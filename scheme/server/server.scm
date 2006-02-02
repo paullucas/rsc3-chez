@@ -1,32 +1,34 @@
-;; server.scm - (c) rohan drape, 2003-2005
+;; server.scm - (c) rohan drape, 2003-2006
 
-(defineH ->! osc-send!)
+(define ->! osc-send!)
 
-(defineH <-! osc-recv!)
+(define <-! osc-recv!)
 
-(defineH <-*! s t
-  (recH loop r (list)
-    (letH p (<-! s t)
+(define (<-*! s t)
+  (let loop ((r (list)))
+    (let ((p (<-! s t)))
       (if p (loop (cons p r)) (reverse r)))))
 
-(defineH -><! s (list r m)
-  (begin!
-    (letH q (<-*! s 0.0)
-      (if (null? q)
-	  #f
-	  (inform! "-><!: queued" q)))
-    (->! s m)
-    (letH p (<-! s 1.0)
-      (condH
-        (not p)                    (error! "-><: timed out")
-        (not (string=? (car p) r)) (error! "-><: bad return packet" p r)
-        else                       p))))
+(define (-><! s l)
+  (let ((r (car l))
+	(m (cadr l)))
+    (begin
+      (let ((q (<-*! s 0.0)))
+	(if (null? q)
+	    #f
+	    (inform! "-><!: queued" q)))
+      (->! s m)
+      (let ((p (<-! s 1.0)))
+	(cond
+	 ((not p)                    (error! "-><: timed out"))
+	 ((not (string=? (car p) r)) (error! "-><: bad return packet" p r))
+	 (else                       p))))))
 
-(defineH =>! s t m
+(define (=>! s t m)
   (->! s (list t m)))
 
-(defineH server-free-all! s
-  (begin! 
+(define (server-free-all! s)
+  (begin
    (->! s (/g_freeAll 0))
    (->! s (/clearSched))
    (->! s (/g_new 1 0 0))))

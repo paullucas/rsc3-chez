@@ -1,4 +1,4 @@
-;; implicit.scm - (c) rohan drape, 2005
+;; implicit.scm - (c) rohan drape, 2005-2006
 
 ;; Gloss, k-rate only, no lag.
 

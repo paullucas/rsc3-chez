@@ -1,4 +1,4 @@
-;; ugen.scm - (c) rohan drape, 2003-2005
+;; ugen.scm - (c) rohan drape, 2003-2006
 
 ;; A <ugen> represents a UGen in a UGen graph.  The <string> name
 ;; names the C level UGen.  Each value at the <list> inputs is either
@@ -7,23 +7,35 @@
 
 (define-structure ugen name rate inputs outputs special id)
 
-(defineH ugen-output u n
+(define (ugen-output u n)
   (ref (ugen-outputs u) n))
 
-(defineH ugen-validate (ugen n r i o s id)
-  (and (string? n)
-       (rate? r)
-       (and (list? i) (every input*? i))
-       (and (list? o) (every output? o))
-       (integer? s)
-       (uid? id)))
+(define (ugen-validate u)
+  (let ((n (ugen-name u))
+	(r (ugen-rate u))
+	(i (ugen-inputs u))
+	(o (ugen-outputs u))
+	(s (ugen-special u))
+	(d (ugen-id u)))
+    (and (string? n)
+	 (rate? r)
+	 (and (list? i) (every input*? i))
+	 (and (list? o) (every output? o))
+	 (integer? s)
+	 (uid? d))))
 
-(defineH ugen->u8t (ugen name rate inputs outputs special id)
-  (list 
-   (pstring->u8v name)
-   (i8->u8v (rate-value rate))
-   (i16->u8v (length inputs))
-   (i16->u8v (length outputs))
-   (i16->u8v special)
-   (map input->u8t inputs)
-   (map output->u8v outputs)))
+(define (ugen->u8t u)
+  (let ((n (ugen-name u))
+	(r (ugen-rate u))
+	(i (ugen-inputs u))
+	(o (ugen-outputs u))
+	(s (ugen-special u))
+	(d (ugen-id u)))
+    (list 
+     (pstring->u8v n)
+     (i8->u8v (rate-value r))
+     (i16->u8v (length i))
+     (i16->u8v (length o))
+     (i16->u8v s)
+     (map input->u8t i)
+     (map output->u8v o))))

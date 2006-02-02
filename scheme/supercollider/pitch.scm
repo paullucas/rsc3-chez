@@ -1,4 +1,4 @@
-;; pitch.scm - (c) rohan drape, 2005
+;; pitch.scm - (c) rohan drape, 2005-2006
 
 (define (midicps note)
   (* 440.0 (expt 2.0 (* (- note 69.0) 0.083333333333))))
@@ -21,4 +21,3 @@
 (define (degree->key degree scale steps)
   (+ (* steps (quotient degree (length scale)))
      (ref/wrap scale degree)))
-

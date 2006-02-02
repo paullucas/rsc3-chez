@@ -1,9 +1,9 @@
-;; proxied.scm - (c) rohan drape, 2005
+;; proxied.scm - (c) rohan drape, 2005-2006
 
-(defineH proxied u
+(define (proxied u)
   (cond
-   ((ugen? u) (letH (ugen _ _ _ o _ _) u
-		    n (length o)
+   ((ugen? u) (let* ((o (ugen-outputs u))
+		     (n (length o)))
 	        (if (< n 2)
 		    u
 		    (make-mce (map (lambda (i) (make-proxy u i))

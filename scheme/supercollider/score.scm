@@ -1,4 +1,4 @@
-;; score.scm - (c) rohan drape, 2004-2005
+;; score.scm - (c) rohan drape, 2004-2006
 
 ;; A score is a list of OSC bundles.  The timestamps are given in
 ;; seconds where zero is the start of the score.  An OSC file is a

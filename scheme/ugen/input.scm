@@ -1,4 +1,4 @@
-;; input.scm - (c) rohan drape, 2005
+;; input.scm - (c) rohan drape, 2005-2006
 
 ;; In the context of graphdef serialization <ugen> inputs must be
 ;; re-written into an <input> form.

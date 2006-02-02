@@ -1,4 +1,4 @@
-;; input.scm - (c) rohan drape, 2003-2005
+;; input.scm - (c) rohan drape, 2003-2006
 
 ;; An <input> represents a UGen input signal in a UGen graph, an
 ;; 'Input Specification'.  The <integer> ugen is the index of the
@@ -6,8 +6,9 @@
 
 (define-structure input ugen port)
 
-(defineH input->u8t (input ugen port)
-  (list (i16->u8v ugen) (i16->u8v port)))
+(define (input->u8t i)
+  (list (i16->u8v (input-ugen i))
+	(i16->u8v (input-port i))))
 
 (define (input*? i)
   (or (number? i)

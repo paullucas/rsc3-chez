@@ -1,4 +1,4 @@
-;; patterns.scm - (c) rohan drape, 2005
+;; patterns.scm - (c) rohan drape, 2005-2006
 
 ;; Aliases to stream operations.
 

@@ -1,11 +1,11 @@
-;; output.scm - (c) rohan drape, 2003-2005
+;; output.scm - (c) rohan drape, 2003-2006
 
 ;; An <output> represents a UGen output signal in a UGen graph.
 
 (define-structure output rate)
 
-(defineH output->u8v (output rate)
-  (i8->u8v (rate-value rate)))
+(define (output->u8v o)
+  (i8->u8v (rate-value (output-rate o))))
 
-(defineH make-outputs n r
+(define (make-outputs n r)
   (make-list n (make-output r)))
