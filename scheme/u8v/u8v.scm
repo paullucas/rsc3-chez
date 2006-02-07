@@ -127,3 +127,16 @@
 	       i
 	       (loop (- i 1)))))))
   
+;; Read a file as a byte vector.
+
+(define (file->u8v! file)
+  (let* ((port (open-input-file file))
+	 (u8v (read-u8v! (file-size file) port)))
+    (close-input-port port)
+    u8v))
+
+;; Write each u8v at t to p.
+
+(define (u8t->port t p)
+  (for-each (lambda (b) (write-u8v! b p))
+	    (flatten t)))
