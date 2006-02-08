@@ -2,7 +2,8 @@
 
 (module
  math mzscheme
- (require (only (lib "include.ss") include))
+ (require (only (lib "include.ss")
+		include))
  (include "../scheme/math/clip.scm")
  (include "../scheme/math/constants.scm")
  (include "../scheme/math/exact.scm")

@@ -1,6 +1,6 @@
 ;; supercollider.ss - (c) rohan drape, 2004-2006
 
-(module 
+(module
  supercollider mzscheme
  (require "collection.ss"
 	  "math.ss"
@@ -10,8 +10,10 @@
 	  "graphdef.ss"
 	  "server.ss"
 	  "ugen.ss"
-	  (only (lib "1.ss" "srfi") make-list)
-	  (only (lib "include.ss") include))
+	  (only (lib "1.ss" "srfi")
+		make-list)
+	  (only (lib "include.ss")
+		include))
  (include "../scheme/supercollider/in.scm")
  (include "../scheme/supercollider/envelope.scm")
  (include "../scheme/supercollider/gain.scm")

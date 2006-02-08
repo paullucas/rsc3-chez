@@ -5,8 +5,10 @@
  (require "ntp.ss"
 	  "u8v.ss"
 	  "udp.ss"
-	  (only (lib "1.ss" "srfi") find-tail)
-	  (only (lib "include.ss") include))
+	  (only (lib "1.ss" "srfi")
+		find-tail)
+	  (only (lib "include.ss")
+		include))
  (include "../scheme/osc/decode.scm")
  (include "../scheme/osc/display.scm")
  (include "../scheme/osc/encode.scm")

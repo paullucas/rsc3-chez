@@ -1,8 +1,9 @@
 ;; udp.ss - (c) rohan drape, 2004-2006
 
-(module 
+(module
  udp mzscheme
  (require "structure.ss"
-	  (only (lib "include.ss") include))
+	  (only (lib "include.ss")
+		include))
  (include "../scheme/udp/udp.scm")
  (provide (all-defined)))

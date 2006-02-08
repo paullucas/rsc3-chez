@@ -1,12 +1,15 @@
 ;; graphdef.ss - (c) rohan drape, 2004-2006
 
-(module 
+(module
  graphdef mzscheme
  (require "structure.ss"
 	  "u8v.ss"
 	  "collection.ss"
-	  (only (lib "1.ss" "srfi") make-list every)
-	  (only (lib "include.ss") include))
+	  (only (lib "1.ss" "srfi")
+		make-list
+		every)
+	  (only (lib "include.ss")
+		include))
  (include "../scheme/graphdef/control.scm")
  (include "../scheme/graphdef/graphdef.scm")
  (include "../scheme/graphdef/id.scm")

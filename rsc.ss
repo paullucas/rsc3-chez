@@ -20,7 +20,5 @@
  (require/provide "module/buffer.ss")
  (require/provide "module/ugen.ss")
  (require/provide "module/supercollider.ss")
-
- (require (only (lib "include.ss") include))
- (include "scheme/rsc/rsc.scm")
+ (require/provide "module/rsc.ss")
  (provide (all-defined)))
