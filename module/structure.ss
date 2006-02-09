@@ -2,8 +2,12 @@
 
 (module
  structure mzscheme
- (define-syntax define-structure
-   (syntax-rules ()
-     ((_ name field ...)
-      (define-struct name (field ...) (make-inspector)))))
- (provide define-structure))
+ (require (only (lib "include.ss")
+		include)
+	  (only (lib "plt-match.ss")
+		match-let))
+ (require-for-syntax (only (lib "stx.ss" "syntax") 
+			   module-or-top-identifier=?))
+ (include "../scheme/structure/structure.scm")
+ (include "../scheme/structure/define.scm")
+ (provide define-structure define*))
