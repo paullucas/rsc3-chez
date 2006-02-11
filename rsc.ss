@@ -21,4 +21,5 @@
  (require/provide "module/ugen.ss")
  (require/provide "module/supercollider.ss")
  (require/provide "module/rsc.ss")
+ (require/provide "module/schedule.ss")
  (provide (all-defined)))

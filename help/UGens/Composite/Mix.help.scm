@@ -6,3 +6,7 @@
 
 (Mul 0.05 (mix (Mce (FSinOsc ar (Mce 100  500) 0)
 		    (FSinOsc ar (Mce 5000 501) 0))))
+
+;; Simple idiom...
+
+(mix/fill 3 (lambda (_) (Mul (FSinOsc ar (rand! 440 447) 0) 0.1)))

@@ -6,7 +6,7 @@
 		include)
 	  (only (lib "plt-match.ss")
 		match-let))
- (require-for-syntax (only (lib "stx.ss" "syntax") 
+ (require-for-syntax (only (lib "stx.ss" "syntax")
 			   module-or-top-identifier=?))
  (include "../scheme/structure/structure.scm")
  (include "../scheme/structure/define.scm")

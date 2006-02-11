@@ -9,4 +9,4 @@
 ;; Used as an envelope.
 
 (Mul (Decay (Impulse ar (XLine kr 1 50 20 2) 0.25) 0.2)
-     (PinkNoise r0 ar))
+     (PinkNoise R0 ar))

@@ -5,5 +5,5 @@
 (define (uid=? a b)
   (= (uid-value a) (uid-value b)))
 
-(define r0 (make-uid 0))
-(define r1 (make-uid 1))
+(define R0 (make-uid 0))
+(define R1 (make-uid 1))

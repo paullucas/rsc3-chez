@@ -4,7 +4,7 @@
   (syntax-rules ()
     ((_ n (i ...) o)
      (define (n r i ...)
-       (construct-ugen (quote n) r (list i ...) #f o 0 r0)))))
+       (construct-ugen (quote n) r (list i ...) #f o 0 R0)))))
 
 (define-oscillator Amplitude (in attackTime releaseTime) 1)
 (define-oscillator Blip (freq numharm) 1)
@@ -86,7 +86,7 @@
     ((_ n (i ...) z)
      (define (n r i ...)
        (let ((l (list i ...)))
-	 (construct-ugen 'n r (without z l) #f (ref l z) 0 r0))))))
+	 (construct-ugen 'n r (without z l) #f (ref l z) 0 R0))))))
 
 (define-oscillator-n BufRd (numChannels bufnum phase loop interpolation) 0)
 (define-oscillator-n DiskIn (numChannels bufnum) 0)
@@ -100,7 +100,7 @@
   (syntax-rules ()
     ((_ n (i ... v) o)
      (define (n r i ... v)
-       (construct-ugen 'n r (list i ...) v o 0 r0)))))
+       (construct-ugen 'n r (list i ...) v o 0 R0)))))
 
 (define-oscillator* Duty (dur reset doneAction level) 1)
 (define-oscillator* EnvGen (gate levelScale levelBias timeScale doneAction envelopeArray) 1)

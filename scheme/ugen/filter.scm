@@ -4,7 +4,7 @@
   (syntax-rules ()
     ((_ n (i ...) o)
      (define (n i ...)
-       (construct-ugen 'n #f (list i ...) #f o 0 r0)))))
+       (construct-ugen 'n #f (list i ...) #f o 0 R0)))))
 
 (define-filter AllpassC (in maxdelaytime delaytime decaytime) 1)
 (define-filter AllpassL (in maxdelaytime delaytime decaytime) 1)
@@ -149,7 +149,7 @@
     ((_ n (i ...) z)
      (define (n i ...)
        (let ((l (list i ...)))
-	 (construct-ugen 'n #f (without z l) #f (ref l z) 0 r0))))))
+	 (construct-ugen 'n #f (without z l) #f (ref l z) 0 R0))))))
 
 (define-filter-n Silent (numChannels) 0)
 (define-filter-n TGrains (numChannels trigger bufnum rate centerPos dur pan amp interp) 0)
@@ -158,7 +158,7 @@
   (syntax-rules ()
     ((_ n (i ... v) o)
      (define (n i ... v)
-       (construct-ugen 'n #f (list i ...) v o 0 r0)))))
+       (construct-ugen 'n #f (list i ...) v o 0 R0)))))
 
 (define-filter* BufWr (inputArray bufnum phase loop) 1)
 (define-filter* Klank (specificationsArrayRef input freqscale freqoffset decayscale) 1)

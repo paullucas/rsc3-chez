@@ -6,6 +6,9 @@
 (define (mce-ref m n)
   (ref (mce-channels m) n))
 
+(define (mce-reverse u)
+  (make-mce (reverse (mce-channels u))))
+
 (define (mce-required? u)
   (not (null? (filter mce? (ugen-inputs u)))))
 

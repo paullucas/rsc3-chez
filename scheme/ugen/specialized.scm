@@ -4,7 +4,7 @@
   (syntax-rules ()
     ((_ n (i ...) o r)
      (define (n i ...)
-       (construct-ugen 'n r (list i ...) #f o 0 r0)))))
+       (construct-ugen 'n r (list i ...) #f o 0 R0)))))
 
 (define-specialized FFT (buf in) 1 kr)
 (define-specialized IFFT (buf) 1 ar)
@@ -49,7 +49,7 @@
   (syntax-rules ()
     ((_ n (i ... v) o r)
      (define (n i ... v)
-       (construct-ugen 'n r (list i ...) v o 0 r0)))))
+       (construct-ugen 'n r (list i ...) v o 0 R0)))))
 
 (define-specialized* Dseq (length array) 1 dr)
 (define-specialized* Dser (length array) 1 dr)

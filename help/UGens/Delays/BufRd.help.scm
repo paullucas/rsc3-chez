@@ -14,7 +14,7 @@
 
 (BufRd ar 1 0 (Mul (SinOsc ar 0.1 0) (BufFrames ir 0)) 0 2)
 
-(let ((phase (Mul (LFNoise1 r0 ar (MouseX kr (Mce 5 10) 100 0 0.1))
+(let ((phase (Mul (LFNoise1 R0 ar (MouseX kr (Mce 5 10) 100 0 0.1))
 		  (BufFrames ir 0))))
   (BufRd ar 1 0 phase 0 2))
 

@@ -28,9 +28,9 @@
 ;; randomly modulate params
 
 (Mul (LorenzL ar (SampleRate ir)
-	         (MulAdd (LFNoise0 r0 kr 1) 2 10)
-		 (MulAdd (LFNoise0 r0 kr 1) 20 38)
-		 (MulAdd (LFNoise0 r0 kr 1) 1.5 2)
+	         (MulAdd (LFNoise0 R0 kr 1) 2 10)
+		 (MulAdd (LFNoise0 R0 kr 1) 20 38)
+		 (MulAdd (LFNoise0 R0 kr 1) 1.5 2)
 		 0.05
 		 0.1 0.0 0.0)
      0.2)
