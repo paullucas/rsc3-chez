@@ -9,4 +9,4 @@
 
 ;; Simple idiom...
 
-(mix/fill 3 (lambda (_) (Mul (FSinOsc ar (rand! 440 447) 0) 0.1)))
+(mix/fill 3 (lambda (_) (Mul (FSinOsc ar (rand 200 700) 0) 0.1)))

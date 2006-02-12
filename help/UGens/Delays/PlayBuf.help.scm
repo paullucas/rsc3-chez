@@ -4,7 +4,7 @@
 
 (define b 10)
 
-(-><! s (/b_allocRead b (rsc-file "audio/metal.wav") 0 0))
+(->< s (/b_allocRead b (rsc-file "audio/metal.wav") 0 0))
 
 ;; Play once only.
 
@@ -35,4 +35,4 @@
 
 ;; Release buffer.
 
-(-><! s (/b_free b))
+(->< s (/b_free b))

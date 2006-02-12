@@ -4,6 +4,7 @@
 ;; swap the of the imaginary components.
 
 (define b 0)
-(-><! s (/b_alloc b 2048 1))
 
-(IFFT ar (PV_PhaseShift90 kr (FFT kr b (WhiteNoise ar 0.1))))
+(->< s (/b_alloc b 2048 1))
+
+(IFFT (PV_PhaseShift90 (FFT b (Mul (WhiteNoise R0 ar) 0.1))))

@@ -10,9 +10,7 @@
 	  (only (lib "include.ss") 
 		include)
 	  (only "structure.ss"
-		define-structure)
-	  (only "server.ss"
-		=>!))
+		define-structure))
  (include "../scheme/schedule/thread.scm")
  (include "../scheme/schedule/pq.scm")
  (include "../scheme/schedule/sq.scm")

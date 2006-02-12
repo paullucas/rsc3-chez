@@ -120,9 +120,9 @@ evaluating rsc expressions.  Input and output is via `rsc-buffer'."
       (rsc-see-listener))))
 
 (defun rsc-halt ()
-  "Execute the 'halt*!' procedure."
+  "Execute the 'halt*' procedure."
   (interactive)
-  (rsc-evaluate-expression "(halt*!)"))
+  (rsc-evaluate-expression "(halt*)"))
 
 (defun rsc-listener-halt ()
   "Halt scheme listener.
@@ -184,13 +184,13 @@ associated buffer in any case."
   "Rewrite and evaluate the s-expression that precedes point."
   (interactive)
   (rsc-evaluate-expression
-   (concat "(play! s " (rsc-expression-before-point) ")")))
+   (concat "(play s " (rsc-expression-before-point) ")")))
 
 (defun rsc-draw ()
-  "Draw the UGen graph at point using draw*!."
+  "Draw the UGen graph at point using draw*."
   (interactive)
   (rsc-evaluate-expression
-   (concat "(draw*! " (rsc-expression-before-point) ")")))
+   (concat "(draw* " (rsc-expression-before-point) ")")))
 
 
 ;; SC3 Server.
@@ -198,12 +198,12 @@ associated buffer in any case."
 (defun rsc-boot-sc3 ()
   "Start the current SC3 server and establish a connection."
   (interactive)
-  (rsc-evaluate-expression "(server-boot*!)"))
+  (rsc-evaluate-expression "(boot*)"))
 
 (defun rsc-clear-sc3 ()
   "Free all nodes running at the current SC3 server."
   (interactive)
-  (rsc-evaluate-expression "(server-free-all! s)"))
+  (rsc-evaluate-expression "(free-all s)"))
 
 (defun rsc-status-sc3 ()
   "Start a server window for the current SC3 server."

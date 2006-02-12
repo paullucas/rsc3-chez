@@ -17,4 +17,4 @@
  (include "../scheme/osc/verify.scm")
  (include "../scheme/osc/write.scm")
  (include "../scheme/osc/transport.scm")
- (provide osc->u8v u8v->osc osc-send! osc-recv! osc-request! osc-display!))
+ (provide osc->u8v u8v->osc osc-send osc-recv osc-request osc-display))

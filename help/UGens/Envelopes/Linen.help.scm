@@ -18,11 +18,11 @@
     (letc ((gate 0))
       (Out 0 (Mul (SinOsc ar 440 0) (Linen gate 0.1 0.2 0.1 0)))))))
 
-(-><! s (/d_recv g))
+(->< s (/d_recv g))
 
-(->! s (/s_new "linen" 1001 1 1))
+(-> s (/s_new "linen" 1001 1 1))
 
-(begin (->! s (/n_set 1001 "gate" 1))
-       (=>! s (+ (utc!) (rand! 0.02 0.4)) (/n_set 1001 "gate" 0)))
+(begin (-> s (/n_set 1001 "gate" 1))
+       (=> s (+ (utc) (rand 0.02 0.4)) (/n_set 1001 "gate" 0)))
 
-(->! s (/n_free 1001))
+(-> s (/n_free 1001))

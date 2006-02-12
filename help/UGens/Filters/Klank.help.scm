@@ -23,18 +23,18 @@
        1 0 1 
        (klank-data '(800 1071 1153 1723) 1 1))
 
-(Klank (Mul (Dust 0 ar 8) 0.1) 
+(Klank (Mul (Dust R0 ar 8) 0.1) 
        1 0 1 
        (klank-data '(800 1071 1353 1723) 1 1))
 
-(Klank (Mul (PinkNoise 0 ar) 0.007) 
+(Klank (Mul (PinkNoise R0 ar) 0.007) 
        1 0 1 
        (klank-data '(800 1071 1353 1723) 1 1))
 
-(Klank (Mul (PinkNoise 0 ar) (Mce 0.007 0.007)) 
+(Klank (Mul (PinkNoise R0 ar) (Mce 0.007 0.007)) 
        1 0 1 
        (klank-data '(200 671 1153 1723) 1 1))
 
-(Klank (Mul (Decay (Impulse ar 4 0) 0.03) (Mul (ClipNoise 0 ar) 0.01)) 
+(Klank (Mul (Decay (Impulse ar 4 0) 0.03) (Mul (ClipNoise R0 ar) 0.01)) 
        1 0 1
-       (klank-data (randl! 12 800 4000) 1 (randl! 12 0.1 2)))
+       (klank-data (randl 12 800 4000) 1 (randl 12 0.1 2)))

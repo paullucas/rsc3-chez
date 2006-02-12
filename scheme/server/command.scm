@@ -1,9 +1,9 @@
-;; command.scm - (c) rohan drape, 2005
+;; command.scm - (c) rohan drape, 2005-2006
 
 ;; Descriptors for SuperCollider server commands.
 
 (define supercollider-commands
-  `((/quit        /done        ()                                      #f)
+  '((/quit        /done        ()                                      #f)
     (/notify      /done        (code)                                  #f)
     (/status      status.reply ()                                      #f)
     (/dumpOSC     #f           (code)                                  #f)

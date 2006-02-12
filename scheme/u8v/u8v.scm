@@ -15,20 +15,17 @@
 (define u8v-length       bytes-length)
 (define u8v-append       bytes-append)
 (define (u8v-++ a b)     (u8v-append a b))
-(define read-u8v!        read-bytes)
-(define write-u8v!       write-bytes)
-(define open-input-u8v!  open-input-bytes)
-(define open-output-u8v! open-output-bytes)
-(define get-output-u8v!  get-output-bytes)
+(define read-u8v         read-bytes)
+(define write-u8v        write-bytes)
+(define open-input-u8v   open-input-bytes)
+(define open-output-u8v  open-output-bytes)
+(define get-output-u8v   get-output-bytes)
 (define u8v->list        bytes->list)
 (define list->u8v        list->bytes)
 (define u8v->string      bytes->string/utf-8)
 (define string->u8v      string->bytes/utf-8)
 
 (define (u8v-concat l)  (fold-right u8v-++ (u8v) l))
-
-(define read-byte!      read-byte)
-(define peek-byte!      peek-byte)
 
 ;; Must provide procedures for converting to and from binary integer
 ;; types and IEEE floating point representations and the respective
@@ -129,14 +126,14 @@
   
 ;; Read a file as a byte vector.
 
-(define (file->u8v! file)
+(define (file->u8v file)
   (let* ((port (open-input-file file))
-	 (u8v (read-u8v! (file-size file) port)))
+	 (u8v (read-u8v (file-size file) port)))
     (close-input-port port)
     u8v))
 
 ;; Write each u8v at t to p.
 
 (define (u8t->port t p)
-  (for-each (lambda (b) (write-u8v! b p))
+  (for-each (lambda (b) (write-u8v b p))
 	    (flatten t)))

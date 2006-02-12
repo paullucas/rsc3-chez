@@ -11,11 +11,12 @@
 ;; audio rate.
 
 (define b 0)
-(-><! s (/b_alloc b 2048 1))
 
-(IFFT ar (FFT kr b (WhiteNoise ar 0.05)))
+(->< s (/b_alloc b 2048 1))
 
-(IFFT ar 
- (FFT kr 
+(IFFT (FFT b (Mul (WhiteNoise R0 ar) 0.05)))
+
+(IFFT 
+ (FFT 
   b
-  (SinOsc ar (SinOsc kr (Squared (SinOsc kr 0.08 0 6 6.2)) 0 100 800))))
+  (SinOsc ar (MulAdd (SinOsc kr (Squared (MulAdd (SinOsc kr 0.08 0) 6 6.2)) 0) 100 800) 0)))

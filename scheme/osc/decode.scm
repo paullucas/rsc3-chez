@@ -29,10 +29,10 @@
 ;; defer to read-* forms.
 
 (define (decode-message b)
-  (read/scan-message! (open-input-u8v! b)))
+  (read/scan-message (open-input-u8v b)))
 
 (define (decode-bundle b)
-  (read/scan-bundle! (open-input-u8v! b)))
+  (read/scan-bundle (open-input-u8v b)))
 
 ;; Evaluate to the scheme representation of the OSC packet encoded at
 ;; the OSC <u8v> `b' starting at the integer offset `start'.  An

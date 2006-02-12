@@ -16,6 +16,8 @@
   (Mrg (SendTrig s 0 s)
        (Out 0 (Mul (SinOsc ar (MulAdd s 200 500) 0) 0.1))))
 
-(-><! s (/notify 1))
+(->< s (/notify 1))
 
-(<-*! s 0.1)
+(<-* s 0.1)
+
+(->< s (/notify 0))

@@ -24,4 +24,4 @@
 
 (Mul (Impulse ar (/ 1 0.001) 0) (Abs (WhiteNoise R0 ar)))
 
-(-><! s (/status))
+(->< s (/status))

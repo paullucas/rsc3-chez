@@ -20,7 +20,7 @@
 ;;              A trigger occurs when a signal changes from <=0 to >0.
 ;; inputArray - an Array of input channels
 
-(-><! s (/d_recv
+(->< s (/d_recv
  (synthdef
   "RecordBuf-example"
   (letc ((in 0) (bufnum 0)

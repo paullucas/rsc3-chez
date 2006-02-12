@@ -10,39 +10,39 @@
   (= 0 (bitwise-and (expt 2 bufferexpt) 
 		    (- (arithmetic-shift bus-size 1) 1))))
 
-(->< s
+(->< 
+ s
  (/d_recv 
   (graphdef->u8v
    (synthdef
     "DiskOut-Help"
     (letc ((bufnum 0))
-      (let ((z (Clip2 ar 
-		(RLPF ar (LFPulse ar (SinOsc kr 0.2 0 10 21) 
-				     '(0 0.1) 0.1) 100 0.1) 0.4)))
-	(DiskOut ar bufnum z)))))))
+      (let ((z (Clip2 
+		(RLPF (LFPulse ar (MulAdd (SinOsc kr 0.2 0) 10 21) 
+			       (Mce 0 0.1) 0.1) 100 0.1) 0.4)))
+	(Mrg (DiskOut bufnum z)
+	     (Out 0 z))))))))
 
-(define b (bID!))
+(define b 10)
 
 (->< s (/b_alloc b 32768 2))
 
 (->< s (/b_write b 
-		 "/tmp/TEST_DISK_OUT.aiff" 
+		 "/tmp/test.aiff" 
 		 "aiff"
 		 "float"
 		 32768
 		 0
-		 0))
+		 1))
 
-(define n (nID!))
+(define n 100)
 
 (-> s (/s_new "DiskOut-Help" n 1 1 "bufnum" b))
+
+(-> s (/n_free n))
 
 (->< s (/b_close b))
 
 (->< s (/b_free b))
 
-(synth-free y)
-
-(system "sndfile-info /tmp/TEST_DISK_OUT.aiff")
-
-(unlink "/tmp/TEST_DISK_OUT.aiff")
+(system "sndfile-info /tmp/test.aiff")

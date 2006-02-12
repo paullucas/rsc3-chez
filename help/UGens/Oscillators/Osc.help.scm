@@ -15,30 +15,38 @@
 ;; Note about wavetables: OscN requires the b_gen sine1 wavetable flag
 ;; to be OFF.  Osc requires the b_gen sine1 wavetable flag to be ON.
  
-(define b (bID!))
+(define b 10)
 
 (->< s (/b_alloc b 512 1))
 
 (->< s (/b_gen b "sine1" (+ 1 2 4) 1 1/2 1/3 1/4 1/5))
 
-(Osc ar b 220 0 0.5)
+(Mul (Osc ar b 220 0) 0.1)
 
 ;; Modulate freq
 
-(Osc ar b (XLine kr 2000 200) 0 0.5)
+(Mul (Osc ar b (XLine kr 2000 200 1 2) 0) 0.5)
 
 ;; Modulate freq
 
-(Osc ar b (Osc ar b (XLine kr 1 1000 9) 0 200 800) 0 0.25)
+(Mul (Osc ar b (MulAdd (Osc ar b (XLine kr 1 1000 9 2) 0) 200 800) 0)
+     0.25)
 
 ;; Modulate phase
 
-(Osc ar b 800 (Osc ar b (XLine kr 20 8000 10) 0 two-pi) 0.25)
+(Mul (Osc ar b 800 (Mul (Osc ar b (XLine kr 20 8000 10 2) 0) two-pi))
+     0.25)
 
 ;; Change the buffer while its playing 
 
-(in-mthread!
- (let loop () 
-   (->< s (/b_gen b "sine1" (+ 1 2 4) 1 (rand! random! 0 1) 1/4))
-   (thread-sleep! 0.1)
-   (loop)))
+(Mul (Osc ar b 220 0) 0.1)
+
+(define t
+  (make-thread* 
+   (lambda ()
+     (let loop () 
+       (->< s (/b_gen b "sine1" (+ 1 2 4) 1 (rand 0 1) 1/4))
+       (sleep 0.1)
+       (loop)))))
+
+(thread-terminate! t)

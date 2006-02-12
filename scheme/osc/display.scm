@@ -4,7 +4,7 @@
 ;; `output-port'.  The display format is that used throughout the OSC
 ;; specification.
 
-(define (osc-display! s output-port)
+(define (osc-display s output-port)
   (do ((length (u8v-length s))
        (n 0 (+ n 1)))
       ((= n length))

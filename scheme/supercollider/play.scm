@@ -2,8 +2,8 @@
 
 ;; Play the graph rooted at the <ugen> `u' at the server `s'.
 
-(define (play! s u)
+(define (play s u)
   (let ((g (ugen->graphdef/out u)))
     (begin
-      (-><! s (/d_recv (graphdef->u8v g)))
-      (->!  s (/s_new (graphdef-name g) -1 1 1)))))
+      (->< s (/d_recv (graphdef->u8v g)))
+      (->  s (/s_new (graphdef-name g) -1 1 1)))))

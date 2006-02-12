@@ -13,6 +13,6 @@
 
 ;; Reading a control bus.
 
-(->! s (/c_set 0 (rand! 200 5000)))
+(-> s (/c_set 0 (rand 200 5000)))
 
 (Mul (SinOsc ar (In kr 0 1) 0) 0.1)

@@ -22,15 +22,19 @@
 
 ;; Allocate and fill tables 0 to 7.
 
+(require (lib "1.ss" "srfi"))
+
+(define (square a) (* a a))
+
 (for-each
  (lambda (i)
    ;; Allocate table
-   (-><! s (/b_alloc i 1024 1))
+   (->< s (/b_alloc i 1024 1))
    ;; Generate list of harmonic amplitudes
    (let* ((n (expt (+ i 1) 2))
 	  (a (tabulate n (lambda (j) (square (/ (- n j) n))))))
      ;; Fill table
-     (-><! s (/b_gen*  i "sine1" 7 a))))
+     (->< s (/b_gen*  i "sine1" 7 a))))
  (iota 8))
 
 ;; Oscillator at buffers 0 through 7.
@@ -44,5 +48,5 @@
 (for-each
  (lambda (i)
    ;; Fill table
-   (-><! s (/b_gen*  i "sine1" 7 (randl! 16 0 1))))
+   (->< s (/b_gen*  i "sine1" 7 (randl 16 0 1))))
  (iota 8))

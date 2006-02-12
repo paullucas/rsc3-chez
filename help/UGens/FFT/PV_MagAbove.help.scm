@@ -6,7 +6,7 @@
 
 (define n 2048)
 (define b 0)
-(-><! s (/b_alloc b n 1))
+(->< s (/b_alloc b n 1))
 
 (define signal
   (SinOsc ar (MulAdd (SinOsc kr (Squared (MulAdd (SinOsc kr 0.08 0) 6 6.2)) 0)

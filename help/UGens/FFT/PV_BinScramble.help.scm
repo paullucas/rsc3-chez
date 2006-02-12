@@ -13,10 +13,10 @@
 ;; trig - a trigger selects a new random ordering.
 
 (define b 0)
-(-><! s (/b_alloc b 2048 1))
+(->< s (/b_alloc b 2048 1))
 
 (define c 1)
-(-><! s (/b_allocRead c (rsc-file "audio/metal.wav") 0 0))
+(->< s (/b_allocRead c (rsc-file "audio/metal.wav") 0 0))
 
 (let* ((in (PlayBuf ar 1 c (BufRateScale kr c) 1 0 1))
        (c0 (FFT b in))

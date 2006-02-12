@@ -9,7 +9,7 @@
 
 (define b 0)
 
-(-><! s (/b_alloc b 2048 1))
+(->< s (/b_alloc b 2048 1))
 
 (define (Dup a) (Mce a a))
 
@@ -20,7 +20,7 @@
 
 (define c 1)
 
-(-><! s (/b_allocRead c (rsc-file "audio/metal.wav") 0 0))
+(->< s (/b_allocRead c (rsc-file "audio/metal.wav") 0 0))
 
 (Mul 
  0.5 

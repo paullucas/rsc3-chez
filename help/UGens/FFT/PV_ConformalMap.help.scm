@@ -12,7 +12,8 @@
 
 
 (define b 0)
-(-><! s (/b_alloc b 1024 1))
+
+(->< s (/b_alloc b 1024 1))
 
 (Pan2 
  (IFFT 
