@@ -24,8 +24,11 @@
 ;; written as a float or a double is non-trivial and not undertaken
 ;; here, all <real>s are written as floats.
 
+(define (exact-integer? n)
+  (and (integer? n) (exact? n)))
+
 (define (encode-value e)
-  (cond ((integer? e)         (i32->u8v e))
+  (cond ((exact-integer? e)   (i32->u8v e))
 	((real? e)            (f32->u8v e))
 	((string? e)          (encode-string e))
 	((u8v? e)             (encode-bytes e))
@@ -39,7 +42,7 @@
    (list->string
     (cons #\,
 	  (map (lambda (e)
-		 (cond ((integer? e)       #\i)
+		 (cond ((exact-integer? e) #\i)
 		       ((real? e)          #\f)
 		       ((string? e)        #\s)
 		       ((u8v? e)           #\b)
