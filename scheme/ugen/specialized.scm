@@ -4,7 +4,7 @@
   (syntax-rules ()
     ((_ n (i ...) o r)
      (define (n i ...)
-       (construct-ugen 'n r (list i ...) #f o 0 R0)))))
+       (construct-ugen 'n r (list i ...) #f o 0 R1)))))
 
 (define-specialized FFT (buf in) 1 kr)
 (define-specialized IFFT (buf) 1 ar)
@@ -49,31 +49,31 @@
   (syntax-rules ()
     ((_ n (i ... v) o r)
      (define (n i ... v)
-       (construct-ugen 'n r (list i ...) v o 0 R0)))))
+       (construct-ugen 'n r (list i ...) v o 0 R1)))))
 
 (define-specialized* Dseq (length array) 1 dr)
 (define-specialized* Dser (length array) 1 dr)
 (define-specialized* Dswitch1 (length array) 1 dr)
 
-(define-syntax define-specialized!
+(define-syntax define-specialized/id
   (syntax-rules ()
     ((_ n (i ...) o r)
      (define (n id i ...)
        (construct-ugen 'n r (list i ...) #f o 0 id)))))
 
-(define-specialized! Dbrown (length lo hi step) 1 dr)
-(define-specialized! Dibrown (length lo hi step) 1 dr)
-(define-specialized! Diwhite (length lo hi) 1 dr)
-(define-specialized! Dwhite (length lo hi) 1 dr)
+(define-specialized/id Dbrown (length lo hi step) 1 dr)
+(define-specialized/id Dibrown (length lo hi step) 1 dr)
+(define-specialized/id Diwhite (length lo hi) 1 dr)
+(define-specialized/id Dwhite (length lo hi) 1 dr)
 
-(define-syntax define-specialized*!
+(define-syntax define-specialized*/id
   (syntax-rules ()
     ((_ n (i ... v) o r)
      (define (n id i ... v)
        (construct-ugen 'n r (list i ...) v o 0 id)))))
 
-(define-specialized*! Drand (length array) 1 dr)
-(define-specialized*! Dxrand (length array) 1 dr)
+(define-specialized*/id Drand (length array) 1 dr)
+(define-specialized*/id Dxrand (length array) 1 dr)
 
 ;; Local Variables:
 ;; truncate-lines:t

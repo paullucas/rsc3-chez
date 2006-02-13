@@ -397,7 +397,7 @@ The symbol at point is preprocessed by `rsc-cleanup-symbol'."
   (font-lock-add-keywords 
    'rsc-mode
    (list 
-    (list (concat "(\\(define[-a-zA-Z\*]*\\)\\>"
+    (list (concat "(\\(define[-a-zA-Z/\*]*\\)\\>"
 		  "[ \t]*(?"
 		  "\\(\\sw+\\)?")
 	  '(1 font-lock-keyword-face)

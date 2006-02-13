@@ -23,5 +23,5 @@
 	     inputs*
 	     (make-outputs outputs rate)
 	     special
-	     id)))
+	     (transform-uid id))))
     (proxied (mced u))))
