@@ -22,4 +22,5 @@
  (require/provide "module/supercollider.ss")
  (require/provide "module/rsc.ss")
  (require/provide "module/schedule.ss")
+ (require/provide "module/osc.ss")
  (provide (all-defined)))
