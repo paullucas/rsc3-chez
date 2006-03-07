@@ -1,6 +1,6 @@
 ;; transport.scm - (c) rohan drape, 2004-2006
 
-;; 'u' is a UDP_.  't' is a timeout in seconds.
+;; 'u' is a <udp*>, 't' is a timeout in seconds.
 
 (define (osc-send u m)
   (udp*-send u (osc->u8v m)))
