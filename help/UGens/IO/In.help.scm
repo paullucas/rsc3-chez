@@ -8,7 +8,7 @@
 
 ;; Write noise to bus 10, then read it out.
 
-(Mrg (Out 10 (Mul (PinkNoise R0 ar) 0.3))
+(Mrg (Out 10 (Mul (PinkNoise ar) 0.3))
      (Out 0 (In ar 10 1)))
 
 ;; Reading a control bus.

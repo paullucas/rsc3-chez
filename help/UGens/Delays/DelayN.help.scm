@@ -10,6 +10,6 @@
 ;; Dust randomly triggers Decay to create an exponential decay
 ;; envelope for the WhiteNoise input source.
 
-(let ((z (Mul (Decay (Dust R0 ar 1) 0.3)
-	      (WhiteNoise R0 ar))))
+(let ((z (Mul (Decay (Dust ar 1) 0.3)
+	      (WhiteNoise ar))))
   (Add (DelayN z 0.2 0.2) z))

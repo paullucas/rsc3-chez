@@ -4,5 +4,5 @@
 ;; time the trig signal changes from nonpositive to positive values
 
 (Mul 
- (SinOsc ar (TRand R0 (Mce 200 1600) (Mce 500 3000) (Dust R0 kr (Mce 5 12))) 0)
+ (SinOsc ar (TRand (Mce 200 1600) (Mce 500 3000) (Dust kr (Mce 5 12))) 0)
  0.2)

@@ -6,5 +6,5 @@
 
 (->< s (/b_alloc b 2048 1))
 
-(IFFT (PV_PhaseShift (FFT b (Mul (WhiteNoise R0 ar) 0.1))
+(IFFT (PV_PhaseShift (FFT b (Mul (WhiteNoise ar) 0.1))
 		     (MouseX kr 0 1 0 0.1)))

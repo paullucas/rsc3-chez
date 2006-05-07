@@ -4,6 +4,6 @@
 ;; octave.  This gives equal power over the span of each octave.  This
 ;; version gives 8 octaves of pink noise.
 
-(Mul (PinkNoise  R0 ar) 0.5)
-(Mul (BrownNoise R0 ar) 0.5)
-(Mul (WhiteNoise R0 ar) 0.5)
+(Mul (PinkNoise  ar) 0.25)
+(Mul (BrownNoise ar) 0.25)
+(Mul (WhiteNoise ar) 0.25)

@@ -7,5 +7,5 @@
 
 (->< s (/b_alloc b 2048 1))
 
-(IFFT (PV_BrickWall (FFT b (Mul (WhiteNoise R0 ar) 0.2))
+(IFFT (PV_BrickWall (FFT b (Mul (WhiteNoise ar) 0.2))
 		    (MouseX kr -1 1 0 0.1)))

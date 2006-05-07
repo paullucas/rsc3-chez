@@ -1,10 +1,10 @@
-;; filter.scm - (c) rohan drape, 2005-2006
+; filter.scm - (c) rohan drape, 2005-2006
 
 (define-syntax define-filter
   (syntax-rules ()
     ((_ n (i ...) o)
      (define (n i ...)
-       (construct-ugen 'n #f (list i ...) #f o 0 R1)))))
+       (construct-ugen 'n #f (list i ...) #f o 0 (make-uid 0))))))
 
 (define-filter AllpassC (in maxdelaytime delaytime decaytime) 1)
 (define-filter AllpassL (in maxdelaytime delaytime decaytime) 1)
@@ -149,7 +149,7 @@
     ((_ n (i ...) z)
      (define (n i ...)
        (let ((l (list i ...)))
-	 (construct-ugen 'n #f (without z l) #f (ref l z) 0 R1))))))
+	 (construct-ugen 'n #f (without z l) #f (ref l z) 0 (make-uid 0)))))))
 
 (define-filter/n Silent (numChannels) 0)
 (define-filter/n TGrains (numChannels trigger bufnum rate centerPos dur pan amp interp) 0)
@@ -158,7 +158,7 @@
   (syntax-rules ()
     ((_ n (i ... v) o)
      (define (n i ... v)
-       (construct-ugen 'n #f (list i ...) v o 0 R1)))))
+       (construct-ugen 'n #f (list i ...) v o 0 (make-uid 0))))))
 
 (define-filter* BufWr (inputArray bufnum phase loop) 1)
 (define-filter* Klank (specificationsArrayRef input freqscale freqoffset decayscale) 1)
@@ -177,8 +177,8 @@
 (define-syntax define-filter/id
   (syntax-rules ()
     ((_ n (i ...) o)
-     (define (n id i ...)
-       (construct-ugen 'n #f (list i ...) #f o 0 id)))))
+     (define (n i ...)
+       (construct-ugen 'n #f (list i ...) #f o 0 (unique-uid))))))
 
 (define-filter/id CoinGate (prob in) 1)
 (define-filter/id TExpRand (lo hi trig) 1)

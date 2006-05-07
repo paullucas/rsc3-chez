@@ -4,7 +4,7 @@
   (syntax-rules ()
     ((_ n (i ...) o r)
      (define (n i ...)
-       (construct-ugen 'n r (list i ...) #f o 0 R1)))))
+       (construct-ugen 'n r (list i ...) #f o 0 (make-uid 0))))))
 
 (define-specialized FFT (buf in) 1 kr)
 (define-specialized IFFT (buf) 1 ar)
@@ -49,7 +49,7 @@
   (syntax-rules ()
     ((_ n (i ... v) o r)
      (define (n i ... v)
-       (construct-ugen 'n r (list i ...) v o 0 R1)))))
+       (construct-ugen 'n r (list i ...) v o 0 (make-uid 0))))))
 
 (define-specialized* Dseq (length array) 1 dr)
 (define-specialized* Dser (length array) 1 dr)
@@ -58,8 +58,8 @@
 (define-syntax define-specialized/id
   (syntax-rules ()
     ((_ n (i ...) o r)
-     (define (n id i ...)
-       (construct-ugen 'n r (list i ...) #f o 0 id)))))
+     (define (n i ...)
+       (construct-ugen 'n r (list i ...) #f o 0 (unique-uid))))))
 
 (define-specialized/id Dbrown (length lo hi step) 1 dr)
 (define-specialized/id Dibrown (length lo hi step) 1 dr)
@@ -69,8 +69,8 @@
 (define-syntax define-specialized*/id
   (syntax-rules ()
     ((_ n (i ... v) o r)
-     (define (n id i ... v)
-       (construct-ugen 'n r (list i ...) v o 0 id)))))
+     (define (n i ... v)
+       (construct-ugen 'n r (list i ...) v o 0 (unique-uid))))))
 
 (define-specialized*/id Drand (length array) 1 dr)
 (define-specialized*/id Dxrand (length array) 1 dr)

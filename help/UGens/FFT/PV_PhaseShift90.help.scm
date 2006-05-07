@@ -7,4 +7,4 @@
 
 (->< s (/b_alloc b 2048 1))
 
-(IFFT (PV_PhaseShift90 (FFT b (Mul (WhiteNoise R0 ar) 0.1))))
+(IFFT (PV_PhaseShift90 (FFT b (Mul (WhiteNoise ar) 0.1))))

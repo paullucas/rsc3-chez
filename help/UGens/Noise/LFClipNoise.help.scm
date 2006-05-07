@@ -5,12 +5,12 @@
 ;; It is probably pretty hard on your speakers.  The freq argument is
 ;; the approximate rate at which to generate random values.
  
-(Mul (LFClipNoise R0 ar 1000) 0.25)
+(Mul (LFClipNoise ar 1000) 0.25)
 
 ;; Modulate frequency 
 
-(Mul (LFClipNoise R0 ar (XLine kr 1000 10000 10 2)) 0.25)
+(Mul (LFClipNoise ar (XLine kr 1000 10000 10 2)) 0.25)
 
 ;; Use as frequency control 
 
-(Mul (SinOsc ar (MulAdd (LFClipNoise R0 kr 4) 200 600) 0) 0.2)
+(Mul (SinOsc ar (MulAdd (LFClipNoise kr 4) 200 600) 0) 0.2)

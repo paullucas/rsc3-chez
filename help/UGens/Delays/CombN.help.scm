@@ -12,25 +12,20 @@
 ;; Comb used as a resonator. The resonant fundamental is equal to
 ;; reciprocal of the delay time.
 
-(define src (Mul (WhiteNoise R0 ar) 0.01))
-
+(define src (Mul (WhiteNoise ar) 0.01))
 (define ctl (XLine kr 0.0001 0.01 20 2))
 
 (CombN src 0.01 ctl 0.2)
-
 (CombL src 0.01 ctl 0.2)
-
 (CombC src 0.01 ctl 0.2)
 
 ;; With negative feedback:
 
 (CombN src 0.01 ctl -0.2)
-
 (CombL src 0.01 ctl -0.2)
-
 (CombC src 0.01 ctl -0.2)
 
 ;; Used as an echo.
 
-(CombN (Mul (Decay (Mul (Dust R0 ar 1) 0.5) 0.2) (WhiteNoise R0 ar))
+(CombN (Mul (Decay (Mul (Dust ar 1) 0.5) 0.2) (WhiteNoise ar))
        0.2 0.2 3)

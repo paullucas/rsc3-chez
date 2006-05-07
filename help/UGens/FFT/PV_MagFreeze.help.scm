@@ -16,7 +16,7 @@
   0.25 
   (IFFT 
    (PV_MagFreeze
-    (FFT b (SinOsc ar (MulAdd (LFNoise1 R0 kr 5.2) 250 400) 0))
+    (FFT b (SinOsc ar (MulAdd (LFNoise1 kr 5.2) 250 400) 0))
     (SinOsc kr 0.2 0)))))
 
 (define c 1)

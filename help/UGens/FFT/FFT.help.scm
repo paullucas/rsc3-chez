@@ -14,7 +14,7 @@
 
 (->< s (/b_alloc b 2048 1))
 
-(IFFT (FFT b (Mul (WhiteNoise R0 ar) 0.05)))
+(IFFT (FFT b (Mul (WhiteNoise ar) 0.05)))
 
 (IFFT 
  (FFT 

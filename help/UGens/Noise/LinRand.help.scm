@@ -4,5 +4,5 @@
 ;; lo to hi, skewed towards lo if minmax < 0, otherwise skewed towards
 ;; hi.
 
-(Mul (FSinOsc ar (LinRand R0 ir 200 10000 (Mce -1 1)) 0)
+(Mul (FSinOsc ar (LinRand ir 200 10000 (Mce -1 1)) 0)
      (Line kr 0.4 0 0.01 2))

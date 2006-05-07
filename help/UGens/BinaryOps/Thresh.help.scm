@@ -2,6 +2,6 @@
 
 ;; Signal thresholding.  0 when a < b, otherwise a.
 
-(Thresh (Mul (LFNoise0 R0 ar 50) 0.5) 0.45)
+(Thresh (Mul (LFNoise0 ar 50) 0.5) 0.45)
 
 

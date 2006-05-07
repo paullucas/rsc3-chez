@@ -9,6 +9,6 @@
 ;; lo - low threshold
 ;; hi - high threshold
 
-(let* ((in (LFNoise1 R0 kr 3))
+(let* ((in (LFNoise1 kr 3))
        (octave (Add (Schmidt in -0.15 0.15) 1)))
   (Mul (SinOsc ar (Add (Mul in 200) (Mul 500 octave)) 0) 0.1))

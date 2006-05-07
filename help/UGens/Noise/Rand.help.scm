@@ -4,7 +4,7 @@
 ;; hi.  It generates this when the SynthDef first starts playing, and
 ;; remains fixed for the duration of the synth's existence.
 
-(Pan2 (Mul (FSinOsc ar (Rand R0 ir 200 1200) 0) 
+(Pan2 (Mul (FSinOsc ar (Rand ir 200 1200) 0) 
 	   (Line kr 0.2 0 0.1 2))
-      (Rand R0 ir -1 1)
+      (Rand ir -1 1)
       1)

@@ -12,7 +12,7 @@
 ;; LocalIn per SynthDef.  The audio can be written to the bus using
 ;; LocalOut.
 
-(let* ((a0 (Mul (Decay (Impulse ar 0.3 0) 0.1) (Mul (WhiteNoise R0 ar) 0.2)))
+(let* ((a0 (Mul (Decay (Impulse ar 0.3 0) 0.1) (Mul (WhiteNoise ar) 0.2)))
        (a1 (Add (LocalIn ar 2) (Mce a0 0)))
        (a2 (DelayN a1 0.2 0.2)))
   (Mrg (LocalOut (Mul (mce-reverse a2) 0.8)) 

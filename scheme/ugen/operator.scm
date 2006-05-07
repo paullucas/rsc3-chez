@@ -4,7 +4,7 @@
   (syntax-rules ()
     ((_ n s)
      (define (n a)
-       (construct-ugen 'UnaryOpUGen #f (list a) #f 1 s R1)))))
+       (construct-ugen 'UnaryOpUGen #f (list a) #f 1 s (make-uid 0))))))
 
 (define-unary-operator Neg 0)
 (define-unary-operator Not 1)
@@ -65,7 +65,7 @@
   (syntax-rules ()
     ((_ n s)
      (define (n a b)
-       (construct-ugen 'BinaryOpUGen #f (list a b) #f 1 s R1)))))
+       (construct-ugen 'BinaryOpUGen #f (list a b) #f 1 s (make-uid 0))))))
 
 (define-binary-operator Add 0)
 (define-binary-operator Sub 1)

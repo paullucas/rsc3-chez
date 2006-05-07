@@ -8,4 +8,4 @@
 	     (list)
 	     (map make-output (make-list (length cc) kr))
 	     0
-	     R1))
+	     (make-uid 0)))
