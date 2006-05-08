@@ -12,6 +12,7 @@
 		 (extend amps n)
 		 (extend phases n)))))
 
-;; Variant to generate a 'spec' list for a Klank UGen.
+;; Variant to generate a 'spec' list for a Klank UGen, the last
+;; argument is `ring-time', not `phases'.
 
 (define klank-data klang-data)

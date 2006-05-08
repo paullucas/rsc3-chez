@@ -2,7 +2,7 @@
 
 ;; Predicates for OSC packet types.
 
-(define (message? p) (string?  (car p)))
+(define (message? p) (string? (car p)))
 (define (bundle? p)  (number? (car p)))
 
 ;; Evaluates to '#t' iff `m' is a correct OSC message.  The first

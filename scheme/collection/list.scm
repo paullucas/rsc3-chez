@@ -342,7 +342,7 @@
 (define all         every)
 (define (minimum l) (foldl1 min l))
 (define (maximum l) (foldl1 max l))
-(define (concat l)  (fold ++ '() l))
+(define (concat l)  (foldr ++ '() l))
 (define num         delete-duplicates)
 (define unzip       unzip2)
 (define lookup      assoc)

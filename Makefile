@@ -1,4 +1,4 @@
-# Makefile - (c) rohan drape, 1998-2005
+# Makefile - (c) rohan drape, 1998-2006
 
 PROJECT = rsc
 
