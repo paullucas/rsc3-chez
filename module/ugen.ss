@@ -4,6 +4,24 @@
  ugen mzscheme
  (require "collection.ss"
 	  "graphdef.ss"
+	  (only "random.ss" 
+		rand
+		_rand
+		rand2)
+	  (only "math.ss"
+		midicps
+		cpsmidi
+		octcps
+		cpsoct
+		ampdb
+		dbamp
+		midiratio
+		ratiomidi
+		log2
+		log10
+		squared
+		cubed
+		recip)
 	  (only (lib "1.ss" "srfi")
 		make-list
 		filter

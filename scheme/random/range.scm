@@ -9,6 +9,17 @@
 
 (define (rand a b) (+ (* ((current-rand)) (- b a)) a))
 
+;; Zero to `n' variant, named for SC3 operator, which is so named due
+;; to conflict with SC3 UGen.
+
+(define (_rand n)
+  (rand 0 n))
+
+;; -`n' to `n' variant, SC3 naming.
+
+(define (rand2 n)
+  (rand (- n) n))
+
 ;; List generating variant.
 
 (define (randl n l r) 
