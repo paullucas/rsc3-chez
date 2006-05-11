@@ -22,7 +22,8 @@
 
 (-> s (/s_new "linen" 1001 1 1))
 
-(begin (-> s (/n_set 1001 "gate" 1))
-       (=> s (+ (utc) (rand 0.02 0.4)) (/n_set 1001 "gate" 0)))
+(begin (-> s (bundle (utc) (/n_set 1001 "gate" 1)))
+       (-> s (bundle (+ (utc) (rand 0.05 0.4))
+		     (/n_set 1001 "gate" 0))))
 
 (-> s (/n_free 1001))

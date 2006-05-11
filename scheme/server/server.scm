@@ -26,9 +26,6 @@
 	 ((not (string=? (car p) r)) (error "-><: bad return packet" p r))
 	 (else                       p))))))
 
-(define (=> s t . m)
-  (-> s (cons t m)))
-
 (define (free-all s)
   (begin
    (-> s (/g_freeAll 0))
