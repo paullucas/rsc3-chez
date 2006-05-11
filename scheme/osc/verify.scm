@@ -1,9 +1,24 @@
 ;; verify.scm - (c) rohan drape, 2005-2006
 
+;; Validating constructors.
+
+(define (message c . l)
+  (if (string? c)
+      (cons c l)
+      (error "message: illegal command" c)))
+
+(define (bundle t . l)
+  (if (number? t)
+      (cons t l)
+      (error "bundle: illegal timestamp" t)))
+
 ;; Predicates for OSC packet types.
 
-(define (message? p) (string? (car p)))
-(define (bundle? p)  (number? (car p)))
+(define (message? p)
+  (string? (car p)))
+
+(define (bundle? p)
+  (number? (car p)))
 
 ;; Evaluates to '#t' iff `m' is a correct OSC message.  The first
 ;; element must be a string 'address', subsequent elements are
