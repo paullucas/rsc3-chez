@@ -7,4 +7,5 @@
 	  (only (lib "include.ss")
 		include))
  (include "../scheme/buffer/signal.scm")
- (provide (all-defined)))
+ (provide wavetable->signal
+          signal->wavetable))
