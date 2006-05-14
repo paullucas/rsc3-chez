@@ -2,8 +2,11 @@
 
 (module
  server mzscheme
- (require "osc.ss"
-	  "collection.ss"
+ (require (only "osc.ss"
+		osc-send
+		osc-recv)
+	  (only "collection.ss"
+		splice)
 	  (only (lib "include.ss")
 		include))
  (include "../scheme/server/command.scm")

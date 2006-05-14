@@ -8,7 +8,7 @@
 (define-structure ugen name rate inputs outputs special id)
 
 (define (ugen-output u n)
-  (ref (ugen-outputs u) n))
+  (list-ref (ugen-outputs u) n))
 
 (define (ugen-validate u)
   (let ((n (ugen-name u))

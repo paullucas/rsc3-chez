@@ -86,7 +86,7 @@
     ((_ n (i ...) z)
      (define (n r i ...)
        (let ((l (list i ...)))
-	 (construct-ugen 'n r (without z l) #f (ref l z) 0 (make-uid 0)))))))
+	 (construct-ugen 'n r (without z l) #f (list-ref l z) 0 (make-uid 0)))))))
 
 (define-oscillator/n BufRd (numChannels bufnum phase loop interpolation) 0)
 (define-oscillator/n DiskIn (numChannels bufnum) 0)

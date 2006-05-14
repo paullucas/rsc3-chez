@@ -12,4 +12,4 @@
 ;; `degree' places, and 'Mix' that list.
 
 (define (mix/fill degree constructor)
-  (mix (make-mce (tabulate degree constructor))))
+  (mix (make-mce (list-tabulate degree constructor))))

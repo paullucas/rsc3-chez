@@ -4,7 +4,7 @@
 ;; re-written into an <input> form.
 
 (define (calculate-index n nn)
-  (let ((i (index (cut equal? <> n) nn)))
+  (let ((i (list-index (cut equal? <> n) nn)))
     (if (not i)
 	(error "calculate-index: not located" n nn)
 	i)))

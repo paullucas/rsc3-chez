@@ -2,7 +2,8 @@
 
 (module
  udp mzscheme
- (require "structure.ss"
+ (require (only "structure.ss"
+		define-structure)
 	  (only (lib "include.ss")
 		include))
  (include "../scheme/udp/udp.scm")

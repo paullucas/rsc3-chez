@@ -2,7 +2,8 @@
 
 (module
  u8v mzscheme
- (require "collection.ss"
+ (require (only "collection.ss"
+		flatten)
 	  (only (lib "include.ss")
 		include)
 	  (only (lib "1.ss" "srfi")

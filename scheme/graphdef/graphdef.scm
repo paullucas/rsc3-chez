@@ -5,13 +5,13 @@
 (define-structure graphdef name constants defaults controls ugens)
 
 (define (graphdef-ugen g n)
-  (ref (graphdef-ugens g) n))
+  (list-ref (graphdef-ugens g) n))
 
 (define (graphdef-control g n)
-  (ref (graphdef-controls g) n))
+  (list-ref (graphdef-controls g) n))
 
 (define (graphdef-constant g n)
-  (ref (graphdef-constants g) n))
+  (list-ref (graphdef-constants g) n))
 
 (define (graphdef->u8t g)
   (let ((n (graphdef-name g))

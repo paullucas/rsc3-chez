@@ -8,7 +8,7 @@ _LinRand BiLinRand Sum3Rand Distort SoftClip Coin DigitValue Silence
 Thru RectWindow HanWindow WelchWindow TriWindow _Ramp SCurve))
 
 (define (unary-operator-name special)
-  (ref unary-operator-names special))
+  (list-ref unary-operator-names special))
 
 (define binary-operator-names '(Add Sub Mul IDiv FDiv Mod EQ NE LT GT
 LE GE Min Max BitAnd BitOr BitXor LCM GCD Round RoundUp Trunc Atan2
@@ -17,7 +17,7 @@ Ring3 Ring4 DifSqr SumSqr SqrSum SqrDif AbsDif Thresh AMClip ScaleNeg
 Clip2 Excess Fold2 Wrap2 FirstArg RandRange ExpRandRange))
 
 (define (binary-operator-name special)
-  (ref binary-operator-names special))
+  (list-ref binary-operator-names special))
 
 (define (ugen-name/operator name special)
   (cond

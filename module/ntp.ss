@@ -2,7 +2,8 @@
 
 (module
  ntp mzscheme
- (require "math.ss"
+ (require (only "math.ss"
+		round-exact)
 	  (only (lib "19.ss" "srfi")
 		make-time
 		time-second
@@ -11,4 +12,5 @@
 	  (only (lib "include.ss")
 		include))
  (include "../scheme/ntp/ntp.scm")
- (provide (all-defined)))
+ (provide ntp->utc.
+	  utc->ntp))

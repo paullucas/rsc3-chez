@@ -2,11 +2,18 @@
 
 (module
  random mzscheme
- (require "collection.ss"
-	  "math.ss"
+ (require (only "collection.ss"
+		dx->d
+		foldl1
+		sort)
+	  (only "math.ss"
+		clip
+		pi
+		floor-exact)
 	  (only (lib "1.ss" "srfi")
 		iota
-		last)
+		last
+		list-index)
 	  (only (lib "include.ss")
 		include))
  (include "../scheme/random/distribution.scm")

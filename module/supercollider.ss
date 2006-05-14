@@ -2,16 +2,46 @@
 
 (module
  supercollider mzscheme
- (require "collection.ss"
-	  "math.ss"
-	  "u8v.ss"
-	  "osc.ss"
-	  "structure.ss"
-	  "graphdef.ss"
-	  "server.ss"
-	  "ugen.ss"
+ (require (only "collection.ss"
+		splice
+		extend
+		take-cycle
+		d->dx
+		interleave
+		foldl1
+		)
+	  (only "math.ss"
+		round-exact
+		clip
+		pi two-pi half-pi
+		ampdb dbamp)
+	  (only "u8v.ss"
+		u8v-concat u8v-++
+		i32->u8v
+		u8v->i32
+		u8v-length
+		u8v-copy*)
+	  (only "osc.ss"
+		osc->u8v
+		u8v->osc)
+	  (only "structure.ss"
+		define-structure)
+	  (only "graphdef.ss"
+		ir ar
+		mce? mce-channels make-mce
+		graphdef-name graphdef->u8v
+		ugen? ugen-outputs
+		letc)
+	  (only "server.ss"
+		-> -><
+		/s_new /d_recv)
+	  (only "ugen.ss"
+		Add Sub Mul
+		In Out NumOutputBuses
+		graph->graphdef)
 	  (only (lib "1.ss" "srfi")
-		make-list)
+		make-list
+		list-tabulate)
 	  (only (lib "include.ss")
 		include))
  (include "../scheme/supercollider/in.scm")

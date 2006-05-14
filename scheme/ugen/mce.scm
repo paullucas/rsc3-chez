@@ -4,7 +4,7 @@
   (length (mce-channels m)))
 
 (define (mce-ref m n)
-  (ref (mce-channels m) n))
+  (list-ref (mce-channels m) n))
 
 (define (mce-reverse u)
   (make-mce (reverse (mce-channels u))))

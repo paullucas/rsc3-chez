@@ -2,8 +2,10 @@
 
 (module
  buffer mzscheme
- (require "collection.ss"
-	  "server.ss"
+ (require (only "collection.ss"
+		mapw
+		mapw*
+		splice)
 	  (only (lib "include.ss")
 		include))
  (include "../scheme/buffer/signal.scm")

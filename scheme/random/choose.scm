@@ -3,15 +3,15 @@
 ;; Return a randomly selected element of the <list> 'l'.
 
 (define (choose l)
-  (ref l (randi 0 (length l))))
+  (list-ref l (randi 0 (length l))))
 
 ;; Weighted choose, w must sum to 1.
 
 (define (windex w n)
-  (index (lambda (e) (< n e)) (cdr (dx->d 0 w))))
+  (list-index (lambda (e) (< n e)) (cdr (dx->d 0 w))))
 
 (define (wchoose l w)
-  (ref l (windex w (rand 0.0 1.0))))
+  (list-ref l (windex w (rand 0.0 1.0))))
 
 ;; Proportional choose, p will be normalized and then wchoosen.
 
@@ -29,7 +29,7 @@
 (define (choose/proportions proportions l)
   (let* ((p-sum (cdr (dx->d 0 proportions)))
 	 (n     (rand 0 (last p-sum))))
-    (ref l (index (lambda (e) (< n e)) p-sum))))
+    (list-ref l (list-index (lambda (e) (< n e)) p-sum))))
 
 ;; Return a randomly selected element of the <string> 's'.
 

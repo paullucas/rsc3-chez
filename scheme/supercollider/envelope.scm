@@ -37,13 +37,14 @@
 
 (define (env levels times curve release-node loop-node)
   (make-mce
-   (++ (list (car levels) (length times) release-node loop-node)
-       (splice (map (lambda (l t c)
-		      (list l
-			    t
-			    (curve->shape c)
-			    (curve->value c)))
-		    (cdr levels) times (extend curve (length times)))))))
+   (append 
+    (list (car levels) (length times) release-node loop-node)
+    (splice (map (lambda (l t c)
+		   (list l
+			 t
+			 (curve->shape c)
+			 (curve->value c)))
+		 (cdr levels) times (extend curve (length times)))))))
 
 ;; Co-ordinate based static envelope generator.
 
