@@ -8,8 +8,7 @@
 		take-cycle
 		d->dx
 		interleave
-		foldl1
-		)
+		foldl1)
 	  (only "math.ss"
 		round-exact
 		clip

@@ -277,7 +277,7 @@ The symbol at point is preprocessed by `rsc-cleanup-symbol'."
   (interactive)
   (mapc (lambda (filename)
 	  (find-file-other-window filename))
-	(find-lisp-find-files rsc-shared-directory
+	(find-lisp-find-files (concat rsc-shared-directory "/help")
 			      (concat "^"
 				      (rsc-cleanup-symbol 
 				       (thing-at-point 'symbol))
