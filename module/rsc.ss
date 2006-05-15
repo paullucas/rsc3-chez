@@ -5,4 +5,5 @@
  (require (only (lib "include.ss")
 		include))
  (include "../scheme/rsc/rsc.scm")
- (provide (all-defined)))
+ (provide rsc-directory
+	  rsc-file))

@@ -15,4 +15,7 @@
  (include "../scheme/schedule/pq.scm")
  (include "../scheme/schedule/sq.scm")
  (include "../scheme/schedule/schedule.scm")
- (provide (all-defined)))
+ (provide make-schedule*
+	  at
+	  schedule-clear
+	  make-thread*))

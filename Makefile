@@ -6,7 +6,7 @@ all:
 	setup-plt -l $(PROJECT)
 
 clean:
-	rm -R compiled scheme/*/compiled
+	rm -fR compiled module/compiled
 #	setup-plt -c -l $(PROJECT)
 
 plt:

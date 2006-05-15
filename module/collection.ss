@@ -29,4 +29,13 @@
  (include "../scheme/collection/list.scm")
  (include "../scheme/collection/series.scm")
  (include "../scheme/collection/tree.scm")
- (provide sort (all-defined)))
+ (provide sort
+	  concat member?
+	  splice interleave intersperse lace extend
+	  foldl1
+	  dx->d d->dx rotate invert maximum
+	  cycles take-cycle
+	  ref/wrap
+	  mapw mapw*
+	  flatten
+	  geom))

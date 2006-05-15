@@ -5,12 +5,8 @@
  (require (only "structure.ss"
 		define-structure)
 	  (only "u8v.ss"
-		pstring->u8v
-		string->u8v
-		i8->u8v
-		i16->u8v
-		i32->u8v
-		f32->u8v
+		string->u8v pstring->u8v
+		i8->u8v i16->u8v i32->u8v f32->u8v
 		u8t->u8v)
 	  (only "collection.ss"
 		foldl1)

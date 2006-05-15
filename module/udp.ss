@@ -7,4 +7,6 @@
 	  (only (lib "include.ss")
 		include))
  (include "../scheme/udp/udp.scm")
- (provide (all-defined)))
+ (provide open-udp*
+	  udp*-send
+	  udp*-recv))
