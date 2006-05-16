@@ -17,8 +17,8 @@
 ;; 4 - the new node replaces the node specified by the add target
 ;; ID. The target node is freed.
 
-(define atHeadOf    0)
-(define atTailOf    1)
-(define beforeNode  2)
-(define afterNode   3)
-(define replaceNode 4)
+(define addToHead  0)
+(define addToTail  1)
+(define addBefore  2)
+(define addAfter   3)
+(define addReplace 4)
