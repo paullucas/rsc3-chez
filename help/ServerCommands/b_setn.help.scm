@@ -1,4 +1,4 @@
-; /b_setn set ranges of sample value(s)
+; /b_setn                               Set ranges of sample value(s)
 
 ; int - buffer number
 ; [

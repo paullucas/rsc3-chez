@@ -1,4 +1,4 @@
-; /g_freeAll                          delete all nodes in a group.
+; /g_freeAll                          Delete all nodes in a group.
 
 ; [
 ; 	int - group ID

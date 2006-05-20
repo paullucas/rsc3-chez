@@ -1,4 +1,4 @@
-; /b_fill                              fill ranges of sample value(s)
+; /b_fill                              Fill ranges of sample value(s)
 
 ; int - buffer number
 ; [

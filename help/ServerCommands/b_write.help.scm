@@ -1,4 +1,4 @@
-; /b_write					write sound file data.
+; /b_write					Write sound file data.
 
 ;  int - buffer number
 ;  string - path name of a sound file.

@@ -1,4 +1,4 @@
-; /status				       query the status
+; /status				       Query the status
 
 ; No arguments.
 

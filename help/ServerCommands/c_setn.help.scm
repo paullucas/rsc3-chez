@@ -1,4 +1,4 @@
-; /c_setn set ranges of bus value(s)
+; /c_setn                                   Set ranges of bus value(s)
 
 ; [
 ; int - starting bus index

@@ -1,4 +1,4 @@
-; /c_set set bus value(s)
+; /c_set                                               Set bus value(s)
 
 ; [
 ; int - a bus index

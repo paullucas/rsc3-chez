@@ -1,4 +1,5 @@
-; /tr				a trigger message
+; /tr				                   A trigger message
+
 ; int - node ID
 ; int - trigger ID
 ; float - trigger value
@@ -9,4 +10,3 @@
 ; The node ID is the node that is sending the trigger. The trigger ID
 ; and value are determined by inputs to the SendTrig unit generator
 ; which is the originator of this message.
-

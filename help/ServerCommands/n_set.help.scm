@@ -1,4 +1,4 @@
-; /n_set set a node's control value(s)
+; /n_set                                Set a node's control value(s)
 
 ; int - node ID
 ; [

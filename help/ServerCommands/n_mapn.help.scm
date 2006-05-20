@@ -1,4 +1,4 @@
-; /n_mapn map a node's controls to read from buses
+; /n_mapn                       Map a node's controls to read from buses
 
 ; int - node ID
 ; [

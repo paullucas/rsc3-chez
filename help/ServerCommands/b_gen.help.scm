@@ -1,4 +1,4 @@
-; /b_gen                              call a command to fill a buffer
+; /b_gen                              Call a command to fill a buffer
 
 ; int - buffer number
 ; string - command name

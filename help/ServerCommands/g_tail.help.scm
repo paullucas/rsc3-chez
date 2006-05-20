@@ -1,4 +1,4 @@
-; /g_tail                             add node to tail of group
+; /g_tail                             Add node to tail of group
 
 ; [
 ; 	int - group ID

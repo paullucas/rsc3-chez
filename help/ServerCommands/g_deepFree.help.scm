@@ -1,4 +1,4 @@
-; /g_deepFree	free all synths in this group and all its sub-groups.
+; /g_deepFree	 Free all synths in this group and all its sub-groups.
 
 ; [
 ; 	int - group ID

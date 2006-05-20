@@ -1,4 +1,4 @@
-; /b_zero zero sample data
+; /b_zero                                      Zero sample data
 
 ; int - buffer number
 ; bytes - an OSC message to execute upon completion. (optional)

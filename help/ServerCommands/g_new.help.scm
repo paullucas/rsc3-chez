@@ -1,4 +1,4 @@
-; /g_new				create a new group
+; /g_new				Create a new group
 
 ; [
 ; 	int - new group ID

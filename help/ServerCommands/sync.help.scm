@@ -1,4 +1,4 @@
-; /sync                notify when async commands have completed.
+; /sync                      Notify when async commands have completed.
 
 ; int - a unique number identifying this command.
 

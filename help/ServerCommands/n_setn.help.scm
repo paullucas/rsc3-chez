@@ -1,4 +1,4 @@
-; /n_setn set ranges of a node's control value(s)
+; /n_setn                      Set ranges of a node's control value(s)
 
 ; int - node ID
 ; [

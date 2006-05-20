@@ -1,4 +1,4 @@
-; /n_free delete a node.
+; /n_free                                          Delete a node.
 
 ; [
 ; int - node ID

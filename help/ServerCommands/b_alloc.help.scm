@@ -1,4 +1,4 @@
-; /b_alloc allocate buffer space.
+; /b_alloc                                Allocate buffer space.
 
 ; int - buffer number
 ; int - number of frames

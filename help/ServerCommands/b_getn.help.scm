@@ -1,4 +1,4 @@
-; /b_getn                               get ranges of sample value(s)
+; /b_getn                               Get ranges of sample value(s)
 
 ; int - buffer number
 ; [

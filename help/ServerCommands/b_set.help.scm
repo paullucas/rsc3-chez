@@ -1,4 +1,4 @@
-; /b_set					set sample value(s)
+; /b_set					Set sample value(s)
 
 ; int - buffer number
 ;  [

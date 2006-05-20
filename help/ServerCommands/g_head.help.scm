@@ -1,4 +1,4 @@
-; /g_head      		              add node to head of group
+; /g_head      		              Add node to head of group
 	
 ; [
 ; 	int - group ID

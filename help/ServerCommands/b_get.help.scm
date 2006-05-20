@@ -1,4 +1,5 @@
-; /b_get					get sample value(s)
+; /b_get					Get sample value(s)
+
 ; int - buffer number
 ; [
 ;  int - a sample index

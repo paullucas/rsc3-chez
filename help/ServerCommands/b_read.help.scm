@@ -1,4 +1,4 @@
-; /b_read             read sound file data into an existing buffer.
+; /b_read             Read sound file data into an existing buffer.
 
 ;  int - buffer number
 ;  string - path name of a sound file.

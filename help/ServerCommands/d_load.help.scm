@@ -1,4 +1,4 @@
-; /d_load load synth definition
+; /d_load                                      Load synth definition
 
 ; string - pathname of file. Can be a pattern like "synthdefs/perc-*"
 ; bytes - an OSC message to execute upon completion. (optional)
@@ -7,4 +7,3 @@
 ; names are overwritten.
 
 ; Asynchronous. Replies to sender with /done when complete.
-

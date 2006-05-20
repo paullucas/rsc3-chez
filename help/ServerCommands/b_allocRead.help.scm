@@ -1,4 +1,4 @@
-; /b_allocRead allocate buffer space and read a sound file.
+; /b_allocRead           Allocate buffer space and read a sound file.
 
 ; int - buffer number
 ; string - path name of a sound file.

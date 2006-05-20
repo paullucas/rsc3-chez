@@ -1,4 +1,4 @@
-; /d_recv receive a synth definition file
+; /d_recv                           Receive a synth definition file
 
 ; bytes - buffer of data.
 ; bytes - an OSC message to execute upon completion. (optional)
