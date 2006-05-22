@@ -29,5 +29,5 @@
 (define (free-all s)
   (begin
    (-> s (/g_freeAll 0))
-   (-> s (/clearSched))
+   (-> s /clearSched)
    (-> s (/g_new 1 0 0))))
