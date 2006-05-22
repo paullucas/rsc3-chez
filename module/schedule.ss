@@ -18,4 +18,5 @@
  (provide make-schedule*
 	  at
 	  schedule-clear
-	  make-thread*))
+	  make-thread*
+	  utc))
