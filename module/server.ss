@@ -4,7 +4,8 @@
  server mzscheme
  (require (only "osc.ss"
 		osc-send
-		osc-recv)
+		osc-recv
+		message)
 	  (only "collection.ss"
 		splice)
 	  (only (lib "include.ss")
