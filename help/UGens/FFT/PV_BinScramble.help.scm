@@ -12,17 +12,15 @@
 
 ;; trig - a trigger selects a new random ordering.
 
-(define b 0)
-(->< s (/b_alloc b 2048 1))
+(begin 
+  (->< s (/b_alloc 10 2048 1))
+  (->< s (/b_allocRead 12 (rsc-file "audio/metal.wav") 0 0)))
 
-(define c 1)
-(->< s (/b_allocRead c (rsc-file "audio/metal.wav") 0 0))
-
-(let* ((in (PlayBuf ar 1 c (BufRateScale kr c) 1 0 1))
-       (c0 (FFT b in))
-       (c1 (PV_BinScramble c0 
-			   (MouseX kr 0.0 1.0 0 0.1) 
-			   0.1
-			   (GT (MouseY kr 0.0 1.0 0 0.1) 0.5)))
-       (c2 (IFFT c1)))
-  (Out 0 (Mul 0.5 (Mce c2 c2))))
+(let* ((a (PlayBuf ar 1 12 (BufRateScale kr 12) 1 0 1))
+       (f (FFT 10 a))
+       (g (PV_BinScramble f
+			  (MouseX kr 0.0 1.0 0 0.1) 
+			  0.1
+			  (GT (MouseY kr 0.0 1.0 0 0.1) 0.5)))
+       (h (IFFT g)))
+  (Out 0 (Mul 0.5 (Mce h h))))

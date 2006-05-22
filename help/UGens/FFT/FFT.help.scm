@@ -10,13 +10,11 @@
 ;; The FFT and PV_ UGens must run at control rate, the IFFT UGen at
 ;; audio rate.
 
-(define b 0)
+(->< s (/b_alloc 10 2048 1))
 
-(->< s (/b_alloc b 2048 1))
-
-(IFFT (FFT b (Mul (WhiteNoise ar) 0.05)))
+(IFFT (FFT 10 (Mul (WhiteNoise ar) 0.05)))
 
 (IFFT 
  (FFT 
-  b
+  10
   (SinOsc ar (MulAdd (SinOsc kr (Squared (MulAdd (SinOsc kr 0.08 0) 6 6.2)) 0) 100 800) 0)))
