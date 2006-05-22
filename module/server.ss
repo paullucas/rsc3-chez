@@ -5,7 +5,10 @@
  (require (only "osc.ss"
 		osc-send
 		osc-recv
-		message)
+		message
+		bundle)
+	  (only "schedule.ss"
+		utc)
 	  (only "collection.ss"
 		splice)
 	  (only (lib "include.ss")

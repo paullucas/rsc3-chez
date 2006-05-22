@@ -26,8 +26,8 @@
 	 ((not (string=? (car p) r)) (error "-><: bad return packet" p r))
 	 (else                       p))))))
 
-(define (free-all s)
-  (begin
-   (-> s (/g_freeAll 0))
-   (-> s /clearSched)
-   (-> s (/g_new 1 0 0))))
+(define (reset s)
+  (-> s (bundle (utc)
+		(/g_freeAll 0)
+		/clearSched
+		(/g_new 1 0 0))))
