@@ -28,4 +28,19 @@
  (include "../scheme/graphdef/proxy.scm")
  (include "../scheme/graphdef/rate.scm")
  (include "../scheme/graphdef/ugen.scm")
- (#%provide (all-defined)))
+ (#%provide rate-select rate-of rate-value
+	    ugen make-ugen ugen? ugen-inputs ugen-name ugen-rate ugen-outputs ugen-special ugen-id
+	    ugen-output ugen-validate
+	    make-proxy proxy? proxy-ugen proxy-port
+	    make-control control-name
+	    control*? control*-default control*-name
+	    make-mce mce? mce-channels
+	    make-mrg mrg? mrg-roots
+	    make-outputs
+	    make-uid unique-uid
+	    graphdef make-graphdef graphdef-name graphdef-defaults graphdef-controls graphdef-constant
+	    graphdef-ugen graphdef-ugens graphdef->u8v
+	    input make-input input-ugen input-port
+	    make-output output-rate
+	    ar kr ir dr
+	    letc))

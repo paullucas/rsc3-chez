@@ -13,4 +13,13 @@
  (include "../scheme/math/gain.scm")
  (include "../scheme/math/log.scm")
  (include "../scheme/math/pitch.scm")
- (#%provide (all-defined)))
+ (#%provide clip
+	    pi half-pi two-pi
+	    floor-exact round-exact
+	    log2 log10
+	    midicps cpsmidi
+	    octcps cpsoct
+	    ampdb dbamp
+	    midiratio ratiomidi
+	    squared cubed
+	    recip))
