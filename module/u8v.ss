@@ -2,7 +2,9 @@
 
 (module
  u8v mzscheme
- (require (only "collection.ss"
+ (require (only "structure.ss"
+		define-structure)
+	  (only "collection.ss"
 		flatten)
 	  (only (lib "include.ss")
 		include)
@@ -20,4 +22,9 @@
 	  u8t->u8v
 	  u8v-++ u8v-append u8v-concat
 	  open-input-u8v
-	  read-u8v write-u8v file->u8v))
+	  read-u8v write-u8v file->u8v
+	  u8 i8 u16 i16 u32 i32 u64 i64 f32 f64
+	  _u8 _i8 _u16 _i16 _u32 _i32 _u64 _i64 _f32 _f64
+	  str pstr u8v*
+	  _pstr
+	  u8w mk-u8v))

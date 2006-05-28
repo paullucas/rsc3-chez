@@ -4,7 +4,7 @@
 
 (define b 10)
 
-(->< s (/b_allocRead b (rsc-file "audio/metal.wav") 0 0))
+(->< s (/b_allocRead b "/home/rohan/sw/sw-01/audio/metal.wav" 0 0))
 
 ;; Play once only.
 

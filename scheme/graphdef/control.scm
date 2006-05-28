@@ -4,9 +4,9 @@
 
 (define-structure control name index)
 
-(define (control->u8t c)
-  (list (pstring->u8v (control-name c))
-	(i16->u8v (control-index c))))
+(define (control->u8 c)
+  (list (pstr (control-name c))
+	(i16 (control-index c))))
 
 ;; A <control*> is a place holder for a <control>.
 

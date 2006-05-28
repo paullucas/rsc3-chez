@@ -4,8 +4,8 @@
 
 (define-structure output rate)
 
-(define (output->u8v o)
-  (i8->u8v (rate-value (output-rate o))))
+(define (output->u8 o)
+  (i8 (rate-value (output-rate o))))
 
 (define (make-outputs n r)
   (make-list n (make-output r)))
