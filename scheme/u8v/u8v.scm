@@ -1,7 +1,7 @@
 ;; u8v.scm - (c) rohan drape, 2001-2006
 
-;; PLT provides two incompatible types for byte vectors, <bytes> and
-;; <u8vector>.  This aliases <u8v> to <bytes>.
+;; Core.  PLT provides two incompatible types for byte vectors,
+;; <bytes> and <u8vector>.  This aliases <u8v> to <bytes>.
 
 (define u8v?             bytes?)
 (define make-u8v         make-bytes)
@@ -14,7 +14,6 @@
 (define u8v-ref          bytes-ref)
 (define u8v-length       bytes-length)
 (define u8v-append       bytes-append)
-(define (u8v-++ a b)     (u8v-append a b))
 (define read-u8v         read-bytes)
 (define write-u8v        write-bytes)
 (define open-input-u8v   open-input-bytes)
@@ -24,8 +23,6 @@
 (define list->u8v        list->bytes)
 (define u8v->string      bytes->string/utf-8)
 (define string->u8v      string->bytes/utf-8)
-
-(define (u8v-concat l)  (fold-right u8v-++ (u8v) l))
 
 ;; Must provide procedures for converting to and from binary integer
 ;; types and IEEE floating point representations and the respective
@@ -70,6 +67,11 @@
 
 (define (u8v->real b big-endian?)
   (floating-point-bytes->real b big-endian?))
+
+;; Derived.
+
+(define (u8v-++ a b)     (u8v-append a b))
+(define (u8v-concat l)   (fold-right u8v-++ (u8v) l))
 
 (define (u8v->i8  b) (u8v->integer b #t #t))
 (define (u8v->u8  b) (u8v->integer b #f #t))
