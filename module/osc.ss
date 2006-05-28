@@ -31,7 +31,6 @@
  (include "../scheme/osc/purify.scm")
  (include "../scheme/osc/read.scm")
  (include "../scheme/osc/verify.scm")
- (include "../scheme/osc/write.scm")
  (include "../scheme/osc/transport.scm")
  (#%provide message
 	    bundle
