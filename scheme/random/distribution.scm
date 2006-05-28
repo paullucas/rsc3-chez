@@ -1,5 +1,9 @@
 ;; distribution.scm - (c) rohan drape, 2000-2005
 
+;; Alias SRFI-27 name
+
+(define random random-real)
+
 ;; Linearly distributed in [0,1) with a mean value of 0.2929.  The
 ;; density function is given by 'f(x) = 2 * (1 - x)'.
 

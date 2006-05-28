@@ -1,11 +1,11 @@
 ;; rsc.ss - (c) rohan drape, 2004-2006
 
 (module
- rsc mzscheme
+ rsc (lib "lang.ss" "r5rs")
 
  (define-syntax require/provide
    (syntax-rules ()
-     ((_ m) (begin (require m) (provide (all-from m))))))
+     ((_ m) (begin (#%require m) (#%provide (all-from m))))))
 
  (require/provide "module/collection.ss")
  (require/provide "module/structure.ss")
@@ -20,7 +20,5 @@
  (require/provide "module/buffer.ss")
  (require/provide "module/ugen.ss")
  (require/provide "module/supercollider.ss")
- (require/provide "module/rsc.ss")
  (require/provide "module/schedule.ss")
- (require/provide "module/osc.ss")
- (provide (all-defined)))
+ (require/provide "module/osc.ss"))
