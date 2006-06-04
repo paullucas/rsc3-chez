@@ -4,7 +4,7 @@
 
 (define-structure control name index)
 
-(define (control->u8 c)
+(define (control->npt c)
   (list (pstr (control-name c))
 	(i16 (control-index c))))
 

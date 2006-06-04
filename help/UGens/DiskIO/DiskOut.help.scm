@@ -13,7 +13,7 @@
 (->< 
  s
  (/d_recv 
-  (graphdef->u8v
+  (graphdef->u8l
    (synthdef
     "DiskOut-Help"
     (letc ((bufnum 0))

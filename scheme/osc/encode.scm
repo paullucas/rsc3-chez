@@ -2,32 +2,33 @@
 
 (define (padding-of n) (make-list n (u8 0)))
 
-;; Evaluates to the OSC <u8v> representing the <string> `s'.
-;; OSC strings are zero terminated, and end at a four byte boundary.
+;; OSC strings are C strings padded to a four byte boundary.
+
+(define (cstring-length s)
+  (+ 1 (string-length s)))
 
 (define (encode-string s)
-  (list (str s) 
-	(padding-of (- 4 (modulo (string-length s) 4)))))
+  (let ((n (modulo (cstring-length s) 4)))
+    (list (cstr s)
+	  (if (= n 0)
+	      (list)
+	      (padding-of (- 4 n))))))
 
-;; Evaluates to the OSC <u8v> representing the <u8v> `b'.  OSC <u8v>s
-;; are length prefixed with a four byte signed network order integer,
-;; and zero byte padded to a four byte boundary.  ** This is
-;; ambiguous, probably if on boundary does not require padding? **
+;; OSC byte strings are length prefixed?
 
 (define (encode-bytes b)
-  (let* ((n (u8v-length b))
+  (let* ((n (length b))
 	 (n* (modulo n 4)))
     (list (i32 n)
-	  (u8v* b)
+	  (bstr b)
 	  (if (= n* 0)
 	      (list)
 	      (padding-of (- 4 n*))))))
 
-;; Evaluates to the OSC <u8v> representing the object `e'.
-;; The value `e' must be of type <integer>, <real>, <string>, or
-;; <u8v>.  Note further that determining if a <real> should be
-;; written as a float or a double is non-trivial and not undertaken
-;; here, all <real>s are written as floats.
+;; Allowable types are <integer>, <real>, <string>, or <u8l>.  Note
+;; further that determining if a <real> should be written as a float
+;; or a double is non-trivial and not undertaken here, all <real>s are
+;; written as floats.
 
 (define (exact-integer? n)
   (and (integer? n) (exact? n)))
@@ -36,11 +37,11 @@
   (cond ((exact-integer? e)   (i32 e))
 	((real? e)            (f32 e))
 	((string? e)          (encode-string e))
-	((u8v? e)             (encode-bytes e))
+	((u8l? e)             (encode-bytes e))
 	(else                 (error "encode-value: illegal value" e))))
 
-;; Evaluates to the OSC <u8v> indicating the types of the
-;; elements of the list `l'.
+;; Encode the type string for the Evaluates to the OSC <u8l> indicating the types of the elements of
+;; the list `l'.
 
 (define (encode-types l)
   (encode-string
@@ -50,39 +51,32 @@
 		 (cond ((exact-integer? e) #\i)
 		       ((real? e)          #\f)
 		       ((string? e)        #\s)
-		       ((u8v? e)           #\b)
+		       ((u8l? e)           #\b)
 		       (else               (error "encode-types: type?" e))))
 	       l)))))
 
-;; Evaluates to the OSC <u8v> encoding the scheme OSC message
-;; `message'.  A scheme OSC message is a <list>, the first element is
-;; an address <string>, subsequent elements are <integer>, <real>,
-;; <string> and <u8v> arguments.
+;; Encode OSC message.
 
 (define (encode-message m)
   (list (encode-string (car m))
 	(encode-types (cdr m))
 	(map encode-value (cdr m))))
 
-;; Evaluates to the OSC <u8v> encoding the scheme OSC bundle
-;; `bundle'.  A scheme OSC bundle is a <list>, the first element is a
-;; <real> valued UTC 'time-tag', each subsequent element must be an
-;; OSC 'message'.
+;; Encode OSC bundle. The first element is a <real> valued UTC
+;; 'time-tag', each subsequent element must be an OSC 'message'.
 
 (define (encode-bundle b)
   (list (encode-string "#bundle")
 	(u64 (utc->ntp (car b)))
 	(map (lambda (e)
 	       (if (message? e)
-		   (encode-bytes (osc->u8v e))
+		   (encode-bytes (osc->u8l e))
 		   (error "encode-bundle: illegal value" e)))
 	     (cdr b))))
 
-;; Evaluates to the OSC <u8v> encoding the scheme OSC packet
-;; `packet'.  A scheme OSC packet is either a scheme OSC message or a
-;; scheme OSC bundle.
+;; An OSC packet is either an OSC message or an OSC bundle.
 
-(define (osc->u8v p)
-  (mk-u8v (if (bundle? p)
-	      (encode-bundle p)
-	      (encode-message p))))
+(define (osc->u8l p)
+  (npt->u8l (if (bundle? p)
+		(encode-bundle p)
+		(encode-message p))))

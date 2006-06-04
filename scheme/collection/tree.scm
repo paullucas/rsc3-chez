@@ -8,3 +8,8 @@
 	(else      (cons t r))))
 
 (define (flatten t) (flatten* t '()))
+
+(define (mapt f t)
+  (cond ((null? t) (list))
+	((list? t) (map (lambda (e) (mapt f e)) t))
+	(else      (f t))))

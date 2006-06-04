@@ -6,7 +6,7 @@
 
 (define-structure input ugen port)
 
-(define (input->u8 i)
+(define (input->npt i)
   (list (i16 (input-ugen i))
 	(i16 (input-port i))))
 

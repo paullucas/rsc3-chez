@@ -24,7 +24,7 @@
 	 (integer? s)
 	 (uid? d))))
 
-(define (ugen->u8 u)
+(define (ugen->npt u)
   (let ((n (ugen-name u))
 	(r (ugen-rate u))
 	(i (ugen-inputs u))
@@ -33,9 +33,9 @@
 	(d (ugen-id u)))
     (list 
      (pstr n)
-     (i8 (rate-value r))
+     (u8 (rate-value r))
      (i16 (length i))
      (i16 (length o))
      (i16 s)
-     (map input->u8 i)
-     (map output->u8 o))))
+     (map input->npt i)
+     (map output->npt o))))

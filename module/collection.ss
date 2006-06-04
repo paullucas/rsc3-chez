@@ -42,4 +42,5 @@
 	    ref/wrap
 	    mapw mapw*
 	    flatten
+	    mapt
 	    geom))

@@ -9,7 +9,7 @@
 ;; although most interpreters will have an option to set this.
 
 (define (purify e)
-  (cond ((or (number? e) (string? e) (u8v? e)) e)
+  (cond ((or (number? e) (string? e) (u8l? e)) e)
 	((list? e) (map purify e))
 	((symbol? e) (symbol->string e))
 	((boolean? e) (if e 1 0))

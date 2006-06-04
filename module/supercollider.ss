@@ -10,27 +10,24 @@
 		  take-cycle
 		  d->dx
 		  interleave
-		  foldl1)
+		  foldl1
+		  flatten)
 	    (only "math.ss"
 		  round-exact
 		  clip
 		  pi two-pi half-pi
 		  ampdb dbamp)
-	    (only "u8v.ss"
-		  u8v-concat u8v-++
-		  i32->u8v
-		  u8v->i32
-		  u8v-length
-		  u8v-copy*)
+	    (only "u8.ss"
+		  i32->u8l)
 	    (only "osc.ss"
-		  osc->u8v
-		  u8v->osc)
+		  osc->u8l
+		  u8l->osc)
 	    (only "structure.ss"
 		  define-structure)
 	    (only "graphdef.ss"
 		  ir ar
 		  mce? mce-channels make-mce
-		  graphdef-name graphdef->u8v
+		  graphdef-name graphdef->u8l
 		  ugen? ugen-outputs
 		  letc)
 	    (only "server.ss"

@@ -12,7 +12,7 @@
 ;; Open gate for a random interval.
 
 (define g
-  (graphdef->u8v
+  (graphdef->u8l
    (synthdef
     "linen"
     (letc ((gate 0))

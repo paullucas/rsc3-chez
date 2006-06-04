@@ -5,5 +5,5 @@
 (define (play s u)
   (let ((g (ugen->graphdef/out u)))
     (begin
-      (->< s (/d_recv (graphdef->u8v g)))
+      (->< s (/d_recv (graphdef->u8l g)))
       (->  s (/s_new (graphdef-name g) -1 1 1)))))

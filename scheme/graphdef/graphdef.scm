@@ -13,14 +13,16 @@
 (define (graphdef-constant g n)
   (list-ref (graphdef-constants g) n))
 
-(define (graphdef->u8 g)
+(define SCgf (map u8 (map char->integer (string->list "SCgf"))))
+
+(define (graphdef->npt g)
   (let ((n (graphdef-name g))
 	(c (graphdef-constants g))
 	(d (graphdef-defaults g))
 	(k (graphdef-controls g))
 	(u (graphdef-ugens g)))
     (list
-     (str "SCgf")
+     SCgf
      (i32 0)
      (i16 1)
      (pstr n)
@@ -29,9 +31,9 @@
      (i16 (length d))
      (map f32 d)
      (i16 (length k))
-     (map control->u8 k)
+     (map control->npt k)
      (i16 (length u))
-     (map ugen->u8 u))))
+     (map ugen->npt u))))
 
-(define (graphdef->u8v g)
-  (mk-u8v (graphdef->u8 g)))
+(define (graphdef->u8l g)
+  (npt->u8l (graphdef->npt g)))

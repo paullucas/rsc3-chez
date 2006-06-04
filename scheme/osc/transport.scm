@@ -3,11 +3,11 @@
 ;; 'u' is a <udp*>, 't' is a timeout in seconds.
 
 (define (osc-send u m)
-  (udp*-send u (osc->u8v m)))
+  (udp*-send u (osc->u8l m)))
 
 (define (osc-recv u t)
   (let ((b (udp*-recv u t)))
-    (if b (u8v->osc b) #f)))
+    (if b (u8l->osc b) #f)))
 
 (define (osc-request u r m t)
   (osc-send u m)
