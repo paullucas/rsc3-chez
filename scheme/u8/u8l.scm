@@ -1,13 +1,6 @@
 ;; u8l.scm - (c) rohan drape, 2001-2006
 
-;; u8? :: u8 -> true
-
-(define (u8? b)
-  (and (integer? b)
-       (>= b 0)
-       (< b 256)))
-
-;; u8? :: [u8] -> true
+;; u8l? :: [u8] -> true
 
 (define (u8l? l)
   (and (list? l)
@@ -19,6 +12,7 @@
 (define (u8l->u16 l) (u8l->int l 2 #f))
 (define (u8l->u32 l) (u8l->int l 4 #f))
 (define (u8l->u64 l) (u8l->int l 8 #f))
+(define (u8l->i8  l) (u8->i8 (u8l->u8 l)))
 (define (u8l->i16 l) (u8l->int l 2 #t))
 (define (u8l->i32 l) (u8l->int l 4 #t))
 (define (u8l->i64 l) (u8l->int l 8 #t))
@@ -31,6 +25,7 @@
 (define (u16->u8l n) (int->u8l n 2 #f))
 (define (u32->u8l n) (int->u8l n 4 #f))
 (define (u64->u8l n) (int->u8l n 8 #f))
+(define (i8->u8l  n) (u8->u8l (i8->u8 n)))
 (define (i16->u8l n) (int->u8l n 2 #t))
 (define (i32->u8l n) (int->u8l n 4 #t))
 (define (i64->u8l n) (int->u8l n 8 #t))
@@ -86,3 +81,13 @@
     ((f64)  read-f64)
     ((pstr) read-pstr)
     ((cstr) read-cstr)))
+
+;; file->u8l :: string -> [u8]
+
+(define (file->u8l f)
+  (with-input-from-file f
+    (lambda ()
+      (let loop ((l (list)))
+	(if (eof-object? (peek-u8))
+	    (reverse l)
+	    (loop (cons (read-u8) l)))))))
