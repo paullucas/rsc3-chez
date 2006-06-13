@@ -1,4 +1,4 @@
-;; bit.ss - (c) rohan drape, 2006
+;; bits.ss - (c) rohan drape, 2006
 
 ;; If only SRFI-33 had gone through...
 

@@ -9,7 +9,7 @@
 		  osc-recv
 		  message
 		  bundle)
-	    (only "schedule.ss"
+	    (only "utc.ss"
 		  utc)
 	    (only "collection.ss"
 		  splice)

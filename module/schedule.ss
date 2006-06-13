@@ -6,23 +6,23 @@
 		  with-exception-handler)
 	    (only (lib "23.ss" "srfi")
 		  error)	    
-	    (only (lib "include.ss") 
-		  include)
-	    (only "structure.ss"
-		  define-structure)
 	    (only "spawn.ss"
 		  spawn
 		  thread-terminate!
-		  thread-sleep!
-		  utc
+		  thread-sleep!)
+	    (only "utc.ss"
+		  utc)
+	    (only "ch.ss"
 		  make-ch
 		  ch-put
-		  ch-sync))
+		  ch-sync)
+	    (only "structure.ss"
+		  define-structure)
+	    (only (lib "include.ss")
+		  include))
  (include "../scheme/schedule/pq.scm")
  (include "../scheme/schedule/sq.scm")
  (include "../scheme/schedule/schedule.scm")
  (#%provide make-schedule*
 	    at
-	    schedule-clear
-	    spawn
-	    utc))
+	    schedule-clear))
