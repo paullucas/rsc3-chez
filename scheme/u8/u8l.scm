@@ -9,28 +9,28 @@
 ;; Decoders
 
 (define (u8l->u8  l) (list-ref l 0))
-(define (u8l->u16 l) (u8l->int l 2 #f))
-(define (u8l->u32 l) (u8l->int l 4 #f))
-(define (u8l->u64 l) (u8l->int l 8 #f))
+(define (u8l->u16 l) (u8l->int l #f))
+(define (u8l->u32 l) (u8l->int l #f))
+(define (u8l->u64 l) (u8l->int l #f))
 (define (u8l->i8  l) (u8->i8 (u8l->u8 l)))
-(define (u8l->i16 l) (u8l->int l 2 #t))
-(define (u8l->i32 l) (u8l->int l 4 #t))
-(define (u8l->i64 l) (u8l->int l 8 #t))
-(define (u8l->f32 l) (u8l->real l 4))
-(define (u8l->f64 l) (u8l->real l 8))
+(define (u8l->i16 l) (u8l->int l #t))
+(define (u8l->i32 l) (u8l->int l #t))
+(define (u8l->i64 l) (u8l->int l #t))
+(define (u8l->f32 l) (u8l->real l))
+(define (u8l->f64 l) (u8l->real l))
 
 ;; Encoders
 
 (define (u8->u8l  n) (list n))
-(define (u16->u8l n) (int->u8l n 2 #f))
-(define (u32->u8l n) (int->u8l n 4 #f))
-(define (u64->u8l n) (int->u8l n 8 #f))
+(define (u16->u8l n) (int->u8l n 16))
+(define (u32->u8l n) (int->u8l n 32))
+(define (u64->u8l n) (int->u8l n 64))
 (define (i8->u8l  n) (u8->u8l (i8->u8 n)))
-(define (i16->u8l n) (int->u8l n 2 #t))
-(define (i32->u8l n) (int->u8l n 4 #t))
-(define (i64->u8l n) (int->u8l n 8 #t))
-(define (f32->u8l n) (real->u8l n 4))
-(define (f64->u8l n) (real->u8l n 8))
+(define (i16->u8l n) (int->u8l n 16))
+(define (i32->u8l n) (int->u8l n 32))
+(define (i64->u8l n) (int->u8l n 64))
+(define (f32->u8l n) (real->u8l n 32))
+(define (f64->u8l n) (real->u8l n 64))
 
 ;; String coding
 

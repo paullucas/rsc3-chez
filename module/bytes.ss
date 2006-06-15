@@ -16,16 +16,14 @@
      ((current-input-port p))
      (f))))
 
-(define (int->u8l n size signed?)
-  (bytes->list (integer->integer-bytes n size signed? #t)))
-
-(define (u8l->int l size signed?)
-  (integer-bytes->integer (list->bytes l) signed? #t))
-
 (define (real->u8l n size)
-  (bytes->list (real->floating-point-bytes n size #t)))
+  (bytes->list (real->floating-point-bytes n (/ size 8) #t)))
 
-(define (u8l->real l size)
-  (floating-point-bytes->real (list->bytes (take l size)) #t))
+(define (u8l->real l)
+  (floating-point-bytes->real (list->bytes l) #t))
 
-(provide (all-defined)))
+(provide read-u8
+	 write-u8
+	 with-intput-u8l
+	 real->u8v
+	 u8v->real))
