@@ -37,7 +37,8 @@
 	    make-mrg mrg? mrg-roots
 	    make-outputs
 	    make-uid unique-uid
-	    graphdef make-graphdef graphdef-name graphdef-defaults graphdef-controls graphdef-constant
+	    graphdef
+	    graphdef? make-graphdef graphdef-name graphdef-defaults graphdef-controls graphdef-constant
 	    graphdef-ugen graphdef-ugens graphdef->u8l
 	    input make-input input-ugen input-port
 	    make-output output-rate
