@@ -23,7 +23,8 @@
   (floating-point-bytes->real (list->bytes l) #t))
 
 (provide read-u8
+	 peek-u8
 	 write-u8
-	 with-intput-u8l
-	 real->u8v
-	 u8v->real))
+	 with-input-u8l
+	 real->u8l
+	 u8l->real))
