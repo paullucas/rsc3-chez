@@ -27,7 +27,7 @@
 	    (only "graphdef.ss"
 		  ir ar
 		  mce? mce-channels make-mce
-		  graphdef-name graphdef->u8l
+		  graphdef? graphdef-name graphdef->u8l
 		  ugen? ugen-outputs
 		  letc)
 	    (only "server.ss"
