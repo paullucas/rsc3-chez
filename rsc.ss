@@ -11,7 +11,6 @@
  (require/provide "module/structure.ss")
  (require/provide "module/random.ss")
  (require/provide "module/math.ss")
- (require/provide "module/hash.ss")
  (require/provide "module/ntp.ss")
  (require/provide "module/u8.ss")
  (require/provide "module/udp.ss")
