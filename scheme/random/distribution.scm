@@ -1,4 +1,4 @@
-;; distribution.scm - (c) rohan drape, 2000-2005
+;; distribution.scm - (c) rohan drape, 2000-2006
 
 ;; Alias SRFI-27 name
 

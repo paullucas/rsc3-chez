@@ -1,4 +1,4 @@
-;; envelope.scm - (c) rohan drape, 2003-2005
+;; envelope.scm - (c) rohan drape, 2003-2006
 
 ;; A curve specification is either a <string> or a <number>.  If it is
 ;; a string it must name a known curve type.  For numerical valued
@@ -16,7 +16,7 @@
 	 ((f "cos")         4.0)
 	 ((f "squared")     6.0)
 	 ((f "cubed")       7.0)
-	 (else            (error "curve->shape:" curve))))
+	 (else              (error "curve->shape:" curve))))
       5.0))
 
 ;; If the curve is a number the value is that number, else the value

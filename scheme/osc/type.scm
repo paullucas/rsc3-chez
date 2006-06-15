@@ -1,4 +1,4 @@
-;; type.scm - (c) rohan drape, 2005
+;; type.scm - (c) rohan drape, 2005-2006
 
 (define oI32 #\i)
 (define oI64 #\h)

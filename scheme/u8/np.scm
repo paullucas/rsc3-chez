@@ -1,4 +1,4 @@
-;; np.scm - (c) rohan drape, 2005
+;; np.scm - (c) rohan drape, 2005-2006
 
 ;; Network protocol.
 
