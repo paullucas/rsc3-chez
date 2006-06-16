@@ -34,7 +34,7 @@
 	    make-control control-name
 	    control*? control*-default control*-name
 	    Mce make-mce mce? mce-channels
-	    make-mrg mrg? mrg-roots
+	    Mrg make-mrg mrg? mrg-roots
 	    make-outputs
 	    make-uid unique-uid
 	    graphdef
