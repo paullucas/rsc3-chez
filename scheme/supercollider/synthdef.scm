@@ -6,8 +6,14 @@
 
 ;; If ugen has output ports encapsulate it.
 
-(define (ugen->graphdef/out ugen)
-  (if (or (mce? ugen)
-	  (and (ugen? ugen) (not (null? (ugen-outputs ugen)))))
-      (graph->graphdef "Anonymous" (letc ((bus 0.0)) (Out bus ugen)))
-      (graph->graphdef "Anonymous" ugen)))
+(define (with-out u)
+  (if (or (mce? u)
+	  (and (ugen? u) (not (null? (ugen-outputs u)))))
+      (letc ((bus 0.0)) (Out bus u))
+      u))
+
+(define (send-synth s n u)
+  (->< s (/d_recv (graphdef->u8l (synthdef n (with-out u))))))
+
+(define (ugen->graphdef/out u)
+  (synthdef "Anonymous" (with-out u)))
