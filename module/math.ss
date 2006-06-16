@@ -21,5 +21,6 @@
 	    octcps cpsoct
 	    ampdb dbamp
 	    midiratio ratiomidi
+	    degree->key
 	    squared cubed
 	    recip))
