@@ -26,6 +26,7 @@
 (define-oscillator HenonL (freq a b x0 x1) 1)
 (define-oscillator HenonN (freq a b x0 x1) 1)
 (define-oscillator Impulse (freq phase) 1)
+(define-oscillator KeyState (key min max lag) 1)
 (define-oscillator Latoocarfian (a b c d) 1)
 (define-oscillator LatoocarfianC (freq a b c d xi yi) 1)
 (define-oscillator LatoocarfianL (freq a b c d xi yi) 1)

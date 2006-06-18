@@ -64,7 +64,6 @@
 (define-filter InRect (x y rect) 1)
 (define-filter Integrator (in coef) 1)
 (define-filter K2A (in) 1)
-(define-filter KeyState () 1)
 (define-filter Lag2 (in lagTime) 1)
 (define-filter Lag3 (in lagTime) 1)
 (define-filter Lag (in lagTime) 1)
