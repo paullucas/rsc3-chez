@@ -23,6 +23,9 @@
  (include "../scheme/schedule/pq.scm")
  (include "../scheme/schedule/sq.scm")
  (include "../scheme/schedule/schedule.scm")
+ (include "../scheme/schedule/routine.scm")
  (#%provide make-schedule*
 	    at
-	    schedule-clear))
+	    schedule-clear
+	    routine
+	    at/r))

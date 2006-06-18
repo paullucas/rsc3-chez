@@ -7,6 +7,9 @@
 (define (at Q t f)
   (ch-put (schedule-ch Q) (make-sqe t f)))
 
+(define (at/r Q t r)
+  (at Q t (lambda (_ f) (f (r)))))
+
 (define (schedule-clear Q)
   (ch-put (schedule-ch Q) #f))
 
