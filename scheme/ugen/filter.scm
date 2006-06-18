@@ -36,7 +36,6 @@
 (define-filter Convolution (in kernel framesize) 1)
 (define-filter Decay2 (in attackTime decayTime) 1)
 (define-filter Decay (in decayTime) 1)
-(define-filter DecodeB2 (numChans w x y orientation) 1)
 (define-filter DegreeToKey (bufnum in octave) 1)
 (define-filter Delay1 (in) 1)
 (define-filter Delay2 (in) 1)
@@ -111,7 +110,7 @@
 (define-filter RHPF (in freq rq) 1)
 (define-filter Ringz (in freq decaytime) 1)
 (define-filter RLPF (in freq rq) 1)
-(define-filter Rotate2 (x y pos) 1)
+(define-filter Rotate2 (x y pos) 2)
 (define-filter RunningSum (in numsamp) 1)
 (define-filter Schmidt (in lo hi) 1)
 (define-filter SendTrig (in id value) 0)
@@ -150,6 +149,7 @@
        (let ((l (list i ...)))
 	 (construct-ugen 'n #f (without z l) #f (list-ref l z) 0 (make-uid 0)))))))
 
+(define-filter/n DecodeB2 (numChans w x y orientation) 0)
 (define-filter/n Silent (numChannels) 0)
 (define-filter/n TGrains (numChannels trigger bufnum rate centerPos dur pan amp interp) 0)
 
