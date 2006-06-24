@@ -8,7 +8,6 @@
 ;; search facilities are courtesy `find-lisp'.
 
 (require 'scheme)
-(require 'sclang "sclang" t)
 (require 'comint)
 (require 'thingatpt)
 (require 'info)
