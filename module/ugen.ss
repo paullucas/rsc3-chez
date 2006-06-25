@@ -14,7 +14,7 @@
 		  rate-select
 		  rate-of
 		  make-ugen ugen? ugen-inputs ugen-name ugen-rate ugen-outputs ugen-special ugen-id
-		  ugen-validate
+		  ugen-validate ugen-transform
 		  make-proxy proxy? proxy-ugen proxy-port
 		  make-control
 		  control*? control*-default control*-name

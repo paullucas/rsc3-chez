@@ -18,17 +18,14 @@
       (make-list n i)))
 
 (define (mce-transform u)
-  (let ((n (ugen-name u))
-	(r (ugen-rate u))
-	(i (ugen-inputs u))
-	(o (ugen-outputs u))
-	(s (ugen-special u))
-	(d (ugen-id u)))
-    (let* ((f (lambda (i*) (make-ugen n r i* o s d)))
-	   (m (maximum (map mce-degree (filter mce? i))))
-	   (e (lambda (i) (mce-extend m i)))
-	   (i* (invert (map e i))))
-      (make-mce (map f i*)))))
+  (ugen-transform
+   u
+   (lambda (n r i o s d)
+     (let* ((f (lambda (i*) (make-ugen n r i* o s d)))
+	    (m (maximum (map mce-degree (filter mce? i))))
+	    (e (lambda (i) (mce-extend m i)))
+	    (i* (invert (map e i))))
+       (make-mce (map f i*))))))
 
 (define (mced u)
   (if (mce-required? u)

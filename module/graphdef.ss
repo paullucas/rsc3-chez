@@ -11,7 +11,8 @@
 		  foldl1)
 	    (only (lib "1.ss" "srfi")
 		  make-list
-		  every)
+		  every
+		  iota)
 	    (only (lib "23.ss" "srfi")
 		  error)
 	    (only (lib "include.ss")
@@ -29,7 +30,7 @@
  (include "../scheme/graphdef/ugen.scm")
  (#%provide rate-select rate-of rate-value
 	    ugen make-ugen ugen? ugen-inputs ugen-name ugen-rate ugen-outputs ugen-special ugen-id
-	    ugen-output ugen-validate
+	    ugen-output ugen-validate ugen-transform dupn
 	    make-proxy proxy? proxy-ugen proxy-port
 	    make-control control-name
 	    control*? control*-default control*-name
