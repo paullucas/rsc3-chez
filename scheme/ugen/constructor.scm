@@ -1,6 +1,6 @@
 ;; constructor.scm - (c) rohan drape, 2005-2006
 
-;; name = <string>
+;; name = <string> | <symbol>
 ;; rate? = <rate> | #f
 ;; inputs = <list> of <input*>
 ;; mce? = <input*> | #f
@@ -18,7 +18,9 @@
 		   rate?
 		   (rate-select (map rate-of inputs*))))
 	 (u (make-ugen
-	     (symbol->string name)
+	     (if (symbol? name)
+		 (symbol->string name)
+		 name)
 	     rate
 	     inputs*
 	     (make-outputs outputs rate)
