@@ -160,10 +160,10 @@
        (construct-ugen 'n #f (list i ...) v o 0 (make-uid 0))))))
 
 (define-filter* BufWr (inputArray bufnum phase loop) 1)
-(define-filter* Klank (specificationsArrayRef input freqscale freqoffset decayscale) 1)
-(define-filter* RecordBuf (inputArray bufnum offset recLevel preLevel run loop trigger) 1)
+(define-filter* Klank (input freqscale freqoffset decayscale specificationsArrayRef) 1)
+(define-filter* RecordBuf (bufnum offset recLevel preLevel run loop trigger inputArray) 1)
 (define-filter* Select (which array) 1)
-(define-filter* TWindex (in array normalize) 1)
+(define-filter* TWindex (in normalize array) 1)
 
 (define-filter* DiskOut (bufnum channelsArray) 0)
 (define-filter* LocalOut (channelsArray) 0)
