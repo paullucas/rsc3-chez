@@ -34,7 +34,7 @@
 ;;          interpolation, (2) linear interpolation, or (4) cubic
 ;;          interpolation.
 
-(->< s (/b_allocRead 10 (rsc-file "audio/metal.wav") 0 0))
+(->< s (/b_allocRead 10 "/home/rohan/sw/sw-01/audio/metal.wav" 0 0))
 
 (let* ((b 10)
        (trate (MouseY kr 2 200 1 0.1))

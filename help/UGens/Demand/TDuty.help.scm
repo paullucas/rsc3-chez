@@ -25,6 +25,8 @@
 
 ;; Play a little rhythm
 
+(define inf 9999999.0)
+
 (TDuty ar (Dseq inf (Mce 0.1 0.2 0.4 0.3)) 0 0 1)
 
 ;; Amplitude changes

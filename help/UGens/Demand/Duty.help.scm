@@ -22,6 +22,8 @@
 
 ;; level: demand ugen providing the output values.
 
+(define inf 9999999.0)
+
 (let ((freq (Duty kr
 		  (Drand inf (Mce 0.01 0.2 0.4))
 		  0
