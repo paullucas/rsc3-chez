@@ -69,11 +69,7 @@ be set by the user to use a different set of library files.")
   "*The name of the rsc scheme process buffer.")
 
 (defvar rsc-interpreter
-  (if (display-graphic-p) "mred" "mzscheme")
-  "*The name of the PLT scheme interpreter to use.
-
-The initial value is 'mred' if Emacs is operating under a
-graphical display and 'mzscheme' otherwise.")
+  "mzscheme")
 
 (defun rsc-see-output ()
   "Arrange so that the frame has two windows, the current buffer is
