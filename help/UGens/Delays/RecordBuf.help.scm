@@ -20,30 +20,39 @@
 ;;              A trigger occurs when a signal changes from <=0 to >0.
 ;; inputArray - an Array of input channels
 
-(->< s (/d_recv
- (synthdef
-  "RecordBuf-example"
-  (letc ((in 0) (bufnum 0)
-	 (offset 1) (recLevel 1) (preLevel 0)
-	 (run 1) (loop 1) (trigger 1))
-    (RecordBuf bufnum offset recLevel preLevel run loop trigger (In ar in 1))))))
+(send-synth 
+ s "recorder"
+ (letc ((in 0) (bufnum 0)
+	(offset 1) (recLevel 1) (preLevel 0)
+	(run 1) (loop 1) (trigger 1))
+   (RecordBuf bufnum offset recLevel preLevel run loop trigger (In ar in 2)))
 
-(define b (buffer-alloc 44100 1 #t))
+(define b 10)
 
-(define y (synth-new "RecordBuf-example" `(bufnum ,(buffer-id b) in 2)))
+(->< s (/b_alloc b 44100 2))
 
-(-> "/s_trace" (synth-id y))
+(define y 1001)
 
-(synth-set y 'run 1)
+(-> s (/s_new "recorder" y addToTail 1 "bufnum" b "in" 8))
 
-(define z (synth-new "PlayBuf-example" `(bufnum ,(buffer-id b))))
+(-> s (/n_trace y))
 
-(synth-set z 'loop 1)
-(synth-set z 'gain 0.1)
-(synth-set z 'trigger 1)
+(send-synth 
+ s "player"
+ (letc ((bufnum 0) (rate 1) (trigger 1) (startPos 0) (loop 1) (gain 1))
+   (Mul (PlayBuf ar 2 bufnum rate trigger startPos loop) gain)))
 
-(synth-free y)
+(define z 1002)
 
-(synth-free z)
+(-> s (/s_new "player" z addToTail 1 "bufnum" b))
 
-(buffer-free b)
+(-> s (/n_set y "run" 1))
+
+(-> s (/n_set z "loop" 1))
+(-> s (/n_set z "gain" 2))
+(-> s (/n_set z "trigger" 1))
+
+(-> s (/n_free y))
+(-> s (/n_free z))
+
+(-> s (/b_free b))

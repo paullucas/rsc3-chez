@@ -2,4 +2,6 @@
 
 ;; Second order Butterworth highpass filter.
 
-(HPF ar (Saw ar 200 0.1) (FSinOsc kr (XLine kr 0.7 300 20) 0 3600 4000) 5)
+(Mul (HPF (Mul (Saw ar 200) 0.1)
+	  (MulAdd (FSinOsc kr (XLine kr 0.7 300 20 doNothing) 0) 3600 4000))
+     5)

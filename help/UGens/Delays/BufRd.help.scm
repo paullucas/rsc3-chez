@@ -10,7 +10,7 @@
 ;; The interpolation type is an integer: 1 no interpolation, 2 linear
 ;; interpolation, 4 cubic interpolation.
 
-(->< s (/b_allocRead 0 (rsc-file "audio/metal.wav") 0 0))
+(->< s (/b_allocRead 0 "/home/rohan/sw/sw-01/audio/metal.wav" 0 0))
 
 (BufRd ar 1 0 (Mul (SinOsc ar 0.1 0) (BufFrames ir 0)) 0 2)
 
