@@ -43,4 +43,5 @@
 	    mapw mapw*
 	    flatten
 	    mapt
-	    geom))
+	    geom
+	    foldl))

@@ -57,5 +57,8 @@
 	    pstr cstr bstr
 	    read-pstr read-cstr read-bstr
 	    npt->u8l
+
+	    ;; int
+	    shiftR shiftL
 	    ))
 
