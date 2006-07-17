@@ -18,7 +18,8 @@
 		  pi two-pi half-pi
 		  ampdb dbamp)
 	    (only "u8.ss"
-		  i32->u8l)
+		  i32->u8l f32->u8l f64->u8l
+		  write-u8)
 	    (only "osc.ss"
 		  osc->u8l
 		  u8l->osc)
@@ -39,7 +40,8 @@
 		  graph->graphdef)
 	    (only (lib "1.ss" "srfi")
 		  make-list
-		  list-tabulate)
+		  list-tabulate
+		  append-map)
 	    (only (lib "include.ss")
 		  include))
  (include "../scheme/supercollider/in.scm")
@@ -53,4 +55,5 @@
  (include "../scheme/supercollider/spec.scm")
  (include "../scheme/supercollider/synthdef.scm")
  (include "../scheme/supercollider/warp.scm")
+ (include "../scheme/supercollider/sndfile.scm")
  (#%provide (all-defined)))
