@@ -2,6 +2,10 @@
 
 ;; Read signal from an audio or control bus.
  
+;; Patching input to output.
+
+(Out 0 (In ar (NumInputBuses ir) 2))
+
 ;; Patching input to output, with delay.
 
 (let ((i (In ar (NumInputBuses ir) 2)))
