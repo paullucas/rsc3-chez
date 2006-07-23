@@ -124,3 +124,8 @@
 (define-binary-operator FirstArg 46 #f)
 (define-binary-operator RandRange 47 #f)
 (define-binary-operator ExpRandRange 48 #f)
+
+;; N-ary variants
+
+(define (Mul* . l) (foldl Mul 1 l))
+(define (Add* . l) (foldl Add 0 l))
