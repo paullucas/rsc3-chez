@@ -9,7 +9,8 @@
 		  concat
 		  extend
 		  maximum
-		  invert)
+		  invert
+		  foldl)
 	    (only "graphdef.ss"
 		  rate-select
 		  rate-of
