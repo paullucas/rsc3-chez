@@ -12,12 +12,10 @@
 ;; Dibrown returns integer values.  The arguments can be a number or
 ;; any other ugen.
 
-(let* ((a (Dbrown inf 0 15 1))
-       (trig (Impulse kr (MouseX kr 1 40 1 0.1) 0))
-       (freq (MulAdd (Demand trig 0 a) 30 340)))
-  (Mul (SinOsc ar freq 0) 0.1))
-
-(let* ((a (Dibrown inf 0 15 1))
-       (trig (Impulse kr (MouseX kr 1 40 1 0.1) 0))
-       (freq (MulAdd (Demand trig 0 a) 30 340)))
-  (Mul (SinOsc ar freq 0) 0.1))
+(let ((f (lambda (u)
+	   (let* ((a (u +inf.sc 0 15 1))
+		  (trig (Impulse kr (MouseX kr 1 40 1 0.1) 0))
+		  (freq (MulAdd (Demand trig 0 a) 30 340)))
+	     (Mul (SinOsc ar freq 0) 0.1)))))
+  (Mce (f Dbrown)
+       (f Dibrown)))

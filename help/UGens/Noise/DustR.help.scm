@@ -15,7 +15,7 @@
 ;; Courtesy Julian Rohrhuber, sc-dev/2006-January/009747.html
 
 (define (DustR* r lo hi)
-  (let ((d (Dseq inf (Mce (Dwhite 1 lo hi)))))
+  (let ((d (Dseq +inf.sc (Mce (Dwhite 1 lo hi)))))
     (TDuty r d 0 0 (Abs (WhiteNoise r)))))
 
 (DustR* ar 0.001 (MouseX kr 0.001 1 1 0.1))

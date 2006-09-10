@@ -22,18 +22,16 @@
 
 ;; level: demand ugen providing the output values.
 
-(define inf 9999999.0)
-
 (let ((freq (Duty kr
-		  (Drand inf (Mce 0.01 0.2 0.4))
+		  (Drand +inf.sc (Mce 0.01 0.2 0.4))
 		  0
 		  2
-		  (Dseq inf (Mce 204 400 201 502 300 200)))))
+		  (Dseq +inf.sc (Mce 204 400 201 502 300 200)))))
   (Mul (SinOsc ar (Mul freq (Mce 1 1.01)) 0) 0.1))
 
 (let ((freq (Duty kr
 		  (MouseX kr 0.001 2 1 0.1)
 		  0
 		  2
-		  (Dseq inf (Mce 204 400 201 502 300 200)))))
+		  (Dseq +inf.sc (Mce 204 400 201 502 300 200)))))
   (Mul (SinOsc ar (Mul freq (Mce 1 1.0)) 0) 0.1))
