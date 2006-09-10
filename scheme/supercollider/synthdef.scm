@@ -17,3 +17,8 @@
 
 (define (ugen->graphdef/out u)
   (synthdef "Anonymous" (with-out u)))
+
+;; A large positive integer that can be used as an argument to
+;; synthdefs.
+
+(define +inf.sc 9.0e8)
