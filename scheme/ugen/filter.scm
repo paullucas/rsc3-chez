@@ -162,6 +162,7 @@
 
 (define-filter* BufWr (inputArray bufnum phase loop) 1)
 (define-filter* Klank (input freqscale freqoffset decayscale specificationsArrayRef) 1)
+(define-filter* Poll (trig in trigId label) 0)
 (define-filter* RecordBuf (bufnum offset recLevel preLevel run loop trigger inputArray) 1)
 (define-filter* Select (which array) 1)
 (define-filter* TWindex (in normalize array) 1)
