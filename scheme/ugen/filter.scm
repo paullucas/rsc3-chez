@@ -160,7 +160,7 @@
      (define (n i ... v)
        (construct-ugen 'n #f (list i ...) v o 0 (make-uid 0))))))
 
-(define-filter* BufWr (inputArray bufnum phase loop) 1)
+(define-filter* BufWr (bufnum phase loop inputArray) 1)
 (define-filter* Klank (input freqscale freqoffset decayscale specificationsArrayRef) 1)
 (define-filter* Poll (trig in trigId label) 0)
 (define-filter* RecordBuf (bufnum offset recLevel preLevel run loop trigger inputArray) 1)
