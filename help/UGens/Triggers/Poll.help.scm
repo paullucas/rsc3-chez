@@ -12,8 +12,6 @@
 
 ;; label - a string or symbol to be printed with the polled value
 
-;; trigid - if greater then 0, a '/tr' message is sent back to the
-
 ;; Poll returns its in signal (and is therefore transparent).
 ;; WARNING: Printing values from the Server in intensive for the
 ;; CPU. Poll should be used for debugging purposes.
