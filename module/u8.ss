@@ -35,12 +35,13 @@
 	
 	    ;; u8l
 	    u8l?
+	    u8l->int int->u8l
 	    i8->u8l i16->u8l i32->u8l i64->u8l u8->u8l u16->u8l u32->u8l u64->u8l f32->u8l f64->u8l
 	    u8l->i8 u8l->i16 u8l->i32 u8l->i64 u8l->u8 u8l->u16 u8l->u32 u8l->u64 u8l->f32 u8l->f64
 	    str->u8l
 	    u8l->str
-	    with-input-u8l
-	    read-u8l
+	    with-input-from-u8l with-output-to-u8l
+	    read-u8l write-u8l
 	    file->u8l
 
 	    ;; u8v

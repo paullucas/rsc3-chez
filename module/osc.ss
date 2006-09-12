@@ -13,7 +13,7 @@
 		  peek-u8 read-u8l
 		  npt->u8l
 		  u8l?
-		  with-input-u8l)
+		  with-input-from-u8l)
 	    (only "udp.ss"
 		  udp*-send
 		  udp*-recv)

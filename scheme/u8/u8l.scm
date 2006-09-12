@@ -91,3 +91,6 @@
 	(if (eof-object? (peek-u8))
 	    (reverse l)
 	    (loop (cons (read-u8) l)))))))
+
+(define (write-u8l l) 
+  (map write-u8 l))

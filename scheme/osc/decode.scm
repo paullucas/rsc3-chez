@@ -87,5 +87,5 @@
       (read-message)))
 
 (define (u8l->osc b)
-  (with-input-u8l b read-packet))
+  (with-input-from-u8l b read-packet))
 
