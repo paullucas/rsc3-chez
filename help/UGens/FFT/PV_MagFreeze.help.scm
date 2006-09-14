@@ -21,7 +21,7 @@
 
 (define c 1)
 
-(->< s (/b_allocRead c (rsc-file "audio/metal.wav") 0 0))
+(->< s (/b_allocRead c "/home/rohan/sw/sw-01/audio/metal.wav" 0 0))
 
 (Dup 
  (Mul 
