@@ -32,16 +32,16 @@
    (->< s (/b_alloc i 1024 1))
    ;; Generate list of harmonic amplitudes
    (let* ((n (expt (+ i 1) 2))
-	  (a (tabulate n (lambda (j) (square (/ (- n j) n))))))
+	  (a (map (lambda (j) (square (/ (- n j) n))) (iota n))))
      ;; Fill table
-     (->< s (/b_gen*  i "sine1" 7 a))))
+     (->< s (/b_gen* i "sine1" 7 a))))
  (iota 8))
 
 ;; Oscillator at buffers 0 through 7.
 
 (let ((p (MouseX kr 0 7 0 0.1)))
   (Mul (VOsc3 ar p (Mce 240 241) (Mce 240.27 241.1) (Mce 240.43 239.71))
-       0.3))
+       0.2))
 
 ;; Reallocate buffers while oscillator is running.
 
