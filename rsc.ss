@@ -22,4 +22,5 @@
  (require/provide "module/schedule.ss")
  (require/provide "module/osc.ss")
  (require/provide "module/utc.ss")
- (require/provide "module/ch.ss"))
+ (require/provide "module/ch.ss")
+ (require/provide "module/spawn.ss"))
