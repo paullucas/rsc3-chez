@@ -186,6 +186,14 @@
 (define-filter/id TIRand (lo hi trig) 1)
 (define-filter/id TRand (lo hi trig) 1)
 
+;; JITLIB
+
+(define (TChoose trig array)
+  (Select (TIRand 0 (length (mce-channels array)) trig) array))
+
+(define (TWChoose trig array weights normalize)
+  (Select (TWindex trig normalize weights) array))
+
 ;; Local Variables:
 ;; truncate-lines:t
 ;; End:            
