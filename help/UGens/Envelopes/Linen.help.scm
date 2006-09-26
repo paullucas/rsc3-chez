@@ -6,6 +6,10 @@
 ;; Note that the sustain level input is consulted only at the instant
 ;; when the gate is opened.
 
+(Mul* (Linen (Impulse kr 2 0) 0.01 0.6 0.4 doNothing)
+      (SinOsc ar 440 0)
+      0.1)
+
 (Mul (SinOsc ar 440 0)
      (Linen (MouseX kr -1 1 0 0.1) 1 (MouseY kr 0.1 0.5 0 0.1) 1.0 0))
 
