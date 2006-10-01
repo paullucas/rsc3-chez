@@ -19,7 +19,7 @@
 (define (with-output-to-u8l f)
   (bytes->list (with-output-to-bytes f)))
 
-(define (with-input-u8l l f)
+(define (with-input-from-u8l l f)
   (parameterize
    ((current-input-port (open-input-bytes (list->bytes l))))
    (f)))
