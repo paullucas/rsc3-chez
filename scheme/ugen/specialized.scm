@@ -6,6 +6,8 @@
      (define (n i ...)
        (construct-ugen 'n r (list i ...) #f o 0 (make-uid 0))))))
 
+(define-specialized Pitch (in initFreq minFreq maxFreq execFreq maxBinsPerOctave median ampThreshold peakThreshold downSample) 2 kr)
+
 (define-specialized FFT (buf in) 1 kr)
 (define-specialized IFFT (buf) 1 ar)
 

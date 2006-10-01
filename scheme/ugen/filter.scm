@@ -101,7 +101,6 @@
 (define-filter PauseSelfWhenDone (in) 1)
 (define-filter Peak (trig reset) 1)
 (define-filter PeakFollower (in decay) 1)
-(define-filter Pitch () 1)
 (define-filter PitchShift (in windowSize pitchRatio pitchDispersion timeDispersion) 1)
 (define-filter PulseCount (trig reset) 1)
 (define-filter PulseDivider (trig div start) 1)

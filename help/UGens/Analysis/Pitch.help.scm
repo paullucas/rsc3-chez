@@ -13,12 +13,23 @@
 ;; 'sat', and long 'i' sound as in 'fire', contains enough overtone
 ;; energy to confuse the algorithm.
 
-(let* ((in (SinOsc ar (MouseX kr 220 660) 0 (MouseY kr 0.05 0.25)))
-       (amp (Amplitude kr in 0.05 0.05))
-       (freq+ (Pitch kr in 'ampThreshold: 0.02 'median: 7)))
-  (list in (SinOsc ar (FDiv (car freq+) 2) 0 amp)))
+;; sclang default argument values are: in = 0.0, initFreq = 440.0,
+;; minFreq = 60.0, maxFreq = 4000.0, execFreq = 100.0,
+;; maxBinsPerOctave = 16, median = 1, ampThreshold = 0.01,
+;; peakThreshold = 0.5, downSample = 1.
 
-(let* ((in (AudioIn ar 1))
+(define (Pitch* in median ampThreshold)
+  (Pitch in 444.0 60.0 4000.0 100.0 16 median ampThreshold 0.5 1))
+
+(let* ((in (Mul (SinOsc ar (MouseX kr 220 660 0 0.1) 0) 
+		(MouseY kr 0.05 0.25 0 0.1)))
        (amp (Amplitude kr in 0.05 0.05))
-       (freq+ (Pitch kr in 'ampThreshold: 0.02 'median: 7)))
-  (list in (SinOsc ar (car freq+) 0 amp)))
+       (freq+ (Pitch* in 7 0.02)))
+  (Mce in (Mul (SinOsc ar (FDiv (car (mce-channels freq+)) 2) 0)
+	       amp)))
+
+(let* ((in (audioin 1))
+       (amp (Amplitude kr in 0.05 0.05))
+       (freq+ (Pitch* in 7 0.02)))
+  (Mce in (Mul (SinOsc ar (car (mce-channels freq+)) 0)
+	       amp)))
