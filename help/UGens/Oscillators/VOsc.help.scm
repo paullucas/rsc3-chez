@@ -33,7 +33,7 @@
    (->< s (/b_alloc i 1024 1))
    ;; Generate list of harmonic amplitudes
    (let* ((n (expt (+ i 1) 2))
-	  (a (tabulate n (lambda (j) (square (/ (- n j) n))))))
+	  (a (map (lambda (j) (square (/ (- n j) n))) (iota n))))
      ;; Fill table
      (->< s (/b_gen*  i "sine1" (+ 1 2 4) a))))
  (iota 8))
