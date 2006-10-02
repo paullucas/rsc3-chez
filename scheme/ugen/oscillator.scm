@@ -96,6 +96,7 @@
 (define-oscillator/n InTrig (bus numChannels) 1)
 (define-oscillator/n LocalIn (numChannels) 0)
 (define-oscillator/n PlayBuf (numChannels bufnum rate trigger startPos loop) 0)
+(define-oscillator/n TrigControl (numChannels) 0)
 
 (define-syntax define-oscillator*
   (syntax-rules ()

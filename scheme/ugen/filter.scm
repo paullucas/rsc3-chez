@@ -132,7 +132,6 @@
 (define-filter Trapezoid (in a b c d) 1)
 (define-filter Trig1 (in dur) 1)
 (define-filter Trig (in dur) 1)
-(define-filter TrigControl () 1)
 (define-filter TwoPole (in freq radius) 1)
 (define-filter TwoZero (in freq radius) 1)
 (define-filter Vibrato (freq rate depth delay onset rateVariation depthVariation iphase) 1)
