@@ -7,4 +7,4 @@
   (Mrg (DetectSilence s 0.1 0.2 2)
        (Out 0 s)))
 
-(->< s (/status))
+(->< s /status)
