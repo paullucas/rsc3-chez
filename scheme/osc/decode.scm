@@ -29,10 +29,10 @@
    ((eq? t oI64) (read-i64))
    ((eq? t oU64) (read-u64))
    ((eq? t oF32) (read-f32))
-   ((eq? t oF64) (read-u64))
+   ((eq? t oF64) (read-f64))
    ((eq? t oStr) (read-ostr))
    ((eq? t oByt) (read-obyt))
-   (else   (error "read-value: bad type" t))))
+   (else         (error "read-value: bad type" t))))
 
 ;; Evaluate to the list of objects encoded at the OSC byte stream
 ;; `p', conforming to the types given in the OSC character type
