@@ -10,7 +10,6 @@
 ;; real   - real part of a.
 ;; imag   - imaginary part of a.
 
-
 (->< s (/b_alloc 10 1024 1))
 
 (Pan2
@@ -20,6 +19,8 @@
    (MouseY kr -1 1 0 0.1)))
  0
  1)
+
+(->< s (/b_alloc 0 2048 1))
 
 (define (signal n)
   (let ((f (MulAdd (SinOsc kr (make-mce (randl n 0.1 0.5)) 0)
@@ -33,8 +34,6 @@
 			      (MouseX kr 0.01 2.0  1.0 0.1)
 			      (MouseY kr 0.01 10.0 1.0 0.1))))
     (IFFT c1)))
-
-(mapped 3)
 
 (let ((s (mapped 3)))
   (Out 0 (Pan2 (MulAdd (CombN s 0.1 0.1 10) 0.5 s)
