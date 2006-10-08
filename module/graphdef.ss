@@ -34,7 +34,7 @@
 	    make-proxy proxy? proxy-ugen proxy-port
 	    make-control control-name
 	    control*? control*-default control*-name
-	    Mce make-mce mce? mce-channels
+	    Mce make-mce mce? mce-channels mce-channel
 	    Mrg make-mrg mrg? mrg-roots
 	    make-outputs
 	    make-uid unique-uid
