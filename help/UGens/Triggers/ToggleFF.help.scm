@@ -4,5 +4,5 @@
 
 ;; trig - trigger input
 
-(Mul (SinOsc ar (MulAdd (ToggleFF (Dust ar (XLine kr 1 1000 60 doNothing))) 400 800) 0) 
-     0.1)
+(let ((t (Dust ar (XLine kr 1 1000 60 doNothing))))
+  (Mul (SinOsc ar (MulAdd (ToggleFF t) 400 800) 0) 0.1))

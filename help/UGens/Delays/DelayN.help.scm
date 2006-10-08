@@ -1,11 +1,11 @@
 ;; (DelayN in maxDelayTime delayTime)
 ;; (DelayL in maxDelayTime delayTime)
-;; (DelayA in maxDelayTime delayTime)
+;; (DelayC in maxDelayTime delayTime)
 
 ;; Simple delay line.  There are three forms, DelayN uses no
-;; interpolation, DelayL uses linear interpolation, DelayA uses all
-;; pass interpolation.  The maximum delay length is set at
-;; initialization time and cannot be extended.
+;; interpolation, DelayL uses linear interpolation, DelayC uses cubic
+;; interpolation.  The maximum delay length is set at initialization
+;; time and cannot be extended.
 
 ;; Dust randomly triggers Decay to create an exponential decay
 ;; envelope for the WhiteNoise input source.
