@@ -26,7 +26,7 @@
 		  make-graphdef
 		  make-input
 		  make-output
-		  ar kr dr)
+		  ar kr ir dr)
 	    (only "random.ss"
 		  rand
 		  _rand

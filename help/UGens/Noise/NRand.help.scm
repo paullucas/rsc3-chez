@@ -8,5 +8,5 @@
 ;; n = 3 : smooth hump
 ;; as n increases, distribution converges towards gaussian
 
-(Mul (FSinOsc ar (Mul (NRand ir 1200 4000 2) (Mce 2 5)) 0)
+(Mul (FSinOsc ar (Mul (NRand 1200 4000 2) (Mce 2 5)) 0)
      (Line kr 0.2 0 0.01 2))

@@ -68,6 +68,11 @@
 (define-specialized/id Dibrown (length lo hi step) 1 dr)
 (define-specialized/id Diwhite (length lo hi) 1 dr)
 (define-specialized/id Dwhite (length lo hi) 1 dr)
+(define-specialized/id ExpRand (lo hi) 1 ir)
+(define-specialized/id IRand (lo hi) 1 ir)
+(define-specialized/id LinRand (lo hi minmax) 1 ir)
+(define-specialized/id NRand (lo hi n) 1 ir)
+(define-specialized/id Rand (lo hi) 1 ir)
 
 (define-syntax define-specialized*/id
   (syntax-rules ()
