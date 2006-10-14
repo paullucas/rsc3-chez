@@ -50,7 +50,7 @@
 
 (define (env/bp bp dur amp)
   (env (map (lambda (e) (Mul e amp)) (take-cycle (cdr bp) 2))
-       (map (lambda (e) (Mul e dur)) (d->dx (take-cycle bp 2)))
+       (map (lambda (e) (Mul e dur)) (d->dx** (take-cycle bp 2) Sub))
        'linear
        -1
        -1))

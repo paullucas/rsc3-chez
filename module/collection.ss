@@ -37,7 +37,7 @@
 	    concat member?
 	    splice interleave intersperse lace extend
 	    foldl1
-	    dx->d d->dx rotate invert maximum
+	    dx->d d->dx d->dx** rotate invert maximum
 	    cycles take-cycle
 	    ref/wrap
 	    mapw mapw*

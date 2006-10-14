@@ -8,7 +8,7 @@
 		  splice
 		  extend
 		  take-cycle
-		  d->dx
+		  d->dx**
 		  interleave
 		  foldl1
 		  flatten)

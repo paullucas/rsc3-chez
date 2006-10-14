@@ -9,6 +9,11 @@
 
 (define (d->dx* s) (d->dx (++ s (list (car s)))))
 
+;; Variant allowing function other than '-'.
+
+(define (d->dx** s f)
+  (unfold singleton? (lambda (l) (f (cadr l) (car l))) cdr s))
+
 ;; A series, the first element being `n', and subsequent elements
 ;; summing the previous element with the interval from the interval
 ;; series `i'.
