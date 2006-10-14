@@ -9,6 +9,9 @@
 ;; reset.  The reset input may also be a demand ugen, providing a
 ;; stream of reset times.
 
+;; NOTE: sclang reorders the inputs to be 'duration reset level
+;; doneAction', rsc does not.
+
 ;; duration   - time values. Can be a demand ugen or any signal.
 ;; 	        The next trigger value is acquired after the
 ;;              duration provided by the last time value.
@@ -18,10 +21,10 @@
 ;;              may also be a demand ugen, providing a stream of reset 
 ;;              times.
 
-;; level      - demand ugen providing the output values.
-
 ;; doneAction - a doneAction that is evaluated when the duration 
 ;;              stream ends.
+
+;; level      - demand ugen providing the output values.
 
 ;; Play a little rhythm
 
