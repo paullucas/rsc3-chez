@@ -4,7 +4,7 @@
 ;; simulate the resonant modes of an object. Each mode is given a ring
 ;; time, which is the time for the mode to decay by 60 dB.
 
-;; The UGen assistant Klank.spec can help create the 'spec' entry.
+;; The UGen assistant klank-data can help create the 'spec' entry.
 ;; Note that the SC3 language reorders the inputs, the RSC client does
 ;; not.
 
