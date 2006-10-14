@@ -6,4 +6,5 @@
 
 ;; Two band limited sawtooth waves thru a resonant low pass filter
 
-(RLPF ar (Saw ar '(100 250) 0.1) (XLine kr 8000 400 5) 0.05)
+(let ((f (XLine kr 8000 400 5 doNothing)))
+  (RLPF (Mul (Saw ar (Mce 100 250)) 0.1) f 0.05))
