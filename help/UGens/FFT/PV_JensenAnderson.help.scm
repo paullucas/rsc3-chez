@@ -8,8 +8,8 @@
 ;; In Proceedings of the Computer Music Modeling and Retrieval
 ;; Symposium, Lecture Notes in Computer Science. Springer Verlag.
 
-;;  First order derivatives of the features are taken. Threshold may
-;;  need to be set low to pick up on changes.
+;; First order derivatives of the features are taken. Threshold may
+;; need to be set low to pick up on changes.
 
 ;; buffer - FFT buffer to read from.
 
