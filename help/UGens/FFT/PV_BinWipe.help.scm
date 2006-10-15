@@ -15,7 +15,7 @@
 (begin
   (->< s (/b_alloc 10 2048 1))
   (->< s (/b_alloc 11 2048 1))
-  (->< s (/b_allocRead 12 (rsc-file "audio/metal.wav") 0 0)))
+  (->< s (/b_allocRead 12 "/home/rohan/sw/sw-01/audio/metal.wav" 0 0)))
 
 (let* ((a (Mul (WhiteNoise ar) 0.2))
        (b (Mul (SinOsc ar 100 0) 0.2))
