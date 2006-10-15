@@ -1,8 +1,8 @@
 ;; (MouseX minval maxval warp lag)
 
-;; Cursor UGen.  For a linear mapping set warp to 0, for an
-;; exponential mapping set warp to 1.  Report mouse location on root
-;; window of the machine that the synthesis server is running on.
+;; Cursor UGen.  Report mouse location on root window of the machine
+;; that the synthesis server is running on.  For a linear mapping set
+;; warp to 0, for an exponential mapping set warp to 1.
 
 (Mul (SinOsc ar (MouseX kr 40 10000 1 0.1) 0) 0.1)
 

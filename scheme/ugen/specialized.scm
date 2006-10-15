@@ -18,6 +18,7 @@
 (define-specialized PV_BinWipe (bufferA bufferB wipe) 1 kr)
 (define-specialized PV_BrickWall (buffer wipe) 1 kr)
 (define-specialized PV_ConformalMap (buffer real imag) 1 kr)
+(define-specialized PV_Copy (bufferA bufferB) 1 kr)
 (define-specialized PV_CopyPhase (bufferA bufferB) 1 kr)
 (define-specialized PV_Diffuser (buffer trig) 1 kr)
 (define-specialized PV_HainsworthFoote (buffer proph propf threshold waittime) 1 ar)
