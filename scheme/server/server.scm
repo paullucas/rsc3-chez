@@ -9,6 +9,8 @@
     (let ((p (<- s t)))
       (if p (loop (cons p r)) (reverse r)))))
 
+(define timeout (make-parameter 1.0))
+
 (define (->< s l)
   (let ((r (car l))
 	(m (cadr l)))
@@ -20,7 +22,7 @@
 		   (display q)
 		   (newline))))
       (-> s m)
-      (let ((p (<- s 1.0)))
+      (let ((p (<- s (timeout))))
 	(cond
 	 ((not p)                    (error "-><: timed out"))
 	 ((not (string=? (car p) r)) (error "-><: bad return packet" p r))

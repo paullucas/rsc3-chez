@@ -4,6 +4,8 @@
  server (lib "lang.ss" "r5rs")
  (#%require (only (lib "23.ss" "srfi")
 		  error)
+	    (only (lib "39.ss" "srfi")
+		  make-parameter parameterize)
 	    (only "osc.ss"
 		  osc-send
 		  osc-recv
