@@ -343,12 +343,7 @@ The symbol at point is preprocessed by `rsc-cleanup-symbol'."
 		    (t font-lock-warning-face))
 	      nil t))
     (cons "\\<[akid]r\\>" font-lock-builtin-face)
-    (cons "\\<[KID]R\\>" font-lock-builtin-face)
     (cons "\\<[A-Z][-\\*_a-zA-Z0-9]*\\>" font-lock-type-face)
-    (cons "\\<[a-z0-9]*U\\>" font-lock-type-face)
-    (cons "\\<\\sw+H\\>" font-lock-keyword-face)
-    (cons "\\<\\sw+!\\>" font-lock-warning-face)
-    (cons "\\<r[0-9]+\\>" font-lock-warning-face)
     (cons "\\<\\sw+:\\>" font-lock-builtin-face))))
 
 
