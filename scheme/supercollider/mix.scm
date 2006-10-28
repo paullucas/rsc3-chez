@@ -8,8 +8,12 @@
    ((mce? u) (foldl1 Add (mce-channels u)))
    (else     u)))
 
-;; Use the one argument procedure `contructor' to build a list of
-;; `degree' places, and 'Mix' that list.
+;; Use the unary procedure `f' to build an mce value of `n' places.
 
-(define (mix/fill degree constructor)
-  (mix (make-mce (list-tabulate degree constructor))))
+(define (mce/fill n f)
+  (make-mce (list-tabulate n f)))
+
+;; mix . mce/fill
+
+(define (mix/fill n f)
+  (mix (mce/fill n f)))
