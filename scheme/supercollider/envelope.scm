@@ -6,18 +6,21 @@
 ;; be used.
 
 (define (curve->shape curve)
-  (if (string? curve)
-      (let ((f (lambda (s) (string=? s curve))))
-	(cond
-	 ((f "step")        0.0)
-	 ((f "linear")      1.0)
-	 ((f "exponential") 2.0)
-	 ((f "sin")         3.0)
-	 ((f "cos")         4.0)
-	 ((f "squared")     6.0)
-	 ((f "cubed")       7.0)
-	 (else              (error "curve->shape:" curve))))
-      5.0))
+  (cond ((string? curve)
+	 (let ((f (lambda (s) (string=? s curve))))
+	   (cond
+	    ((f "step")        0.0)
+	    ((f "linear")      1.0)
+	    ((f "exponential") 2.0)
+	    ((f "sin")         3.0)
+	    ((f "cos")         4.0)
+	    ((f "squared")     6.0)
+	    ((f "cubed")       7.0)
+	    (else              (error "curve->shape:" curve)))))
+	((number? curve)
+	 curve)
+	(else
+	 (error "curve->shape: illegal curve" curve))))
 
 ;; If the curve is a number the value is that number, else the value
 ;; will be ignored and is here set to zero.
