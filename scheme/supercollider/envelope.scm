@@ -51,12 +51,15 @@
 
 ;; Co-ordinate based static envelope generator.
 
-(define (env/bp bp dur amp)
+(define (env/bp* bp dur amp curve)
   (env (map (lambda (e) (Mul e amp)) (take-cycle (cdr bp) 2))
        (map (lambda (e) (Mul e dur)) (d->dx** (take-cycle bp 2) Sub))
-       'linear
+       curve
        -1
        -1))
+
+(define (env/bp bp dur amp)
+  (env/bp* bp dur amp "linear"))
 
 ;; Design a standard trapezoidal envelope.  `shape' determines the
 ;; sustain time as a proportion of `dur', zero is a triangular
