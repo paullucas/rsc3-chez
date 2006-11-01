@@ -11,6 +11,8 @@
 	     (a (Add m l)))
 	(MulAdd u m a))))
 
+;; Note: uses LinExp so `l' and `r' are i-rate.
+
 (define (exprange u l r)
   (if (unipolar? u)
       (LinExp u  0 1 l r)
