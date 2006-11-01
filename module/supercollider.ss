@@ -29,13 +29,13 @@
 		  ir ar
 		  mce? mce-channels make-mce
 		  graphdef? graphdef-name graphdef->u8l
-		  ugen? ugen-outputs
+		  ugen? ugen-outputs ugen-name
 		  letc)
 	    (only "server.ss"
 		  -> -><
 		  /s_new /d_recv)
 	    (only "ugen.ss"
-		  Add Sub Mul
+		  Add Sub Mul MulAdd LinExp
 		  In Out NumOutputBuses
 		  graph->graphdef)
 	    (only (lib "1.ss" "srfi")
@@ -51,6 +51,7 @@
  (include "../scheme/supercollider/name.scm")
  (include "../scheme/supercollider/play.scm")
  (include "../scheme/supercollider/quantize.scm")
+ (include "../scheme/supercollider/range.scm")
  (include "../scheme/supercollider/score.scm")
  (include "../scheme/supercollider/spec.scm")
  (include "../scheme/supercollider/synthdef.scm")
