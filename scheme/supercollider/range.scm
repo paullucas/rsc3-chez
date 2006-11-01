@@ -1,7 +1,8 @@
 ;; range.scm - (c) rohan drape, 2006
 
 (define (unipolar? u)
-  (member (ugen-name u) (list "LFPulse" "Impulse" "TPulse" "Trig1")))
+  (member (ugen-name u)
+	  (list "LFPulse" "Impulse" "TPulse" "Trig1" "Dust")))
 
 (define (range u l r)
   (if (unipolar? u)
