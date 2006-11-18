@@ -1,5 +1,5 @@
 ;; (Drand  length array)
-;; (Drandx length array)
+;; (Dxrand length array)
 
 ;; Demand rate random sequence generators.
 
