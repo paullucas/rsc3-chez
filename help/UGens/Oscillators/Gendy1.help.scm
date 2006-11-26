@@ -1,4 +1,5 @@
-;; (Gendy1 ampdist durdist adparam ddparam minfreq maxfreq ampscale durscale initCPs knum)
+;; (Gendy1 ampdist durdist adparam ddparam minfreq maxfreq 
+;;         ampscale durscale initCPs knum)
 
 ;; An implementation of the dynamic stochastic synthesis generator
 ;; conceived by Iannis Xenakis and described in Formalized Music
@@ -61,102 +62,129 @@
 ;;        modulation.
 
 
-;; Defaults	
+;; sclang defaults: ampdist=1, durdist=1, adparam=1.0, ddparam=1.0,
+;; minfreq=440, maxfreq=660, ampscale= 0.5, durscale=0.5, initCPs= 12,
+;; knum=12.
 
-(Pan2 ar (Gendy1 ar))
+(Pan2 (Gendy1 ar 1 1 1 1 440 660 0.5 0.5 12 12) 0 0.15)
 
 ;; Wandering bass
 
-(Pan2 ar (Gendy1 ar 1 1 1.0 1.0 30 100 0.3 0.05 5))
+(Pan2 (Gendy1 ar 1 1 1.0 1.0 30 100 0.3 0.05 5 5) 0 0.15)
 
-(Pan2 ar (RLPF ar (Gendy1 ar 2 3 minfreq: 20 maxfreq: (MouseX kr 100 1000) durscale: 0.0 initCPs: 40 knum: 40) 500 0.3 0.2) 0.0)
+;; Play me	
 
-(let ((mx (MouseX kr 220 440))
-   (my (MouseY kr 0.0 1.0)))
- (Pan2 ar (Gendy1 ar 2 3 1 1 minfreq: mx maxfreq: (Mul 8 mx) ampscale: my durscale: my initCPs: 7 knum: 7 mul: 0.3) 0.0))
+(let* ((x (MouseX kr 100 1000 1 0.1))
+       (g (Gendy1 ar 2 3 1 1 20 x 0.5 0.0 40 40)))
+  (Pan2 (Mul (RLPF g 500 0.3) 0.2) 0.0 0.25))
 
-;; Noise
+;; Scream!
 
-(Pan2 ar (Gendy1 ar initCPs: 1 knum: 1))
+(let ((x (MouseX kr 220 440 1 0.1))
+      (y (MouseY kr 0.0 1.0 0 0.1)))
+ (Pan2 (Gendy1 ar 2 3 1 1 x (Mul 8 x) y y 7 7) 0.0 0.3))
 
-(Pan2 ar (Gendy1 ar initCPs: 2 knum: 2))
+;; 1 CP = random noise
+
+(Pan2 (Gendy1 ar 1 1 1 1 440 660 0.5 0.5 1 1) 0 0.15)
+
+;; 2 CPs = an oscillator
+
+(Pan2 (Gendy1 ar 1 1 1 1 440 660 0.5 0.5 2 2) 0 0.15)
 
 ;; Used as an LFO
 
-(let ((adparam (SinOsc kr 0.1 0 0.49 0.51))
-      (ddparam (SinOsc kr 0.13 0 0.49 0.51))
-      (ampscale (SinOsc kr 0.17 0 0.49 0.51))
-      (durscale (SinOsc kr 0.19 0 0.49 0.51)))
-  (Pan2 ar 
-   (SinOsc ar 
-    (Gendy1 kr 2 4 adparam ddparam 3.4 3.5 ampscale durscale 10 10 50 350) 0 0.3) 0.0))
+(let* ((ad (MulAdd (SinOsc kr 0.1 0) 0.49 0.51))
+       (dd (MulAdd (SinOsc kr 0.13 0) 0.49 0.51))
+       (as (MulAdd (SinOsc kr 0.17 0) 0.49 0.51))
+       (ds (MulAdd (SinOsc kr 0.19 0) 0.49 0.51))
+       (g  (Gendy1 kr 2 4 ad dd 3.4 3.5 as ds 10 10)))
+  (Pan2 (SinOsc ar (MulAdd g 50 350) 0) 0.0 0.3))
 
 ;; Wasp
 
-(Pan2 ar (Gendy1 ar 0 0 (SinOsc kr 0.1 0 0.1 0.9) 1.0 50 1000 1 0.005 12 12 0.2) 0.0)
+(let ((ad (MulAdd (SinOsc kr 0.1 0) 0.1 0.9)))
+  (Pan2 (Gendy1 ar 0 0 ad 1.0 50 1000 1 0.005 12 12) 0.0 0.2))
 
 ;; Modulate distributions. Change of pitch as distributions change
 ;; the duration structure and spectrum
 
-(Pan2 ar (Gendy1 ar (MouseX kr 0 7) (MouseY kr 0 7) mul: 0.2) 0.0)
+(let* ((x (MouseX kr 0 7 0 0.1))
+       (y (MouseY kr 0 7 0 0.1))
+       (g (Gendy1 ar x y 1 1 440 660 0.5 0.5 12 12)))
+  (Pan2 g 0 0.2))
 
 ;; Modulate number of CPs.
 
-(Pan2 ar (Gendy1 ar knum: (MouseX kr 1 13) mul: 0.2) 0.0)
+(let* ((x (MouseX kr 1 13 0 0.1))
+       (g (Gendy1 ar 1 1 1 1 440 660 0.5 0.5 12 x)))
+  (Pan2 g 0 0.2))
 
 ;; Self modulation.
 
-(Pan2 ar (Gendy1 ar maxfreq: (Gendy1 kr 5 4 0.3 0.7 0.1 (MouseY kr 0.1 10) 1.0 1.0 5 5 500 600) 
-		  knum: (MouseX kr 1 13) mul: 0.2) 0.0)
+(let* ((x  (MouseX kr 1 13 0 0.1))
+       (y  (MouseY kr 0.1 10 0 0.1))
+       (g0 (Gendy1 kr 5 4 0.3 0.7 0.1 y 1.0 1.0 5 5))
+       (g1 (Gendy1 ar 1 1 1 1 440 (MulAdd g0 500 600) 0.5 0.5 12 x)))
+  (Pan2 g1 0.0 0.2))
 
 ;; Use SINUS to track any oscillator and take CP positions from it use
 ;; adparam and ddparam as the inputs to sample.
 
-(Pan2 ar (Gendy1 ar 6 6 (LFPulse kr 100 0 0.4 1.0) (SinOsc kr 30 0 0.5) mul: 0.2) 0.0)
+(let* ((p (LFPulse kr 100 0 0.4))
+       (s (Mul (SinOsc kr 30 0) 0.5))
+       (g (Gendy1 ar 6 6 p s 440 660 0.5 0.5 12 12)))
+  (Pan2 g 0.0 0.2))
 
 ;; Near the corners are interesting.
 
-(Pan2 ar (Gendy1 ar 6 6 (LFPulse kr (MouseX kr 0 200) 0 0.4 1.0) (SinOsc kr (MouseY kr 0 200) 0 0.5) mul: 0.2) 0.0)
+(let* ((x (MouseX kr 0 200 0 0.1))
+       (y (MouseY kr 0 200 0 0.1))
+       (p (LFPulse kr x 0 0.4))
+       (s (Mul (SinOsc kr y 0) 0.5))
+       (g (Gendy1 ar 6 6 p s 440 660 0.5 0.5 12 12)))
+  (Pan2 g 0.0 0.2))
 
 ;; Texture
 
-(Mix.fill 
+(mix/fill 
  10 
- (lambda ()
-   (let ((freq (random 130.0 160.3))
-	 (adparam (SinOsc kr 0.1 0 0.49 0.51))
-	 (ddparam (SinOsc kr 0.13 0 0.49 0.51))
-	 (ampscale (SinOsc kr 0.17 0 0.49 0.51))
-	 (durscale (SinOsc kr 0.19 0 0.49 0.51)))
-     (Pan2 ar (SinOsc ar (Gendy1 ar (random 6) (random 6) adparam ddparam freq freq ampscale durscale 12 12 200 400) 0 0.1) 
-	      (random -1 1)))))
+ (lambda (_)
+   (let* ((f (rand 130.0 160.3))
+	  (ad (MulAdd (SinOsc kr 0.1 0) 0.49 0.51))
+	  (dd (MulAdd (SinOsc kr 0.13 0) 0.49 0.51))
+	  (as (MulAdd (SinOsc kr 0.17 0) 0.49 0.51))
+	  (ds (MulAdd (SinOsc kr 0.19 0) 0.49 0.51))
+	  (g  (Gendy1 ar (rand 0 6) (rand 0 6) ad dd f f as ds 12 12)))
+     (Pan2 (SinOsc ar (MulAdd g 200 400) 0)
+	   (rand -1 1)
+	   0.1))))
 
 ;; Try durscale 10.0 and 0.0 too.
 
-(Pan2 ar
- (CombN ar
-  (Resonz ar
-   (Gendy1 ar 2 3 minfreq: 1 maxfreq: (MouseX kr 10 700) durscale: 0.1 initCPs: 10 knum: 10)
-   (MouseY kr 50 1000) 0.1)
-  0.1 0.1 5 0.6)
- 0.0)
+(let* ((x (MouseX kr 10 700 0 0.1))
+       (y (MouseY kr 50 1000 0 0.1))
+       (g (Gendy1 ar 2 3 1 1 1 x 0.5 0.1 10 10)))
+  (Pan2 (CombN (Resonz g y 0.1) 0.1 0.1 5) 0.0 0.6))
 
 ;; Overkill
 
-(define (overkill n)
-  (define (exprand a b) (random* random-exponential-normal a b))
-  (Mix.fill 
-   n 
-   (lambda ()
-     (let* ((freq (random 50 560.3))
-	    (numcps (random 2 20))
-	    (knum (SinOsc kr (exprand 0.02 0.2) 0 (FDiv numcps 2) (FDiv numcps 2))))
-       (Pan2 ar (Gendy1 ar (random 6) (random 6) (random 1) (random 1) freq freq (random 1) (random 1) numcps knum 
-			   (FDiv 0.5 (Sqrt n))) 
-		(random -1 1))))))
+(define (overkill i)
+  (mix/fill 
+   i
+   (lambda (_)
+     (let* ((f (rand 50 560.3))
+	    (n (rand 2 20))
+	    (k (MulAdd (SinOsc kr (randx 0.02 0.2) 0) (FDiv n 2) (FDiv n 2)))
+	    (g (Gendy1 ar 
+		       (rand 0 6) (rand 0 6) (rand 0 1) (rand 0 1) f f 
+		       (rand 0 1) (rand 0 1) n k)))
+       (Pan2 g (rand -1 1) (FDiv 0.5 (Sqrt i)))))))
 
 (overkill 10)
 
 ;; Another traffic moment
 
-(Resonz ar (overkill 10) (MouseX kr 100 2000) (MouseY kr 0.01 1.0))
+(let ((x (MouseX kr 100 2000 0 0.1))
+      (y (MouseY kr 0.01 1.0 0 0.1)))
+  (Resonz (overkill 10) x y))
