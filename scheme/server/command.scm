@@ -151,7 +151,9 @@
   (message "/b_fill" id index n value))
 
 (define (/b_close id)
-  (message "/b_close" id))
+  (with-reply
+   "/done"
+   (message "/b_close" id)))
 
 (define (/b_query id)
   (with-reply
