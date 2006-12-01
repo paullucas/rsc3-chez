@@ -6,12 +6,12 @@
 
 ;; Allocate and set values at buffer 10.
 
-(-> '/b_alloc 10 6 1)
+(->< s (/b_alloc 10 6 1))
 
-(-> '/b_setn 10 0 6 50 100 200 400 800 1600)
+(-> s (/b_setn 10 0 6 50 100 200 400 800 1600))
 
 ;; Index into the above buffer for frequency values.
 
-(SinOsc ar (Index kr 10 (LFSaw kr 2 3 4)) 0 0.1)
+(Mul (SinOsc ar (Index 10 (Mul (LFSaw kr 2 3) 4)) 0) 0.1)
 
-(-> '/b_free 10)
+(->< s (/b_free 10))

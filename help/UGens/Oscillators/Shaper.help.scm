@@ -1,7 +1,7 @@
 ;; (Shaper bufnum in)
 
-;;  Wave shaper.  Performs waveshaping on the input signal by indexing
-;;  into the table.
+;; Wave shaper.  Performs waveshaping on the input signal by indexing
+;; into the table.
 
 ;; bufnum - the number of a buffer filled in wavetable format
 ;;          containing the transfer function.
