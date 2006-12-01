@@ -3,16 +3,19 @@
 ;; Continously play a soundfile from disk. This requires a buffer to
 ;; be preloaded with one buffer size of sound.  The buffer size must
 ;; be a multiple of twice the synth block size. The default block size
-;; is 128. See server-options for setting block size.
+;; is 64.
 
 ;; Note that DiskIn reads the number of outputs to create from what
-;; looks like an input, but IT IS NOT AN INPUT, and cannot be set
+;; looks like an input, but it is not an input, and cannot be set
 ;; using a control.
 
-(define path (resolve "audio/metal.wav"))
+(let ((f "/home/rohan/uc/uc-26/daily-practice/2006-10-04.wav")
+      (n 2))
+  (->< s (/b_alloc 0 8192 n))
+  (->< s (/b_read 0 f 0 -1 0 1))
+  (play s (DiskIn ar n 0)))
 
-(define b (buffer-cue-sound-file path 0 1))
+(reset s)
 
-(DiskIn ar c (buffer-id b))
-
-(buffer-free b #t)
+(begin (->< s (/b_close 0))
+       (->< s (/b_free 0)))

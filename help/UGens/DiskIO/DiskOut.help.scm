@@ -1,6 +1,6 @@
 ;; (DiskOut bufnum channels)
 
-;; Note: There are constaints on the size of the buffer, it must be
+;; Note: There are constraints on the size of the buffer, it must be
 ;; greater than or equal to twice the size of the audio bus.  There
 ;; must be the same number of channels at the buffer and the DiskOut
 ;; ugen.
