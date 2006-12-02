@@ -13,7 +13,7 @@
 	      (Pulse ar 110 0.1))))
   (Mul (TWChoose (Dust ar (MouseX kr 1 1000 1 0.1))
 		 a
-		 (Mce 0.99 0.05 0.05)
+		 (Mce 0.6 0.05 0.05)
 		 1)
        0.1))
 
