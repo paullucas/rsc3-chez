@@ -11,16 +11,20 @@
 
 ;; Noise gate
 
-(Compander z z (MouseX kr 0.1 1 0 0.1) 10 1 0.01 0.01)
+(let ((x (MouseX kr 0.01 1 0 0.1)))
+  (Mce z (Compander z z x 1 0.01 0.01 0.1)))
 
 ;; Compressor
 
-(Compander z z (MouseX kr 0.1 1 0 0.1) 1 0.5 0.01 0.01)
+(let ((x (MouseX kr 0.01 1 0 0.1)))
+  (Mce z (Compander z z x 0.5 0.01 0.01 0.1)))
 
 ;; Limiter
 
-(Compander z z (MouseX kr 0.1 1 0 0.1) 1 0.1 0.01 0.01)
+(let ((x (MouseX kr 0.01 1 0 0.1)))
+  (Mce z (Compander z z x 0.1 0.01 0.01 0.1)))
 
 ;; Sustainer
 
-(Compander z z (MouseX kr 0.1 1 0 0.1) 0.1 1 0.01 0.01)
+(let ((x (MouseX kr 0.01 1 0 0.1)))
+  (Mce z (Compander z z x 1 0.01 0.01 0.1)))
