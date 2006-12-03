@@ -11,8 +11,8 @@
 
 (let ((f (lambda (u)
 	   (let* ((a (u +inf.sc (Mce 1 3 2 7 8)))
-		  (trig (Impulse kr (MouseX kr 1 400 1 0.1) 0))
-		  (freq (MulAdd (Demand trig 0 a) 30 340)))
-	     (Mul (SinOsc ar freq 0) 0.1)))))
+		  (t (Impulse kr (MouseX kr 1 400 1 0.1) 0))
+		  (f (MulAdd (Demand t 0 a) 30 340)))
+	     (Mul (SinOsc ar f 0) 0.1)))))
   (Mce (f Drand)
        (f Dxrand)))
