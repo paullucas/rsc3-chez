@@ -46,6 +46,7 @@
 
 (define-specialized SharedOut (bus channelsArray) 0 kr)
 
+(define-specialized Dbufrd (bufnum phase loop) 1 dr)
 (define-specialized Dgeom (length start grow) 1 dr)
 (define-specialized Dseries (length start step) 1 dr)
 
