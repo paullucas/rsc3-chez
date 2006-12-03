@@ -42,7 +42,6 @@
 (define-filter DelayC (in maxdelaytime delaytime) 1)
 (define-filter DelayL (in maxdelaytime delaytime) 1)
 (define-filter DelayN (in maxdelaytime delaytime) 1)
-(define-filter Demand (trig reset demandUGens) 1)
 (define-filter DetectSilence (in amp time doneAction) 1)
 (define-filter Done (src) 1)
 (define-filter Fold (in lo hi) 1)
@@ -176,6 +175,17 @@
 (define-filter/id TExpRand (lo hi trig) 1)
 (define-filter/id TIRand (lo hi trig) 1)
 (define-filter/id TRand (lo hi trig) 1)
+
+;; Keyed filter, rate is determined by a known input.
+
+(define-syntax define-filter/k
+  (syntax-rules ()
+    ((_ n (i ...) o k)
+     (define (n i ...)
+       (let ((l (list i ...)))
+	 (construct-ugen 'n (rate-of (list-ref l k)) l #f o 0 (make-uid 0)))))))
+
+(define-filter/k Demand (trig reset demandUGens) 1 0)
 
 ;; JITLIB
 
