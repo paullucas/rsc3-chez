@@ -7,11 +7,14 @@
 (define ar (make-rate 2))
 (define dr (make-rate 3))
 
+;; Order rates for determing the result of math operators.  Operators
+;; involving a Demand rate UGen operate at Demand rate.
+
 (define (rate->ordinal r)
   (cond ((eq? r ir)  0)
-	((eq? r dr)  1)
-	((eq? r kr)  2)
-	((eq? r ar)  3)
+	((eq? r kr)  1)
+	((eq? r ar)  2)
+	((eq? r dr)  3)
 	(else        (error "illegal rate"))))
 
 (define (rate-select* a b)
