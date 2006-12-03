@@ -52,6 +52,8 @@
 (define-oscillator Saw (freq) 1)
 (define-oscillator SinOsc (freq phase) 1)
 (define-oscillator SinOscFB (freq feedback) 1)
+(define-oscillator StandardL (freq k xi yi) 1)
+(define-oscillator StandardN (freq k xi yi) 1)
 (define-oscillator SyncSaw (syncFreq sawFreq) 1)
 (define-oscillator VarSaw (freq iphase width) 1)
 (define-oscillator VOsc3 (bufpos freq1 freq2 freq3) 1)

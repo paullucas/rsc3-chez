@@ -116,8 +116,6 @@
 (define-filter Slope (in) 1)
 (define-filter SOS (in a0 a1 a2 b1 b2) 1)
 (define-filter Spring (in spring damp) 1)
-(define-filter StandardL (freq k xi yi) 1)
-(define-filter StandardN (freq k xi yi) 1)
 (define-filter Stepper (trig reset min max step resetval) 1)
 (define-filter Sweep (trig rate) 1)
 (define-filter TBall (in g damp friction) 1)
