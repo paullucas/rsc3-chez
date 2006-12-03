@@ -46,19 +46,11 @@
 
 (define-specialized SharedOut (bus channelsArray) 0 kr)
 
-(define-specialized Dbufrd (bufnum phase loop) 1 dr)
-(define-specialized Dgeom (length start grow) 1 dr)
-(define-specialized Dseries (length start step) 1 dr)
-
 (define-syntax define-specialized*
   (syntax-rules ()
     ((_ n (i ... v) o r)
      (define (n i ... v)
        (construct-ugen 'n r (list i ...) v o 0 (make-uid 0))))))
-
-(define-specialized* Dseq (length array) 1 dr)
-(define-specialized* Dser (length array) 1 dr)
-(define-specialized* Dswitch1 (length array) 1 dr)
 
 (define-syntax define-specialized/id
   (syntax-rules ()
@@ -66,9 +58,12 @@
      (define (n i ...)
        (construct-ugen 'n r (list i ...) #f o 0 (unique-uid))))))
 
+(define-specialized/id Dbufrd (bufnum phase loop) 1 dr)
 (define-specialized/id Dbrown (length lo hi step) 1 dr)
 (define-specialized/id Dibrown (length lo hi step) 1 dr)
 (define-specialized/id Diwhite (length lo hi) 1 dr)
+(define-specialized/id Dgeom (length start grow) 1 dr)
+(define-specialized/id Dseries (length start step) 1 dr)
 (define-specialized/id Dwhite (length lo hi) 1 dr)
 (define-specialized/id ExpRand (lo hi) 1 ir)
 (define-specialized/id IRand (lo hi) 1 ir)
@@ -83,6 +78,9 @@
        (construct-ugen 'n r (list i ...) v o 0 (unique-uid))))))
 
 (define-specialized*/id Drand (length array) 1 dr)
+(define-specialized*/id Dseq (length array) 1 dr)
+(define-specialized*/id Dser (length array) 1 dr)
+(define-specialized*/id Dswitch1 (length array) 1 dr)
 (define-specialized*/id Dxrand (length array) 1 dr)
 
 ;; Local Variables:
