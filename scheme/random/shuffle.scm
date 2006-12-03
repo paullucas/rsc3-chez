@@ -1,10 +1,14 @@
 ;; shuffle.scm - (c) rohan drape, 2005-2006
 
 ;; Return a random permutation of the <list> `l'.  This is not a
-;; mutation operation.
+;; mutation operation.  For a critique of this method see
+;; http://okmij.org/ftp/Haskell/perfect-shuffle.txt.
 
 (define (shuffle l)
-  (map cdr
-       (sort 
-	(map (lambda (x) (cons (rand 0 1) x)) l)
-	(lambda (x y) (< (car x) (car y))))))
+  (let ((q (map (lambda (e) (cons (rand 0 1) e)) l))
+	(c (lambda (a b) (> (car a) (car b)))))
+    (map cdr (sort q c))))
+
+;; sclang name for shuffle.
+
+(define scramble shuffle)
