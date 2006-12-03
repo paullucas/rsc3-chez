@@ -12,6 +12,7 @@
 (define-oscillator Crackle (chaosParam) 1)
 (define-oscillator CuspL (freq a b xi) 1)
 (define-oscillator CuspN (freq a b xi) 1)
+(define-oscillator DemandEnvGen (level dur shape curve gate reset levelScale levelBias timeScale doneAction) 1)
 (define-oscillator FBSineC (freq im fb a c xi yi) 1)
 (define-oscillator FBSineL (freq im fb a c xi yi) 1)
 (define-oscillator FBSineN (freq im fb a c xi yi) 1)

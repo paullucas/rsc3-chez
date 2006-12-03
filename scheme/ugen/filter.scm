@@ -43,7 +43,6 @@
 (define-filter DelayL (in maxdelaytime delaytime) 1)
 (define-filter DelayN (in maxdelaytime delaytime) 1)
 (define-filter Demand (trig reset demandUGens) 1)
-(define-filter DemandEnvGen (level dur shape curve gate reset levelScale levelBias timeScale doneAction) 1)
 (define-filter DetectSilence (in amp time doneAction) 1)
 (define-filter Done (src) 1)
 (define-filter Fold (in lo hi) 1)
