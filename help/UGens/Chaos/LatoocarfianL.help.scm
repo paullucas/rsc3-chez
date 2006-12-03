@@ -1,5 +1,5 @@
-;; (LatoocarfianC a b c d xi yi)
-;; (LatoocarfianL a b c d xi yi)
-;; (LatoocarfianN a b c d xi yi)
+;; (LatoocarfianC freq a b c d xi yi)
+;; (LatoocarfianL freq a b c d xi yi)
+;; (LatoocarfianN freq a b c d xi yi)
 
 ;; See LatoocarfianC.

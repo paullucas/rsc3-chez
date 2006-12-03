@@ -1,6 +1,6 @@
-;; (LatoocarfianC a b c d xi yi)
-;; (LatoocarfianL a b c d xi yi)
-;; (LatoocarfianN a b c d xi yi)
+;; (LatoocarfianC freq a b c d xi yi)
+;; (LatoocarfianL freq a b c d xi yi)
+;; (LatoocarfianN freq a b c d xi yi)
 
 ;; This is a function given in Clifford Pickover's book Chaos In
 ;; Wonderland, pg 26.  The function has four parameters a, b, c, and
