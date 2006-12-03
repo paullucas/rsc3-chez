@@ -24,5 +24,5 @@
  (include "../scheme/random/range.scm")
  (include "../scheme/random/choose.scm")
  (include "../scheme/random/shuffle.scm")
- (#%provide rand _rand rand2 randi randx randl randb
-	    choose pchoose shuffle))
+ (#%provide rand _rand rand2 randi randx randl randxl randb
+	    choose choosel pchoose shuffle))

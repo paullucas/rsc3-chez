@@ -5,6 +5,11 @@
 (define (choose l)
   (list-ref l (randi 0 (length l))))
 
+;; Return a randomly selected element of the <list> 'l'.
+
+(define (choosel n l)
+  (map (lambda (_) (choose l)) (iota n)))
+
 ;; Weighted choose, w must sum to 1.
 
 (define (windex w n)

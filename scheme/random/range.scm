@@ -20,7 +20,7 @@
 (define (rand2 n)
   (rand (- n) n))
 
-;; List generating variant.
+;; List generating variant of rand.
 
 (define (randl n l r) 
   (map (lambda (i) (rand l r)) (iota n)))
@@ -38,6 +38,11 @@
 (define (randx minima maxima)
   (let ((ratio (/ maxima minima)))
     (* (expt ratio (rand 0.0 1.0)) minima)))
+
+;; List generating variant of randx.
+
+(define (randxl n l r) 
+  (map (lambda (i) (randx l r)) (iota n)))
 
 ;; Boolean variant.  
 
