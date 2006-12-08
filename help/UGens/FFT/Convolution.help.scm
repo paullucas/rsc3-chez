@@ -8,19 +8,21 @@
 ;; kernel    - processing kernel.
 ;; framesize - size of FFT frame, must be a power of two
 
-(let ((input (AudioIn ar (list 1 2)))
+(let ((input (audioin (Mce 1 2)))
       (kernel (WhiteNoise ar)))
-  (Convolution ar input kernel 2048 0.1))
+  (Mul (Convolution input kernel 2048) 0.1))
+
+(require (only (lib "1.ss" "srfi") iota))
 
 (let ((a 2048)
       (b 0))
   (->< s (/b_alloc b a 1))
   (-> s (/b_set b 0 1.0))
   (for-each (lambda (n) 
-	      (-> (/b_set b (randi 0 a) (rand 0.0 1.0))))
+	      (-> s (/b_set b (randi 0 a) (rand 0.0 1.0))))
 	    (iota 100))
-  (Convolution ar 
-   (AudioIn ar (Mce 1 2)) 
-   (PlayBuf ar 1 i (BufRateScale kr i) 1 0 1)
-   (* 2 a)
-   0.2))
+  (Mul (Convolution 
+	(audioin (Mce 1 2)) 
+	(PlayBuf ar 1 b (BufRateScale kr b) 1 0 1)
+	(* 2 a))
+       0.2))
