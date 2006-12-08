@@ -32,8 +32,6 @@
 (define-filter CombN (in maxdelaytime delaytime decaytime) 1)
 (define-filter Compander (in control thresh slopeBelow slopeAbove clampTime relaxTime) 1)
 (define-filter CompanderD (in thresh slopeBelow slopeAbove clampTime relaxTime) 1)
-(define-filter Convolution2 (in bufnum trigger framesize) 1)
-(define-filter Convolution (in kernel framesize) 1)
 (define-filter Decay2 (in attackTime decayTime) 1)
 (define-filter Decay (in decayTime) 1)
 (define-filter DegreeToKey (bufnum in octave) 1)
