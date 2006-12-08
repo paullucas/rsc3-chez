@@ -11,6 +11,7 @@
 
 (define-specialized FFT (buf in) 1 kr)
 (define-specialized IFFT (buf) 1 ar)
+(define-specialized Convolution (in kernel frameSize) 1 ar)
 
 (define-specialized PV_Add (bufA bufB) 1 kr)
 (define-specialized PV_BinScramble (buffer wipe width trig) 1 kr)
