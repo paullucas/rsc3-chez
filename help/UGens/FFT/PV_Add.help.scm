@@ -1,9 +1,10 @@
 ;; (PV_Add bufferA bufferB)
 
-;; Complex Addition: RealA + RealB, ImagA + ImagB
+;; Complex addition: RealA + RealB, ImagA + ImagB
 
 (begin
   (->< s (/b_alloc 10 2048 1))
+  (->< s (/b_alloc 11 2048 1))
   (->< s (/b_allocRead 12 "/home/rohan/sw/sw-01/audio/metal.wav" 0 0)))
 
 (let* ((a (PlayBuf ar 1 12 (BufRateScale kr 12) 0 0 1))

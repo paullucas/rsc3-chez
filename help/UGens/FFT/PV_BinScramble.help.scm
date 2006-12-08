@@ -5,12 +5,12 @@
 
 ;; buffer - fft buffer.
 
-;; wipe - scrambles more bins as wipe moves from zero to one.
+;; wipe   - scrambles more bins as wipe moves from zero to one.
 
-;; width - a value from zero to one, indicating the maximum randomized
-;; distance of a bin from its original location in the spectrum.
+;; width  - a value from zero to one, indicating the maximum randomized
+;;          distance of a bin from its original location in the spectrum.
 
-;; trig - a trigger selects a new random ordering.
+;; trig   - a trigger selects a new random ordering.
 
 (begin
   (->< s (/b_alloc 10 2048 1))

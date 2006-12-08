@@ -9,11 +9,10 @@
 ;; bufferA - source buffer.
 ;; bufferB - destination buffer.
 
-(->< s (/b_alloc 0 2048 1))
+(begin (->< s (/b_alloc 0 2048 1))
+       (->< s (/b_alloc 1 2048 1)))
 
-(->< s (/b_alloc 1 2048 1))
-
-;; -- proof of concept, silence
+;; Proof of concept, silence
 
 (let* ((in (LFClipNoise ar 100))
        (c0 (FFT 0 in))
