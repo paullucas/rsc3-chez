@@ -1,8 +1,9 @@
 ;; (PV_MagClip buffer threshold)
 
-;; Clips bin magnitudes to a maximum threshold.
+;; Clip bins to a threshold.  Clips bin magnitudes to a maximum
+;; threshold.
 
-;; buffer - fft buffer.
+;; buffer    - fft buffer.
 ;; threshold - magnitude threshold.
 
 (begin

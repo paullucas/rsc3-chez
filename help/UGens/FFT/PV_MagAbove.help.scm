@@ -16,5 +16,5 @@
 (let* ((a (MulAdd (SinOsc kr (Squared (MulAdd (SinOsc kr 0.08 0) 6 6.2)) 0) 100 800))
        (b (SinOsc ar a 0))
        (f (FFT 10 b))
-       (h (PV_MagAbove f (MouseX kr 1 (/ n 2) 0 0.1))))
+       (h (PV_MagAbove f (MouseX kr 1 1024 0 0.1))))
   (Mul (IFFT h) 0.5))
