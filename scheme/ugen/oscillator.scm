@@ -61,7 +61,6 @@
 (define-oscillator VOsc (bufpos freq phase) 1)
 (define-oscillator XLine (start end dur doneAction) 1)
 
-(define-oscillator LagIn () 1)
 (define-oscillator MouseButton (minval maxval lag) 1)
 (define-oscillator MouseX (min max warp lag) 1)
 (define-oscillator MouseY (min max warp lag) 1)

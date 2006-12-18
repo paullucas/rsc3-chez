@@ -64,6 +64,7 @@
 	 (construct-ugen 'n r l #f nc 0 (make-uid 0)))))))
 
 (define-specialized/n InTrig (bus) kr)
+(define-specialized/n LagIn (bus lag) kr)
 
 (define-syntax define-specialized/id
   (syntax-rules ()
