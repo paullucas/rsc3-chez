@@ -13,7 +13,7 @@
       (n 2))
   (->< s (/b_alloc 0 8192 n))
   (->< s (/b_read 0 f 0 -1 0 1))
-  (play s (DiskIn ar n 0)))
+  (play s (DiskIn n ar 0)))
 
 (reset s)
 

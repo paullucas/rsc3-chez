@@ -133,14 +133,16 @@
 
 (define-syntax define-filter/n
   (syntax-rules ()
-    ((_ n (i ...) z)
-     (define (n i ...)
+    ((_ n (i ...))
+     (define (n nc i ...)
+       (if (not (integer? nc))
+	   (error "illegal channel count" 'n nc))
        (let ((l (list i ...)))
-	 (construct-ugen 'n #f (without z l) #f (list-ref l z) 0 (make-uid 0)))))))
+	 (construct-ugen 'n #f l #f nc 0 (make-uid 0)))))))
 
-(define-filter/n DecodeB2 (numChans w x y orientation) 0)
-(define-filter/n Silent (numChannels) 0)
-(define-filter/n TGrains (numChannels trigger bufnum rate centerPos dur pan amp interp) 0)
+(define-filter/n DecodeB2 (w x y orientation))
+(define-filter/n Silent ())
+(define-filter/n TGrains (trigger bufnum rate centerPos dur pan amp interp))
 
 (define-syntax define-filter*
   (syntax-rules ()

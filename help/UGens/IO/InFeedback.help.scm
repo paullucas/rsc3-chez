@@ -25,16 +25,16 @@
 
 ;; Audio feedback modulation.
 
-(Mul (SinOsc ar (MulAdd (InFeedback ar 0 1) 1300 300) 0)
+(Mul (SinOsc ar (MulAdd (InFeedback 1 ar 0) 1300 300) 0)
      0.4)
 
 ;; Evaluate these in either order and hear both tones.
 
-(Out 0 (InFeedback ar 10 1))
+(Out 0 (InFeedback 1 ar 10))
 
 (Mrg (Out 10 (Mul (SinOsc ar 440 0) 0.1))
      (Out 0 (Mul (SinOsc ar 660 0) 0.1)))
 
 ;; Doubters consult this.
 
-(In ar 10 1)
+(In 1 ar 10)

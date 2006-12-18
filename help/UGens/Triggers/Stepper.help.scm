@@ -24,7 +24,7 @@
        (clock (Impulse kr rate 0))
        (env (Decay2 clock 0.002 2.5))
        (index (Stepper clock 0 0 15 1 0))
-       (freq (BufRd kr 1 10 index 1 1))
+       (freq (BufRd 1 kr 10 index 1 1))
        (ffreq (Add (if #t
 		       (Lag2 freq 0.1)
 		       (Mul (MouseY kr 80 1600 1 0.1) (Add (Mul env 4) 2)))
@@ -67,7 +67,7 @@
        (clock (Impulse kr rate 0))
        (env (Decay2 clock 0.002 2.5))
        (index (Stepper clock 0 0 15 1 0))
-       (freq (BufRd kr 1 10 index 1 1))
+       (freq (BufRd 1 kr 10 index 1 1))
        (ffreq (Add (Lag2 freq 0.1) (Mce 0 0.3)))
        (lfo (SinOsc kr 0.2 (Mce 0 half-pi 0.0024 0.0025)))
        (rvb (lambda (s) (AllpassN s

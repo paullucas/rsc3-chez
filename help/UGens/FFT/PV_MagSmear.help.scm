@@ -26,6 +26,6 @@
  0.5 
  (Dup 
   (IFFT 
-   (PV_MagSmear (FFT b (PlayBuf ar 1 c (BufRateScale kr c) 1 0 1))
+   (PV_MagSmear (FFT b (PlayBuf 1 ar c (BufRateScale kr c) 1 0 1))
 		(MouseX kr 0 100 0 0.1)))))
 

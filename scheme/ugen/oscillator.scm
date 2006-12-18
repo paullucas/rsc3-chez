@@ -89,19 +89,21 @@
 
 (define-syntax define-oscillator/n
   (syntax-rules ()
-    ((_ n (i ...) z)
-     (define (n r i ...)
+    ((_ n (i ...))
+     (define (n nc r i ...)
+       (if (not (integer? nc))
+	   (error "illegal channel count:" 'n nc))
        (let ((l (list i ...)))
-	 (construct-ugen 'n r (without z l) #f (list-ref l z) 0 (make-uid 0)))))))
+	 (construct-ugen 'n r l #f nc 0 (make-uid 0)))))))
 
-(define-oscillator/n BufRd (numChannels bufnum phase loop interpolation) 0)
-(define-oscillator/n DiskIn (numChannels bufnum) 0)
-(define-oscillator/n In (bus numChannels) 1)
-(define-oscillator/n InFeedback (bus numChannels) 1)
-(define-oscillator/n InTrig (bus numChannels) 1)
-(define-oscillator/n LocalIn (numChannels) 0)
-(define-oscillator/n PlayBuf (numChannels bufnum rate trigger startPos loop) 0)
-(define-oscillator/n TrigControl (numChannels) 0)
+(define-oscillator/n BufRd (bufnum phase loop interpolation))
+(define-oscillator/n DiskIn (bufnum))
+(define-oscillator/n In (bus))
+(define-oscillator/n InFeedback (bus))
+(define-oscillator/n InTrig (bus))
+(define-oscillator/n LocalIn ())
+(define-oscillator/n PlayBuf (bufnum rate trigger startPos loop))
+(define-oscillator/n TrigControl ())
 
 (define-syntax define-oscillator*
   (syntax-rules ()

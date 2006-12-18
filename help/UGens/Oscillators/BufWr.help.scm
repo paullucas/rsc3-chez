@@ -27,7 +27,7 @@
  s "b"
  (letc ((r 1))
    (let ((p (Phasor ar 0 (Mul (BufRateScale kr 0) r) 0 (BufFrames kr 0) 0)))
-     (Out 0 (BufRd ar 1 0 p 1 2)))))
+     (Out 0 (BufRd 1 ar 0 p 1 2)))))
 
 (-> s (/s_new "a" 1001 1 0))
 

@@ -8,7 +8,7 @@
 
 ;; Run an oscillator with the trigger at bus 10.
 
-(let ((t (InTrig kr 10 1)))
+(let ((t (InTrig 1 kr 10)))
   (Mul (SinOsc ar 440 0)
        (EnvGen kr t t 0 1 0 (env/perc 0.01 1 1 -4))))
 

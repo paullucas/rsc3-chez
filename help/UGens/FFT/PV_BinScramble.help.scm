@@ -16,7 +16,7 @@
   (->< s (/b_alloc 10 2048 1))
   (->< s (/b_allocRead 12 "/home/rohan/sw/sw-01/audio/metal.wav" 0 0)))
 
-(let* ((a (PlayBuf ar 1 12 (BufRateScale kr 12) 1 0 1))
+(let* ((a (PlayBuf 1 ar 12 (BufRateScale kr 12) 1 0 1))
        (f (FFT 10 a))
        (g (PV_BinScramble f
 			  (MouseX kr 0.0 1.0 0 0.1)

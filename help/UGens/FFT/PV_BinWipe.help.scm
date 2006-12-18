@@ -25,7 +25,7 @@
   (Out 0 (Mul (IFFT h) 0.5)))
 
 (let* ((a (Mul (WhiteNoise ar) 0.2))
-       (b (PlayBuf ar 1 12 (BufRateScale kr 12) 0 0 1))
+       (b (PlayBuf 1 ar 12 (BufRateScale kr 12) 0 0 1))
        (f (FFT 10 a))
        (g (FFT 11 b))
        (h (PV_BinWipe f g (MouseX kr -1 1 0 0.1))))

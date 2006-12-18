@@ -25,7 +25,7 @@
  (letc ((in 0) (bufnum 0)
 	(offset 1) (recLevel 1) (preLevel 0)
 	(run 1) (loop 1) (trigger 1))
-   (RecordBuf bufnum offset recLevel preLevel run loop trigger (In ar in 2)))
+   (RecordBuf bufnum offset recLevel preLevel run loop trigger (In 2 ar in))))
 
 (define b 10)
 
@@ -40,7 +40,7 @@
 (send-synth 
  s "player"
  (letc ((bufnum 0) (rate 1) (trigger 1) (startPos 0) (loop 1) (gain 1))
-   (Mul (PlayBuf ar 2 bufnum rate trigger startPos loop) gain)))
+   (Mul (PlayBuf 2 ar bufnum rate trigger startPos loop) gain)))
 
 (define z 1002)
 
