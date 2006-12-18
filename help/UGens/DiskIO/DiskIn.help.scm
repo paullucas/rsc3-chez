@@ -1,4 +1,4 @@
-;; (DiskIn numChannels bufnum)
+;; (DiskIn numChannels rate bufnum)
 
 ;; Continously play a soundfile from disk. This requires a buffer to
 ;; be preloaded with one buffer size of sound.  The buffer size must

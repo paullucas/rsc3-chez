@@ -1,4 +1,4 @@
-;; (BufDur bufnum)
+;; (BufDur rate bufnum)
 
 ;; Current duration of buffer.
 

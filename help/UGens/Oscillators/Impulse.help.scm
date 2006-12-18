@@ -1,4 +1,4 @@
-;; (Impulse freq iphase)
+;; (Impulse rate freq iphase)
 
 ;; Impulse oscillator.  Outputs non band limited single sample
 ;; impulses.

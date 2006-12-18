@@ -1,4 +1,4 @@
-;; (SyncSaw syncFreq sawFreq)
+;; (SyncSaw rate syncFreq sawFreq)
 
 ;; A sawtooth wave that is hard synched to a fundamental pitch. This
 ;; produces an effect similar to moving formants or pulse width
@@ -9,4 +9,4 @@
 ;; The frequency of the slave synched sawtooth wave should always be
 ;; greater than the syncFreq.
 
-(SyncSaw ar 100 (Line kr 100 800 12) 0.1)
+(Mul (SyncSaw ar 100 (Line kr 100 800 12 removeSynth)) 0.1)

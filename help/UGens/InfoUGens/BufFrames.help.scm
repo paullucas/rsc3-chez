@@ -1,4 +1,4 @@
-;; (BufFrames bufnum)
+;; (BufFrames rate bufnum)
 
 ;; Current duration of buffer.
 

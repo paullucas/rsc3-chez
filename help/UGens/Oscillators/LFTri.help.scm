@@ -1,4 +1,4 @@
-;; (LFTri freq iphase)
+;; (LFTri rate freq iphase)
 
 ;; A non-band-limited triangular waveform oscillator. Output ranges
 ;; from -1 to +1.

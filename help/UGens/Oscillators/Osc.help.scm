@@ -1,4 +1,4 @@
-;; (Osc bufnum freq phase)
+;; (Osc rate bufnum freq phase)
 
 ;; Linear interpolating wavetable lookup oscillator with frequency and
 ;; phase modulation inputs.

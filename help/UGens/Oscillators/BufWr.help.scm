@@ -1,4 +1,4 @@
-;; (BufWr bufnum phase loop inputs)
+;; (BufWr rate bufnum phase loop inputs)
 
 ;; Buffer writing oscillator.  Write to a buffer at an index. See also
 ;; BufRd.
@@ -38,10 +38,3 @@
 (-> s (/n_set 1001 "r" (rand 0 2)))
 
 (-> s (/n_set 1002 "r" 2))
-
-
-
-
-
-
-

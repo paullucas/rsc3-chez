@@ -1,4 +1,4 @@
-;; (FBSineC freq im fb a c xi yi)
+;; (FBSineC rate freq im fb a c xi yi)
 
 ;; Feedback sine with chaotic phase indexing.
 

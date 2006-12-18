@@ -1,4 +1,4 @@
-;; (SampleRate)
+;; (SampleRate rate)
 
 ;; Server sample rate.
 

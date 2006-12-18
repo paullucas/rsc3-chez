@@ -14,7 +14,6 @@
   (Add (Resonz (Mul noise 5) freq 0.5) 
        (Mul noise 0.5)))
 
-;; Reset the seed at a variable rate.  (Note: This cannot be 'played'
-;; in rsc.)
+;; Reset the seed at a variable rate.
 
 (RandSeed kr (Impulse kr (MouseX kr 0.1 100 0 0.1) 0) 1956)

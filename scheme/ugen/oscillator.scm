@@ -138,8 +138,8 @@
 (define-oscillator/id LFNoise2 (freq) 1)
 (define-oscillator/id NoahNoise () 1)
 (define-oscillator/id PinkNoise () 1)
-(define-oscillator/id RandID () 1)
-(define-oscillator/id RandSeed () 1)
+(define-oscillator/id RandID (id) 1)
+(define-oscillator/id RandSeed (trig seed) 1)
 (define-oscillator/id WhiteNoise () 1)
 
 ;; Local Variables:

@@ -55,4 +55,4 @@
 (-> s (/n_free y))
 (-> s (/n_free z))
 
-(-> s (/b_free b))
+(->< s (/b_free b))

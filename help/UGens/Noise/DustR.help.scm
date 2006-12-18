@@ -1,4 +1,4 @@
-;; (DustR lo hi)
+;; (DustR rate lo hi)
 
 ;; DustR generates triggers where the inter-offset times are generated
 ;; randomly in the specified range (seconds) with linear distribution.

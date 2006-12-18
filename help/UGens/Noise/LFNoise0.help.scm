@@ -1,6 +1,6 @@
-;; (LFNoise0 freq)
-;; (LFNoise1 freq)
-;; (LFNoise2 freq)
+;; (LFNoise0 rate freq)
+;; (LFNoise1 rate freq)
+;; (LFNoise2 rate freq)
 
 ;; LFNoise0 is step noise.  Generates random values at a rate given by
 ;; the nearest integer division of the sample rate by the freq

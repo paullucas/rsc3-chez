@@ -1,4 +1,4 @@
-;; (Dust density)
+;; (Dust rate density)
 
 ;; Generates random impulses from 0 to +1 at a rate determined by the
 ;; density argument.

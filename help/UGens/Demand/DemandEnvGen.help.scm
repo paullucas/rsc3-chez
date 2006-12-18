@@ -1,5 +1,5 @@
-;; (DemandEnvGen levels times shapes curves gate reset levelScale
-;;               levelOffset timeScale doneAction)
+;; (DemandEnvGen rate levels times shapes curves gate reset
+;;               levelScale levelOffset timeScale doneAction)
 
 ;; levels - a demand ugen or any other ugen
 

@@ -1,4 +1,4 @@
-;; (Pulse freq width)
+;; (Pulse rate freq width)
 
 ;; Bandlimited pulse wave generator.
 

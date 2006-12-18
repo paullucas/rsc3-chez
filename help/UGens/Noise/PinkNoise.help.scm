@@ -1,4 +1,4 @@
-;; (PinkNoise)
+;; (PinkNoise rate)
 
 ;; Generates noise whose spectrum falls off in power by 3 dB per
 ;; octave.  This gives equal power over the span of each octave.  This

@@ -1,4 +1,4 @@
-;; (LFDClipNoise freq)
+;; (LFDClipNoise rate freq)
 
 ;; Like LFClipNoise, it generates the values -1 or +1 at a rate given
 ;; by the freq argument, with two differences: no time quantization,

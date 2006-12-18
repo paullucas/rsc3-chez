@@ -1,4 +1,4 @@
-;; (MouseY minval maxval warp lag)
+;; (MouseY rate minval maxval warp lag)
 
 ;; Report mouse location on root window of the machine that the
 ;; synthesis server is running on.  For a linear mapping set warp to

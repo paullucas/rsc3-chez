@@ -1,4 +1,4 @@
-;; (VOsc bufpos freq phase)
+;; (VOsc rate bufpos freq phase)
 
 ;; Variable wavetable oscillator.  A wavetable lookup oscillator which
 ;; can be swept smoothly across wavetables. All the wavetables must be

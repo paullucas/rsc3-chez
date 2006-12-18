@@ -1,4 +1,4 @@
-;; (Gendy1 ampdist durdist adparam ddparam minfreq maxfreq 
+;; (Gendy1 rate ampdist durdist adparam ddparam minfreq maxfreq 
 ;;         ampscale durscale initCPs knum)
 
 ;; An implementation of the dynamic stochastic synthesis generator

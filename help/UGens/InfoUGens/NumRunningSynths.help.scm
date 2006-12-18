@@ -1,4 +1,4 @@
-;; (NumRunningSynths)
+;; (NumRunningSynths rate)
 
 ;; Number of currently running synths.
 

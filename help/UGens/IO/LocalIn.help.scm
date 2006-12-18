@@ -1,9 +1,8 @@
-;; (LocalIn numChannels)
+;; (LocalIn numChannels rate)
 
 ;; Define and read from buses local to a SynthDef
 
-;; numChannels - the number of channels of local buses.  The default
-;;                is 1.
+;; numChannels - the number of channels of local buses.
 
 ;; LocalIn defines buses that are local to the SynthDef. These are
 ;; like the global buses, but are more convenient if you want to

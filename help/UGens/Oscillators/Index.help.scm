@@ -12,6 +12,6 @@
 
 ;; Index into the above buffer for frequency values.
 
-(Mul (SinOsc ar (Index 10 (Mul (LFSaw kr 2 3) 4)) 0) 0.1)
+(Mul (SinOsc ar (Mul (Index 10 (Mul (LFSaw kr 2 3) 4)) (Mce 1 9)) 0) 0.1)
 
 (->< s (/b_free 10))

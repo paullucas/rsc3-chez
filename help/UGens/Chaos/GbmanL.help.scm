@@ -1,6 +1,6 @@
-;; (GbmanC freq xi yi)
-;; (GbmanL freq xi yi)
-;; (GbmanN freq xi yi)
+;; (GbmanC rate freq xi yi)
+;; (GbmanL rate freq xi yi)
+;; (GbmanN rate freq xi yi)
 
 ;; Gingerbreadman map chaotic generator.  Cubic, linear and
 ;; non-interpolating variants.

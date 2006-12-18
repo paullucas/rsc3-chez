@@ -1,4 +1,4 @@
-;; (VOsc3 bufpos freq1 freq2 freq3)
+;; (VOsc3 rate bufpos freq1 freq2 freq3)
 
 ;; Three variable wavetable oscillators.
 

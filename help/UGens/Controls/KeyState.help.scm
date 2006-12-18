@@ -1,4 +1,4 @@
-;; (KeyState keynum minval maxval lag)
+;; (KeyState rate keynum minval maxval lag)
 
 ;; Report the status of a particular key.  A key is either pressed,
 ;; or not pressed.

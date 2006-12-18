@@ -1,4 +1,4 @@
-;; (InTrig bus numChannels)
+;; (InTrig numChannels rate bus)
 
 ;; Generate a trigger anytime a bus is set.
 
@@ -10,8 +10,8 @@
 
 (let ((t (InTrig 1 kr 10)))
   (Mul (SinOsc ar 440 0)
-       (EnvGen kr t t 0 1 0 (env/perc 0.01 1 1 -4))))
+       (EnvGen kr t t 0 1 doNothing (env/perc 0.01 1 1 -4))))
 
 ;; Set bus 10.
 
-(-> s (/c_set 10 (rand 0 0.2)))
+(-> s (/c_set 10 (rand 0.2 1.0)))

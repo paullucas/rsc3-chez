@@ -1,4 +1,4 @@
-;; (InFeedback bus numChannels)
+;; (InFeedback numChannels rate bus)
 
 ;; Read signal from a bus without erasing it.
 

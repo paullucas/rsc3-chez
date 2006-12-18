@@ -1,4 +1,4 @@
-;; (In bus numChannels)
+;; (In numChannels rate bus)
 
 ;; Read signal from an audio or control bus.
  

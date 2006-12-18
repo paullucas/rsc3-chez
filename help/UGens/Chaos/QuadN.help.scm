@@ -1,6 +1,6 @@
-;; (QuadN freq a b c xi)
-;; (QuadL freq a b c xi)
-;; (QuadC freq a b c xi)
+;; (QuadN rate freq a b c xi)
+;; (QuadL rate freq a b c xi)
+;; (QuadC rate freq a b c xi)
 
 ;; freq - iteration frequency in Hertz
 ;; a, b, c - equation variables

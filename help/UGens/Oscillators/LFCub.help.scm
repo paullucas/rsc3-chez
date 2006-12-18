@@ -1,4 +1,4 @@
-;; (LFCub freq iphase)  
+;; (LFCub rate freq iphase)  
  
 ;; A sine like shape made of two cubic pieces. Smoother than LFPar.
 

@@ -1,4 +1,4 @@
-;; (LFClipNoise freq)
+;; (LFClipNoise rate freq)
 
 ;; Randomly generates the values -1 or +1 at a rate given by the
 ;; nearest integer division of the sample rate by the freq argument.

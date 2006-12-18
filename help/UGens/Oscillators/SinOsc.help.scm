@@ -1,4 +1,4 @@
-;; (SinOsc freq phase)
+;; (SinOsc rate freq phase)
 
 ;; Interpolating sine wavetable oscillator.  This is the same as Osc
 ;; except that the table is a sine table of 8192 entries.

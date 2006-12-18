@@ -1,4 +1,4 @@
-;; (Klang freqScale freqOffset spec)
+;; (Klang rate freqScale freqOffset spec)
 
 ;; Bank of fixed oscillators.  The UGen assistant Klang.spec can help
 ;; create the 'spec' entry.  Note that the SC3 language reorders the

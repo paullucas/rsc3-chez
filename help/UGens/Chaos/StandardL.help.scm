@@ -1,5 +1,5 @@
-;; (StandardL freq k xi yi)
-;; (StandardN freq k xi yi)
+;; (StandardL rate freq k xi yi)
+;; (StandardN rate freq k xi yi)
 
 ;; Standard map chaotic generator.
 

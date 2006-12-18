@@ -1,4 +1,4 @@
-;; (FSinOsc freq iphase)
+;; (FSinOsc rate freq iphase)
 
 ;; Very fast sine wave generator implemented using a ringing filter.
 ;; This generates a much cleaner sine wave than a table lookup

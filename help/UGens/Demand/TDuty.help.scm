@@ -1,4 +1,4 @@
-;; (TDuty duration reset doneAction level)
+;; (TDuty rate duration reset doneAction level)
 
 ;; Demand results as trigger from demand rate ugens.
 

@@ -1,4 +1,4 @@
-;; (Blip freq numharm)
+;; (Blip rate freq numharm)
  
 ;; Band Limited ImPulse generator. All harmonics have equal
 ;; amplitude.

@@ -1,4 +1,4 @@
-;; (Formant fundfreq formfreq bwfreq)
+;; (Formant rate fundfreq formfreq bwfreq)
 
 ;; Formant oscillator. Generates a set of harmonics around a formant
 ;; frequency at a given fundamental frequency.

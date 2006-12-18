@@ -1,4 +1,4 @@
-;; (Amplitude in attackTime releaseTime) 
+;; (Amplitude rate in attackTime releaseTime) 
 
 ;; Amplitude follower. Tracks the peak amplitude of a signal.
 

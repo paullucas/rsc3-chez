@@ -1,4 +1,4 @@
-;; (Logistic chaosParam freq)
+;; (Logistic rate chaosParam freq)
 
 ;; UNDOCUMENTED.
 

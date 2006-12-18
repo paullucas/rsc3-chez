@@ -1,4 +1,4 @@
-;; (BufRateScale bufnum)
+;; (BufRateScale rate bufnum)
 
 ;; Buffer rate scaling in respect to server samplerate.  Returns a
 ;; ratio by which the playback of a soundfile is to be scaled.

@@ -1,6 +1,6 @@
-;; (LFDNoise0 freq)
-;; (LFDNoise1 freq)
-;; (LFDNoise3 freq)
+;; (LFDNoise0 rate freq)
+;; (LFDNoise1 rate freq)
+;; (LFDNoise3 rate freq)
 
 ;; LFDNoise0: Dynamic step noise. Like LFNoise0, it generates random
 ;; values at a rate given by the freq argument, with two differences:
