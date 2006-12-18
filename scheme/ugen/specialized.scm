@@ -66,6 +66,7 @@
 (define-specialized/n InFeedback (bus) ar)
 (define-specialized/n InTrig (bus) kr)
 (define-specialized/n LagIn (bus lag) kr)
+(define-specialized/n PlayBuf (bufnum rate trigger startPos loop) ar)
 
 (define-syntax define-specialized/id
   (syntax-rules ()

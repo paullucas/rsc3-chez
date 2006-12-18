@@ -29,5 +29,5 @@
   0.5
   (IFFT
    (PV_MagFreeze
-    (FFT b (PlayBuf 1 ar c (BufRateScale kr c) 1 0 1))
+    (FFT b (PlayBuf 1 c (BufRateScale kr c) 1 0 1))
     (GT (MouseY kr 0 1 0 0.1) 0.5)))))

@@ -99,7 +99,6 @@
 (define-oscillator/n DiskIn (bufnum))
 (define-oscillator/n In (bus))
 (define-oscillator/n LocalIn ())
-(define-oscillator/n PlayBuf (bufnum rate trigger startPos loop))
 (define-oscillator/n TrigControl ())
 
 (define (BufRdN nc r b p l) (BufRd nc r b p l 1))

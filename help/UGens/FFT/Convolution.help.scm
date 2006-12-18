@@ -23,6 +23,6 @@
 	    (iota 100))
   (Mul (Convolution 
 	(audioin (Mce 1 2)) 
-	(PlayBuf 1 ar b (BufRateScale kr b) 1 0 1)
+	(PlayBuf 1 b (BufRateScale kr b) 1 0 1)
 	(* 2 a))
        0.2))

@@ -40,7 +40,7 @@
 (send-synth 
  s "player"
  (letc ((bufnum 0) (rate 1) (trigger 1) (startPos 0) (loop 1) (gain 1))
-   (Mul (PlayBuf 2 ar bufnum rate trigger startPos loop) gain)))
+   (Mul (PlayBuf 2 bufnum rate trigger startPos loop) gain)))
 
 (define z 1002)
 
