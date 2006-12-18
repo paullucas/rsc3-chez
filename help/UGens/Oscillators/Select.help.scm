@@ -15,7 +15,7 @@
   (lambda (c) (a (b c))))
 
 (let* ((n 32)
-       (a (make-mce (map (compose floor-exact midicps) (randl n 30 80))))
+       (a (make-mce (map (compose midicps floor-exact) (randl n 30 80))))
        (cycle (/ n 2)))
   (Mul (Saw ar (Select (MulAdd (LFSaw kr 1/2 0) cycle cycle) a))
        0.2))

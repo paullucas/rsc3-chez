@@ -7,5 +7,7 @@
 ;; numsamp - How many samples to take the running sum over 
 ;;           (initialisation rate)
 
-(Mul (RunningSum (audioin (Mce 1 2)) 40)
-     1/40)
+(let ((n 40))
+  (Mul* (SinOsc ar 440 0)
+	(RunningSum (audioin (Mce 1 2)) n)
+	(Recip n)))
