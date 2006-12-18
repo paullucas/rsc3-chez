@@ -63,6 +63,7 @@
        (let ((l (list i ...)))
 	 (construct-ugen 'n r l #f nc 0 (make-uid 0)))))))
 
+(define-specialized/n InFeedback (bus) ar)
 (define-specialized/n InTrig (bus) kr)
 (define-specialized/n LagIn (bus lag) kr)
 

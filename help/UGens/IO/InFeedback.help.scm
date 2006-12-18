@@ -1,6 +1,6 @@
-;; (InFeedback numChannels rate bus)
+;; (InFeedback numChannels bus)
 
-;; Read signal from a bus without erasing it.
+;; Read signal from a bus without erasing it, audio rate.
 
 ;; The output (Out) ugens overwrite data on the bus, giving this bus a
 ;; new timestamp so that any input (In) ugen can check if the data was
@@ -25,12 +25,11 @@
 
 ;; Audio feedback modulation.
 
-(Mul (SinOsc ar (MulAdd (InFeedback 1 ar 0) 1300 300) 0)
-     0.4)
+(Mul (SinOsc ar (MulAdd (InFeedback 1 0) 1300 300) 0) 0.4)
 
 ;; Evaluate these in either order and hear both tones.
 
-(Out 0 (InFeedback 1 ar 10))
+(Out 0 (InFeedback 1 10))
 
 (Mrg (Out 10 (Mul (SinOsc ar 440 0) 0.1))
      (Out 0 (Mul (SinOsc ar 660 0) 0.1)))

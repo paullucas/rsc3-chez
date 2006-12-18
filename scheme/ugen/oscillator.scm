@@ -98,7 +98,6 @@
 (define-oscillator/n BufRd (bufnum phase loop interpolation))
 (define-oscillator/n DiskIn (bufnum))
 (define-oscillator/n In (bus))
-(define-oscillator/n InFeedback (bus))
 (define-oscillator/n LocalIn ())
 (define-oscillator/n PlayBuf (bufnum rate trigger startPos loop))
 (define-oscillator/n TrigControl ())
