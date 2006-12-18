@@ -54,6 +54,17 @@
      (define (n i ... v)
        (construct-ugen 'n r (list i ...) v o 0 (make-uid 0))))))
 
+(define-syntax define-specialized/n
+  (syntax-rules ()
+    ((_ n (i ...) r)
+     (define (n nc i ...)
+       (if (not (integer? nc))
+	   (error "illegal channel count:" 'n nc))
+       (let ((l (list i ...)))
+	 (construct-ugen 'n r l #f nc 0 (make-uid 0)))))))
+
+(define-specialized/n InTrig (bus) kr)
+
 (define-syntax define-specialized/id
   (syntax-rules ()
     ((_ n (i ...) o r)
