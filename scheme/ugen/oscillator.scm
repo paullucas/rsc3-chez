@@ -105,6 +105,10 @@
 (define-oscillator/n PlayBuf (bufnum rate trigger startPos loop))
 (define-oscillator/n TrigControl ())
 
+(define (BufRdN nc r b p l) (BufRd nc r b p l 1))
+(define (BufRdL nc r b p l) (BufRd nc r b p l 2))
+(define (BufRdC nc r b p l) (BufRd nc r b p l 4))
+
 (define-syntax define-oscillator*
   (syntax-rules ()
     ((_ n (i ... v) o)

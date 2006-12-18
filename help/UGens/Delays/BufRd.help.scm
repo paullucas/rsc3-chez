@@ -16,11 +16,11 @@
 
 (let ((phase (Mul (LFNoise1 ar (MouseX kr (Mce 5 10) 100 0 0.1))
 		  (BufFrames ir 0))))
-  (BufRd 1 ar 0 phase 0 2))
+  (BufRdL 1 ar 0 phase 0))
 
 (let ((phase (Add (LFTri ar 0.1 0)
 		  (Mul (LFTri ar 0.23 0) (BufFrames ir 0)))))
-  (BufRd 1 ar 0 phase 0 2))
+  (BufRdL 1 ar 0 phase 0))
 
 ;; Use a phasor index into the file
 
