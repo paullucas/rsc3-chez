@@ -18,7 +18,7 @@
 	    ((f "cubed")       7.0)
 	    (else              (error "curve->shape:" curve)))))
 	((number? curve)
-	 curve)
+	 5.0)
 	(else
 	 (error "curve->shape: illegal curve" curve))))
 
