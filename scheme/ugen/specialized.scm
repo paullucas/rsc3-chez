@@ -48,6 +48,22 @@
 
 (define-specialized SharedOut (bus channelsArray) 0 kr)
 
+(define-syntax define-specialized/c
+  (syntax-rules ()
+    ((_ n o r)
+     (define n
+       (construct-ugen 'n r (list) #f o 0 (make-uid 0))))))
+
+(define-specialized/c NumAudioBuses 1 ir)
+(define-specialized/c NumBuffers 1 ir)
+(define-specialized/c NumControlBuses 1 ir)
+(define-specialized/c NumInputBuses 1 ir)
+(define-specialized/c NumOutputBuses 1 ir)
+(define-specialized/c NumRunningSynths 1 ir)
+(define-specialized/c RadiansPerSample 1 ir)
+(define-specialized/c SampleDur 1 ir)
+(define-specialized/c SampleRate 1 ir)
+
 (define-syntax define-specialized*
   (syntax-rules ()
     ((_ n (i ... v) o r)

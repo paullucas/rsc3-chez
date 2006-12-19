@@ -3,9 +3,8 @@
 ;; Amplitude follower. Tracks the peak amplitude of a signal.
 
 (Mul (Pulse ar 90 0.3)
-     (Amplitude kr (In 1 ar (NumInputBuses ir)) 0.01 0.01))
+     (Amplitude kr (In 1 ar NumOutputBuses) 0.01 0.01))
 
-(Mul (SinOsc ar (MulAdd (Amplitude kr (In 1 ar (NumInputBuses ir)) 0.01 0.01) 
-			1200 400) 
-	     0)
-     0.3)
+(let* ((a (Amplitude kr (In 1 ar NumOutputBuses) 0.01 0.01))
+       (f (MulAdd a 1200 400)))
+  (Mul (SinOsc ar f 0) 0.3))

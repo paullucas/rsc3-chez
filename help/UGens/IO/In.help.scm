@@ -4,11 +4,11 @@
  
 ;; Patching input to output.
 
-(Out 0 (In 2 ar (NumInputBuses ir)))
+(Out 0 (In 2 ar NumOutputBuses))
 
 ;; Patching input to output, with delay.
 
-(let ((i (In 2 ar (NumInputBuses ir))))
+(let ((i (In 2 ar NumInputBuses)))
   (Out 0 (Add i (DelayN i 0.5 0.5))))
 
 ;; Write noise to bus 10, then read it out.  The Mrg is ordered.

@@ -10,7 +10,7 @@
 	     (consecutive? xs)))))
 
 (define (audioin n)
-  (let ((offset (Sub (NumOutputBuses ir) 1)))
+  (let ((offset (Sub NumOutputBuses 1)))
     (if (mce? n)
 	(let ((l (mce-channels n)))
 	  (if (consecutive? l)

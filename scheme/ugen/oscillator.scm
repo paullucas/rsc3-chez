@@ -73,16 +73,6 @@
 (define-oscillator BufSampleRate (buf) 1)
 (define-oscillator BufSamples (buf) 1)
 
-(define-oscillator NumAudioBuses () 1)
-(define-oscillator NumBuffers () 1)
-(define-oscillator NumControlBuses () 1)
-(define-oscillator NumInputBuses () 1)
-(define-oscillator NumOutputBuses () 1)
-(define-oscillator NumRunningSynths () 1)
-(define-oscillator RadiansPerSample () 1)
-(define-oscillator SampleDur () 1)
-(define-oscillator SampleRate () 1)
-
 (define (without n l)
   (append (take l n) (drop l (+ n 1))))
 
