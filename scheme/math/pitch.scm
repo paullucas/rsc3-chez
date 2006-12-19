@@ -20,4 +20,4 @@
 
 (define (degree->key degree scale steps)
   (+ (* steps (quotient degree (length scale)))
-     (ref/wrap scale degree)))
+     (list-ref/wrap scale degree)))

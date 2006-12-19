@@ -7,7 +7,10 @@
 	((list? t) (flatten* (car t) (flatten* (cdr t) r)))
 	(else      (cons t r))))
 
-(define (flatten t) (flatten* t '()))
+(define (flatten t) 
+  (flatten* t '()))
+
+;; Map f over the leaf nodes of t.
 
 (define (mapt f t)
   (cond ((null? t) (list))

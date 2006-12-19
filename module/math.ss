@@ -5,7 +5,7 @@
  (#%require (only (lib "include.ss")
 		  include)
 	    (only "collection.ss"
-		  ref/wrap))
+		  list-ref/wrap))
  (include "../scheme/math/clip.scm")
  (include "../scheme/math/common.scm")
  (include "../scheme/math/constants.scm")

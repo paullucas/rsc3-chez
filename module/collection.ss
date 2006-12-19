@@ -31,17 +31,14 @@
 	    (only (lib "include.ss")
 		  include))
  (include "../scheme/collection/list.scm")
+ (include "../scheme/collection/mapw.scm")
  (include "../scheme/collection/series.scm")
  (include "../scheme/collection/tree.scm")
  (#%provide sort
-	    concat member?
-	    splice interleave intersperse lace extend
-	    foldl1
-	    dx->d d->dx d->dx** rotate invert maximum
-	    cycles take-cycle
-	    ref/wrap
+    	    list-ref/wrap length*
+	    geom filter-index drop*
+	    foldr concat foldl foldl1 maximum
+	    splice interleave intersperse lace extend extend-all rotate invert cycles take-cycle
+	    dx->d d->dx d->dx** 
 	    mapw mapw*
-	    flatten
-	    mapt
-	    geom
-	    foldl))
+	    flatten mapt))

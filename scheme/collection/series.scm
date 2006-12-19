@@ -1,5 +1,10 @@
 ;; series.scm - (c) rohan drape, 2000-2006
 
+;; Predicate to determine if `l' is a one element list.
+
+(define (singleton? l) 
+  (and (list? l) (null? (cdr l))))
+
 ;; The sequence of intervals between the elements of the series `s'.
 
 (define (d->dx s)
@@ -7,7 +12,8 @@
 
 ;; Variant that considers the interval from the first to last element.
 
-(define (d->dx* s) (d->dx (++ s (list (car s)))))
+(define (d->dx* s) 
+  (d->dx (append s (list (car s)))))
 
 ;; Variant allowing function other than '-'.
 
