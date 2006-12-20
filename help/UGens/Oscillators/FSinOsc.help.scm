@@ -16,9 +16,9 @@
 
 (Mul (FSinOsc ar (Mce 440 550) 0) 0.05)
 
-(Mul (FSinOsc ar (XLine kr 200 4000 1 2) 0) 0.25)
+(Mul (FSinOsc ar (XLine kr 200 4000 1 removeSynth) 0) 0.25)
 
 ;; Loses amplitude towards the end
 
-(Mul (FSinOsc ar (MulAdd (FSinOsc ar (XLine kr 4 401 8 2) 0) 200 800) 0)
-     0.25)
+(let ((f (MulAdd (FSinOsc ar (XLine kr 4 401 8 removeSynth) 0) 200 800)))
+  (Mul (FSinOsc ar f 0) 0.25))

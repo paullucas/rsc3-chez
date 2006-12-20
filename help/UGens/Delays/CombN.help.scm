@@ -13,7 +13,7 @@
 ;; reciprocal of the delay time.
 
 (define src (Mul (WhiteNoise ar) 0.01))
-(define ctl (XLine kr 0.0001 0.01 20 2))
+(define ctl (XLine kr 0.0001 0.01 20 removeSynth))
 
 (CombN src 0.01 ctl 0.2)
 (CombL src 0.01 ctl 0.2)

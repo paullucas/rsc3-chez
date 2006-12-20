@@ -13,9 +13,8 @@
 
 ;; phasor controls sine frequency: end frequency matches a second sine wave.
 
-(let* ((rate (MouseX kr 0.2 2 1 0.1))
-       (trig (Impulse ar rate 0))
-       (sr (SampleRate ir))
-       (x (Phasor ar trig (FDiv rate sr) 0 1 0)))
+(let* ((r (MouseX kr 0.2 2 1 0.1))
+       (t (Impulse ar r 0))
+       (x (Phasor ar t (FDiv r SampleRate) 0 1 0)))
   (Mul (SinOsc ar (Mce (LinLin x 0 1 600 1000) 1000) 0)
        0.2))

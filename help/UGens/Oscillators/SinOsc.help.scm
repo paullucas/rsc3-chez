@@ -10,14 +10,14 @@
 
 ;; Modulate freq
 
-(Mul (SinOsc ar (XLine kr 2000 200 1 2) 0) 0.5)
+(Mul (SinOsc ar (XLine kr 2000 200 1 removeSynth) 0) 0.5)
 
 ;; Modulate freq
 
-(Mul (SinOsc ar (MulAdd (SinOsc ar (XLine kr 1 1000 9 2) 0) 200 800) 0)
+(Mul (SinOsc ar (MulAdd (SinOsc ar (XLine kr 1 1000 9 removeSynth) 0) 200 800) 0)
      0.25)
 
 ;; Modulate phase
 
-(Mul (SinOsc ar 800 (Mul (SinOsc ar (XLine kr 20 8000 10 2) 0) two-pi)) 
+(Mul (SinOsc ar 800 (Mul (SinOsc ar (XLine kr 20 8000 10 removeSynth) 0) two-pi)) 
      0.25)

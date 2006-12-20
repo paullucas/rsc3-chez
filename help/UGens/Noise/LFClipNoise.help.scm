@@ -9,7 +9,7 @@
 
 ;; Modulate frequency 
 
-(Mul (LFClipNoise ar (XLine kr 1000 10000 10 2)) 0.25)
+(Mul (LFClipNoise ar (XLine kr 1000 10000 10 removeSynth)) 0.25)
 
 ;; Use as frequency control 
 

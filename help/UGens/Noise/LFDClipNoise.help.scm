@@ -20,5 +20,5 @@
 
 ;; LFNoise quantizes time steps at high freqs, LFDNoise does not:
 
-(Mul (LFClipNoise ar (XLine kr 1000 20000 10 2)) 0.1)
-(Mul (LFDClipNoise ar (XLine kr 1000 20000 10 2)) 0.1)
+(Mul (LFClipNoise ar (XLine kr 1000 20000 10 removeSynth)) 0.1)
+(Mul (LFDClipNoise ar (XLine kr 1000 20000 10 removeSynth)) 0.1)

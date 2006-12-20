@@ -1,7 +1,7 @@
 ;; (RunningMin in trig)
 
-;; Track maximum level.  Outputs the maximum value received at the
-;; input.  When triggered, the maximum output value is reset to the
+;; Track minimum level.  Outputs the minimum value received at the
+;; input.  When triggered, the minimum output value is reset to the
 ;; current value.
 
 ;; in   - input signal

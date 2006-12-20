@@ -31,10 +31,10 @@
 
 ;; silent for 2 secs before going up in freq
 
-(Mul (LFNoise0 ar (XLine kr 0.5 10000 3 2)) 0.1)
-(Mul (LFDNoise0 ar (XLine kr 0.5 10000 3 2)) 0.1)
+(Mul (LFNoise0 ar (XLine kr 0.5 10000 3 removeSynth)) 0.1)
+(Mul (LFDNoise0 ar (XLine kr 0.5 10000 3 removeSynth)) 0.1)
 
 ;; LFNoise quantizes time steps at high freqs, LFDNoise does not:
 
-(Mul (LFNoise0 ar (XLine kr 1000 20000 10 2)) 0.1)
-(Mul (LFDNoise0 ar (XLine kr 1000 20000 10 2)) 0.1)
+(Mul (LFNoise0 ar (XLine kr 1000 20000 10 removeSynth)) 0.1)
+(Mul (LFDNoise0 ar (XLine kr 1000 20000 10 removeSynth)) 0.1)

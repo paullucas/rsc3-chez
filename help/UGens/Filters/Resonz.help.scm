@@ -16,15 +16,15 @@
 
 ;; Modulate frequency
 
-(Resonz (Mul (WhiteNoise ar) 0.5) (XLine kr 1000 8000 10 2) 0.05)
+(Resonz (Mul (WhiteNoise ar) 0.5) (XLine kr 1000 8000 10 removeSynth) 0.05)
 
 ;; Modulate bandwidth
 
-(Resonz (Mul (WhiteNoise ar) 0.5) 2000 (XLine kr 1 0.001 8 2))
+(Resonz (Mul (WhiteNoise ar) 0.5) 2000 (XLine kr 1 0.001 8 removeSynth))
 
 ;; Modulate bandwidth opposite direction
 
-(Resonz (Mul (WhiteNoise ar) 0.5) 2000 (XLine kr 0.001 1 8 2))
+(Resonz (Mul (WhiteNoise ar) 0.5) 2000 (XLine kr 0.001 1 8 removeSynth))
 
 ;; Random resonator at a random location, run as often as you like...
 
@@ -34,5 +34,5 @@
       (bw 1/4)
       (gain 8))
   (Pan2 (Resonz (WhiteNoise ar) freq (/ bw freq))
-	(Rand ir -1 1)
+	(Rand -1 1)
 	gain))

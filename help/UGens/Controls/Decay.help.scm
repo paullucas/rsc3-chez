@@ -8,5 +8,5 @@
 
 ;; Used as an envelope.
 
-(Mul (Decay (Impulse ar (XLine kr 1 50 20 2) 0.25) 0.2)
+(Mul (Decay (Impulse ar (XLine kr 1 50 20 removeSynth) 0.25) 0.2)
      (PinkNoise ar))

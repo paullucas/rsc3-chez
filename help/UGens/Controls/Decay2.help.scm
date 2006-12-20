@@ -8,13 +8,13 @@
 
 ;; Used as an envelope
 
-(Mul (Decay2 (Impulse ar (XLine kr 1 50 20 2) 0.25)
+(Mul (Decay2 (Impulse ar (XLine kr 1 50 20 removeSynth) 0.25)
 	     0.01
 	     0.2)
      (Mul (FSinOsc ar 600 0) 0.25))
 
 ;; Compare the above with Decay used as the envelope.
 
-(Mul (Decay (Impulse ar (XLine kr 1 50 20 2) 0.25)
+(Mul (Decay (Impulse ar (XLine kr 1 50 20 removeSynth) 0.25)
 	    0.01)
      (Mul (FSinOsc ar 600 0) 0.25))

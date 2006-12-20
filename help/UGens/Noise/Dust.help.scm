@@ -5,4 +5,4 @@
 
 (Mul (Dust ar 200) 0.5)
 
-(Mul (Dust ar (XLine kr 20000 2 10 2)) 0.5)
+(Mul (Dust ar (XLine kr 20000 2 10 removeSynth)) 0.5)

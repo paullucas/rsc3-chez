@@ -11,7 +11,7 @@
       0.1)
 
 (Mul (SinOsc ar 440 0)
-     (Linen (MouseX kr -1 1 0 0.1) 1 (MouseY kr 0.1 0.5 0 0.1) 1.0 0))
+     (Linen (MouseX kr -1 1 0 0.1) 1 (MouseY kr 0.1 0.5 0 0.1) 1.0 doNothing))
 
 ;; Open gate for a random interval.
 
@@ -20,7 +20,7 @@
    (synthdef
     "linen"
     (letc ((gate 0))
-      (Out 0 (Mul (SinOsc ar 440 0) (Linen gate 0.1 0.2 0.1 0)))))))
+      (Out 0 (Mul (SinOsc ar 440 0) (Linen gate 0.1 0.2 0.1 doNothing)))))))
 
 (->< s (/d_recv g))
 

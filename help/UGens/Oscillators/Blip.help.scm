@@ -21,8 +21,8 @@
 
 ;; Modulate frequency
 
-(Mul (Blip ar (XLine kr 20000 200 6 2) 100) 0.2)
+(Mul (Blip ar (XLine kr 20000 200 6 removeSynth) 100) 0.2)
 
 ;; Modulate number of harmonics.
 
-(Mul (Blip ar 200 (Line kr 1 100 20 2)) 0.2)
+(Mul (Blip ar 200 (Line kr 1 100 20 removeSynth)) 0.2)

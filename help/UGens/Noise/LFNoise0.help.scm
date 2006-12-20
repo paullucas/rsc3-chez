@@ -20,9 +20,9 @@
 
 ;; Modulate frequency.
 
-(Mul (LFNoise0 ar (XLine kr 1000 10000 10 2)) 0.25)
-(Mul (LFNoise1 ar (XLine kr 1000 10000 10 2)) 0.25)
-(Mul (LFNoise2 ar (XLine kr 1000 10000 10 2)) 0.25)
+(Mul (LFNoise0 ar (XLine kr 1000 10000 10 removeSynth)) 0.25)
+(Mul (LFNoise1 ar (XLine kr 1000 10000 10 removeSynth)) 0.25)
+(Mul (LFNoise2 ar (XLine kr 1000 10000 10 removeSynth)) 0.25)
 
 ;; Use as frequency control.
 
