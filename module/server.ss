@@ -14,7 +14,7 @@
 	    (only "utc.ss"
 		  utc)
 	    (only "collection.ss"
-		  splice)
+		  splice intersperse)
 	    (only (lib "include.ss")
 		  include))
  (include "../scheme/server/command.scm")
@@ -22,4 +22,5 @@
  (include "../scheme/server/done-action.scm")
  (include "../scheme/server/gen.scm")
  (include "../scheme/server/server.scm")
+ (include "../scheme/server/status.scm")
  (#%provide (all-defined)))

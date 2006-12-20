@@ -184,7 +184,7 @@ Quit the scheme interpreter and delete the associated buffer."
 (defun rsc-status-scsynth ()
   "Show status at server."
   (interactive)
-  (rsc-evaluate-expression "(->< s /status)"))
+  (rsc-evaluate-expression "(display-server-status s)"))
 
 (defun rsc-quit-scsynth ()
   "Shutdown the current SCSYNTH server."
