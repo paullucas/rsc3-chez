@@ -63,6 +63,7 @@
 (define-specialized/c RadiansPerSample 1 ir)
 (define-specialized/c SampleDur 1 ir)
 (define-specialized/c SampleRate 1 ir)
+(define-specialized/c SubsampleOffset 1 ir)
 
 (define-syntax define-specialized*
   (syntax-rules ()
