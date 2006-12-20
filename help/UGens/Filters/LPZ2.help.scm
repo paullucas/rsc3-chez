@@ -2,4 +2,4 @@
 
 ;; Two zero fixed lowpass filter
 
-(LPZ2 ar (WhiteNoise ar 0.25))
+(LPZ2 (Mul (WhiteNoise ar) 0.25))

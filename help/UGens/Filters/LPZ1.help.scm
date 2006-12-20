@@ -2,4 +2,4 @@
 
 ;; Two point average filter
 
-(LPZ1 ar (WhiteNoise ar 0.25))
+(LPZ1 (Mul (WhiteNoise ar) 0.25))
