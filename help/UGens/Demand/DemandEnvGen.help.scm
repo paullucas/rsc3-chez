@@ -37,7 +37,7 @@
        (y (MouseY kr 1 3000 1 0.1))
        (s (randxl 32 200 1000))
        (l (lambda () (Dseq +inf.sc (make-mce (shuffle s)))))
-       (t (Mul (SampleDur ir) y))
+       (t (Mul SampleDur y))
        (f (DemandEnvGen ar (Mce (l) (l)) t 5 x 1 1 1 0 1 doNothing)))
   (Mul (SinOsc ar f 0) 0.1))
 
