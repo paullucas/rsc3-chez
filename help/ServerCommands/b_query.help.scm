@@ -13,3 +13,7 @@
 ;  int - number of channels
 ;  float - sample rate
 ; ] * N
+
+(->< s (/b_alloc 10 6 1))
+
+(->< s (/b_query 10))
