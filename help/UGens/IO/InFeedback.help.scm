@@ -25,15 +25,30 @@
 
 ;; Audio feedback modulation.
 
-(Mul (SinOsc ar (MulAdd (InFeedback 1 0) 1300 300) 0) 0.4)
+(Out 0 (Mul (SinOsc ar (MulAdd (InFeedback 1 0) 1300 300) 0) 0.4))
 
 ;; Evaluate these in either order and hear both tones.
 
-(Out 0 (InFeedback 1 10))
+(let ((b (Add NumInputBuses NumOutputBuses)))
+  (Out 0 (InFeedback 1 b)))
 
-(Mrg (Out 10 (Mul (SinOsc ar 440 0) 0.1))
-     (Out 0 (Mul (SinOsc ar 660 0) 0.1)))
+(let ((b (Add NumInputBuses NumOutputBuses)))
+  (Mrg (Out b (Mul (SinOsc ar 440 0) 0.1))
+       (Out 0 (Mul (SinOsc ar 660 0) 0.1))))
 
 ;; Doubters consult this.
 
-(In 1 ar 10)
+(let ((b (Add NumInputBuses NumOutputBuses)))
+  (Out 0 (In 1 ar b)))
+
+;; Resonator, see localOut for variant.
+
+(let* ((b (Add NumInputBuses NumOutputBuses))
+       (p (InFeedback 1 b))
+       (i (Impulse ar 1 0))
+       (d (DelayC (Add i (Mul p 0.995)) 1 (Sub (Recip 440) (Recip ControlRate)))))
+  (Mrg (OffsetOut b d) (OffsetOut 0 p)))
+
+;; Compare with oscillator.
+
+(Out 1 (Mul (SinOsc ar 440 0) 0.2))
