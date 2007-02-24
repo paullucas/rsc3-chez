@@ -54,6 +54,7 @@
      (define n
        (construct-ugen 'n r (list) #f o 0 (make-uid 0))))))
 
+(define-specialized/c ControlRate 1 ir)
 (define-specialized/c NumAudioBuses 1 ir)
 (define-specialized/c NumBuffers 1 ir)
 (define-specialized/c NumControlBuses 1 ir)
