@@ -1,4 +1,4 @@
-;; server.scm - (c) rohan drape, 2003-2006
+;; server.scm - (c) rohan drape, 2003-2007
 
 (define -> osc-send)
 
@@ -14,19 +14,12 @@
 (define (->< s l)
   (let ((r (car l))
 	(m (cadr l)))
-    (begin
-      (let ((q (<-* s 0.0)))
-	(if (null? q)
-	    #f
-	    (begin (display "-><: queued")
-		   (display q)
-		   (newline))))
-      (-> s m)
-      (let ((p (<- s (timeout))))
-	(cond
-	 ((not p)                    (error "-><: timed out"))
-	 ((not (string=? (car p) r)) (error "-><: bad return packet" p r))
-	 (else                       p))))))
+    (-> s m)
+    (let ((p (<- s (timeout))))
+      (cond
+       ((not p)                    (error "-><: timed out"))
+       ((not (string=? (car p) r)) (error "-><: bad return packet" p r))
+       (else                       p)))))
 
 (define (reset s)
   (-> s (bundle (utc)

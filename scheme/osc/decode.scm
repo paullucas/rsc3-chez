@@ -1,4 +1,4 @@
-;; decode.scm - (c) rohan drape, 2002-2006
+;; decode.scm - (c) rohan drape, 2002-2007
 
 ;; OSC strings are C strings padded to a four byte boundary.
 

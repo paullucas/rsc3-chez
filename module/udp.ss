@@ -1,4 +1,4 @@
-;; udp.ss - (c) rohan drape, 2004-2006
+;; udp.ss - (c) rohan drape, 2004-2007
 
 (module
  udp mzscheme
@@ -31,7 +31,8 @@
 	 (bytes->list (subbytes b 0 (car r)))
 	 #f)))
 
- (provide open-udp*
+ (provide udp*?
+	  open-udp*
 	  udp*-send
 	  udp*-recv
 	  udp*-close))

@@ -1,4 +1,4 @@
-;; u8.ss - (c) rohan drape, 2004-2006
+;; u8.ss - (c) rohan drape, 2004-2007
 
 (module
  u8 (lib "lang.ss" "r5rs")
@@ -57,7 +57,7 @@
 	    read-u16 read-i16 read-u32 read-i32 read-u64 read-i64 read-f32 read-f64
 	    pstr cstr bstr
 	    read-pstr read-cstr read-bstr
-	    npt->u8l
+	    np->u8l npt->u8l
 
 	    ;; int
 	    shiftR shiftL

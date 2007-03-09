@@ -1,4 +1,4 @@
-;; osc.ss - (c) rohan drape, 2004-2006
+;; osc.ss - (c) rohan drape, 2004-2007
 
 (module
  osc (lib "lang.ss" "r5rs")
@@ -6,7 +6,8 @@
 		  utc->ntp
 		  ntp->utc.)
 	    (only "u8.ss"
-		  u8 i32 i64 u64 f32 f64
+		  u8 i32 u32 i64 u64 f32 f64
+		  u32->u8l u8l->u32
 		  read-i32 read-i64 read-u64 read-f32 read-f64
 		  cstr bstr
 		  read-cstr read-bstr
@@ -14,7 +15,12 @@
 		  npt->u8l
 		  u8l?
 		  with-input-from-u8l)
+	    (only "tcp.ss"
+		  tcp*?
+		  tcp*-send
+		  tcp*-read)
 	    (only "udp.ss"
+		  udp*?
 		  udp*-send
 		  udp*-recv)
 	    (only (lib "1.ss" "srfi")

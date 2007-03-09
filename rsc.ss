@@ -1,4 +1,4 @@
-;; rsc.ss - (c) rohan drape, 2004-2006
+;; rsc.ss - (c) rohan drape, 2004-2007
 
 (module
  rsc (lib "lang.ss" "r5rs")
@@ -14,6 +14,7 @@
  (require/provide "module/ntp.ss")
  (require/provide "module/u8.ss")
  (require/provide "module/udp.ss")
+ (require/provide "module/tcp.ss")
  (require/provide "module/graphdef.ss")
  (require/provide "module/server.ss")
  (require/provide "module/buffer.ss")
