@@ -1,4 +1,4 @@
-;; series.scm - (c) rohan drape, 2000-2006
+;; series.scm - (c) rohan drape, 2000-2007
 
 ;; Predicate to determine if `l' is a one element list.
 
@@ -8,7 +8,7 @@
 ;; The sequence of intervals between the elements of the series `s'.
 
 (define (d->dx s)
-  (unfold singleton? (lambda (l) (- (cadr l) (car l))) cdr s))
+  (d->dx** s -))
 
 ;; Variant that considers the interval from the first to last element.
 
