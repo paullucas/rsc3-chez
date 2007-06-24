@@ -1,4 +1,4 @@
-;; emacs/rsc.el - (c) rohan drape, 2000-2006
+;; emacs/rsc.el - (c) rohan drape, 2000-2007
 
 ;; This mode is implemented as a derivation of `scheme' mode,
 ;; indentation and font locking is courtesy that mode.  The
@@ -71,6 +71,10 @@ be set by the user to use a different set of library files.")
 (defvar rsc-interpreter
   "mzscheme")
 
+(defvar rsc-load-dot-rsc
+  t
+  "If nil do not load ~/.rsc.scm at startup")
+
 (defun rsc-see-output ()
   "Arrange so that the frame has two windows, the current buffer is
 placed in the upper window and the `rsc-buffer' in the lower window."
@@ -89,7 +93,7 @@ placed in the upper window and the `rsc-buffer' in the lower window."
   (interactive)
   (let ((dot-rsc (concat (getenv "HOME") "/.rsc.scm"))
 	(hack (if (equal rsc-interpreter "mred") "--stdio" "-A")))
-    (if (file-exists-p dot-rsc)
+    (if (and rsc-load-dot-rsc (file-exists-p dot-rsc))
 	(list rsc-interpreter
 	      hack
 	      "-f"
