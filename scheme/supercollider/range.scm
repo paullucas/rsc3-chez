@@ -1,4 +1,16 @@
-;; range.scm - (c) rohan drape, 2006
+;; range.scm - (c) rohan drape, 2006-2007
+
+(module range (lib "lang.ss" "r5rs")
+(#%require (only "../graphdef/ugen.scm"
+		 ugen-name)
+	   (only "../ugen/filter.scm"
+		 LinExp
+		 MulAdd)
+	   (only "../ugen/operator.scm"
+		 Sub
+		 Mul
+		 Add))
+(#%provide (all-defined))
 
 (define (unipolar? u)
   (member (ugen-name u)
@@ -17,3 +29,5 @@
   (if (unipolar? u)
       (LinExp u  0 1 l r)
       (LinExp u -1 1 l r)))
+
+)

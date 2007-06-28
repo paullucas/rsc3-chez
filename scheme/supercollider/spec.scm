@@ -1,4 +1,14 @@
-;; spec.scm - (c) rohan drape, 2004-2006
+;; spec.scm - (c) rohan drape, 2004-2007
+
+(module spec (lib "lang.ss" "r5rs")
+(#%require (only (lib "23.ss" "srfi")
+		 error)	    
+	   (only "../structure/structure.scm"
+		 define-structure)
+	   "../math/clip.scm"
+	   "../math/constants.scm"
+	   "warp.scm")
+(#%provide (all-defined))
 
 ;; An interface to the warp procedures.
 
@@ -22,3 +32,5 @@
     ((freq frequency) (make-spec 20.0 20000.0 'linear))
     ((phase)          (make-spec  0.0 two-pi  'linear))
     (else             (error "symbol->spec: illegal value" s))))
+
+)

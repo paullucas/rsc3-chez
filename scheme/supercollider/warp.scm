@@ -1,4 +1,12 @@
-;; warp.scm - (c) rohan drape, 2003-2006
+;; warp.scm - (c) rohan drape, 2003-2007
+
+(module warp (lib "lang.ss" "r5rs")
+(#%require (only (lib "23.ss" "srfi")
+		 error)
+	   "../math/constants.scm"
+	   "../math/gain.scm"
+	   "../math/exact.scm")
+(#%provide (all-defined))
 
 ;; A warp is a procedure of two arguments.  The first is the <symbol>
 ;; direction of the warp, which should be either 'map' or 'unmap'.
@@ -103,3 +111,5 @@
 ;; Translate a number to a warp.
 
 (define (number->warp n) (warp-make-warp-curve n))
+
+)

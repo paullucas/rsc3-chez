@@ -1,4 +1,17 @@
-;; name.scm - (c) rohan drape, 2003-2006
+;; name.scm - (c) rohan drape, 2003-2007
+
+(module name (lib "lang.ss" "r5rs")
+(#%require (only (lib "1.ss" "srfi")
+		 )
+	   (only "../collection/list.scm"
+		 )
+	   (only "../collection/series.scm"
+		 )
+	   (only "../graphdef/mce.scm"
+		 )
+	   (only "../ugen/operator.scm"
+		 ))
+(#%provide (all-defined))
 
 (define unary-operator-names '(Neg Not IsNil NotNil BitNot Abs
 AsFloat AsInt Ceil Floor Frac Sign Squared Cubed Sqrt Exp Recip
@@ -24,3 +37,5 @@ Clip2 Excess Fold2 Wrap2 FirstArg RandRange ExpRandRange))
    ((string=? name "BinaryOpUGen") (binary-operator-name special))
    ((string=? name "UnaryOpUGen")  (unary-operator-name special))
    (else                           name)))
+
+)

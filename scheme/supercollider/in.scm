@@ -1,4 +1,12 @@
-;; in.scm - (c) rohan drape, 2003-2006
+;; in.scm - (c) rohan drape, 2003-2007
+
+(module in (lib "lang.ss" "r5rs")
+(#%require "../graphdef/mce.scm"
+	   "../graphdef/rate.scm"
+	   "../ugen/operator.scm"
+	   "../ugen/oscillator.scm"
+	   "../ugen/specialized.scm")
+(#%provide (all-defined))
 
 ;; Audio input.  Does not support MulAdd.
 
@@ -17,3 +25,5 @@
 	      (In (length l) ar (Add offset (car l)))
 	      (In 1 ar (Add offset n))))
 	(In 1 ar (Add offset n)))))
+
+)

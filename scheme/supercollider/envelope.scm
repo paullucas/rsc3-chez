@@ -1,4 +1,19 @@
-;; envelope.scm - (c) rohan drape, 2003-2006
+;; envelope.scm - (c) rohan drape, 2003-2007
+
+(module envelope (lib "lang.ss" "r5rs")
+(#%require (only (lib "23.ss" "srfi")
+		 error)
+	   (only "../collection/list.scm"
+		 extend
+		 splice
+		 take-cycle)
+	   (only "../collection/series.scm"
+		 d->dx**)
+	   "../graphdef/mce.scm"
+	   (only "../ugen/operator.scm"
+		 Mul 
+		 Sub))
+(#%provide (all-defined))
 
 ;; A curve specification is either a <string> or a <number>.  If it is
 ;; a string it must name a known curve type.  For numerical valued
@@ -132,3 +147,5 @@
        curve
        -1
        -1))
+
+)

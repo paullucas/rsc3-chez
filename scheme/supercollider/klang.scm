@@ -1,4 +1,9 @@
-;; klang.scm - (c) rohan drape, 2003-2006
+;; klang.scm - (c) rohan drape, 2003-2007
+
+(module klang (lib "lang.ss" "r5rs")
+(#%require "../collection/list.scm"
+	   "../graphdef/mce.scm")
+(#%provide (all-defined))
 
 ;; Generate a 'spec' list for a Klang UGen.  `freqs' is a list that
 ;; determines the number of partials, `amps' and `phases' are possibly
@@ -16,3 +21,5 @@
 ;; argument is `ring-time', not `phases'.
 
 (define klank-data klang-data)
+
+)

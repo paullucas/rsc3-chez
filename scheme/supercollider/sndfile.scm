@@ -1,4 +1,17 @@
-;; sndfile.scm - (c) rohan drape, 2006
+;; sndfile.scm - (c) rohan drape, 2006-2007
+
+(module sndfile (lib "lang.ss" "r5rs")
+(#%require (only (lib "1.ss" "srfi")
+		 append-map)
+	   (only (lib "23.ss" "srfi")
+		 error)
+	   (only "../../module/bytes.ss"
+		 write-u8)
+	   (only "../u8/u8l.scm"
+		 i32->u8l
+		 f32->u8l
+		 f64->u8l))
+(#%provide (all-defined))
 
 (define au-magic #x2e736e64)
 
@@ -37,3 +50,5 @@
       (lambda ()
 	(for-each write-u8 (au-mk-hdr nf enc sr nc))
 	(for-each write-u8 (append-map encdr d))))))
+
+)
