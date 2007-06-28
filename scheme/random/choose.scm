@@ -1,4 +1,18 @@
-;; choose.scm - (c) rohan drape, 2005-2006
+;; choose.scm - (c) rohan drape, 2005-2007
+
+(module choose (lib "lang.ss" "r5rs")
+(#%require (only "../collection/series.scm"
+		 dx->d)
+	   (only "../collection/list.scm"
+		 foldl1)
+	   (only "range.scm"
+		 rand
+		 randi)
+	   (only (lib "1.ss" "srfi")
+		 iota
+		 last
+		 list-index))
+(#%provide (all-defined))
 
 ;; Return a randomly selected element of the <list> 'l'.
 
@@ -45,3 +59,5 @@
 
 (define (vector-choose v)
   (vector-ref v (randi 0 (vector-length v))))
+
+)

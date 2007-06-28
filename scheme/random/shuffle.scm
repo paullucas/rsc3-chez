@@ -1,4 +1,11 @@
-;; shuffle.scm - (c) rohan drape, 2005-2006
+;; shuffle.scm - (c) rohan drape, 2005-2007
+
+(module shuffle (lib "lang.ss" "r5rs")
+(#%require (rename (lib "list.ss")
+		   sort mergesort)
+	   (only "range.scm"
+		 rand))
+(#%provide (all-defined))
 
 ;; Return a random permutation of the <list> `l'.  This is not a
 ;; mutation operation.  For a critique of this method see
@@ -12,3 +19,5 @@
 ;; sclang name for shuffle.
 
 (define scramble shuffle)
+
+)

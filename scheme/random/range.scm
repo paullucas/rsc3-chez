@@ -1,4 +1,15 @@
-;; range.scm - (c) rohan drape, 2005-2006
+;; range.scm - (c) rohan drape, 2005-2007
+
+(module range (lib "lang.ss" "r5rs")
+(#%require (only "../math/exact.scm"
+		 floor-exact)
+	   (only "distribution.scm"
+		 random)	    
+	   (only (lib "1.ss" "srfi")
+		 iota)
+	   (only (lib "39.ss" "srfi")
+		 make-parameter))
+(#%provide (all-defined))
 
 ;; Parameter to control distribution.
 
@@ -55,3 +66,4 @@
   (let ((deviation (* center perturbation)))
     (rand (- center deviation) (+ center deviation))))
 
+)

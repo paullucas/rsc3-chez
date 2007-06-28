@@ -1,4 +1,15 @@
-;; distribution.scm - (c) rohan drape, 2000-2006
+;; distribution.scm - (c) rohan drape, 2000-2007
+
+(module distribution (lib "lang.ss" "r5rs")
+(#%require (only "../math/clip.scm"
+		 clip)
+	   (only "../math/constants.scm"
+		 pi)
+	   (only (lib "1.ss" "srfi")
+		 iota)
+	   (only (lib "27.ss" "srfi")
+		 random-real))
+(#%provide (all-defined))
 
 ;; Alias SRFI-27 name
 
@@ -109,3 +120,4 @@
 	(loop v (* u (random)) (+ n 1))
 	n)))
 
+)
