@@ -1,4 +1,25 @@
-;; schedule.scm - (c) rohan drape & matthew flatt, 2000-2006
+;; schedule.scm - (c) rohan drape & matthew flatt, 2000-2007
+
+(module schedule (lib "lang.ss" "r5rs")
+(#%require (only (lib "34.ss" "srfi")
+		 with-exception-handler)
+	   (only (lib "23.ss" "srfi")
+		 error)	    
+	   (only "../../module/spawn.ss"
+		 spawn
+		 thread-terminate!
+		 thread-sleep!)
+	   (only "../../module/utc.ss"
+		 utc)
+	   (only "../../module/ch.ss"
+		 make-ch
+		 ch-put
+		 ch-sync)
+	   (only "../structure/structure.scm"
+		 define-structure)
+	   "routine.scm"
+	   "sq.scm")
+(#%provide make-schedule* at schedule-clear at/r)
 
 ;; ch = channel, th = thread, sq = queue
 
@@ -65,3 +86,5 @@
   (begin
     (schedule-clear Q)
     (thread-terminate! (schedule-th Q))))
+
+)

@@ -1,4 +1,9 @@
-;; routine.scm - (c) rohan drape, 2006
+;; routine.scm - (c) rohan drape, 2006-2007
+
+(module routine (lib "lang.ss" "r5rs")
+(#%require (only (lib "23.ss" "srfi")
+		 error))
+(#%provide routine)
 
 (define call/cc call-with-current-continuation)
 
@@ -19,3 +24,4 @@
 			     (z f)))))))
     g))
 
+)

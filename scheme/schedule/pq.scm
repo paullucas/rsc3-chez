@@ -3,6 +3,11 @@
 ;;;; Darius Bacon <darius@accesscom.com>
 ;;;; http://www.accesscom.com/~darius
 
+(module pq (lib "lang.ss" "r5rs")
+(#%require (only (lib "23.ss" "srfi")
+		 error))
+(#%provide (all-defined))
+
 ;; Some minor alterations - in particular delete <=? where not used.
 
 (define make-pq cons)
@@ -58,3 +63,5 @@
 			       (make-pq min2 (cons pq1 (pq/rest pq2)))))
 			 (loop (cddr pqs))))))))))
 
+
+)

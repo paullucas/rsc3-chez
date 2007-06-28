@@ -1,4 +1,12 @@
-;; sq.scm - (c) rohan drape, 2005-2006
+;; sq.scm - (c) rohan drape, 2005-2007
+
+(module sq (lib "lang.ss" "r5rs")
+(#%require (only (lib "23.ss" "srfi")
+		 error)
+	   (only "../structure/structure.scm"
+		 define-structure)
+	   "pq.scm")
+(#%provide (all-defined))
 
 ;; k = key, v = value
 
@@ -35,3 +43,4 @@
 (define (sq-empty? SQ)
   (pq-empty? (sq-pq SQ)))
 
+)
