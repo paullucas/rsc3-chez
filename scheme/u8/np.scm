@@ -1,5 +1,22 @@
 ;; np.scm - (c) rohan drape, 2005-2007
 
+(module np (lib "lang.ss" "r5rs")
+(#%require (only "../../module/bits.ss"
+		 arithmetic-shift
+		 bitwise-and)
+	   (only "../../module/bytes.ss"
+		 read-u8
+		 write-u8)
+	   (only "../collection/tree.scm"
+		 flatten
+		 mapt)
+	   (only "../structure/structure.scm"
+		 define-structure)
+	   "u8l.scm"
+	   (only (lib "23.ss" "srfi")
+		 error))
+(#%provide (all-defined))
+
 ;; Network protocol.
 
 (define-structure np tag value)
@@ -93,30 +110,9 @@
 (define (write-np np)
   (map write-u8 (np->u8l np)))
 
-;; read-u8l :: int -> IO [u8]
-
-(define (read-u8l n)
-  (map (lambda (_) (read-u8)) (iota n)))
-
-;; read-pstr :: IO str
-
-(define (read-pstr)
-  (u8l->str (read-u8l (read-u8))))
-
-;; read-cstr :: IO str
-
-(define (read-cstr)
-  (let loop ((l (list))
-	     (b (read-u8)))
-    (if (= b 0)
-	(u8l->str (reverse l) (length l))
-	(loop (cons b l) (read-u8)))))
-
-;; read-bstr :: IO [u8]
-
-(define read-bstr read-u8l)
-
 ;; npt->u8l :: [npt] -> [int]
 
 (define (npt->u8l t)
   (flatten (mapt np->u8l t)))
+
+)

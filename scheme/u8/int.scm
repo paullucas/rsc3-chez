@@ -1,4 +1,13 @@
-;; int.scm - (c) rohan drape, 2006
+;; int.scm - (c) rohan drape, 2006-2007
+
+(module int (lib "lang.ss" "r5rs")
+(#%require (only "../../module/bits.ss"
+		 arithmetic-shift
+		 bitwise-and)
+	   (only (lib "1.ss" "srfi")
+		 fold
+		 iota))
+(#%provide (all-defined))
 
 (define (shiftR i n)
   (arithmetic-shift i (- n)))
@@ -43,3 +52,5 @@
 (i16->u8l 345)
 (u8l->i16 (list 1 89))
 |#
+
+)

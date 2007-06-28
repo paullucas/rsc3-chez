@@ -1,4 +1,7 @@
-;; u8.scm - (c) rohan drape, 2006
+;; u8.scm - (c) rohan drape, 2006-2007
+
+(module u8 (lib "lang.ss" "r5rs")
+(#%provide (all-defined))
 
 (define (u8? b)
   (and (integer? b)
@@ -15,3 +18,4 @@
       (+ n 256)
       n))
 
+)

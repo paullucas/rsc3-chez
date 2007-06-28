@@ -1,4 +1,14 @@
-;; u8v.scm - (c) rohan drape, 2006
+;; u8v.scm - (c) rohan drape, 2006-2007
+
+(module u8v (lib "lang.ss" "r5rs")
+(#%require (only (lib "43.ss" "srfi")
+		 vector-every)
+	   (only "u8.scm"
+		 u8?
+		 i8->u8
+		 u8->i8)
+	   "u8l.scm")
+(#%provide (all-defined))
 
 (define (u8v? v)
   (and (vector? v)
@@ -33,3 +43,5 @@
 
 (define (file->u8v f) 
   (u8l->u8v (file->u8l f)))
+
+)

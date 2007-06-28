@@ -1,5 +1,29 @@
 ;; u8l.scm - (c) rohan drape, 2001-2006
 
+(module u8l (lib "lang.ss" "r5rs")
+(#%require (only "../../module/bits.ss"
+		 arithmetic-shift
+		 bitwise-and)
+	   (only "../../module/bytes.ss"
+		 peek-u8
+		 read-u8
+		 real->u8l
+		 u8l->real
+		 write-u8)
+	   (only "u8.scm"
+		 i8->u8
+		 u8?
+		 u8->i8)
+	   (only "int.scm"
+		 int->u8l
+		 u8l->int)
+	   (only (lib "1.ss" "srfi")
+		 every
+		 iota
+		 list-index
+		 take))
+(#%provide (all-defined))
+
 ;; u8l? :: [u8] -> true
 
 (define (u8l? l)
@@ -55,6 +79,32 @@
 (define (cstr->u8l s)
   (append (str->u8l s) (list 0)))
 
+;; read-u8l :: int -> IO [u8]
+
+(define (read-u8l n)
+  (map (lambda (_) (read-u8)) (iota n)))
+
+(define (write-u8l l) 
+  (map write-u8 l))
+
+;; read-pstr :: IO str
+
+(define (read-pstr)
+  (u8l->str (read-u8l (read-u8))))
+
+;; read-cstr :: IO str
+
+(define (read-cstr)
+  (let loop ((l (list))
+	     (b (read-u8)))
+    (if (= b 0)
+	(u8l->str (reverse l) (length l))
+	(loop (cons b l) (read-u8)))))
+
+;; read-bstr :: IO [u8]
+
+(define read-bstr read-u8l)
+
 ;; Readers :: IO ?value?
 
 (define (read-i16)  (u8l->i16 (read-u8l 2)))
@@ -92,5 +142,4 @@
 	    (reverse l)
 	    (loop (cons (read-u8) l)))))))
 
-(define (write-u8l l) 
-  (map write-u8 l))
+)
