@@ -1,4 +1,7 @@
-;; done-action.scm - (c) rohan drape, 2003-2006
+;; done-action.scm - (c) rohan drape, 2003-2007
+
+(module done-action (lib "lang.ss" "r5rs")
+(#%provide (all-defined))
 
 ;; The doneAction values are interpreted as follows:
 
@@ -25,3 +28,5 @@
 (define doNothing   0)
 (define pauseSynth  1)
 (define removeSynth 2)
+
+)

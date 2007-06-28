@@ -1,4 +1,13 @@
-;; status.scm - (c) rohan drape, 2006
+;; status.scm - (c) rohan drape, 2006-2007
+
+(module status (lib "lang.ss" "r5rs")
+(#%require (only "../collection/list.scm"
+		  intersperse)
+	   (only "command.scm"
+		 /status)
+	   (only "server.scm"
+		 -><))
+(#%provide (all-defined))
 
 (define status-fields 
   (list "# UGens                     "
@@ -39,3 +48,5 @@
 
 (define (server-sample-rate/actual s)
   (server-status-field s 9))
+
+)

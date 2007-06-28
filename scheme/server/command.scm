@@ -1,4 +1,11 @@
-;; command.scm - (c) rohan drape, 2005-2006
+;; command.scm - (c) rohan drape, 2005-2007
+
+(module command (lib "lang.ss" "r5rs")
+(#%require (only "../collection/list.scm"
+		 splice)
+	   (only "../osc/verify.scm"
+		 message))
+(#%provide (all-defined))
 
 (define with-reply list)
 
@@ -199,3 +206,5 @@
   (with-reply
    "/c_setn"
    (message "/c_getn" id n)))
+
+)

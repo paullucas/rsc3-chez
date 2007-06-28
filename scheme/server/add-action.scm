@@ -1,4 +1,7 @@
-;; add-action.scm - (c) rohan drape, 2006
+;; add-action.scm - (c) rohan drape, 2006-2007
+
+(module add-action (lib "lang.ss" "r5rs")
+(#%provide (all-defined))
 
 ;; The addAction values are interpreted as follows:
 
@@ -22,3 +25,5 @@
 (define addBefore  2)
 (define addAfter   3)
 (define addReplace 4)
+
+)
