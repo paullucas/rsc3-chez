@@ -1,26 +1,15 @@
-;; server.ss - (c) rohan drape, 2004-2006
+;; server.ss - (c) rohan drape, 2004-2007
 
 (module
  server (lib "lang.ss" "r5rs")
- (#%require (only (lib "23.ss" "srfi")
-		  error)
-	    (only (lib "39.ss" "srfi")
-		  make-parameter parameterize)
-	    (only "osc.ss"
-		  osc-send
-		  osc-recv
-		  message
-		  bundle)
-	    (only "utc.ss"
-		  utc)
-	    (only "collection.ss"
-		  splice intersperse)
-	    (only (lib "include.ss")
-		  include))
- (include "../scheme/server/command.scm")
- (include "../scheme/server/add-action.scm")
- (include "../scheme/server/done-action.scm")
- (include "../scheme/server/gen.scm")
- (include "../scheme/server/server.scm")
- (include "../scheme/server/status.scm")
- (#%provide (all-defined)))
+
+ (define-syntax require/provide
+   (syntax-rules ()
+     ((_ m) (begin (#%require m) (#%provide (all-from m))))))
+
+ (require/provide "../scheme/server/command.scm")
+ (require/provide "../scheme/server/add-action.scm")
+ (require/provide "../scheme/server/done-action.scm")
+ (require/provide "../scheme/server/gen.scm")
+ (require/provide "../scheme/server/server.scm")
+ (require/provide "../scheme/server/status.scm"))

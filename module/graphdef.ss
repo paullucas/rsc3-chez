@@ -1,33 +1,19 @@
-;; graphdef.ss - (c) rohan drape, 2004-2006
+;; graphdef.ss - (c) rohan drape, 2004-2007
 
 (module
  graphdef (lib "lang.ss" "r5rs")
- (#%require (only "structure.ss"
-		  define-structure)
-	    (only "u8.ss"
-		  u8 i16 i32 f32 pstr
-		  npt->u8l)
-	    (only "collection.ss"
-		  foldl1)
-	    (only (lib "1.ss" "srfi")
-		  make-list
-		  every
-		  iota)
-	    (only (lib "23.ss" "srfi")
-		  error)
-	    (only (lib "include.ss")
-		  include))
- (include "../scheme/graphdef/control.scm")
- (include "../scheme/graphdef/graphdef.scm")
- (include "../scheme/graphdef/id.scm")
- (include "../scheme/graphdef/input.scm")
- (include "../scheme/graphdef/letc.scm")
- (include "../scheme/graphdef/mce.scm")
- (include "../scheme/graphdef/mrg.scm")
- (include "../scheme/graphdef/output.scm")
- (include "../scheme/graphdef/proxy.scm")
- (include "../scheme/graphdef/rate.scm")
- (include "../scheme/graphdef/ugen.scm")
+ (#%require "../scheme/graphdef/control.scm"
+	    "../scheme/graphdef/graphdef.scm"
+	    "../scheme/graphdef/id.scm"
+	    "../scheme/graphdef/input.scm"
+	    "../scheme/graphdef/letc.scm"
+	    "../scheme/graphdef/mce.scm"
+	    "../scheme/graphdef/mrg.scm"
+	    "../scheme/graphdef/output.scm"
+	    "../scheme/graphdef/proxy.scm"
+	    "../scheme/graphdef/rate.scm"
+	    "../scheme/graphdef/rate-of.scm"
+	    "../scheme/graphdef/ugen.scm")
  (#%provide rate-select rate-of rate-value
 	    ugen make-ugen ugen? ugen-inputs ugen-name ugen-rate ugen-outputs ugen-special ugen-id
 	    ugen-output ugen-validate ugen-transform dupn

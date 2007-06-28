@@ -1,18 +1,14 @@
-;; math.ss - (c) rohan drape, 2004-2006
+;; math.ss - (c) rohan drape, 2004-2007
 
 (module
  math (lib "lang.ss" "r5rs")
- (#%require (only (lib "include.ss")
-		  include)
-	    (only "collection.ss"
-		  list-ref/wrap))
- (include "../scheme/math/clip.scm")
- (include "../scheme/math/common.scm")
- (include "../scheme/math/constants.scm")
- (include "../scheme/math/exact.scm")
- (include "../scheme/math/gain.scm")
- (include "../scheme/math/log.scm")
- (include "../scheme/math/pitch.scm")
+ (#%require "../scheme/math/clip.scm"
+	    "../scheme/math/common.scm"
+	    "../scheme/math/constants.scm"
+	    "../scheme/math/exact.scm"
+	    "../scheme/math/gain.scm"
+	    "../scheme/math/log.scm"
+	    "../scheme/math/pitch.scm")
  (#%provide clip
 	    pi half-pi two-pi
 	    floor-exact round-exact

@@ -1,8 +1,6 @@
-;; structure.ss - (c) rohan drape, 2003-2006
+;; structure.ss - (c) rohan drape, 2003-2007
 
 (module
- structure mzscheme
- (require (only (lib "include.ss")
-		include))
- (include "../scheme/structure/structure.scm")
- (provide define-structure))
+ structure (lib "lang.ss" "r5rs")
+ (#%require "../scheme/structure/structure.scm")
+ (#%provide define-structure))

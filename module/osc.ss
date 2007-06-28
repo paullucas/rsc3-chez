@@ -2,45 +2,13 @@
 
 (module
  osc (lib "lang.ss" "r5rs")
- (#%require (only "ntp.ss"
-		  utc->ntp
-		  ntp->utc.)
-	    (only "u8.ss"
-		  u8 i32 u32 i64 u64 f32 f64
-		  u32->u8l u8l->u32
-		  read-i32 read-i64 read-u64 read-f32 read-f64
-		  cstr bstr
-		  read-cstr read-bstr
-		  peek-u8 read-u8l
-		  npt->u8l
-		  u8l?
-		  with-input-from-u8l)
-	    (only "tcp.ss"
-		  tcp*?
-		  tcp*-send
-		  tcp*-read)
-	    (only "udp.ss"
-		  udp*?
-		  udp*-send
-		  udp*-recv)
-	    (only (lib "1.ss" "srfi")
-		  find-tail
-		  make-list
-		  iota
-		  )
-	    (only (lib "23.ss" "srfi")
-		  error)
-	    (only (lib "48.ss" "srfi")
-		  format)
-	    (only (lib "include.ss")
-		  include))
- (include "../scheme/osc/type.scm")
- (include "../scheme/osc/decode.scm")
- (include "../scheme/osc/display.scm")
- (include "../scheme/osc/encode.scm")
- (include "../scheme/osc/purify.scm")
- (include "../scheme/osc/verify.scm")
- (include "../scheme/osc/transport.scm")
+ (#%require "../scheme/osc/type.scm"
+	    "../scheme/osc/decode.scm"
+	    "../scheme/osc/display.scm"
+	    "../scheme/osc/encode.scm"
+	    "../scheme/osc/purify.scm"
+	    "../scheme/osc/verify.scm"
+	    "../scheme/osc/transport.scm")
  (#%provide message
 	    bundle
 	    osc->u8l

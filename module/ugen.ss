@@ -1,70 +1,20 @@
-;; ugen.ss - (c) rohan drape, 2004-2006
+;; ugen.ss - (c) rohan drape, 2004-2007
 
 (module
  ugen (lib "lang.ss" "r5rs")
- (#%require (only (lib "23.ss" "srfi")
-		  error)
-	    (only "collection.ss"
-		  splice
-		  concat
-		  extend
-		  maximum
-		  invert
-		  foldl)
-	    (only "graphdef.ss"
-		  rate-select
-		  rate-of
-		  make-ugen ugen? ugen-inputs ugen-name ugen-rate ugen-outputs ugen-special ugen-id
-		  ugen-validate ugen-transform
-		  make-proxy proxy? proxy-ugen proxy-port
-		  make-control
-		  control*? control*-default control*-name
-		  make-mce mce? mce-channels
-		  make-mrg mrg? mrg-roots
-		  make-outputs
-		  make-uid unique-uid
-		  make-graphdef
-		  make-input
-		  make-output
-		  ar kr ir dr)
-	    (only "random.ss"
-		  rand
-		  _rand
-		  rand2)
-	    (only "math.ss"
-		  midicps
-		  cpsmidi
-		  octcps
-		  cpsoct
-		  ampdb
-		  dbamp
-		  midiratio
-		  ratiomidi
-		  log2
-		  log10
-		  squared
-		  cubed
-		  recip)
-	    (only (lib "1.ss" "srfi")
-		  make-list
-		  filter
-		  delete-duplicates
-		  take
-		  drop
-		  iota
-		  list-index)
-	    (only (lib "26.ss" "srfi")
-		  cut)
-	    (only (lib "include.ss")
-		  include))
- (include "../scheme/ugen/constructor.scm")
- (include "../scheme/ugen/filter.scm")
- (include "../scheme/ugen/graph.scm")
- (include "../scheme/ugen/implicit.scm")
- (include "../scheme/ugen/input.scm")
- (include "../scheme/ugen/mce.scm")
- (include "../scheme/ugen/operator.scm")
- (include "../scheme/ugen/oscillator.scm")
- (include "../scheme/ugen/proxied.scm")
- (include "../scheme/ugen/specialized.scm")
- (#%provide (all-defined)))
+
+ (define-syntax require/provide
+   (syntax-rules ()
+     ((_ m) (begin (#%require m) (#%provide (all-from m))))))
+
+
+ (require/provide "../scheme/ugen/constructor.scm")
+ (require/provide "../scheme/ugen/filter.scm")
+ (require/provide "../scheme/ugen/graph.scm")
+ (require/provide "../scheme/ugen/implicit.scm")
+ (require/provide "../scheme/ugen/input.scm")
+ (require/provide "../scheme/ugen/mce.scm")
+ (require/provide "../scheme/ugen/operator.scm")
+ (require/provide "../scheme/ugen/oscillator.scm")
+ (require/provide "../scheme/ugen/proxied.scm")
+ (require/provide "../scheme/ugen/specialized.scm"))

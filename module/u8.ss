@@ -3,30 +3,11 @@
 (module
  u8 (lib "lang.ss" "r5rs")
  (#%require "bytes.ss"
-	    "bits.ss"
-	    (only (lib "1.ss" "srfi")
-		  fold
-		  fold-right
-		  iota
-		  take
-		  list-index
-		  every)
-	    (only (lib "23.ss" "srfi")
-		  error)
-	    (only (lib "43.ss" "srfi")
-		  vector-every)
-	    (only "structure.ss"
-		  define-structure)
-	    (only "collection.ss"
-		  flatten
-		  mapt)
-	    (only (lib "include.ss")
-		  include))
- (include "../scheme/u8/u8.scm")
- (include "../scheme/u8/int.scm")
- (include "../scheme/u8/u8l.scm")
- (include "../scheme/u8/u8v.scm")
- (include "../scheme/u8/np.scm")
+	    "../scheme/u8/u8.scm"
+	    "../scheme/u8/int.scm"
+	    "../scheme/u8/u8l.scm"
+	    "../scheme/u8/u8v.scm"
+	    "../scheme/u8/np.scm")
  (#%provide ;; byte
 	    read-u8 peek-u8 write-u8
 	
