@@ -1,4 +1,11 @@
-;; pitch.scm - (c) rohan drape, 2005-2006
+;; pitch.scm - (c) rohan drape, 2005-2007
+
+(module pitch (lib "lang.ss" "r5rs")
+(#%require (only "../collection/list.scm"
+		 list-ref/wrap)
+	   (only "log.scm"
+		 log2))
+(#%provide (all-defined))
 
 (define (midicps note)
   (* 440.0 (expt 2.0 (* (- note 69.0) 0.083333333333))))
@@ -21,3 +28,5 @@
 (define (degree->key degree scale steps)
   (+ (* steps (quotient degree (length scale)))
      (list-ref/wrap scale degree)))
+
+)

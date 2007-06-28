@@ -1,4 +1,7 @@
-;; clip.scm - (c) rohan drape, 2005-2006
+;; clip.scm - (c) rohan drape, 2005-2007
+
+(module clip (lib "lang.ss" "r5rs")
+(#%provide (all-defined))
 
 ;; Clip `n' between a and b.
 
@@ -10,3 +13,5 @@
 (define (clipz a b z)
   (make-rectangular (clip a b (real-part z))
 		    (clip a b (imag-part z))))
+
+)

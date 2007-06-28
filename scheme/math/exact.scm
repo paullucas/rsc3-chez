@@ -1,4 +1,7 @@
-;; exact.scm - (c) rohan drape, 2004-2006
+;; exact.scm - (c) rohan drape, 2004-2007
+
+(module exact (lib "lang.ss" "r5rs")
+(#%provide (all-defined))
 
 ;; Exact integer constructors and predicate.
 
@@ -7,3 +10,5 @@
 (define (truncate-exact n) (inexact->exact (truncate n)))
 (define (round-exact n)    (inexact->exact (round n)))
 (define (exact-integer? x) (and (integer? x) (exact? x)))
+
+)

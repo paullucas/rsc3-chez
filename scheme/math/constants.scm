@@ -1,4 +1,7 @@
-;; constants.scm - (c) rohan drape, 2001-2006
+;; constants.scm - (c) rohan drape, 2001-2007
+
+(module constants (lib "lang.ss" "r5rs")
+(#%provide (all-defined))
 
 (define e (exp 1.0))
 (define pi (* 4 (atan 1)))
@@ -21,3 +24,5 @@
 ;; +inf.0 does not write to UGen graph files...
 
 (define inf 1073741824.0)
+
+)
