@@ -1,4 +1,14 @@
-;; mapw.scm - (c) rohan drape, 2000-2006
+;; mapw.scm - (c) rohan drape, 2000-2007
+
+(module mapw (lib "lang.ss" "r5rs")
+(#%require (only "list.scm"
+		 extend)
+	   (only (lib "1.ss" "srfi") 
+		 drop
+		 take)
+	   (only (lib "23.ss" "srfi") 
+		 error))
+(#%provide (all-defined))
 
 ;; [R5RS+] Windowed map.  Apply 'f' to 'n' element windows with 'm'
 ;; separation at `l' having 'z' elements.
@@ -19,3 +29,5 @@
 
 (define (mapw* n m f l)
   (mapw n m f (extend l (+ n -1 (length l)))))
+
+)

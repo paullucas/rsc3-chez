@@ -1,4 +1,14 @@
-;; list.scm - (c) rohan drape, 2000-2006
+;; list.scm - (c) rohan drape, 2000-2007
+
+(module list (lib "lang.ss" "r5rs")
+(#%require (only (lib "1.ss" "srfi")
+		 append-map
+		 drop
+		 filter
+		 iota
+		 make-list
+		 take))
+(#%provide (all-defined))
 
 ;; list-ref variant where n is taken modulo the list length.
 
@@ -136,3 +146,5 @@
   (map (lambda (i)
 	 (take-cycle (drop* l i) n))
        (iota n)))
+
+)

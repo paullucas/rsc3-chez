@@ -1,5 +1,10 @@
 ;; series.scm - (c) rohan drape, 2000-2007
 
+(module series (lib "lang.ss" "r5rs")
+(#%require (only (lib "1.ss" "srfi")
+		 unfold))
+(#%provide (all-defined))
+
 ;; Predicate to determine if `l' is a one element list.
 
 (define (singleton? l) 
@@ -28,3 +33,5 @@
   (if (null? i)
       (list n)
       (cons n (dx->d (+ (car i) n) (cdr i)))))
+
+)

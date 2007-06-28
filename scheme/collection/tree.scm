@@ -1,4 +1,7 @@
-;; tree.scm - (c) rohan drape, 2000-2006
+;; tree.scm - (c) rohan drape, 2000-2007
+
+(module tree (lib "lang.ss" "r5rs")
+(#%provide (all-defined))
 
 ;; A not entirely naive flatten - ie. does not use append.
 
@@ -16,3 +19,5 @@
   (cond ((null? t) (list))
 	((list? t) (map (lambda (e) (mapt f e)) t))
 	(else      (f t))))
+
+)
