@@ -3,7 +3,9 @@
 (module letc (lib "lang.ss" "r5rs")
 (#%require (only "../structure/structure.scm"
 		 define-structure)
-	   "control.scm")
+	   "control.scm"
+	   (only "rate.scm"
+		 kr))
 (#%provide (all-defined))
 
 ;; Syntax for defining <control*> values.  Does not implement rate or
