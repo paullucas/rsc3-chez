@@ -5,7 +5,16 @@
 	   (only "../../module/bytes.ss"
 		 peek-u8
 		 with-input-from-u8l)
-	   "../u8/u8l.scm"
+	   (only "../u8/u8l.scm"
+		 read-i32
+		 read-i64
+		 read-u64
+		 read-i32
+		 read-f32
+		 read-f64
+		 read-bstr
+		 read-cstr
+		 )
 	   (only "encode.scm"
 		 cstring-length)
 	   "type.scm"

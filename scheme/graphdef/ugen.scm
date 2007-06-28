@@ -12,13 +12,24 @@
 		 u8
 		 i16
 		 pstr)
-	   "id.scm"
-	   "input.scm"
-	   "control.scm"
-	   "mce.scm"
-	   "output.scm"
-	   "proxy.scm"
-	   "rate.scm")
+	   (only "id.scm"
+		 uid?
+		 unique-uid)
+	   (only "input.scm"
+		 input->npt)
+	   (only "control.scm"
+		 control*?)
+	   (only "mce.scm"
+		 mce?
+		 make-mce)
+	   (only "output.scm"
+		 output?
+		 output->npt)
+	   (only "proxy.scm"
+		 proxy?)
+	   (only "rate.scm"
+		 rate?
+		 rate-value))
 (#%provide (all-defined))
 
 ;; A <ugen> represents a UGen in a UGen graph.  The <string> name

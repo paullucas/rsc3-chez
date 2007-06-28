@@ -7,7 +7,8 @@
 		 define-structure)
 	   (only "../u8/np.scm"
 		 u8)
-	   "rate.scm")
+	   (only "rate.scm"
+		 rate-value))
 (#%provide (all-defined))
 
 ;; An <output> represents a UGen output signal in a UGen graph.

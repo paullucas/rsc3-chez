@@ -3,7 +3,8 @@
 (module graphdef (lib "lang.ss" "r5rs")
 (#%require (only "../structure/structure.scm"
 		 define-structure)
-	   "../u8/np.scm"
+	   (only "../u8/np.scm"
+		 u8 i16 i32 f32 pstr npt->u8l)
 	   (only "control.scm"
 		 control->npt)
 	   (only "ugen.scm"

@@ -3,7 +3,8 @@
 (module letc (lib "lang.ss" "r5rs")
 (#%require (only "../structure/structure.scm"
 		 define-structure)
-	   "control.scm"
+	   (only "control.scm"
+		 make-control*)
 	   (only "rate.scm"
 		 kr))
 (#%provide (all-defined))
