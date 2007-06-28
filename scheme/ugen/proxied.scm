@@ -1,4 +1,12 @@
-;; proxied.scm - (c) rohan drape, 2005-2006
+;; proxied.scm - (c) rohan drape, 2005-2007
+
+(module proxied (lib "lang.ss" "r5rs")
+(#%require (only (lib "1.ss" "srfi")
+		 iota)
+	   "../graphdef/mce.scm"
+	   "../graphdef/proxy.scm"
+	   "../graphdef/ugen.scm")
+(#%provide (all-defined))
 
 (define (proxied u)
   (cond
@@ -9,3 +17,5 @@
 		    (make-mce (map (lambda (i) (make-proxy u i))
 				   (iota n))))))
    ((mce? u)  (make-mce (map proxied (mce-channels u))))))
+
+)

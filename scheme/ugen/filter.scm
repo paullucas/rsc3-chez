@@ -1,4 +1,13 @@
-; filter.scm - (c) rohan drape, 2005-2006
+;; filter.scm - (c) rohan drape, 2005-2007
+
+(module filter (lib "lang.ss" "r5rs")
+(#%require (only (lib "23.ss" "srfi")
+		 error)
+	   "../graphdef/id.scm"
+	   "../graphdef/mce.scm"
+	   "../graphdef/rate-of.scm"
+	   "constructor.scm")
+(#%provide (all-defined))
 
 (define-syntax define-filter
   (syntax-rules ()
@@ -195,6 +204,8 @@
 
 (define (TWChoose trig array weights normalize)
   (Select (TWindex trig normalize weights) array))
+
+)
 
 ;; Local Variables:
 ;; truncate-lines:t

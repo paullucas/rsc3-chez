@@ -1,4 +1,15 @@
-;; constructor.scm - (c) rohan drape, 2005-2006
+;; constructor.scm - (c) rohan drape, 2005-2007
+
+(module constructor (lib "lang.ss" "r5rs")
+(#%require (only (lib "1.ss" "srfi")
+		 make-list)
+	   "../graphdef/output.scm"
+	   "../graphdef/rate.scm"
+	   "../graphdef/rate-of.scm"
+	   "../graphdef/ugen.scm"
+	   "mce.scm"
+	   "proxied.scm")
+(#%provide (all-defined))
 
 ;; name = <string> | <symbol>
 ;; rate? = <rate> | #f
@@ -27,3 +38,5 @@
 	     special
 	     id)))
     (proxied (mced u))))
+
+)

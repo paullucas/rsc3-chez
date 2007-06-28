@@ -1,4 +1,12 @@
-;; specialized.scm - (c) rohan drape, 2005-2006
+;; specialized.scm - (c) rohan drape, 2005-2007
+
+(module specialized (lib "lang.ss" "r5rs")
+(#%require (only (lib "23.ss" "srfi")
+		 error)
+	   "../graphdef/id.scm"
+	   "../graphdef/rate.scm"
+	   "constructor.scm")
+(#%provide (all-defined))
 
 (define-syntax define-specialized
   (syntax-rules ()
@@ -116,6 +124,8 @@
 (define-specialized*/id Dser (length array) 1 dr)
 (define-specialized*/id Dswitch1 (length array) 1 dr)
 (define-specialized*/id Dxrand (length array) 1 dr)
+
+)
 
 ;; Local Variables:
 ;; truncate-lines:t

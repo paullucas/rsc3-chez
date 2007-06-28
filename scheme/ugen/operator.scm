@@ -1,4 +1,15 @@
-;; operator.scm - (c) rohan drape, 2005-2006
+;; operator.scm - (c) rohan drape, 2005-2007
+
+(module operator (lib "lang.ss" "r5rs")
+(#%require "../collection/list.scm"
+	   "../math/common.scm"
+	   "../math/gain.scm"
+	   "../math/log.scm"
+	   "../math/pitch.scm"
+	   "../graphdef/id.scm"
+	   "../random/range.scm"
+	   "constructor.scm")
+(#%provide (all-defined))
 
 ;; Operators may, when applied to numbers, yield numbers.
 
@@ -129,3 +140,5 @@
 
 (define (Mul* . l) (foldl Mul 1 l))
 (define (Add* . l) (foldl Add 0 l))
+
+)

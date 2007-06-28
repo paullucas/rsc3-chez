@@ -1,4 +1,13 @@
-;; mce.scm - (c) rohan drape, 2005-2006
+;; mce.scm - (c) rohan drape, 2005-2007
+
+(module mce (lib "lang.ss" "r5rs")
+(#%require (only (lib "1.ss" "srfi")
+		 filter
+		 make-list)
+	   "../collection/list.scm"
+	   "../graphdef/mce.scm"
+	   "../graphdef/ugen.scm")
+(#%provide (all-defined))
 
 (define (mce-degree m)
   (length (mce-channels m)))
@@ -36,3 +45,5 @@
   (if (mce? u)
       (mce-channels u)
       (list u)))
+
+)

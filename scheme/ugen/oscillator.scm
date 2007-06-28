@@ -1,4 +1,14 @@
-;; oscillator.scm - (c) rohan drape, 2005-2006
+;; oscillator.scm - (c) rohan drape, 2005-2007
+
+(module oscillator (lib "lang.ss" "r5rs")
+(#%require (only (lib "1.ss" "srfi")
+		 drop
+		 take)
+	   (only (lib "23.ss" "srfi")
+		 error)
+	   "../graphdef/id.scm"
+	   "constructor.scm")
+(#%provide (all-defined))
 
 (define-syntax define-oscillator
   (syntax-rules ()
@@ -131,6 +141,8 @@
 (define-oscillator/id RandID (id) 1)
 (define-oscillator/id RandSeed (trig seed) 1)
 (define-oscillator/id WhiteNoise () 1)
+
+)
 
 ;; Local Variables:
 ;; truncate-lines:t
