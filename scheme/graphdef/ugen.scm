@@ -1,4 +1,25 @@
-;; ugen.scm - (c) rohan drape, 2003-2006
+;; ugen.scm - (c) rohan drape, 2003-2007
+
+(module ugen (lib "lang.ss" "r5rs")
+(#%require (only (lib "1.ss" "srfi")
+		 every
+		 iota)
+	   (only (lib "23.ss" "srfi")
+		 error)
+	   (only "../structure/structure.scm"
+		 define-structure)
+	   (only "../u8/np.scm"
+		 u8
+		 i16
+		 pstr)
+	   "id.scm"
+	   "input.scm"
+	   "control.scm"
+	   "mce.scm"
+	   "output.scm"
+	   "proxy.scm"
+	   "rate.scm")
+(#%provide (all-defined))
 
 ;; A <ugen> represents a UGen in a UGen graph.  The <string> name
 ;; names the C level UGen.  Each value at the <list> inputs is either
@@ -18,6 +39,13 @@
 	(s (ugen-special u))
 	(d (ugen-id u)))
     (f n r i o s d)))
+
+(define (input*? i)
+  (or (number? i)
+      (control*? i)
+      (ugen? i)
+      (proxy? i)
+      (mce? i)))
 
 (define (ugen-validate u)
   (ugen-transform
@@ -55,3 +83,4 @@
 
 (define (dup u) (dupn 2 u))
 
+)

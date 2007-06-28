@@ -1,4 +1,14 @@
-;; graphdef.scm - (c) rohan drape, 2003-2006
+;; graphdef.scm - (c) rohan drape, 2003-2007
+
+(module graphdef (lib "lang.ss" "r5rs")
+(#%require (only "../structure/structure.scm"
+		 define-structure)
+	   "../u8/np.scm"
+	   (only "control.scm"
+		 control->npt)
+	   (only "ugen.scm"
+		 ugen->npt))
+(#%provide (all-defined))
 
 ;; A <graphdef> represents a UGen graph.
 
@@ -37,3 +47,5 @@
 
 (define (graphdef->u8l g)
   (npt->u8l (graphdef->npt g)))
+
+)

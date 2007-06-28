@@ -1,4 +1,9 @@
-;; id.scm - (c) rohan drape, 2005-2006
+;; id.scm - (c) rohan drape, 2005-2007
+
+(module id (lib "lang.ss" "r5rs")
+(#%require (only "../structure/structure.scm"
+		 define-structure))
+(#%provide (all-defined))
 
 (define-structure uid value)
 
@@ -7,5 +12,7 @@
 (define unique-uid
   (let ((id 0))
     (lambda ()
-      (begin (set! id (+ id 1))
-	     (make-uid id)))))
+      (set! id (+ id 1))
+      (make-uid id))))
+
+)

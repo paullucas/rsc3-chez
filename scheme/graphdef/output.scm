@@ -1,4 +1,14 @@
-;; output.scm - (c) rohan drape, 2003-2006
+;; output.scm - (c) rohan drape, 2003-2007
+
+(module output (lib "lang.ss" "r5rs")
+(#%require (only (lib "1.ss" "srfi")
+		 make-list)
+	   (only "../structure/structure.scm"
+		 define-structure)
+	   (only "../u8/np.scm"
+		 u8)
+	   "rate.scm")
+(#%provide (all-defined))
 
 ;; An <output> represents a UGen output signal in a UGen graph.
 
@@ -9,3 +19,5 @@
 
 (define (make-outputs n r)
   (make-list n (make-output r)))
+
+)

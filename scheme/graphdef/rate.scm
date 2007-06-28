@@ -1,4 +1,13 @@
-;; rate.scm - (c) rohan drape, 2005-2006
+;; rate.scm - (c) rohan drape, 2005-2007
+
+(module rate (lib "lang.ss" "r5rs")
+(#%require (only "../structure/structure.scm"
+		 define-structure)
+	   (only "../collection/list.scm"
+		 foldl1)
+	   (only (lib "23.ss" "srfi")
+		 error))
+(#%provide (all-defined))
 
 (define-structure rate value)
 
@@ -25,11 +34,4 @@
 (define (rate-select l)
   (foldl1 rate-select* l))
 
-(define (rate-of o)
-  (cond ((number? o)    ir)
-	((control*? o)  (control*-rate o))
-	((ugen? o)      (ugen-rate o))
-	((proxy? o)     (rate-of (proxy-ugen o)))
-	((mce? o)       (rate-select (map rate-of (mce-channels o))))
-	((mrg? o)       (error "rate-of: mrg?" o))
-	(else           (error "rate-of: illegal value" o))))
+)

@@ -1,4 +1,11 @@
-;; input.scm - (c) rohan drape, 2003-2006
+;; input.scm - (c) rohan drape, 2003-2007
+
+(module input (lib "lang.ss" "r5rs")
+(#%require (only "../structure/structure.scm"
+		 define-structure)
+	   (only "../u8/np.scm"
+		 i16))
+(#%provide (all-defined))
 
 ;; An <input> represents a UGen input signal in a UGen graph, an
 ;; 'Input Specification'.  The <integer> ugen is the index of the
@@ -10,9 +17,4 @@
   (list (i16 (input-ugen i))
 	(i16 (input-port i))))
 
-(define (input*? i)
-  (or (number? i)
-      (control*? i)
-      (ugen? i)
-      (proxy? i)
-      (mce? i)))
+)
