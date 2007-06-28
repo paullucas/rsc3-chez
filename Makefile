@@ -1,4 +1,4 @@
-# Makefile - (c) rohan drape, 1998-2006
+# Makefile - (c) rohan drape, 1998-2007
 
 PROJECT = rsc
 
@@ -6,7 +6,7 @@ all:
 	setup-plt -l $(PROJECT)
 
 clean:
-	rm -fR compiled module/compiled
+	rm -fR compiled */compiled */*/compiled
 #	setup-plt -c -l $(PROJECT)
 
 plt:
