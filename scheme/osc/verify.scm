@@ -1,4 +1,11 @@
-;; verify.scm - (c) rohan drape, 2005-2006
+;; verify.scm - (c) rohan drape, 2005-2007
+
+(module verify (lib "lang.ss" "r5rs")
+(#%require (only (lib "1.ss" "srfi")
+		 find-tail)
+	   (only (lib "23.ss" "srfi")
+		 error))
+(#%provide (all-defined))
 
 ;; Validating constructors.
 
@@ -50,3 +57,4 @@
   (or (verify-message p)
       (verify-bundle p)))
 
+)

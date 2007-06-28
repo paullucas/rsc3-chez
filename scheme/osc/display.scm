@@ -1,4 +1,11 @@
-;; display.scm - (c) rohan drape, 2005-2006
+;; display.scm - (c) rohan drape, 2005-2007
+
+(module display (lib "lang.ss" "r5rs")
+(#%require (only (lib "1.ss" "srfi")
+		 iota)
+	   (only (lib "48.ss" "srfi")
+		 format))
+(#%provide (all-defined))
 
 ;; Write a text representation of the OSC u8l `l'.  The format is that
 ;; used throughout the OSC specification.
@@ -12,3 +19,5 @@
 	 (display #\space)))
    l
    (iota (length l))))
+
+)

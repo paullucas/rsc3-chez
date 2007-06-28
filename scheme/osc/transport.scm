@@ -1,5 +1,25 @@
 ;; transport.scm - (c) rohan drape, 2004-2007
 
+(module transport (lib "lang.ss" "r5rs")
+(#%require (only "decode.scm"
+		 u8l->osc)
+	   (only "encode.scm"
+		 osc->u8l)
+	   (only "../u8/u8l.scm"
+		 u32->u8l
+		 u8l->u32)
+	   (only "../../module/tcp.ss"
+		 tcp*?
+		 tcp*-send
+		 tcp*-read)
+	   (only "../../module/udp.ss"
+		 udp*?
+		 udp*-send
+		 udp*-recv)
+	   (only (lib "23.ss" "srfi")
+		 error))
+(#%provide (all-defined))
+
 ;; 'u' is a <udp*>, 't' is a timeout in seconds.
 
 (define (osc-send u m)
@@ -31,3 +51,5 @@
   (osc-send u m)
   (let ((p (osc-recv u t)))
     (if (and p (string=? (car p) r)) p #f)))
+
+)

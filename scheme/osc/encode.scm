@@ -1,4 +1,17 @@
-;; encode.scm - (c) rohan drape, 2002-2006
+;; encode.scm - (c) rohan drape, 2002-2007
+
+(module encode (lib "lang.ss" "r5rs")
+(#%require "../ntp/ntp.scm"
+	   "../u8/np.scm"
+	   "../u8/u8l.scm"
+	   (only "verify.scm"
+		 bundle?
+		 message?)
+	   (only (lib "1.ss" "srfi")
+		 make-list)
+	   (only (lib "23.ss" "srfi")
+		 error))
+(#%provide (all-defined))
 
 (define (padding-of n) (make-list n (u8 0)))
 
@@ -80,3 +93,5 @@
   (npt->u8l (if (bundle? p)
 		(encode-bundle p)
 		(encode-message p))))
+
+)

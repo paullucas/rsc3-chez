@@ -1,5 +1,18 @@
 ;; decode.scm - (c) rohan drape, 2002-2007
 
+(module decode (lib "lang.ss" "r5rs")
+(#%require "../ntp/ntp.scm"
+	   (only "../../module/bytes.ss"
+		 peek-u8
+		 with-input-from-u8l)
+	   "../u8/u8l.scm"
+	   (only "encode.scm"
+		 cstring-length)
+	   "type.scm"
+	   (only (lib "23.ss" "srfi")
+		 error))
+(#%provide (all-defined))
+
 ;; OSC strings are C strings padded to a four byte boundary.
 
 (define (read-ostr)
@@ -89,3 +102,4 @@
 (define (u8l->osc b)
   (with-input-from-u8l b read-packet))
 
+)
