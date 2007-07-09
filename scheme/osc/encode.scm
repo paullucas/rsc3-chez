@@ -80,7 +80,10 @@
 
 (define (encode-bundle b)
   (list (encode-string "#bundle")
-	(u64 (utc->ntp (car b)))
+	(let ((t (car b)))
+	  (if (> t 0)
+	      (u64 (utc->ntp t))
+	      (u64 0)))
 	(map (lambda (e)
 	       (if (message? e)
 		   (encode-bytes (osc->u8l e))
