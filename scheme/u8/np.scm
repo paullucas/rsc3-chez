@@ -1,10 +1,7 @@
 ;; np.scm - (c) rohan drape, 2005-2007
 
 (module np (lib "lang.ss" "r5rs")
-(#%require (only "../../module/bits.ss"
-		 arithmetic-shift
-		 bitwise-and)
-	   (only "../../module/bytes.ss"
+(#%require (only "../../module/bytes.ss"
 		 read-u8
 		 write-u8)
 	   (only "../collection/tree.scm"
