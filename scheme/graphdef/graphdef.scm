@@ -9,7 +9,16 @@
 		 control->npt)
 	   (only "ugen.scm"
 		 ugen->npt))
-(#%provide (all-defined))
+(#%provide graphdef
+	   graphdef? 
+	   make-graphdef 
+	   graphdef-name 
+	   graphdef-defaults 
+	   graphdef-controls 
+	   graphdef-constant
+	   graphdef-ugen 
+	   graphdef-ugens 
+	   graphdef->u8l)
 
 ;; A <graphdef> represents a UGen graph.
 

@@ -5,7 +5,7 @@
 		 iota)
 	   (only (lib "48.ss" "srfi")
 		 format))
-(#%provide (all-defined))
+(#%provide osc-display)
 
 ;; Write a text representation of the OSC u8l `l'.  The format is that
 ;; used throughout the OSC specification.

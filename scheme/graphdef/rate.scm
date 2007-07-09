@@ -7,7 +7,13 @@
 		 foldl1)
 	   (only (lib "23.ss" "srfi")
 		 error))
-(#%provide (all-defined))
+(#%provide rate?
+	   rate-select 
+	   rate-value
+	   ar 
+	   kr 
+	   ir 
+	   dr)
 
 (define-structure rate value)
 

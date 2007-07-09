@@ -19,7 +19,10 @@
 		 define-structure)
 	   "routine.scm"
 	   "sq.scm")
-(#%provide make-schedule* at schedule-clear at/r)
+(#%provide make-schedule* 
+	   at 
+	   schedule-clear 
+	   at/r)
 
 ;; ch = channel, th = thread, sq = queue
 

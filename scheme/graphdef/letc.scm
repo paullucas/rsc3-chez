@@ -7,7 +7,7 @@
 		 make-control*)
 	   (only "rate.scm"
 		 kr))
-(#%provide (all-defined))
+(#%provide letc)
 
 ;; Syntax for defining <control*> values.  Does not implement rate or
 ;; lag variants.  See deleted file control-set.scm for details.

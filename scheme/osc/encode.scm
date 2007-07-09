@@ -11,7 +11,8 @@
 		 make-list)
 	   (only (lib "23.ss" "srfi")
 		 error))
-(#%provide (all-defined))
+(#%provide cstring-length
+	   osc->u8l)
 
 (define (padding-of n) (make-list n (u8 0)))
 

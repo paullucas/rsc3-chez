@@ -3,7 +3,9 @@
 (module series (lib "lang.ss" "r5rs")
 (#%require (only (lib "1.ss" "srfi")
 		 unfold))
-(#%provide (all-defined))
+(#%provide dx->d 
+	   d->dx 
+	   d->dx**)
 
 ;; Predicate to determine if `l' is a one element list.
 

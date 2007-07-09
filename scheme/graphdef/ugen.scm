@@ -30,7 +30,20 @@
 	   (only "rate.scm"
 		 rate?
 		 rate-value))
-(#%provide (all-defined))
+(#%provide ugen 
+	   make-ugen 
+	   ugen? 
+	   ugen-inputs 
+	   ugen-name 
+	   ugen-rate 
+	   ugen-outputs 
+	   ugen-special 
+	   ugen-id
+	   ugen-output 
+	   ugen-validate 
+	   ugen-transform 
+	   dupn
+	   ugen->npt)
 
 ;; A <ugen> represents a UGen in a UGen graph.  The <string> name
 ;; names the C level UGen.  Each value at the <list> inputs is either

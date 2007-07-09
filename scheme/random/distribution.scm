@@ -9,7 +9,7 @@
 		 iota)
 	   (only (lib "27.ss" "srfi")
 		 random-real))
-(#%provide (all-defined))
+(#%provide random)
 
 ;; Alias SRFI-27 name
 

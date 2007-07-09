@@ -15,7 +15,30 @@
 	   "u8l.scm"
 	   (only (lib "23.ss" "srfi")
 		 error))
-(#%provide (all-defined))
+(#%provide u8 
+	   u16
+	   i16
+	   u32
+	   i32
+	   u64
+	   i64
+	   f32
+	   f64
+	   read-u16
+	   read-i16
+	   read-u32
+	   read-i32
+	   read-u64
+	   read-i64
+	   read-f32
+	   read-f64
+	   pstr
+	   cstr
+	   bstr
+	   read-pstr
+	   read-cstr
+	   np->u8l
+	   npt->u8l)
 
 ;; Network protocol.
 

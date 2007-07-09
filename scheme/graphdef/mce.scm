@@ -5,7 +5,11 @@
 		 define-structure)
 	   (only (lib "23.ss" "srfi")
 		 error))
-(#%provide (all-defined))
+(#%provide Mce 
+	   make-mce 
+	   mce? 
+	   mce-channels 
+	   mce-channel)
 
 (define-structure mce channels)
 

@@ -22,7 +22,49 @@
 		 iota
 		 list-index
 		 take))
-(#%provide (all-defined))
+(#%provide u8l?
+	    u8l->int 
+	    int->u8l
+	    i8->u8l 
+	    i16->u8l 
+	    i32->u8l 
+	    i64->u8l 
+	    u8->u8l 
+	    u16->u8l 
+	    u32->u8l 
+	    u64->u8l 
+	    f32->u8l 
+	    f64->u8l
+	    u8l->i8 
+	    u8l->i16 
+	    u8l->i32 
+	    u8l->i64 
+	    u8l->u8 
+	    u8l->u16 
+	    u8l->u32 
+	    u8l->u64 
+	    u8l->f32 
+	    u8l->f64
+	    cstr->u8l
+	    pstr->u8l
+	    u8l->pstr
+	    u8l->cstr
+	    str->u8l
+	    u8l->str
+	    read-u8l 
+	    read-cstr
+	    read-pstr
+	    read-i16
+	    read-i32
+	    read-i64
+	    read-u16
+	    read-u32
+	    read-u64
+	    read-f32
+	    read-f64
+	    read-bstr
+	    write-u8l
+	    file->u8l)
 
 ;; u8l? :: [u8] -> true
 

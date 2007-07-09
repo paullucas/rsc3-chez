@@ -14,7 +14,8 @@
 		 time-second
 		 time-nanosecond
 		 time-utc))
-(#%provide (all-defined))
+(#%provide ntp->utc.
+	   utc->ntp)
 
 ;; NTP is the Network Time Protocol.  NTP time is represented by a 64
 ;; bit fixed point number. The first 32 bits specify the number of

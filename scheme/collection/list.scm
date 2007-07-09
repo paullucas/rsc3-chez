@@ -8,7 +8,26 @@
 		 iota
 		 make-list
 		 take))
-(#%provide (all-defined))
+(#%provide list-ref/wrap 
+	   length*
+	   geom 
+	   filter-index 
+	   drop*
+	   foldr 
+	   concat 
+	   foldl 
+	   foldl1 
+	   maximum
+	   splice 
+	   interleave 
+	   intersperse 
+	   lace 
+	   extend 
+	   extend-all 
+	   rotate 
+	   invert 
+	   cycles 
+	   take-cycle)
 
 ;; list-ref variant where n is taken modulo the list length.
 

@@ -1,7 +1,8 @@
 ;; tree.scm - (c) rohan drape, 2000-2007
 
 (module tree (lib "lang.ss" "r5rs")
-(#%provide (all-defined))
+(#%provide flatten
+	   mapt)
 
 ;; A not entirely naive flatten - ie. does not use append.
 

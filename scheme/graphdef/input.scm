@@ -5,7 +5,11 @@
 		 define-structure)
 	   (only "../u8/np.scm"
 		 i16))
-(#%provide (all-defined))
+(#%provide input 
+	   make-input 
+	   input-ugen 
+	   input-port
+	   input->npt)
 
 ;; An <input> represents a UGen input signal in a UGen graph, an
 ;; 'Input Specification'.  The <integer> ugen is the index of the

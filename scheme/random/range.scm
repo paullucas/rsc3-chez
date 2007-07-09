@@ -9,7 +9,14 @@
 		 iota)
 	   (only (lib "39.ss" "srfi")
 		 make-parameter))
-(#%provide (all-defined))
+(#%provide rand 
+	   _rand 
+	   rand2 
+	   randi 
+	   randx 
+	   randl 
+	   randxl 
+	   randb)
 
 ;; Parameter to control distribution.
 

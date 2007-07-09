@@ -6,7 +6,8 @@
            (only "../collection/mapw.scm"
                  mapw
                  mapw*))
-(#%provide (all-defined))
+(#%provide wavetable->signal 
+	   signal->wavetable)
 
 ;; A Signal is half the size of a Wavetable, each element is the sum
 ;; of two adjacent elements of the Wavetable.

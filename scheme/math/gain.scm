@@ -3,7 +3,7 @@
 (module gain (lib "lang.ss" "r5rs")
 (#%require (only "log.scm"
 		 log10))
-(#%provide (all-defined))
+(#%provide ampdb dbamp)
 
 ;; Convert a linear rms gain value to a decibel value and the inverse.
 ;; Zero decibels is unity gain.  These algorithms are from SC3.

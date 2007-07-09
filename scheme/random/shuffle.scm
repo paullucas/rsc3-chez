@@ -5,7 +5,7 @@
 		   sort mergesort)
 	   (only "range.scm"
 		 rand))
-(#%provide (all-defined))
+(#%provide shuffle)
 
 ;; Return a random permutation of the <list> `l'.  This is not a
 ;; mutation operation.  For a critique of this method see

@@ -5,7 +5,7 @@
 		 u8l?)
 	   (only (lib "23.ss" "srfi")
 		 error))
-(#%provide (all-defined))
+(#%provide purify)
 
 ;; Evaluates to a type-correct form of the OSC data `e'.  This
 ;; procedure does not verify that `e' is syntactically correct.

@@ -8,7 +8,30 @@
 		 i8->u8
 		 u8->i8)
 	   "u8l.scm")
-(#%provide (all-defined))
+(#%provide u8v?
+	   i8->u8v 
+	   i16->u8v 
+	   i32->u8v 
+	   i64->u8v 
+	   u8->u8v 
+	   u16->u8v 
+	   u32->u8v 
+	   u64->u8v 
+	   f32->u8v 
+	   f64->u8v
+	   u8v->i8 
+	   u8v->i16 
+	   u8v->i32 
+	   u8v->i64 
+	   u8v->u8 
+	   u8v->u16 
+	   u8v->u32 
+	   u8v->u64 
+	   u8v->f32 
+	   u8v->f64
+	   u8v->str
+	   str->u8v
+	   file->u8v)
 
 (define (u8v? v)
   (and (vector? v)

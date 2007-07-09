@@ -9,7 +9,11 @@
 		 u8)
 	   (only "rate.scm"
 		 rate-value))
-(#%provide (all-defined))
+(#%provide make-outputs
+	   make-output 
+	   output?
+	   output-rate
+	   output->npt)
 
 ;; An <output> represents a UGen output signal in a UGen graph.
 

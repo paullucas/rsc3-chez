@@ -1,7 +1,7 @@
 ;; exact.scm - (c) rohan drape, 2004-2007
 
 (module exact (lib "lang.ss" "r5rs")
-(#%provide (all-defined))
+(#%provide floor-exact round-exact)
 
 ;; Exact integer constructors and predicate.
 

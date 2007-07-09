@@ -5,7 +5,10 @@
 		 find-tail)
 	   (only (lib "23.ss" "srfi")
 		 error))
-(#%provide (all-defined))
+(#%provide message
+	   message?
+	   bundle
+	   bundle?)
 
 ;; Validating constructors.
 

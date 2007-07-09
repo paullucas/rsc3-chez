@@ -7,7 +7,10 @@
 	   (only (lib "1.ss" "srfi")
 		 fold
 		 iota))
-(#%provide (all-defined))
+(#%provide shiftR 
+	   shiftL
+	   int->u8l
+	   u8l->int)
 
 (define (shiftR i n)
   (arithmetic-shift i (- n)))

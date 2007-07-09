@@ -5,7 +5,13 @@
 		 list-ref/wrap)
 	   (only "log.scm"
 		 log2))
-(#%provide (all-defined))
+(#%provide midicps 
+	   cpsmidi
+	   octcps
+	   cpsoct
+	   midiratio
+	   ratiomidi
+	   degree->key)
 
 (define (midicps note)
   (* 440.0 (expt 2.0 (* (- note 69.0) 0.083333333333))))

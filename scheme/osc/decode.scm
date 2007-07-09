@@ -20,7 +20,7 @@
 	   "type.scm"
 	   (only (lib "23.ss" "srfi")
 		 error))
-(#%provide (all-defined))
+(#%provide u8l->osc)
 
 ;; OSC strings are C strings padded to a four byte boundary.
 

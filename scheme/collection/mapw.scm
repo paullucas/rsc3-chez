@@ -8,7 +8,8 @@
 		 take)
 	   (only (lib "23.ss" "srfi") 
 		 error))
-(#%provide (all-defined))
+(#%provide mapw
+	   mapw*)
 
 ;; [R5RS+] Windowed map.  Apply 'f' to 'n' element windows with 'm'
 ;; separation at `l' having 'z' elements.

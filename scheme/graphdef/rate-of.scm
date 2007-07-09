@@ -20,7 +20,7 @@
 	   (only "ugen.scm"
 		 ugen?
 		 ugen-rate))
-(#%provide (all-defined))
+(#%provide rate-of)
 
 (define (rate-of o)
   (cond ((number? o)    ir)

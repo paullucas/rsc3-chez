@@ -5,8 +5,6 @@
 		  error)
 	   (only (lib "39.ss" "srfi")
 		  make-parameter)
-	   (only "../../module/utc.ss"
-		  utc)
 	   (only "../osc/verify.scm"
 		 bundle)
 	   (only "../osc/transport.scm"
@@ -37,7 +35,7 @@
        (else                       p)))))
 
 (define (reset s)
-  (-> s (bundle (utc)
+  (-> s (bundle -1
 		(/g_freeAll 0)
 		/clearSched
 		(/g_new 1 0 0))))

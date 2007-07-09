@@ -12,7 +12,7 @@
 		 iota
 		 last
 		 list-index))
-(#%provide (all-defined))
+(#%provide choose choosel pchoose)
 
 ;; Return a randomly selected element of the <list> 'l'.
 

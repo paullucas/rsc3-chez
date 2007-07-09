@@ -5,7 +5,10 @@
 		 define-structure)
 	   (only (lib "23.ss" "srfi")
 		 error))
-(#%provide (all-defined))
+(#%provide Mrg 
+	   make-mrg 
+	   mrg? 
+	   mrg-roots)
 
 (define-structure mrg roots)
 

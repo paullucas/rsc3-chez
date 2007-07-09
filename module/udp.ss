@@ -2,7 +2,7 @@
 
 (module
  udp mzscheme
- (require (only "structure.ss"
+ (require (only "../scheme/structure/structure.scm"
 		define-structure))
 
  (define-structure udp* s h p)

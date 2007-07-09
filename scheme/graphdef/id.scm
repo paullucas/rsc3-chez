@@ -3,7 +3,9 @@
 (module id (lib "lang.ss" "r5rs")
 (#%require (only "../structure/structure.scm"
 		 define-structure))
-(#%provide (all-defined))
+(#%provide make-uid 
+	   uid?
+	   unique-uid)
 
 (define-structure uid value)
 

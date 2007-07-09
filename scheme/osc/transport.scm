@@ -18,7 +18,9 @@
 		 udp*-recv)
 	   (only (lib "23.ss" "srfi")
 		 error))
-(#%provide (all-defined))
+(#%provide osc-send
+	   osc-recv
+	   osc-request)
 
 ;; 'u' is a <udp*>, 't' is a timeout in seconds.
 

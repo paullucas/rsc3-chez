@@ -6,7 +6,14 @@
 	   (only "../u8/np.scm"
 		 i16
 		 pstr))
-(#%provide (all-defined))
+(#%provide make-control 
+	   control-name
+	   make-control*
+	   control*? 
+	   control*-rate
+	   control*-default 
+	   control*-name
+	   control->npt)
 
 ;; A <control> is accessed by a <string> name and an <integer> index.
 
