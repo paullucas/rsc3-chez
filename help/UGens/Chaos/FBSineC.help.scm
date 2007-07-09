@@ -22,17 +22,17 @@
 
 ;; sclang default values
 
-(Mul (FBSineC ar (FDiv (SampleRate ir) 4) 1 0.1 1.1 0.5 0.1 0.1) 0.2)
+(Mul (FBSineC ar (FDiv SampleRate 4) 1 0.1 1.1 0.5 0.1 0.1) 0.2)
 
 ;; increase feedback
 
 (let ((fb (Line kr 0.01 4 10 doNothing)))
-  (Mul (FBSineC ar (SampleRate ir) 1 fb 1.1 0.5 0.1 0.1) 0.2))
+  (Mul (FBSineC ar SampleRate 1 fb 1.1 0.5 0.1 0.1) 0.2))
 
 ;; increase phase multiplier
 
 (let ((a (Line kr 1 2 10 doNothing)))
-  (Mul (FBSineC ar (SampleRate ir) 1 0 a 0.5 0.1 0.1) 0.2))
+  (Mul (FBSineC ar SampleRate 1 0 a 0.5 0.1 0.1) 0.2))
 
 ;; randomly modulate parameters
 

@@ -14,8 +14,7 @@
      (Mul (WhiteNoise ar) 0.3))
 
 (let* ((blockSize 64) ;; no UGen for this?
-       (sampleRate (SampleRate ir))
-       (freq (Mul (FDiv (MouseX kr 0.1 40 1 0.1) blockSize) sampleRate)))
+       (freq (Mul (FDiv (MouseX kr 0.1 40 1 0.1) blockSize) SampleRate)))
   (Mul (Mce (K2A (LFNoise0 kr freq))
 	    (LFNoise0 ar freq))
        0.3))

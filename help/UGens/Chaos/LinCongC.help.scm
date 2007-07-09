@@ -20,7 +20,8 @@
 
 ;; Default initial parameters.
 
-(Mul (LinCongC ar (MouseX kr 20 (SampleRate ir) 0 0.1) 1.1 0.13 1 0) 0.2)
+(let ((x (MouseX kr 20 SampleRate 0 0.1)))
+  (Mul (LinCongC ar x 1.1 0.13 1 0) 0.2))
 
 ;; Randomly modulate parameters.
 

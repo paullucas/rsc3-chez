@@ -18,13 +18,13 @@
 
 ;; With default initial parameters.
 
-(Mul (HenonN ar (MouseX kr 20 (SampleRate ir) 0 0.1) 1.4 0.3 0 0)
+(Mul (HenonN ar (MouseX kr 20 SampleRate 0 0.1) 1.4 0.3 0 0)
      0.1)
 
 ;; With mouse-control of parameters.
 
 (Mul (HenonN ar
-	     (FDiv (SampleRate ir) 4)
+	     (FDiv SampleRate 4)
 	     (MouseX kr 1 1.4 0 0.1)
 	     (MouseY kr 0 0.3 0 0.1)
 	     0
@@ -34,7 +34,7 @@
 ;; With randomly modulate parameters.
 
 (Mul (HenonN ar
-	     (FDiv (SampleRate ir) 8)
+	     (FDiv SampleRate 8)
 	     (MulAdd (LFNoise2 kr 1) 0.20 1.20)
 	     (MulAdd (LFNoise2 kr 1) 0.15 0.15)
 	     0

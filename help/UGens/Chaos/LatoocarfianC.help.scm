@@ -22,12 +22,13 @@
 
 ;; Default initial parameters.
 
-(Mul (LatoocarfianC ar (MouseX kr 20 (SampleRate ir) 0 0.1) 1 3 0.5 0.5 0.5 0.5) 0.2)
+(let ((x (MouseX kr 20 SampleRate 0 0.1)))
+  (Mul (LatoocarfianC ar x 1 3 0.5 0.5 0.5 0.5) 0.2))
 
 ;; Randomly modulate all parameters.
 
 (Mul (LatoocarfianC ar
-		    (FDiv (SampleRate ir) 4)
+		    (FDiv SampleRate 4)
 		    (MulAdd (LFNoise2 kr 2) 1.5 1.5)
 		    (MulAdd (LFNoise2 kr 2) 1.5 1.5)
 		    (MulAdd (LFNoise2 kr 2) 0.5 1.5)

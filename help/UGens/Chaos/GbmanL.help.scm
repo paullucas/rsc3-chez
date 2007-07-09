@@ -23,15 +23,15 @@
 
 ;; sclang default initial parameters.
 
-(Mul (GbmanL ar (MouseX kr 20 (SampleRate ir) 0 0.1) 1.2 2.1) 0.1)
+(Mul (GbmanL ar (MouseX kr 20 SampleRate 0 0.1) 1.2 2.1) 0.1)
 
 ;; Different initial parameters.
 
-(Mul (GbmanL ar (MouseX kr 20 (SampleRate ir) 0 0.1) -0.7 -2.7) 0.1)
+(Mul (GbmanL ar (MouseX kr 20 SampleRate 0 0.1) -0.7 -2.7) 0.1)
 
 ;; Wait for it...
 
-(Mul (GbmanL ar (MouseX kr 20 (SampleRate ir) 0 0.1) 1.2 2.0002) 0.1)
+(Mul (GbmanL ar (MouseX kr 20 SampleRate 0 0.1) 1.2 2.0002) 0.1)
 
 ;; As a frequency control
 

@@ -21,13 +21,13 @@
 
 ;; vary frequency
 
-(Mul (LorenzL ar (MouseX kr 20 (SampleRate ir) 0 0.1)
+(Mul (LorenzL ar (MouseX kr 20 SampleRate 0 0.1)
 	         10 28 2.667 0.05 0.1 0 0)
      0.3)
 
 ;; randomly modulate params
 
-(Mul (LorenzL ar (SampleRate ir)
+(Mul (LorenzL ar SampleRate
 	         (MulAdd (LFNoise0 kr 1) 2 10)
 		 (MulAdd (LFNoise0 kr 1) 20 38)
 		 (MulAdd (LFNoise0 kr 1) 1.5 2)

@@ -18,5 +18,5 @@
 (let* ((n0 (MulAdd (LFNoise2 kr 8) 200 300))
        (n1 (MulAdd (LFNoise2 kr 3) 10 20))
        (s  (Blip ar n0 n1))
-       (x  (MouseX kr 1000 (Mul (SampleRate ir) 0.1) 1 0.1)))
+       (x  (MouseX kr 1000 (Mul SampleRate 0.1) 1 0.1)))
   (Latch s (Impulse ar x 0)))
