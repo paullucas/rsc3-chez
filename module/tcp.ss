@@ -2,7 +2,7 @@
 
 (module
  tcp mzscheme
- (require (only "../scheme/structure/structure.scm"
+ (require (only "../rsc3/structure/structure.scm"
 		define-structure))
 
  (define-structure tcp* i o h p)

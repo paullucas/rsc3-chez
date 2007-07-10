@@ -1,6 +1,6 @@
 # Makefile - (c) rohan drape, 1998-2007
 
-PROJECT = rsc
+PROJECT = rsc3
 
 all:
 	setup-plt -l $(PROJECT)
@@ -16,3 +16,9 @@ plt:
 
 opt:
 	mzc --collection-extension $(PROJECT)
+
+# Make a TAGS file for all scheme sources one level deep.  The emacs
+# RSC mode uses this TAGS file to lookup documentation for procedures.
+
+tags:	*/*.scm
+	r.tags */*.scm

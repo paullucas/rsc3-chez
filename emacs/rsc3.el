@@ -1,4 +1,4 @@
-;; emacs/rsc.el - (c) rohan drape, 2000-2007
+;; emacs/rsc3.el - (c) rohan drape, 2000-2007
 
 ;; This mode is implemented as a derivation of `scheme' mode,
 ;; indentation and font locking is courtesy that mode.  The
@@ -55,80 +55,80 @@ An error is raised if the directory cannot be located."
 
 ;; Scheme.
 
-(defvar rsc-shared-directory
-  (locate-plt-library "rsc")
-  "*The location of the rsc directory.
+(defvar rsc3-shared-directory
+  (locate-plt-library "rsc3")
+  "*The location of the rsc3 directory.
 
-This directory contains the rsc distribution.  This includes all
+This directory contains the rsc3 distribution.  This includes all
 source and documentation files.  The initial value is found by
 executing the procedure `locate-plt-library'.  This variable can
 be set by the user to use a different set of library files.")
 
-(defvar rsc-buffer
-  "*rsc*"
-  "*The name of the rsc scheme process buffer.")
+(defvar rsc3-buffer
+  "*rsc3*"
+  "*The name of the rsc3 scheme process buffer.")
 
-(defvar rsc-interpreter
+(defvar rsc3-interpreter
   "mzscheme")
 
-(defvar rsc-load-dot-rsc
+(defvar rsc3-load-dot-rsc3
   t
-  "If nil do not load ~/.rsc.scm at startup")
+  "If nil do not load ~/.rsc3.scm at startup")
 
-(defun rsc-see-output ()
+(defun rsc3-see-output ()
   "Arrange so that the frame has two windows, the current buffer is
-placed in the upper window and the `rsc-buffer' in the lower window."
+placed in the upper window and the `rsc3-buffer' in the lower window."
   (interactive)
-  (when (comint-check-proc rsc-buffer)
+  (when (comint-check-proc rsc3-buffer)
     (delete-other-windows)
     (split-window-vertically)
-    (with-current-buffer rsc-buffer
+    (with-current-buffer rsc3-buffer
       (let ((window (display-buffer (current-buffer))))
 	(goto-char (point-max))
 	(save-selected-window
 	  (set-window-point window (point-max)))))))
 
-(defun rsc-make-interpreter-command ()
-  "Generate a command to start the rsc interpreter."
+(defun rsc3-make-interpreter-command ()
+  "Generate a command to start the rsc3 interpreter."
   (interactive)
-  (let ((dot-rsc (concat (getenv "HOME") "/.rsc.scm"))
-	(hack (if (equal rsc-interpreter "mred") "--stdio" "-A")))
-    (if (and rsc-load-dot-rsc (file-exists-p dot-rsc))
-	(list rsc-interpreter
+  (let ((dot-rsc3 (concat (getenv "HOME") "/.rsc3.scm"))
+	(hack (if (equal rsc3-interpreter "mred") "--stdio" "-A")))
+    (if (and rsc3-load-dot-rsc3 (file-exists-p dot-rsc3))
+	(list rsc3-interpreter
 	      hack
 	      "-f"
-	      dot-rsc)
-      (list rsc-interpreter hack))))
+	      dot-rsc3)
+      (list rsc3-interpreter hack))))
 
-(defun rsc-start-scheme ()
-  "Start the rsc scheme process.
+(defun rsc3-start-scheme ()
+  "Start the rsc3 scheme process.
 
-If `rsc-interpreter' is not already running as a subprocess it is
+If `rsc3-interpreter' is not already running as a subprocess it is
 started and a new window is created to display the results of
-evaluating rsc expressions.  Input and output is via `rsc-buffer'."
+evaluating rsc3 expressions.  Input and output is via `rsc3-buffer'."
   (interactive)
-  (if (comint-check-proc rsc-buffer)
-      (error "An rsc scheme process is already running")
-    (let ((command (rsc-make-interpreter-command)))
+  (if (comint-check-proc rsc3-buffer)
+      (error "An rsc3 scheme process is already running")
+    (let ((command (rsc3-make-interpreter-command)))
       (apply
        'make-comint
-       "rsc"
+       "rsc3"
        (car command)
        nil
        (cdr command))
-      (rsc-see-output))))
+      (rsc3-see-output))))
 
-(defun rsc-clear-schedule ()
+(defun rsc3-clear-schedule ()
   "Clear the schedule (Q)."
   (interactive)
-  (rsc-evaluate-expression "(schedule-clear Q)"))
+  (rsc3-evaluate-expression "(schedule-clear Q)"))
 
-(defun rsc-quit-scheme ()
+(defun rsc3-quit-scheme ()
   "Quit scheme.
 
 Quit the scheme interpreter and delete the associated buffer."
   (interactive)
-  (kill-buffer rsc-buffer)
+  (kill-buffer rsc3-buffer)
   (delete-other-windows))
 
 
@@ -137,68 +137,68 @@ Quit the scheme interpreter and delete the associated buffer."
 ;; Collects the string containing the text from point back to the
 ;; start of the preceding expression.
 
-(defun rsc-expression-before-point ()
+(defun rsc3-expression-before-point ()
   (buffer-substring-no-properties
    (save-excursion (backward-sexp) (point))
    (point)))
 
-;; Send the string `expression' to the inferior rsc process for
+;; Send the string `expression' to the inferior rsc3 process for
 ;; evaluation.  If there is not an active sub-process one is started
 ;; and the text sent.  The message is terminated with a newline
 ;; character.
 
-(defun rsc-evaluate-expression (expression)
+(defun rsc3-evaluate-expression (expression)
   "Evaluate an arbitrary expression."
   (interactive "sString to evaluate: ")
-  (if (not (comint-check-proc rsc-buffer))
-      (rsc-start-scheme))
-  (comint-send-string rsc-buffer expression)
-  (comint-send-string rsc-buffer "\n"))
+  (if (not (comint-check-proc rsc3-buffer))
+      (rsc3-start-scheme))
+  (comint-send-string rsc3-buffer expression)
+  (comint-send-string rsc3-buffer "\n"))
 
-(defun rsc-evaluate ()
+(defun rsc3-evaluate ()
   "Evaluate the complete s-expression that precedes point."
   (interactive)
-  (rsc-evaluate-expression (rsc-expression-before-point)))
+  (rsc3-evaluate-expression (rsc3-expression-before-point)))
 
-(defun rsc-play ()
+(defun rsc3-play ()
   "Rewrite and evaluate the s-expression that precedes point."
   (interactive)
-  (rsc-evaluate-expression
-   (concat "(play s " (rsc-expression-before-point) ")")))
+  (rsc3-evaluate-expression
+   (concat "(play s " (rsc3-expression-before-point) ")")))
 
-(defun rsc-draw ()
+(defun rsc3-draw ()
   "Draw the UGen graph at point using draw*."
   (interactive)
-  (rsc-evaluate-expression
-   (concat "(draw* " (rsc-expression-before-point) ")")))
+  (rsc3-evaluate-expression
+   (concat "(draw* " (rsc3-expression-before-point) ")")))
 
 
 ;; scsynth
 
-(defun rsc-boot-scsynth ()
+(defun rsc3-boot-scsynth ()
   "Start the current SCSYNTH server and establish a connection."
   (interactive)
-  (rsc-evaluate-expression "(boot*)"))
+  (rsc3-evaluate-expression "(boot*)"))
 
-(defun rsc-reset-scsynth ()
+(defun rsc3-reset-scsynth ()
   "Free all nodes running at the current SCSYNTH server."
   (interactive)
-  (rsc-evaluate-expression "(reset s)"))
+  (rsc3-evaluate-expression "(reset s)"))
 
-(defun rsc-status-scsynth ()
+(defun rsc3-status-scsynth ()
   "Show status at server."
   (interactive)
-  (rsc-evaluate-expression "(display-server-status s)"))
+  (rsc3-evaluate-expression "(display-server-status s)"))
 
-(defun rsc-quit-scsynth ()
+(defun rsc3-quit-scsynth ()
   "Shutdown the current SCSYNTH server."
   (interactive)
-  (rsc-evaluate-expression "(->< s /quit)"))
+  (rsc3-evaluate-expression "(->< s /quit)"))
 
 
 ;; Help
 
-(defun rsc-cleanup-symbol (input)
+(defun rsc3-cleanup-symbol (input)
   "Prepare the string `input' for further processing.
 
 If the string `input' has a trailing '.ar' or '.kr' or '.ir' or
@@ -212,8 +212,8 @@ required to find the Server-Command help files.  Else return
 	(substring input 1)
       input)))
 
-(defun rsc-find-definition ()
-  "Lookup up the symbol at point in the rsc TAGS file.  If the
+(defun rsc3-find-definition ()
+  "Lookup up the symbol at point in the rsc3 TAGS file.  If the
 search fails any trailing hyphenated words are dropped and the
 search attempted again recursively until the base work is
 searched for.  This finds a record definition when an accessor or
@@ -231,112 +231,112 @@ setter function is searched for."
 	(find-tag s)
       (error (find-it (drop-trailing-hyphenated-word s)))))
   (interactive)
-  (setq tags-file-name (concat rsc-shared-directory "/scheme/TAGS"))
+  (setq tags-file-name (concat rsc3-shared-directory "/scheme/TAGS"))
   (find-it (thing-at-point 'symbol)))
 
-(defun rsc-help ()
+(defun rsc3-help ()
   "Lookup up the symbol at point in the set of Help files
-distributed with rsc.
+distributed with rsc3.
 
-The symbol at point is preprocessed by `rsc-cleanup-symbol'."
+The symbol at point is preprocessed by `rsc3-cleanup-symbol'."
   (interactive)
   (mapc (lambda (filename)
 	  (find-file-other-window filename))
-	(find-lisp-find-files (concat rsc-shared-directory "/help")
+	(find-lisp-find-files (concat rsc3-shared-directory "/help")
 			      (concat "^"
-				      (rsc-cleanup-symbol
+				      (rsc3-cleanup-symbol
 				       (thing-at-point 'symbol))
 				      "\\.help\\.scm"))))
 
 
 ;; Mode
 
-(defvar rsc-mode-map nil
-  "Keymap for rsc mode.")
+(defvar rsc3-mode-map nil
+  "Keymap for rsc3 mode.")
 
-(defun rsc-mode-keybindings (map)
-  "Install rsc keybindings into `map'."
+(defun rsc3-mode-keybindings (map)
+  "Install rsc3 keybindings into `map'."
   ;; Scheme
-  (define-key map "\C-c\C-s" 'rsc-start-scheme)
-  (define-key map "\C-c\C-g" 'rsc-see-output)
-  (define-key map "\C-c\C-q" 'rsc-clear-schedule)
-  (define-key map "\C-c\C-x" 'rsc-quit-scheme)
+  (define-key map "\C-c\C-s" 'rsc3-start-scheme)
+  (define-key map "\C-c\C-g" 'rsc3-see-output)
+  (define-key map "\C-c\C-q" 'rsc3-clear-schedule)
+  (define-key map "\C-c\C-x" 'rsc3-quit-scheme)
   ;; scsynth
-  (define-key map "\C-c\C-o" 'rsc-quit-scsynth)
-  (define-key map "\C-c\C-k" 'rsc-reset-scsynth)
-  (define-key map "\C-c\C-w" 'rsc-status-scsynth)
-  (define-key map "\C-c\C-b" 'rsc-boot-scsynth)
+  (define-key map "\C-c\C-o" 'rsc3-quit-scsynth)
+  (define-key map "\C-c\C-k" 'rsc3-reset-scsynth)
+  (define-key map "\C-c\C-w" 'rsc3-status-scsynth)
+  (define-key map "\C-c\C-b" 'rsc3-boot-scsynth)
   ;; Expression.
-  (define-key map "\C-c\C-e" 'rsc-evaluate)
-  (define-key map "\C-c\C-p" 'rsc-play)
-  (define-key map "\C-c\C-d" 'rsc-draw)
+  (define-key map "\C-c\C-e" 'rsc3-evaluate)
+  (define-key map "\C-c\C-p" 'rsc3-play)
+  (define-key map "\C-c\C-d" 'rsc3-draw)
   ;; Help.
-  (define-key map "\C-c\C-h" 'rsc-help)
-  (define-key map "\C-c\C-c" 'rsc-find-definition))
+  (define-key map "\C-c\C-h" 'rsc3-help)
+  (define-key map "\C-c\C-c" 'rsc3-find-definition))
 
-(defun rsc-mode-menu (map)
-  "Install rsc menu into `map'."
+(defun rsc3-mode-menu (map)
+  "Install rsc3 menu into `map'."
 
-  ;; rsc
-  (define-key map [menu-bar rsc]
-    (cons "Rsc" (make-sparse-keymap "Rsc")))
+  ;; rsc3
+  (define-key map [menu-bar rsc3]
+    (cons "Rsc3" (make-sparse-keymap "Rsc3")))
 
   ;; Help
-  (define-key map [menu-bar rsc help]
+  (define-key map [menu-bar rsc3 help]
     (cons "Help" (make-sparse-keymap "Help")))
-  (define-key map [menu-bar rsc help rsc]
-    '("Rsc help" . rsc-help))
-  (define-key map [menu-bar rsc help source]
-    '("Find definition" . rsc-find-definition))
+  (define-key map [menu-bar rsc3 help rsc3]
+    '("Rsc3 help" . rsc3-help))
+  (define-key map [menu-bar rsc3 help source]
+    '("Find definition" . rsc3-find-definition))
 
   ;; Expression
-  (define-key map [menu-bar rsc expression]
+  (define-key map [menu-bar rsc3 expression]
     (cons "Expression" (make-sparse-keymap "Expression")))
-  (define-key map [menu-bar rsc expression draw]
-    '("Draw" . rsc-draw))
-  (define-key map [menu-bar rsc expression play]
-    '("Play" . rsc-play))
-  (define-key map [menu-bar rsc expression evaluate]
-    '("Evaluate" . rsc-evaluate))
+  (define-key map [menu-bar rsc3 expression draw]
+    '("Draw" . rsc3-draw))
+  (define-key map [menu-bar rsc3 expression play]
+    '("Play" . rsc3-play))
+  (define-key map [menu-bar rsc3 expression evaluate]
+    '("Evaluate" . rsc3-evaluate))
 
   ;; Scsynth
-  (define-key map [menu-bar rsc scsynth]
+  (define-key map [menu-bar rsc3 scsynth]
     (cons "SCSynth" (make-sparse-keymap "SCSynth")))
-  (define-key map [menu-bar rsc scsynth quit]
-    '("Quit scsynth" . rsc-quit-scsynth))
-  (define-key map [menu-bar rsc scsynth status]
-    '("Display status" . rsc-status-scsynth))
-  (define-key map [menu-bar rsc scsynth reset]
-    '("Reset scsynth" . rsc-reset-scsynth))
-  (define-key map [menu-bar rsc scsynth start]
-    '("Boot scsynth" . rsc-boot-scsynth))
+  (define-key map [menu-bar rsc3 scsynth quit]
+    '("Quit scsynth" . rsc3-quit-scsynth))
+  (define-key map [menu-bar rsc3 scsynth status]
+    '("Display status" . rsc3-status-scsynth))
+  (define-key map [menu-bar rsc3 scsynth reset]
+    '("Reset scsynth" . rsc3-reset-scsynth))
+  (define-key map [menu-bar rsc3 scsynth start]
+    '("Boot scsynth" . rsc3-boot-scsynth))
 
   ;; Scheme
-  (define-key map [menu-bar rsc scheme]
+  (define-key map [menu-bar rsc3 scheme]
     (cons "Scheme" (make-sparse-keymap "Scheme")))
-  (define-key map [menu-bar rsc scheme quit-scheme]
-    '("Quit scheme" . rsc-quit-scheme))
-  (define-key map [menu-bar rsc scheme clear-schedule]
-    '("Clear schedule (Q)" . rsc-clear-schedule))
-  (define-key map [menu-bar rsc scheme see-output]
-    '("See scheme output" . rsc-see-output))
-  (define-key map [menu-bar rsc scheme start-scheme]
-    '("Start scheme" . rsc-start-scheme)))
+  (define-key map [menu-bar rsc3 scheme quit-scheme]
+    '("Quit scheme" . rsc3-quit-scheme))
+  (define-key map [menu-bar rsc3 scheme clear-schedule]
+    '("Clear schedule (Q)" . rsc3-clear-schedule))
+  (define-key map [menu-bar rsc3 scheme see-output]
+    '("See scheme output" . rsc3-see-output))
+  (define-key map [menu-bar rsc3 scheme start-scheme]
+    '("Start scheme" . rsc3-start-scheme)))
 
 ;; If there is no exitsing map create one and install the keybindings
 ;; and menu.
-(if rsc-mode-map
+(if rsc3-mode-map
     ()
-  (let ((map (make-sparse-keymap "rsc")))
-    (rsc-mode-keybindings map)
-    (rsc-mode-menu map)
-    (setq rsc-mode-map map)))
+  (let ((map (make-sparse-keymap "rsc3")))
+    (rsc3-mode-keybindings map)
+    (rsc3-mode-menu map)
+    (setq rsc3-mode-map map)))
 
-(defun rsc-font-lock-special-forms ()
+(defun rsc3-font-lock-special-forms ()
   "Rules to font lock special forms."
   (interactive)
   (font-lock-add-keywords
-   'rsc-mode
+   'rsc3-mode
    (list
     (list (concat "(\\(define[-a-zA-Z/\*]*\\)\\>"
 		  "[ \t]*(?"
@@ -353,17 +353,17 @@ The symbol at point is preprocessed by `rsc-cleanup-symbol'."
 
 
 (define-derived-mode
-  rsc-mode
+  rsc3-mode
   scheme-mode
-  "rsc-mode"
-  "Major mode for interacting with an inferior rsc process.
+  "rsc3-mode"
+  "Major mode for interacting with an inferior rsc3 process.
 Derived from `scheme-mode' and requiring `comint-mode' mode.
 
 The following keys are bound:
-\\{rsc-mode-map}
+\\{rsc3-mode-map}
 
 Customisation: Entry to this mode runs the hooks on `scheme-mode-hook'
-and `rsc-mode-hook' (in that order).
+and `rsc3-mode-hook' (in that order).
 "
   ;; Set up font locking.  This duplicates what scheme.el does, but
   ;; set case-fold to nil instead of t.  This is required for the math
@@ -375,14 +375,12 @@ and `rsc-mode-hook' (in that order).
 	  nil nil (("+-*/.<>=!?$%_&~^:" . "w")) beginning-of-defun
 	  (font-lock-mark-block-function . mark-defun)))
   (put 'letc 'scheme-indent-function 'scheme-let-indent)
-  (put 'letL* 'scheme-indent-function 'scheme-let-indent)
-  (put 'lambdaH 'scheme-indent-function 1)
-  (rsc-font-lock-special-forms)
+  (rsc3-font-lock-special-forms)
   (setq-default font-lock-keywords-case-fold-search nil))
 
 ;; Declare this mode to emacs.
 
-(add-to-list 'auto-mode-alist '("\\.scm$" . rsc-mode))
-(add-to-list 'interpreter-mode-alist '("rsc" . rsc-mode))
+(add-to-list 'auto-mode-alist '("\\.scm$" . rsc3-mode))
+(add-to-list 'interpreter-mode-alist '("rsc3" . rsc3-mode))
 
-(provide 'rsc)
+(provide 'rsc3)
