@@ -5,7 +5,7 @@
 		 append-map)
 	   (only (lib "23.ss" "srfi")
 		 error)
-	   (only "../../module/bytes.ss"
+	   (only "../mzscheme/bytes.ss"
 		 write-u8)
 	   (only "../u8/u8l.scm"
 		 i32->u8l

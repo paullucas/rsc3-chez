@@ -5,7 +5,7 @@
 		 list-ref/wrap)
 	   (only "../math/exact.scm"
 		 round-exact)
-	   (only "../../module/bits.ss"
+	   (only "../mzscheme/bits.ss"
 		 bitwise-ior
 		 bitwise-and
 		 arithmetic-shift)

@@ -1,10 +1,10 @@
 ;; u8l.scm - (c) rohan drape, 2001-2006
 
 (module u8l (lib "lang.ss" "r5rs")
-(#%require (only "../../module/bits.ss"
+(#%require (only "../mzscheme/bits.ss"
 		 arithmetic-shift
 		 bitwise-and)
-	   (only "../../module/bytes.ss"
+	   (only "../mzscheme/bytes.ss"
 		 peek-u8
 		 read-u8
 		 real->u8l

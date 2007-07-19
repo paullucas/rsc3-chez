@@ -1,7 +1,7 @@
 ;; np.scm - (c) rohan drape, 2005-2007
 
 (module np (lib "lang.ss" "r5rs")
-(#%require (only "../../module/bytes.ss"
+(#%require (only "../mzscheme/bytes.ss"
 		 read-u8
 		 write-u8)
 	   (only "../collection/tree.scm"

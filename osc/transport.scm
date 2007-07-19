@@ -8,11 +8,11 @@
 	   (only "../u8/u8l.scm"
 		 u32->u8l
 		 u8l->u32)
-	   (only "../../module/tcp.ss"
+	   (only "../mzscheme/tcp.ss"
 		 tcp*?
 		 tcp*-send
 		 tcp*-read)
-	   (only "../../module/udp.ss"
+	   (only "../mzscheme/udp.ss"
 		 udp*?
 		 udp*-send
 		 udp*-recv)

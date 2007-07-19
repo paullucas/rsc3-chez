@@ -2,7 +2,7 @@
 
 (module decode (lib "lang.ss" "r5rs")
 (#%require "../ntp/ntp.scm"
-	   (only "../../module/bytes.ss"
+	   (only "../mzscheme/bytes.ss"
 		 peek-u8
 		 with-input-from-u8l)
 	   (only "../u8/u8l.scm"

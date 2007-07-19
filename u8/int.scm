@@ -1,7 +1,7 @@
 ;; int.scm - (c) rohan drape, 2006-2007
 
 (module int (lib "lang.ss" "r5rs")
-(#%require (only "../../module/bits.ss"
+(#%require (only "../mzscheme/bits.ss"
 		 arithmetic-shift
 		 bitwise-and)
 	   (only (lib "1.ss" "srfi")
