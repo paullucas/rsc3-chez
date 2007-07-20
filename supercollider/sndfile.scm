@@ -5,8 +5,8 @@
 		 append-map)
 	   (only (lib "23.ss" "srfi")
 		 error)
-	   (only "../mzscheme/bytes.ss"
-		 write-u8)
+	   (only "../mzscheme/r6rs.ss"
+		 put-u8)
 	   (only "../u8/u8l.scm"
 		 i32->u8l
 		 f32->u8l
@@ -48,7 +48,7 @@
 	(nf    (/ (length d) nc)))
     (with-output-to-file fn
       (lambda ()
-	(for-each write-u8 (au-mk-hdr nf enc sr nc))
-	(for-each write-u8 (append-map encdr d))))))
+	(for-each put-u8 (au-mk-hdr nf enc sr nc))
+	(for-each put-u8 (append-map encdr d))))))
 
 )

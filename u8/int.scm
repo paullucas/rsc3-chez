@@ -1,25 +1,18 @@
 ;; int.scm - (c) rohan drape, 2006-2007
 
 (module int (lib "lang.ss" "r5rs")
-(#%require (only "../mzscheme/bits.ss"
-		 arithmetic-shift
-		 bitwise-and)
+(#%require (only "../mzscheme/r6rs.ss"
+		 fxand
+		 fxarithmetic-shift-left
+		 fxarithmetic-shift-right)
 	   (only (lib "1.ss" "srfi")
 		 fold
 		 iota))
-(#%provide shiftR 
-	   shiftL
-	   int->u8l
+(#%provide int->u8l
 	   u8l->int)
 
-(define (shiftR i n)
-  (arithmetic-shift i (- n)))
-
-(define (shiftL i n)
-  (arithmetic-shift i n))
-
 (define (byte n i)
-  (bitwise-and (shiftR i n) #xFF))
+  (fxand (fxarithmetic-shift-right i n) #xFF))
 
 (define (int->u8l n size)
   (map (lambda (b)
@@ -38,7 +31,7 @@
   (let ((n (length l)))
     (let ((u (fold
 	      + 0
-	      (map shiftL
+	      (map fxarithmetic-shift-left
 		   l
 		   (iota n (* (- n 1) 8) -8)))))
       (if signed?

@@ -1,15 +1,7 @@
-;; u8l.scm - (c) rohan drape, 2001-2006
+;; u8l.scm - (c) rohan drape, 2001-2007
 
 (module u8l (lib "lang.ss" "r5rs")
-(#%require (only "../mzscheme/bits.ss"
-		 arithmetic-shift
-		 bitwise-and)
-	   (only "../mzscheme/bytes.ss"
-		 peek-u8
-		 read-u8
-		 real->u8l
-		 u8l->real
-		 write-u8)
+(#%require "../mzscheme/r6rs.ss"
 	   (only "u8.scm"
 		 i8->u8
 		 u8?
@@ -21,7 +13,8 @@
 		 every
 		 iota
 		 list-index
-		 take))
+		 take)
+	   (lib "39.ss" "srfi"))
 (#%provide u8l?
 	    u8l->int 
 	    int->u8l
@@ -64,7 +57,27 @@
 	    read-f64
 	    read-bstr
 	    write-u8l
-	    file->u8l)
+	    file->u8l
+	    with-input-from-u8l)
+
+(define (real->u8l x size)
+  (let* ((n (/ size 8))
+	 (v (make-bytevector n 0)))
+    (if (= n 4)
+	(bytevector-ieee-single-set! v 0 x (endianness 'big))
+	(bytevector-ieee-double-set! v 0 x (endianness 'big)))
+    (bytevector->u8-list v)))
+
+(define (u8l->real l)
+  (let ((v (u8-list->bytevector l)))
+    (if (= (bytevector-length v) 4)
+	(bytevector-ieee-single-ref v (endianness 'big))
+	(bytevector-ieee-double-ref v (endianness 'big)))))
+
+(define (with-input-from-u8l l f)
+  (parameterize
+   ((current-input-port (open-bytevector-input-port (u8-list->bytevector l))))
+   (f)))
 
 ;; u8l? :: [u8] -> true
 
@@ -124,24 +137,24 @@
 ;; read-u8l :: int -> IO [u8]
 
 (define (read-u8l n)
-  (map (lambda (_) (read-u8)) (iota n)))
+  (map (lambda (_) (get-u8 (current-input-port))) (iota n)))
 
 (define (write-u8l l) 
-  (map write-u8 l))
+  (map (lambda (e) (put-u8 e (current-output-port))) l))
 
 ;; read-pstr :: IO str
 
 (define (read-pstr)
-  (u8l->str (read-u8l (read-u8))))
+  (u8l->str (read-u8l (get-u8 (current-input-port)))))
 
 ;; read-cstr :: IO str
 
 (define (read-cstr)
   (let loop ((l (list))
-	     (b (read-u8)))
+	     (b (get-u8 (current-input-port))))
     (if (= b 0)
 	(u8l->str (reverse l) (length l))
-	(loop (cons b l) (read-u8)))))
+	(loop (cons b l) (get-u8 (current-input-port))))))
 
 ;; read-bstr :: IO [u8]
 
@@ -162,7 +175,7 @@
 
 (define (tag->reader t)
   (case t
-    ((u8)   read-u8)
+    ((u8)   (lambda () (get-u8 (current-input-port))))
     ((u16)  read-u16)
     ((i16)  read-i16)
     ((u32)  read-u32)
@@ -180,8 +193,8 @@
   (with-input-from-file f
     (lambda ()
       (let loop ((l (list)))
-	(if (eof-object? (peek-u8))
+	(if (eof-object? (lookahead-u8 (current-input-port)))
 	    (reverse l)
-	    (loop (cons (read-u8) l)))))))
+	    (loop (cons (get-u8 (current-input-port)) l)))))))
 
 )

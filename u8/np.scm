@@ -1,9 +1,9 @@
 ;; np.scm - (c) rohan drape, 2005-2007
 
 (module np (lib "lang.ss" "r5rs")
-(#%require (only "../mzscheme/bytes.ss"
-		 read-u8
-		 write-u8)
+(#%require (only "../mzscheme/r6rs.ss"
+		 get-u8
+		 put-u8)
 	   (only "../collection/tree.scm"
 		 flatten
 		 mapt)
@@ -112,7 +112,7 @@
 
 (define (read-np tag)
   (case tag
-    ((u8)   (read-u8))
+    ((u8)   (get-u8))
     ((u16)  (u8l->u16 (read-u8l 2)))
     ((u32)  (u8l->u32 (read-u8l 4)))
     ((u64)  (u8l->u64 (read-u8l 6)))
@@ -128,7 +128,7 @@
 ;; write-np :: np -> IO ()
 
 (define (write-np np)
-  (map write-u8 (np->u8l np)))
+  (map put-u8 (np->u8l np)))
 
 ;; npt->u8l :: [npt] -> [int]
 

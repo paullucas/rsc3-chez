@@ -5,10 +5,11 @@
 		 list-ref/wrap)
 	   (only "../math/exact.scm"
 		 round-exact)
-	   (only "../mzscheme/bits.ss"
-		 bitwise-ior
-		 bitwise-and
-		 arithmetic-shift)
+	   (only "../mzscheme/r6rs.ss"
+		 fxior
+		 fxand
+		 fxarithmetic-shift-left
+		 fxarithmetic-shift-right)
 	   (only (lib "19.ss" "srfi")
 		 make-time
 		 time-second
@@ -70,16 +71,16 @@
 (define (utc-time->ntp time)
   (let ((seconds (time-second time))
 	(nanoseconds (time-nanosecond time)))
-    (bitwise-ior (arithmetic-shift (+ seconds seconds-from-1900-to-1970)
-				   32)
-		 (nanoseconds-to-ntp nanoseconds))))
+    (fxior (fxarithmetic-shift-left (+ seconds seconds-from-1900-to-1970)
+				    32)
+	   (nanoseconds-to-ntp nanoseconds))))
 
 ;; Evaluate to an SRFI-19 time object representing UTC time of the NTP
 ;; time `ntp'.
 
 (define (ntp->utc-time ntp)
-  (let ((seconds (- (arithmetic-shift ntp -32) seconds-from-1900-to-1970))
-	(nanoseconds (ntp-to-nanoseconds (bitwise-and ntp #xFFFFFFFF))))
+  (let ((seconds (- (fxarithmetic-shift-right ntp 32) seconds-from-1900-to-1970))
+	(nanoseconds (ntp-to-nanoseconds (fxand ntp #xFFFFFFFF))))
     (make-time time-utc nanoseconds seconds)))
 
 )

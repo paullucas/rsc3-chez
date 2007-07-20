@@ -6,7 +6,7 @@
    (syntax-rules ()
      ((_ m) (begin (#%require m) (#%provide (all-from m))))))
 
- (require/provide "mzscheme/bytes.ss")
+ (require/provide "mzscheme/r6rs.ss")
  (require/provide "mzscheme/udp.ss")
  (require/provide "mzscheme/tcp.ss")
  (require/provide "collection/list.scm")

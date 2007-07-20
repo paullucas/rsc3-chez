@@ -2,9 +2,8 @@
 
 (module decode (lib "lang.ss" "r5rs")
 (#%require "../ntp/ntp.scm"
-	   (only "../mzscheme/bytes.ss"
-		 peek-u8
-		 with-input-from-u8l)
+	   (only "../mzscheme/r6rs.ss"
+		 lookahead-u8)
 	   (only "../u8/u8l.scm"
 		 read-i32
 		 read-i64
@@ -14,7 +13,7 @@
 		 read-f64
 		 read-bstr
 		 read-cstr
-		 )
+		 with-input-from-u8l)
 	   (only "encode.scm"
 		 cstring-length)
 	   "type.scm"
@@ -90,7 +89,7 @@
 	(error "read-bundle: Illegal bundle tag" bundletag)
 	(cons timetag
 	      (let loop ((parts (list)))
-		(if (eof-object? (peek-u8))
+		(if (eof-object? (lookahead-u8 (current-input-port)))
 		    (reverse parts)
 		    (begin
 		      ;; We have no use for the message size...
@@ -104,7 +103,7 @@
 (define hash-u8 (char->integer #\#))
 
 (define (read-packet)
-  (if (eq? (peek-u8) hash-u8)
+  (if (eq? (lookahead-u8 (current-input-port)) hash-u8)
       (read-bundle)
       (read-message)))
 
