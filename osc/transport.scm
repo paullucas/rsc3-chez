@@ -8,10 +8,6 @@
 	   (only "../u8/u8l.scm"
 		 u32->u8l
 		 u8l->u32)
-	   (only "../mzscheme/tcp.ss"
-		 tcp*?
-		 tcp*-send
-		 tcp*-read)
 	   (only "../mzscheme/udp.ss"
 		 udp*?
 		 udp*-send
@@ -27,11 +23,6 @@
 (define (osc-send u m)
   (cond ((udp*? u)
 	 (udp*-send u (osc->u8l m)))
-	((tcp*? u)
-	 (let* ((b (osc->u8l m))
-		(n (length b)))
-	   (tcp*-send u (u32->u8l n))
-	   (tcp*-send u b)))
 	(else
 	 (error "osc-send: unknown transport"))))
 
@@ -39,13 +30,6 @@
   (cond ((udp*? u)
 	 (let ((b (udp*-recv u t)))
 	   (if b (u8l->osc b) #f)))
-	((tcp*? u)
-	 (let ((b (tcp*-read u t 4)))
-	   (if b 
-	       (let* ((n (u8l->u32 b))
-		      (b* (tcp*-read u t n)))
-		 (if b* (u8l->osc b*) #f))
-	       #f)))
 	(else
 	 (error "osc-recv: unknown transport"))))
 

@@ -8,7 +8,6 @@
 
  (require/provide "mzscheme/r6rs.ss")
  (require/provide "mzscheme/udp.ss")
- (require/provide "mzscheme/tcp.ss")
  (require/provide "collection/list.scm")
  (require/provide "collection/mapw.scm")
  (require/provide "collection/series.scm")
