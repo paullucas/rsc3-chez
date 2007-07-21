@@ -1,18 +1,16 @@
 rsc3 - rsc SuperCollider Client
 
-rsc3 [1] is a set of extensions to the PLT Scheme implementation [2]
-that facilitate using Scheme as a client to the SuperCollider [3]
-synthesis server.  The rsc interaction environment is written for GNU
-Emacs [4].
-
-rsc3 runs under Linux, OSX and Windows.
-
-rsc3 is by Rohan Drape.  SuperCollider is by James McCartney.  PLT is
-by Matthew Flatt and others.  Emacs is by Richard Stallman and others.
-
-(c) rohan drape, 1998-2007, GPL, see http://www.gnu.org/copyleft.
+rsc3 [1] is a PLT [2] scheme module for working with the
+SuperCollider [3] synthesis server.  The rsc3 interaction
+environment is written for GNU Emacs [4].
 
 [1] <http://www.slavepianos.org/rd/>
 [2] <http://www.plt-scheme.org>
 [3] <http://www.audiosynth.com/>
 [4] <http://www.gnu.org/software/emacs>
+
+rsc3 is by Rohan Drape.  SuperCollider is by James McCartney.
+PLT is by Matthew Flatt and others.  Emacs is by Richard
+Stallman and others.
+
+(c) rohan drape, 1998-2007, GPL, see http://www.gnu.org/copyleft.
