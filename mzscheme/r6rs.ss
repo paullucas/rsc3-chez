@@ -6,6 +6,7 @@
 (provide (all-defined))
 
 (define fxior bitwise-ior)
+(define fxxor bitwise-xor)
 (define fxand bitwise-and)
 (define fxarithmetic-shift-left arithmetic-shift)
 (define (fxarithmetic-shift-right i n) (arithmetic-shift i (- n)))
