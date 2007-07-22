@@ -1,12 +1,11 @@
 ;; rate.scm - (c) rohan drape, 2005-2007
 
 (module rate (lib "lang.ss" "r5rs")
-(#%require (only "../structure/structure.scm"
+(#%require "../mzscheme/r6rs.ss"
+	   (only "../structure/structure.scm"
 		 define-structure)
 	   (only "../collection/list.scm"
-		 foldl1)
-	   (only (lib "23.ss" "srfi")
-		 error))
+		 foldl1))
 (#%provide rate?
 	   rate-select 
 	   rate-value
@@ -30,7 +29,7 @@
 	((eq? r kr)  1)
 	((eq? r ar)  2)
 	((eq? r dr)  3)
-	(else        (error "illegal rate"))))
+	(else        (error 'rate->ordinal "illegal rate"))))
 
 (define (rate-select* a b)
   (let ((a* (rate->ordinal a))

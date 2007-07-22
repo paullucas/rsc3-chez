@@ -1,8 +1,7 @@
 ;; rate-of.scm - (c) rohan drape, 2005-2007
 
 (module rate-of (lib "lang.ss" "r5rs")
-(#%require (only (lib "23.ss" "srfi")
-		 error)
+(#%require "../mzscheme/r6rs.ss"
 	   (only "control.scm"
 		 control*?
 		 control*-rate)
@@ -28,8 +27,8 @@
 	((ugen? o)      (ugen-rate o))
 	((proxy? o)     (rate-of (proxy-ugen o)))
 	((mce? o)       (rate-select (map rate-of (mce-channels o))))
-	((mrg? o)       (error "rate-of: mrg?" o))
-	(else           (error "rate-of: illegal value" o))))
+	((mrg? o)       (error 'rate-of "mrg?" o))
+	(else           (error 'rate-of "illegal value" o))))
 
 )
 

@@ -1,12 +1,9 @@
 ;; sndfile.scm - (c) rohan drape, 2006-2007
 
 (module sndfile (lib "lang.ss" "r5rs")
-(#%require (only (lib "1.ss" "srfi")
+(#%require "../mzscheme/r6rs.ss"
+	   (only (lib "1.ss" "srfi")
 		 append-map)
-	   (only (lib "23.ss" "srfi")
-		 error)
-	   (only "../mzscheme/r6rs.ss"
-		 put-u8)
 	   (only "../u8/u8l.scm"
 		 i32->u8l
 		 f32->u8l
@@ -25,7 +22,7 @@
 (define au-double      7)
 
 (define (au-size-of e)
-  (cond ((= e au-unspecified) (error "au-size-of: unspecified encoding"))
+  (cond ((= e au-unspecified) (error 'au-size-of "unspecified encoding"))
 	((= e au-mulaw8)      1)
 	((= e au-linear8)     1)
 	((= e au-linear16)    2)

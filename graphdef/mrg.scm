@@ -1,10 +1,9 @@
 ;; mrg.scm - (c) rohan drape, 2006-2007
 
 (module mrg (lib "lang.ss" "r5rs")
-(#%require (only "../structure/structure.scm"
-		 define-structure)
-	   (only (lib "23.ss" "srfi")
-		 error))
+(#%require "../mzscheme/r6rs.ss"
+	   (only "../structure/structure.scm"
+		 define-structure))
 (#%provide Mrg 
 	   make-mrg 
 	   mrg? 
@@ -14,7 +13,7 @@
 
 (define (Mrg . roots)
   (if (null? roots)
-      (error "empty mrg")
+      (error 'Mrg "empty mrg")
       (make-mrg roots)))
 
 )

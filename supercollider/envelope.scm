@@ -1,8 +1,7 @@
 ;; envelope.scm - (c) rohan drape, 2003-2007
 
 (module envelope (lib "lang.ss" "r5rs")
-(#%require (only (lib "23.ss" "srfi")
-		 error)
+(#%require "../mzscheme/r6rs.ss"
 	   (only "../collection/list.scm"
 		 extend
 		 splice

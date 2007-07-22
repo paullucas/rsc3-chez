@@ -1,10 +1,9 @@
 ;; mce.scm - (c) rohan drape, 2005-2007
 
 (module mce (lib "lang.ss" "r5rs")
-(#%require (only "../structure/structure.scm"
-		 define-structure)
-	   (only (lib "23.ss" "srfi")
-		 error))
+(#%require "../mzscheme/r6rs.ss"
+	   (only "../structure/structure.scm"
+		 define-structure))
 (#%provide Mce 
 	   make-mce 
 	   mce? 

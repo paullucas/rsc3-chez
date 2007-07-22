@@ -1,8 +1,7 @@
 ;; warp.scm - (c) rohan drape, 2003-2007
 
 (module warp (lib "lang.ss" "r5rs")
-(#%require (only (lib "23.ss" "srfi")
-		 error)
+(#%require "../mzscheme/r6rs.ss"
 	   "../math/constants.scm"
 	   "../math/gain.scm"
 	   "../math/exact.scm")
@@ -106,7 +105,7 @@
     ((cos) warp-cosine)
     ((amp) warp-fader)
     ((db) warp-db-fader)
-    (else (error "symbol->warp: unknown symbol" s))))
+    (else (error 'symbol->warp "unknown symbol" s))))
 
 ;; Translate a number to a warp.
 

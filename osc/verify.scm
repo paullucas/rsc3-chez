@@ -1,10 +1,9 @@
 ;; verify.scm - (c) rohan drape, 2005-2007
 
 (module verify (lib "lang.ss" "r5rs")
-(#%require (only (lib "1.ss" "srfi")
-		 find-tail)
-	   (only (lib "23.ss" "srfi")
-		 error))
+(#%require "../mzscheme/r6rs.ss"
+	   (only (lib "1.ss" "srfi")
+		 find-tail))
 (#%provide message
 	   message?
 	   bundle
@@ -15,12 +14,12 @@
 (define (message c . l)
   (if (string? c)
       (cons c l)
-      (error "message: illegal command" c)))
+      (error 'message "illegal command" c)))
 
 (define (bundle t . l)
   (if (number? t)
       (cons t l)
-      (error "bundle: illegal timestamp" t)))
+      (error 'bundle "illegal timestamp" t)))
 
 ;; Predicates for OSC packet types.
 

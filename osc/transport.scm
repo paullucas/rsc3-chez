@@ -1,7 +1,8 @@
 ;; transport.scm - (c) rohan drape, 2004-2007
 
 (module transport (lib "lang.ss" "r5rs")
-(#%require (only "decode.scm"
+(#%require "../mzscheme/r6rs.ss"
+	   (only "decode.scm"
 		 u8l->osc)
 	   (only "encode.scm"
 		 osc->u8l)
@@ -11,9 +12,7 @@
 	   (only "../mzscheme/udp.ss"
 		 udp*?
 		 udp*-send
-		 udp*-recv)
-	   (only (lib "23.ss" "srfi")
-		 error))
+		 udp*-recv))
 (#%provide osc-send
 	   osc-recv
 	   osc-request)
@@ -24,14 +23,14 @@
   (cond ((udp*? u)
 	 (udp*-send u (osc->u8l m)))
 	(else
-	 (error "osc-send: unknown transport"))))
+	 (error 'osc-send "unknown transport"))))
 
 (define (osc-recv u t)
   (cond ((udp*? u)
 	 (let ((b (udp*-recv u t)))
 	   (if b (u8l->osc b) #f)))
 	(else
-	 (error "osc-recv: unknown transport"))))
+	 (error 'osc-recv "unknown transport"))))
 
 (define (osc-request u r m t)
   (osc-send u m)

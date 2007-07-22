@@ -1,17 +1,13 @@
 ;; np.scm - (c) rohan drape, 2005-2007
 
 (module np (lib "lang.ss" "r5rs")
-(#%require (only "../mzscheme/r6rs.ss"
-		 get-u8
-		 put-u8)
+(#%require "../mzscheme/r6rs.ss"
 	   (only "../collection/tree.scm"
 		 flatten
 		 mapt)
 	   (only "../structure/structure.scm"
 		 define-structure)
-	   "u8l.scm"
-	   (only (lib "23.ss" "srfi")
-		 error))
+	   "u8l.scm")
 (#%provide u8 
 	   u16
 	   i16
@@ -89,7 +85,7 @@
       ((pstr) (pstr->u8l v))
       ((cstr) (cstr->u8l v))
       ((bstr) v)
-      (else   (error "np->u8l: illegal value" t v)))))
+      (else   (error 'np->u8l "illegal value" t v)))))
 
 ;; u8l->np :: tag -> [u8] -> np
 
@@ -106,7 +102,7 @@
       ((f64)  (u8l->f64  l))
       ((pstr) (u8l->pstr l))
       ((cstr) (u8l->cstr l))
-      (else   (error "u8l->np: illegal tag" tag l))))
+      (else   (error 'u8l->np "illegal tag" tag l))))
 
 ;; read-np :: tag -> IO ?value?
 
@@ -123,7 +119,7 @@
     ((f64)  (u8l->f64 (read-u8l 8)))
     ((pstr) (read-pstr))
     ((cstr) (read-cstr))
-    (else   (error "read-np: illegal tag" tag))))
+    (else   (error 'read-np "illegal tag" tag))))
 
 ;; write-np :: np -> IO ()
 

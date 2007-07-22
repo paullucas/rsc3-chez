@@ -4,8 +4,6 @@
 (#%require (only (lib "1.ss" "srfi")
 		 every
 		 iota)
-	   (only (lib "23.ss" "srfi")
-		 error)
 	   (only "../structure/structure.scm"
 		 define-structure)
 	   (only "../u8/np.scm"

@@ -1,16 +1,15 @@
 ;; encode.scm - (c) rohan drape, 2002-2007
 
 (module encode (lib "lang.ss" "r5rs")
-(#%require "../ntp/ntp.scm"
+(#%require "../mzscheme/r6rs.ss"
+	   "../ntp/ntp.scm"
 	   "../u8/np.scm"
 	   "../u8/u8l.scm"
 	   (only "verify.scm"
 		 bundle?
 		 message?)
 	   (only (lib "1.ss" "srfi")
-		 make-list)
-	   (only (lib "23.ss" "srfi")
-		 error))
+		 make-list))
 (#%provide cstring-length
 	   osc->u8l)
 
@@ -52,7 +51,7 @@
 	((real? e)            (f32 e))
 	((string? e)          (encode-string e))
 	((u8l? e)             (encode-bytes e))
-	(else                 (error "encode-value: illegal value" e))))
+	(else                 (error 'encode-value "illegal value" e))))
 
 ;; Encode the type string for the Evaluates to the OSC <u8l> indicating the types of the elements of
 ;; the list `l'.
@@ -66,7 +65,7 @@
 		       ((real? e)          #\f)
 		       ((string? e)        #\s)
 		       ((u8l? e)           #\b)
-		       (else               (error "encode-types: type?" e))))
+		       (else               (error 'encode-types "type?" e))))
 	       l)))))
 
 ;; Encode OSC message.
@@ -88,7 +87,7 @@
 	(map (lambda (e)
 	       (if (message? e)
 		   (encode-bytes (osc->u8l e))
-		   (error "encode-bundle: illegal value" e)))
+		   (error 'encode-bundle "illegal value" e)))
 	     (cdr b))))
 
 ;; An OSC packet is either an OSC message or an OSC bundle.

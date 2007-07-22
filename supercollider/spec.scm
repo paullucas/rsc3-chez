@@ -1,8 +1,7 @@
 ;; spec.scm - (c) rohan drape, 2004-2007
 
 (module spec (lib "lang.ss" "r5rs")
-(#%require (only (lib "23.ss" "srfi")
-		 error)	    
+(#%require "../mzscheme/r6rs.ss"
 	   (only "../structure/structure.scm"
 		 define-structure)
 	   "../math/clip.scm"
@@ -31,6 +30,6 @@
     ((bipolar pan)    (make-spec -1.0 1.0     'linear))
     ((freq frequency) (make-spec 20.0 20000.0 'linear))
     ((phase)          (make-spec  0.0 two-pi  'linear))
-    (else             (error "symbol->spec: illegal value" s))))
+    (else             (error 'symbol->spec "illegal value" s))))
 
 )

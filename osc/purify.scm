@@ -1,10 +1,9 @@
 ;; purify.scm - (c) rohan drape, 2005-2007
 
 (module purify (lib "lang.ss" "r5rs")
-(#%require (only "../u8/u8l.scm"
-		 u8l?)
-	   (only (lib "23.ss" "srfi")
-		 error))
+(#%require "../mzscheme/r6rs.ss"
+	   (only "../u8/u8l.scm"
+		 u8l?))
 (#%provide purify)
 
 ;; Evaluates to a type-correct form of the OSC data `e'.  This
@@ -20,6 +19,6 @@
 	((list? e) (map purify e))
 	((symbol? e) (symbol->string e))
 	((boolean? e) (if e 1 0))
-	(else (error "purify: illegal input" e))))
+	(else (error 'purify "illegal input" e))))
 
 )

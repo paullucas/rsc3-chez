@@ -1,9 +1,8 @@
 ;; decode.scm - (c) rohan drape, 2002-2007
 
 (module decode (lib "lang.ss" "r5rs")
-(#%require "../ntp/ntp.scm"
-	   (only "../mzscheme/r6rs.ss"
-		 lookahead-u8)
+(#%require "../mzscheme/r6rs.ss"
+	   "../ntp/ntp.scm"
 	   (only "../u8/u8l.scm"
 		 read-i32
 		 read-i64
@@ -16,9 +15,7 @@
 		 with-input-from-u8l)
 	   (only "encode.scm"
 		 cstring-length)
-	   "type.scm"
-	   (only (lib "23.ss" "srfi")
-		 error))
+	   "type.scm")
 (#%provide u8l->osc)
 
 ;; OSC strings are C strings padded to a four byte boundary.
@@ -53,7 +50,7 @@
    ((eq? t oF64) (read-f64))
    ((eq? t oStr) (read-ostr))
    ((eq? t oByt) (read-obyt))
-   (else         (error "read-value: bad type" t))))
+   (else         (error 'read-value "bad type" t))))
 
 ;; Evaluate to the list of objects encoded at the OSC byte stream
 ;; `p', conforming to the types given in the OSC character type
@@ -86,7 +83,7 @@
 	(timetag (ntp->utc. (read-u64)))
 	(parts (list)))
     (if (not (equal? bundletag "#bundle"))
-	(error "read-bundle: Illegal bundle tag" bundletag)
+	(error 'read-bundle "illegal bundle tag" bundletag)
 	(cons timetag
 	      (let loop ((parts (list)))
 		(if (eof-object? (lookahead-u8 (current-input-port)))
