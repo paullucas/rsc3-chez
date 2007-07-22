@@ -1,8 +1,7 @@
 ;; shuffle.scm - (c) rohan drape, 2005-2007
 
 (module shuffle (lib "lang.ss" "r5rs")
-(#%require (rename (lib "list.ss")
-		   sort mergesort)
+(#%require "../mzscheme/r6rs.ss"
 	   (only "range.scm"
 		 rand))
 (#%provide shuffle)
@@ -14,7 +13,7 @@
 (define (shuffle l)
   (let ((q (map (lambda (e) (cons (rand 0 1) e)) l))
 	(c (lambda (a b) (> (car a) (car b)))))
-    (map cdr (sort q c))))
+    (map cdr (list-sort q c))))
 
 ;; sclang name for shuffle.
 
