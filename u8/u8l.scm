@@ -58,7 +58,8 @@
 	    read-bstr
 	    write-u8l
 	    file->u8l
-	    with-input-from-u8l)
+	    with-input-from-u8l
+	    with-output-to-u8l)
 
 (define (real->u8l x size)
   (let* ((n (/ size 8))
@@ -78,6 +79,13 @@
   (parameterize
    ((current-input-port (open-bytevector-input-port (u8-list->bytevector l))))
    (f)))
+
+(define (with-output-to-u8l f)
+  (let ((f* (lambda (p) 
+	      (parameterize
+	       ((current-output-port p))
+	       (f)))))
+    (bytevector->u8-list (call-with-bytevector-output-port f*))))
 
 ;; u8l? :: [u8] -> true
 
