@@ -1,19 +1,21 @@
 ;; play.scm - (c) rohan drape, 2003-2007
 
-(module play (lib "lang.ss" "r5rs")
-(#%require (only "../server/command.scm"
-		 /d_recv
-		 /s_new)
-	   (only "../server/server.scm"
-		 ->
-		 -><)
-	   (only "../graphdef/graphdef.scm"
-		 graphdef?
-		 graphdef->u8l
-		 graphdef-name)
-	   (only "synthdef.scm"
-		 ugen->graphdef/out))
-(#%provide (all-defined))
+(module play scheme/base
+
+(require (only-in "../server/command.scm"
+		  /d_recv
+		  /s_new)
+	 (only-in "../server/server.scm"
+		  ->
+		  -><)
+	 (only-in "../graphdef/graphdef.scm"
+		  graphdef?
+		  graphdef->u8l
+		  graphdef-name)
+	 (only-in "synthdef.scm"
+		  ugen->graphdef/out))
+
+(provide (all-defined-out))
 
 ;; Play the graph rooted at the <ugen> `u' at the server `s'.
 

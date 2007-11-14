@@ -1,24 +1,26 @@
 ;; graphdef.scm - (c) rohan drape, 2003-2007
 
-(module graphdef (lib "lang.ss" "r5rs")
-(#%require (only "../structure/structure.scm"
-		 define-structure)
-	   (only "../u8/np.scm"
-		 u8 i16 i32 f32 pstr npt->u8l)
-	   (only "control.scm"
-		 control->npt)
-	   (only "ugen.scm"
-		 ugen->npt))
-(#%provide graphdef
-	   graphdef? 
-	   make-graphdef 
-	   graphdef-name 
-	   graphdef-defaults 
-	   graphdef-controls 
-	   graphdef-constant
-	   graphdef-ugen 
-	   graphdef-ugens 
-	   graphdef->u8l)
+(module graphdef scheme/base
+
+(require (only-in "../structure/structure.scm"
+		  define-structure)
+	 (only-in "../u8/np.scm"
+		  u8 i16 i32 f32 pstr npt->u8l)
+	 (only-in "control.scm"
+		  control->npt)
+	 (only-in "ugen.scm"
+		  ugen->npt))
+
+(provide graphdef
+	 graphdef?
+	 make-graphdef
+	 graphdef-name
+	 graphdef-defaults
+	 graphdef-controls
+	 graphdef-constant
+	 graphdef-ugen
+	 graphdef-ugens
+	 graphdef->u8l)
 
 ;; A <graphdef> represents a UGen graph.
 

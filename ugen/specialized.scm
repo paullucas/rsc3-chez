@@ -1,12 +1,14 @@
 ;; specialized.scm - (c) rohan drape, 2005-2007
 
-(module specialized (lib "lang.ss" "r5rs")
-(#%require (only (lib "23.ss" "srfi")
-		 error)
-	   "../graphdef/id.scm"
-	   "../graphdef/rate.scm"
-	   "constructor.scm")
-(#%provide (all-defined))
+(module specialized scheme/base
+
+(require (only-in srfi/23
+		  error)
+	 "../graphdef/id.scm"
+	 "../graphdef/rate.scm"
+	 "constructor.scm")
+
+(provide (all-defined-out))
 
 (define-syntax define-specialized
   (syntax-rules ()
@@ -85,7 +87,8 @@
     ((_ n (i ...) r)
      (define (n nc i ...)
        (if (not (integer? nc))
-	   (error "illegal channel count:" 'n nc))
+	   (error "illegal channel count:" 'n nc)
+	   #f)
        (let ((l (list i ...)))
 	 (construct-ugen 'n r l #f nc 0 (make-uid 0)))))))
 
@@ -129,4 +132,4 @@
 
 ;; Local Variables:
 ;; truncate-lines:t
-;; End:            
+;; End:

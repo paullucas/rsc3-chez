@@ -1,14 +1,16 @@
 ;; oscillator.scm - (c) rohan drape, 2005-2007
 
-(module oscillator (lib "lang.ss" "r5rs")
-(#%require (only (lib "1.ss" "srfi")
-		 drop
-		 take)
-	   (only (lib "23.ss" "srfi")
-		 error)
-	   "../graphdef/id.scm"
-	   "constructor.scm")
-(#%provide (all-defined))
+(module oscillator scheme/base
+
+(require (only-in srfi/1
+		  drop
+		  take)
+	 (only-in srfi/23
+		  error)
+	 "../graphdef/id.scm"
+	 "constructor.scm")
+
+(provide (all-defined-out))
 
 (define-syntax define-oscillator
   (syntax-rules ()
@@ -91,7 +93,8 @@
     ((_ n (i ...))
      (define (n nc r i ...)
        (if (not (integer? nc))
-	   (error "illegal channel count:" 'n nc))
+	   (error "illegal channel count:" 'n nc)
+	   #f)
        (let ((l (list i ...)))
 	 (construct-ugen 'n r l #f nc 0 (make-uid 0)))))))
 

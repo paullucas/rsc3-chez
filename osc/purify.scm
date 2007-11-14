@@ -1,10 +1,11 @@
 ;; purify.scm - (c) rohan drape, 2005-2007
 
-(module purify (lib "lang.ss" "r5rs")
-(#%require "../mzscheme/r6rs.ss"
-	   (only "../u8/u8l.scm"
-		 u8l?))
-(#%provide purify)
+(module purify scheme/base
+
+(require (only-in "../u8/u8l.scm"
+		  u8l?))
+
+(provide purify)
 
 ;; Evaluates to a type-correct form of the OSC data `e'.  This
 ;; procedure does not verify that `e' is syntactically correct.

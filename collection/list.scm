@@ -1,33 +1,34 @@
 ;; list.scm - (c) rohan drape, 2000-2007
 
-(module list (lib "lang.ss" "r5rs")
-(#%require (only (lib "1.ss" "srfi")
-		 append-map
-		 drop
-		 filter
-		 iota
-		 make-list
-		 take))
-(#%provide list-ref/wrap 
-	   length*
-	   geom 
-	   filter-index 
-	   drop*
-	   foldr 
-	   concat 
-	   foldl 
-	   foldl1 
-	   maximum
-	   splice 
-	   interleave 
-	   intersperse 
-	   lace 
-	   extend 
-	   extend-all 
-	   rotate 
-	   invert 
-	   cycles 
-	   take-cycle)
+(module list scheme/base
+
+(require (only-in srfi/1
+		  append-map
+		  drop
+		  iota
+		  make-list
+		  take))
+
+(provide list-ref/wrap
+	 length*
+	 geom
+	 filter-index
+	 drop*
+	 concat
+	 foldr
+	 foldl
+	 foldl1
+	 maximum
+	 splice
+	 interleave
+	 intersperse
+	 lace
+	 extend
+	 extend-all
+	 rotate
+	 invert
+	 cycles
+	 take-cycle)
 
 ;; list-ref variant where n is taken modulo the list length.
 
@@ -67,18 +68,18 @@
 
 ;; [Haskell Prelude]
 
-(define (foldr f z l)
-  (if (null? l)
-      z
-      (f (car l) (foldr f z (cdr l)))))
+;; (define (foldr f z l)
+;;   (if (null? l)
+;;       z
+;;       (f (car l) (foldr f z (cdr l)))))
 
 (define (concat l)
   (foldr append '() l))
 
-(define (foldl f z l)
-  (if (null? l)
-      z
-      (foldl f (f z (car l)) (cdr l))))
+;; (define (foldl f z l)
+;;   (if (null? l)
+;;       z
+;;       (foldl f (f z (car l)) (cdr l))))
 
 (define (foldl1 f l)
   (foldl f (car l) (cdr l)))

@@ -1,13 +1,15 @@
 ;; implicit.scm - (c) rohan drape, 2005-2007
 
-(module implicit (lib "lang.ss" "r5rs")
-(#%require (only (lib "1.ss" "srfi")
-		 make-list)
-	   "../graphdef/id.scm"
-	   "../graphdef/output.scm"
-	   "../graphdef/rate.scm"
-	   "../graphdef/ugen.scm")
-(#%provide (all-defined))
+(module implicit scheme/base
+
+(require (only-in srfi/1
+		  make-list)
+	 "../graphdef/id.scm"
+	 "../graphdef/output.scm"
+	 "../graphdef/rate.scm"
+	 "../graphdef/ugen.scm")
+
+(provide (all-defined-out))
 
 ;; Gloss, k-rate only, no lag.
 

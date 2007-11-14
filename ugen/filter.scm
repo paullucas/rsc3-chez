@@ -1,13 +1,15 @@
 ;; filter.scm - (c) rohan drape, 2005-2007
 
-(module filter (lib "lang.ss" "r5rs")
-(#%require (only (lib "23.ss" "srfi")
-		 error)
-	   "../graphdef/id.scm"
-	   "../graphdef/mce.scm"
-	   "../graphdef/rate-of.scm"
-	   "constructor.scm")
-(#%provide (all-defined))
+(module filter scheme/base
+
+(require (only-in srfi/23
+		  error)
+	 "../graphdef/id.scm"
+	 "../graphdef/mce.scm"
+	 "../graphdef/rate-of.scm"
+	 "constructor.scm")
+
+(provide (all-defined-out))
 
 (define-syntax define-filter
   (syntax-rules ()
@@ -146,7 +148,8 @@
     ((_ n (i ...))
      (define (n nc i ...)
        (if (not (integer? nc))
-	   (error "illegal channel count" 'n nc))
+	   (error "illegal channel count" 'n nc)
+	   #f)
        (let ((l (list i ...)))
 	 (construct-ugen 'n #f l #f nc 0 (make-uid 0)))))))
 
@@ -209,4 +212,4 @@
 
 ;; Local Variables:
 ;; truncate-lines:t
-;; End:            
+;; End:

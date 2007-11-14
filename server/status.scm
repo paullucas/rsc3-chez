@@ -1,15 +1,17 @@
 ;; status.scm - (c) rohan drape, 2006-2007
 
-(module status (lib "lang.ss" "r5rs")
-(#%require (only "../collection/list.scm"
-		  intersperse)
-	   (only "command.scm"
-		 /status)
-	   (only "server.scm"
-		 -><))
-(#%provide (all-defined))
+(module status scheme/base
 
-(define status-fields 
+(require (only-in "../collection/list.scm"
+		  intersperse)
+	 (only-in "command.scm"
+		  /status)
+	 (only-in "server.scm"
+		  -><))
+
+(provide (all-defined-out))
+
+(define status-fields
   (list "# UGens                     "
 	"# Synths                    "
 	"# Groups                    "

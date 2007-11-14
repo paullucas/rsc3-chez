@@ -1,13 +1,15 @@
 ;; score.scm - (c) rohan drape, 2004-2007
 
-(module score (lib "lang.ss" "r5rs")
-(#%require (only "../collection/tree.scm"
-		 flatten)
-	   (only "../osc/encode.scm"
-		 osc->u8l)
-	   (only "../u8/u8l.scm"
-		 i32->u8l))
-(#%provide (all-defined))
+(module score scheme/base
+
+(require (only-in "../collection/tree.scm"
+		  flatten)
+	 (only-in "../osc/encode.scm"
+		  osc->u8l)
+	 (only-in "../u8/u8l.scm"
+		  i32->u8l))
+
+(provide (all-defined-out))
 
 ;; A score is a list of OSC bundles.  The timestamps are given in
 ;; seconds where zero is the start of the score.  An OSC file is a

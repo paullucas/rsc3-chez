@@ -1,17 +1,19 @@
 ;; server.scm - (c) rohan drape, 2003-2007
 
-(module server (lib "lang.ss" "r5rs")
-(#%require (only (lib "23.ss" "srfi")
-		  error)
-	   (only (lib "39.ss" "srfi")
+(module server scheme/base
+
+(require ;; (only-in srfi/23
+	 ;; 	  error)
+	 (only-in srfi/39
 		  make-parameter)
-	   (only "../osc/verify.scm"
-		 bundle)
-	   (only "../osc/transport.scm"
-		 osc-send
-		 osc-recv)
-	   "command.scm")
-(#%provide (all-defined))
+	 (only-in "../osc/verify.scm"
+		  bundle)
+	 (only-in "../osc/transport.scm"
+		  osc-send
+		  osc-recv)
+	 "command.scm")
+
+(provide (all-defined-out))
 
 (define -> osc-send)
 

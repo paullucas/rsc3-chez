@@ -1,11 +1,13 @@
 ;; id.scm - (c) rohan drape, 2005-2007
 
-(module id (lib "lang.ss" "r5rs")
-(#%require (only "../structure/structure.scm"
-		 define-structure))
-(#%provide make-uid 
-	   uid?
-	   unique-uid)
+(module id scheme/base
+
+(require (only-in "../structure/structure.scm"
+		  define-structure))
+
+(provide make-uid
+	 uid?
+	 unique-uid)
 
 (define-structure uid value)
 

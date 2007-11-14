@@ -1,22 +1,24 @@
 ;; ntp.scm - (c) rohan drape, 2000-2007
 
-(module ntp (lib "lang.ss" "r5rs")
-(#%require (only "../collection/list.scm"
-		 list-ref/wrap)
-	   (only "../math/exact.scm"
-		 round-exact)
-	   (only "../mzscheme/r6rs.ss"
-		 fxior
-		 fxand
-		 fxarithmetic-shift-left
-		 fxarithmetic-shift-right)
-	   (only (lib "19.ss" "srfi")
-		 make-time
-		 time-second
-		 time-nanosecond
-		 time-utc))
-(#%provide ntp->utc.
-	   utc->ntp)
+(module ntp scheme/base
+
+(require (only-in srfi/19
+		  make-time
+		  time-second
+		  time-nanosecond
+		  time-utc)
+	 (only-in "../mzscheme/r6rs.ss"
+		  fxior
+		  fxand
+		  fxarithmetic-shift-left
+		  fxarithmetic-shift-right)
+	 (only-in "../collection/list.scm"
+		  list-ref/wrap)
+	 (only-in "../math/exact.scm"
+		  round-exact))
+
+(provide ntp->utc.
+	 utc->ntp)
 
 ;; NTP is the Network Time Protocol.  NTP time is represented by a 64
 ;; bit fixed point number. The first 32 bits specify the number of

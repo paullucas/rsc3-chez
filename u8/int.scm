@@ -1,15 +1,17 @@
 ;; int.scm - (c) rohan drape, 2006-2007
 
-(module int (lib "lang.ss" "r5rs")
-(#%require (only "../mzscheme/r6rs.ss"
-		 fxand
-		 fxarithmetic-shift-left
-		 fxarithmetic-shift-right)
-	   (only (lib "1.ss" "srfi")
-		 fold
-		 iota))
-(#%provide int->u8l
-	   u8l->int)
+(module int scheme/base
+
+(require (only-in "../mzscheme/r6rs.ss"
+		  fxand
+		  fxarithmetic-shift-left
+		  fxarithmetic-shift-right)
+	 (only-in srfi/1
+		  fold
+		  iota))
+
+(provide int->u8l
+	 u8l->int)
 
 (define (byte n i)
   (fxand (fxarithmetic-shift-right i n) #xFF))

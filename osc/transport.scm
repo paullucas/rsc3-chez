@@ -1,21 +1,22 @@
 ;; transport.scm - (c) rohan drape, 2004-2007
 
-(module transport (lib "lang.ss" "r5rs")
-(#%require "../mzscheme/r6rs.ss"
-	   (only "decode.scm"
-		 u8l->osc)
-	   (only "encode.scm"
-		 osc->u8l)
-	   (only "../u8/u8l.scm"
-		 u32->u8l
-		 u8l->u32)
-	   (only "../mzscheme/udp.ss"
-		 udp*?
-		 udp*-send
-		 udp*-recv))
-(#%provide osc-send
-	   osc-recv
-	   osc-request)
+(module transport scheme/base
+
+(require (only-in "decode.scm"
+		  u8l->osc)
+	 (only-in "encode.scm"
+		  osc->u8l)
+	 (only-in "../u8/u8l.scm"
+		  u32->u8l
+		  u8l->u32)
+	 (only-in "../mzscheme/udp.ss"
+		  udp*?
+		  udp*-send
+		  udp*-recv))
+
+(provide osc-send
+	 osc-recv
+	 osc-request)
 
 ;; 'u' is a <udp*>, 't' is a timeout in seconds.
 

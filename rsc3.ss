@@ -1,10 +1,10 @@
 ;; rsc3.ss - (c) rohan drape, 2004-2007
 
-(module rsc3 (lib "lang.ss" "r5rs")
+(module rsc3 scheme/base
 
  (define-syntax require/provide
    (syntax-rules ()
-     ((_ m) (begin (#%require m) (#%provide (all-from m))))))
+     ((_ m) (begin (require m) (provide (all-from-out m))))))
 
  (require/provide "mzscheme/r6rs.ss")
  (require/provide "mzscheme/udp.ss")

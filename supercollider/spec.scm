@@ -1,13 +1,14 @@
 ;; spec.scm - (c) rohan drape, 2004-2007
 
-(module spec (lib "lang.ss" "r5rs")
-(#%require "../mzscheme/r6rs.ss"
-	   (only "../structure/structure.scm"
-		 define-structure)
-	   "../math/clip.scm"
-	   "../math/constants.scm"
-	   "warp.scm")
-(#%provide (all-defined))
+(module spec scheme/base
+
+(require (only-in "../structure/structure.scm"
+		  define-structure)
+	 "../math/clip.scm"
+	 "../math/constants.scm"
+	 "warp.scm")
+
+(provide (all-defined-out))
 
 ;; An interface to the warp procedures.
 
@@ -15,7 +16,7 @@
 
 (define (make-spec* minima maxima warp)
   (let ((w (if (symbol? warp) (symbol->warp warp) warp)))
-    (make-spec minima maxima (w minima maxima) 
+    (make-spec minima maxima (w minima maxima)
 	       (- maxima minima) (/ maxima minima))))
 
 (define (spec-map s value)

@@ -1,9 +1,11 @@
 ;; quantize.scm - (c) rohan drape, 2005-2007
 
-(module quantize (lib "lang.ss" "r5rs")
-(#%require (only "../math/exact.scm"
-		 round-exact))
-(#%provide (all-defined))
+(module quantize scheme/base
+
+(require (only-in "../math/exact.scm"
+	       round-exact))
+
+(provide quantize)
 
 ;; Quantize `n' to the nearest multiple of `quanta'.
 

@@ -1,20 +1,21 @@
 ;; letc.scm - (c) rohan drape, 2005-2007
 
-(module letc (lib "lang.ss" "r5rs")
-(#%require (only "../structure/structure.scm"
-		 define-structure)
-	   (only "control.scm"
-		 make-control*)
-	   (only "rate.scm"
-		 kr))
-(#%provide letc)
+(module letc scheme/base
+
+(require (only-in "../structure/structure.scm"
+		  define-structure)
+	 (only-in "control.scm"
+		  make-control*)
+	 (only-in "rate.scm"
+		  kr))
+(provide letc)
 
 ;; Syntax for defining <control*> values.  Does not implement rate or
 ;; lag variants.  See deleted file control-set.scm for details.
 
 (define-syntax letc
   (syntax-rules ()
-    ((_ () expr) 
+    ((_ () expr)
      expr)
     ((_ ((name default) ...) expr)
      (let ((name (make-control* (symbol->string (quote name)) default kr 0))

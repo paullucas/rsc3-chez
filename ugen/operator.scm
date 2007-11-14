@@ -1,15 +1,17 @@
 ;; operator.scm - (c) rohan drape, 2005-2007
 
-(module operator (lib "lang.ss" "r5rs")
-(#%require "../collection/list.scm"
-	   "../math/common.scm"
-	   "../math/gain.scm"
-	   "../math/log.scm"
-	   "../math/pitch.scm"
-	   "../graphdef/id.scm"
-	   "../random/range.scm"
-	   "constructor.scm")
-(#%provide (all-defined))
+(module operator scheme/base
+
+(require "../collection/list.scm"
+	 "../math/common.scm"
+	 "../math/gain.scm"
+	 "../math/log.scm"
+	 "../math/pitch.scm"
+	 "../graphdef/id.scm"
+	 "../random/range.scm"
+	 "constructor.scm")
+
+(provide (all-defined-out))
 
 ;; Operators may, when applied to numbers, yield numbers.
 

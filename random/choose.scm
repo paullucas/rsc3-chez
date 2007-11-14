@@ -1,18 +1,20 @@
 ;; choose.scm - (c) rohan drape, 2005-2007
 
-(module choose (lib "lang.ss" "r5rs")
-(#%require (only "../collection/series.scm"
-		 dx->d)
-	   (only "../collection/list.scm"
-		 foldl1)
-	   (only "range.scm"
-		 rand
-		 randi)
-	   (only (lib "1.ss" "srfi")
-		 iota
-		 last
-		 list-index))
-(#%provide choose choosel pchoose)
+(module choose scheme/base
+
+(require (only-in srfi/1
+		  iota
+		  last
+		  list-index)
+	 (only-in "../collection/series.scm"
+		  dx->d)
+	 (only-in "../collection/list.scm"
+		  foldl1)
+	 (only-in "range.scm"
+		  rand
+		  randi))
+
+(provide choose choosel pchoose)
 
 ;; Return a randomly selected element of the <list> 'l'.
 

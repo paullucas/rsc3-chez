@@ -1,12 +1,14 @@
 ;; in.scm - (c) rohan drape, 2003-2007
 
-(module in (lib "lang.ss" "r5rs")
-(#%require "../graphdef/mce.scm"
-	   "../graphdef/rate.scm"
-	   "../ugen/operator.scm"
-	   "../ugen/oscillator.scm"
-	   "../ugen/specialized.scm")
-(#%provide (all-defined))
+(module in scheme/base
+
+(require "../graphdef/mce.scm"
+	 "../graphdef/rate.scm"
+	 "../ugen/operator.scm"
+	 "../ugen/oscillator.scm"
+	 "../ugen/specialized.scm")
+
+(provide (all-defined-out))
 
 ;; Audio input.  Does not support MulAdd.
 

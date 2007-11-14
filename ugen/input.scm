@@ -1,20 +1,22 @@
 ;; input.scm - (c) rohan drape, 2005-2006
 
-(module input (lib "lang.ss" "r5rs")
-(#%require (only (lib "1.ss" "srfi")
-		 make-list
-		 list-index)
-	   (only (lib "23.ss" "srfi")
+(module input scheme/base
+
+(require (only-in srfi/1
+		  make-list
+		  list-index)
+	 (only-in srfi/23
 		  error)
-	   (only (lib "26.ss" "srfi")
+	 (only-in srfi/26
 		  cut)
-	   "../graphdef/input.scm"
-	   "../graphdef/control.scm"
-	   "../graphdef/proxy.scm"
-	   "../graphdef/mce.scm"
-	   "../graphdef/mrg.scm"
-	   "../graphdef/ugen.scm")
-(#%provide (all-defined))
+	 "../graphdef/input.scm"
+	 "../graphdef/control.scm"
+	 "../graphdef/proxy.scm"
+	 "../graphdef/mce.scm"
+	 "../graphdef/mrg.scm"
+	 "../graphdef/ugen.scm")
+
+(provide (all-defined-out))
 
 ;; In the context of graphdef serialization <ugen> inputs must be
 ;; re-written into an <input> form.

@@ -1,37 +1,39 @@
 ;; u8v.scm - (c) rohan drape, 2006-2007
 
-(module u8v (lib "lang.ss" "r5rs")
-(#%require (only (lib "43.ss" "srfi")
-		 vector-every)
-	   (only "u8.scm"
-		 u8?
-		 i8->u8
-		 u8->i8)
-	   "u8l.scm")
-(#%provide u8v?
-	   i8->u8v 
-	   i16->u8v 
-	   i32->u8v 
-	   i64->u8v 
-	   u8->u8v 
-	   u16->u8v 
-	   u32->u8v 
-	   u64->u8v 
-	   f32->u8v 
-	   f64->u8v
-	   u8v->i8 
-	   u8v->i16 
-	   u8v->i32 
-	   u8v->i64 
-	   u8v->u8 
-	   u8v->u16 
-	   u8v->u32 
-	   u8v->u64 
-	   u8v->f32 
-	   u8v->f64
-	   u8v->str
-	   str->u8v
-	   file->u8v)
+(module u8v scheme/base
+
+(require (only-in srfi/43
+		  vector-every)
+	 (only-in "u8.scm"
+		  u8?
+		  i8->u8
+		  u8->i8)
+	 "u8l.scm")
+
+(provide u8v?
+	 i8->u8v
+	 i16->u8v
+	 i32->u8v
+	 i64->u8v
+	 u8->u8v
+	 u16->u8v
+	 u32->u8v
+	 u64->u8v
+	 f32->u8v
+	 f64->u8v
+	 u8v->i8
+	 u8v->i16
+	 u8v->i32
+	 u8v->i64
+	 u8v->u8
+	 u8v->u16
+	 u8v->u32
+	 u8v->u64
+	 u8v->f32
+	 u8v->f64
+	 u8v->str
+	 str->u8v
+	 file->u8v)
 
 (define (u8v? v)
   (and (vector? v)
@@ -64,7 +66,7 @@
 (define (u8v->f64 v)   (u8l->f64 (u8v->u8l v)))
 (define (u8v->str v n) (u8l->str (u8v->u8l v) n))
 
-(define (file->u8v f) 
+(define (file->u8v f)
   (u8l->u8v (file->u8l f)))
 
 )

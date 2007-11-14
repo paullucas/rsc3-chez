@@ -1,37 +1,41 @@
 ;; np.scm - (c) rohan drape, 2005-2007
 
-(module np (lib "lang.ss" "r5rs")
-(#%require "../mzscheme/r6rs.ss"
-	   (only "../collection/tree.scm"
-		 flatten
-		 mapt)
-	   (only "../structure/structure.scm"
-		 define-structure)
-	   "u8l.scm")
-(#%provide u8 
-	   u16
-	   i16
-	   u32
-	   i32
-	   u64
-	   i64
-	   f32
-	   f64
-	   read-u16
-	   read-i16
-	   read-u32
-	   read-i32
-	   read-u64
-	   read-i64
-	   read-f32
-	   read-f64
-	   pstr
-	   cstr
-	   bstr
-	   read-pstr
-	   read-cstr
-	   np->u8l
-	   npt->u8l)
+(module np scheme/base
+
+(require (only-in "../mzscheme/r6rs.ss"
+		  get-u8
+		  put-u8)
+	 (only-in "../collection/tree.scm"
+		  flatten
+		  mapt)
+	 (only-in "../structure/structure.scm"
+		  define-structure)
+	 "u8l.scm")
+
+(provide u8
+	 u16
+	 i16
+	 u32
+	 i32
+	 u64
+	 i64
+	 f32
+	 f64
+	 read-u16
+	 read-i16
+	 read-u32
+	 read-i32
+	 read-u64
+	 read-i64
+	 read-f32
+	 read-f64
+	 pstr
+	 cstr
+	 bstr
+	 read-pstr
+	 read-cstr
+	 np->u8l
+	 npt->u8l)
 
 ;; Network protocol.
 

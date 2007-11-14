@@ -1,7 +1,8 @@
 ;; clip.scm - (c) rohan drape, 2005-2007
 
-(module clip (lib "lang.ss" "r5rs")
-(#%provide clip)
+(module clip scheme/base
+
+(provide clip)
 
 ;; Clip `n' between a and b.
 

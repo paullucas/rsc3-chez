@@ -1,11 +1,12 @@
 ;; warp.scm - (c) rohan drape, 2003-2007
 
-(module warp (lib "lang.ss" "r5rs")
-(#%require "../mzscheme/r6rs.ss"
-	   "../math/constants.scm"
-	   "../math/gain.scm"
-	   "../math/exact.scm")
-(#%provide (all-defined))
+(module warp scheme/base
+
+(require "../math/constants.scm"
+	 "../math/gain.scm"
+	 "../math/exact.scm")
+
+(provide symbol->warp)
 
 ;; A warp is a procedure of two arguments.  The first is the <symbol>
 ;; direction of the warp, which should be either 'map' or 'unmap'.
@@ -14,7 +15,7 @@
 ;; arguments `minima' and `maxima', even if it then ignores these
 ;; values.
 
-;; Returns true iff the <symbol> `s' is 'map'. 
+;; Returns true iff the <symbol> `s' is 'map'.
 
 (define (warp-fwd? s) (eq? s 'map))
 
@@ -90,7 +91,7 @@
 (define (warp-db-fader minima maxima)
   (lambda (direction value)
     (if (warp-fwd? direction)
-	(if (zero? value) 
+	(if (zero? value)
 	    -180
 	    (ampdb (* value value)))
 	(sqrt (dbamp value)))))

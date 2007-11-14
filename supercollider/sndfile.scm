@@ -1,14 +1,17 @@
 ;; sndfile.scm - (c) rohan drape, 2006-2007
 
-(module sndfile (lib "lang.ss" "r5rs")
-(#%require "../mzscheme/r6rs.ss"
-	   (only (lib "1.ss" "srfi")
-		 append-map)
-	   (only "../u8/u8l.scm"
-		 i32->u8l
-		 f32->u8l
-		 f64->u8l))
-(#%provide (all-defined))
+(module sndfile scheme/base
+
+(require (only-in "../mzscheme/r6rs.ss"
+		  put-u8)
+	 (only-in srfi/1
+		  append-map)
+	 (only-in "../u8/u8l.scm"
+		  i32->u8l
+		  f32->u8l
+		  f64->u8l))
+
+(provide (all-defined-out))
 
 (define au-magic #x2e736e64)
 

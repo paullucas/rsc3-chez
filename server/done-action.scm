@@ -1,7 +1,8 @@
 ;; done-action.scm - (c) rohan drape, 2003-2007
 
-(module done-action (lib "lang.ss" "r5rs")
-(#%provide (all-defined))
+(module done-action scheme/base
+
+(provide (all-defined-out))
 
 ;; The doneAction values are interpreted as follows:
 

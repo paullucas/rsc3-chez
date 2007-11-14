@@ -1,17 +1,8 @@
 ;; name.scm - (c) rohan drape, 2003-2007
 
-(module name (lib "lang.ss" "r5rs")
-(#%require (only (lib "1.ss" "srfi")
-		 )
-	   (only "../collection/list.scm"
-		 )
-	   (only "../collection/series.scm"
-		 )
-	   (only "../graphdef/mce.scm"
-		 )
-	   (only "../ugen/operator.scm"
-		 ))
-(#%provide (all-defined))
+(module name scheme/base
+
+(provide (all-defined-out))
 
 (define unary-operator-names '(Neg Not IsNil NotNil BitNot Abs
 AsFloat AsInt Ceil Floor Frac Sign Squared Cubed Sqrt Exp Recip

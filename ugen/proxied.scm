@@ -1,12 +1,14 @@
 ;; proxied.scm - (c) rohan drape, 2005-2007
 
-(module proxied (lib "lang.ss" "r5rs")
-(#%require (only (lib "1.ss" "srfi")
-		 iota)
-	   "../graphdef/mce.scm"
-	   "../graphdef/proxy.scm"
-	   "../graphdef/ugen.scm")
-(#%provide (all-defined))
+(module proxied scheme/base
+
+(require (only-in srfi/1
+		  iota)
+	 "../graphdef/mce.scm"
+	 "../graphdef/proxy.scm"
+	 "../graphdef/ugen.scm")
+
+(provide (all-defined-out))
 
 (define (proxied u)
   (cond

@@ -1,14 +1,15 @@
 ;; mce.scm - (c) rohan drape, 2005-2007
 
-(module mce (lib "lang.ss" "r5rs")
-(#%require "../mzscheme/r6rs.ss"
-	   (only "../structure/structure.scm"
-		 define-structure))
-(#%provide Mce 
-	   make-mce 
-	   mce? 
-	   mce-channels 
-	   mce-channel)
+(module mce scheme/base
+
+(require (only-in "../structure/structure.scm"
+		  define-structure))
+
+(provide Mce
+	 make-mce
+	 mce?
+	 mce-channels
+	 mce-channel)
 
 (define-structure mce channels)
 

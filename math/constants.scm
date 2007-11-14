@@ -1,7 +1,8 @@
 ;; constants.scm - (c) rohan drape, 2001-2007
 
-(module constants (lib "lang.ss" "r5rs")
-(#%provide pi half-pi two-pi)
+(module constants scheme/base
+
+(provide pi half-pi two-pi)
 
 (define e (exp 1.0))
 (define pi (* 4 (atan 1)))

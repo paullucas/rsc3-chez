@@ -1,9 +1,10 @@
 ;; common.scm - (c) rohan drape, 2005-2007
 
-(module common (lib "lang.ss" "r5rs")
-(#%provide squared 
-	   cubed 
-	   recip)
+(module common scheme/base
+
+(provide squared
+	 cubed
+	 recip)
 
 (define (squared n)
   (* n n))

@@ -1,65 +1,82 @@
 ;; u8l.scm - (c) rohan drape, 2001-2007
 
-(module u8l (lib "lang.ss" "r5rs")
-(#%require "../mzscheme/r6rs.ss"
-	   (only "u8.scm"
-		 i8->u8
-		 u8?
-		 u8->i8)
-	   (only "int.scm"
-		 int->u8l
-		 u8l->int)
-	   (only (lib "1.ss" "srfi")
-		 every
-		 iota
-		 list-index
-		 take)
-	   (lib "39.ss" "srfi"))
-(#%provide u8l?
-	    u8l->int 
-	    int->u8l
-	    i8->u8l 
-	    i16->u8l 
-	    i32->u8l 
-	    i64->u8l 
-	    u8->u8l 
-	    u16->u8l 
-	    u32->u8l 
-	    u64->u8l 
-	    f32->u8l 
-	    f64->u8l
-	    u8l->i8 
-	    u8l->i16 
-	    u8l->i32 
-	    u8l->i64 
-	    u8l->u8 
-	    u8l->u16 
-	    u8l->u32 
-	    u8l->u64 
-	    u8l->f32 
-	    u8l->f64
-	    cstr->u8l
-	    pstr->u8l
-	    u8l->pstr
-	    u8l->cstr
-	    str->u8l
-	    u8l->str
-	    read-u8l 
-	    read-cstr
-	    read-pstr
-	    read-i16
-	    read-i32
-	    read-i64
-	    read-u16
-	    read-u32
-	    read-u64
-	    read-f32
-	    read-f64
-	    read-bstr
-	    write-u8l
-	    file->u8l
-	    with-input-from-u8l
-	    with-output-to-u8l)
+(module u8l scheme/base
+
+(require (only-in "../mzscheme/r6rs.ss"
+		  make-bytevector
+		  bytevector-ieee-single-set!
+		  bytevector-ieee-double-set!
+		  bytevector->u8-list
+		  u8-list->bytevector
+		  bytevector-length
+		  bytevector-ieee-single-ref
+		  bytevector-ieee-double-ref
+		  endianness
+		  open-bytevector-input-port
+		  call-with-bytevector-output-port
+		  get-u8
+		  put-u8
+		  lookahead-u8)
+	 (only-in srfi/1
+		  every
+		  iota
+		  list-index
+		  take)
+	 (only-in srfi/39
+		  parameterize)
+	 (only-in "u8.scm"
+		  i8->u8
+		  u8?
+		  u8->i8)
+	 (only-in "int.scm"
+		  int->u8l
+		  u8l->int))
+
+(provide u8l?
+	 u8l->int
+	 int->u8l
+	 i8->u8l
+	 i16->u8l
+	 i32->u8l
+	 i64->u8l
+	 u8->u8l
+	 u16->u8l
+	 u32->u8l
+	 u64->u8l
+	 f32->u8l
+	 f64->u8l
+	 u8l->i8
+	 u8l->i16
+	 u8l->i32
+	 u8l->i64
+	 u8l->u8
+	 u8l->u16
+	 u8l->u32
+	 u8l->u64
+	 u8l->f32
+	 u8l->f64
+	 cstr->u8l
+	 pstr->u8l
+	 u8l->pstr
+	 u8l->cstr
+	 str->u8l
+	 u8l->str
+	 read-u8l
+	 read-cstr
+	 read-pstr
+	 read-i16
+	 read-i32
+	 read-i64
+	 read-u16
+	 read-u32
+	 read-u64
+	 read-f32
+	 read-f64
+	 read-bstr
+	 write-u8l
+	 file->u8l
+	 with-input-from-u8l
+	 with-output-to-u8l)
 
 (define (real->u8l x size)
   (let* ((n (/ size 8))
@@ -81,7 +98,7 @@
    (f)))
 
 (define (with-output-to-u8l f)
-  (let ((f* (lambda (p) 
+  (let ((f* (lambda (p)
 	      (parameterize
 	       ((current-output-port p))
 	       (f)))))
@@ -147,7 +164,7 @@
 (define (read-u8l n)
   (map (lambda (_) (get-u8 (current-input-port))) (iota n)))
 
-(define (write-u8l l) 
+(define (write-u8l l)
   (map (lambda (e) (put-u8 e (current-output-port))) l))
 
 ;; read-pstr :: IO str

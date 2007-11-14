@@ -1,10 +1,13 @@
 ;; shuffle.scm - (c) rohan drape, 2005-2007
 
-(module shuffle (lib "lang.ss" "r5rs")
-(#%require "../mzscheme/r6rs.ss"
-	   (only "range.scm"
-		 rand))
-(#%provide shuffle)
+(module shuffle scheme/base
+
+(require (only-in "../mzscheme/r6rs.ss"
+		  list-sort)
+	 (only-in "range.scm"
+		  rand))
+
+(provide shuffle)
 
 ;; Return a random permutation of the <list> `l'.  This is not a
 ;; mutation operation.  For a critique of this method see

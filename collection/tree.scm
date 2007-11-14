@@ -1,8 +1,9 @@
 ;; tree.scm - (c) rohan drape, 2000-2007
 
-(module tree (lib "lang.ss" "r5rs")
-(#%provide flatten
-	   mapt)
+(module tree scheme/base
+
+(provide flatten
+	 mapt)
 
 ;; A not entirely naive flatten - ie. does not use append.
 
@@ -11,7 +12,7 @@
 	((list? t) (flatten* (car t) (flatten* (cdr t) r)))
 	(else      (cons t r))))
 
-(define (flatten t) 
+(define (flatten t)
   (flatten* t '()))
 
 ;; Map f over the leaf nodes of t.

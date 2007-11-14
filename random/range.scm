@@ -1,22 +1,24 @@
 ;; range.scm - (c) rohan drape, 2005-2007
 
-(module range (lib "lang.ss" "r5rs")
-(#%require (only "../math/exact.scm"
-		 floor-exact)
-	   (only "distribution.scm"
-		 random)	    
-	   (only (lib "1.ss" "srfi")
-		 iota)
-	   (only (lib "39.ss" "srfi")
-		 make-parameter))
-(#%provide rand 
-	   _rand 
-	   rand2 
-	   randi 
-	   randx 
-	   randl 
-	   randxl 
-	   randb)
+(module range scheme/base
+
+(require (only-in srfi/1
+		  iota)
+	 (only-in srfi/39
+		  make-parameter)
+	 (only-in "../math/exact.scm"
+		  floor-exact)
+	 (only-in "distribution.scm"
+		  random))
+
+(provide rand
+	 _rand
+	 rand2
+	 randi
+	 randx
+	 randl
+	 randxl
+	 randb)
 
 ;; Parameter to control distribution.
 
@@ -40,7 +42,7 @@
 
 ;; List generating variant of rand.
 
-(define (randl n l r) 
+(define (randl n l r)
   (map (lambda (i) (rand l r)) (iota n)))
 
 ;; Integer variant.
@@ -59,10 +61,10 @@
 
 ;; List generating variant of randx.
 
-(define (randxl n l r) 
+(define (randxl n l r)
   (map (lambda (i) (randx l r)) (iota n)))
 
-;; Boolean variant.  
+;; Boolean variant.
 
 (define (randb) (> 0.5 (rand 0.0 1.0)))
 

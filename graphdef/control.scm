@@ -1,19 +1,20 @@
 ;; control.scm - (c) rohan drape, 2003-2007
 
-(module control (lib "lang.ss" "r5rs")
-(#%require (only "../structure/structure.scm"
-		 define-structure)
-	   (only "../u8/np.scm"
-		 i16
-		 pstr))
-(#%provide make-control 
-	   control-name
-	   make-control*
-	   control*? 
-	   control*-rate
-	   control*-default 
-	   control*-name
-	   control->npt)
+(module control scheme/base
+
+(require (only-in "../structure/structure.scm"
+		  define-structure)
+	 (only-in "../u8/np.scm"
+		  i16
+		  pstr))
+(provide make-control
+	 control-name
+	 make-control*
+	 control*?
+	 control*-rate
+	 control*-default
+	 control*-name
+	 control->npt)
 
 ;; A <control> is accessed by a <string> name and an <integer> index.
 

@@ -1,17 +1,18 @@
 ;; encode.scm - (c) rohan drape, 2002-2007
 
-(module encode (lib "lang.ss" "r5rs")
-(#%require "../mzscheme/r6rs.ss"
-	   "../ntp/ntp.scm"
-	   "../u8/np.scm"
-	   "../u8/u8l.scm"
-	   (only "verify.scm"
-		 bundle?
-		 message?)
-	   (only (lib "1.ss" "srfi")
-		 make-list))
-(#%provide cstring-length
-	   osc->u8l)
+(module encode scheme/base
+
+(require (only-in srfi/1
+		  make-list)
+	 "../ntp/ntp.scm"
+	 "../u8/np.scm"
+	 "../u8/u8l.scm"
+	 (only-in "verify.scm"
+		  bundle?
+		  message?))
+
+(provide cstring-length
+	 osc->u8l)
 
 (define (padding-of n) (make-list n (u8 0)))
 
@@ -43,8 +44,8 @@
 ;; or a double is non-trivial and not undertaken here, all <real>s are
 ;; written as floats.
 
-(define (exact-integer? n)
-  (and (integer? n) (exact? n)))
+;; (define (exact-integer? n)
+;;   (and (integer? n) (exact? n)))
 
 (define (encode-value e)
   (cond ((exact-integer? e)   (i32 e))

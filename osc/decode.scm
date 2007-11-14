@@ -1,22 +1,24 @@
 ;; decode.scm - (c) rohan drape, 2002-2007
 
-(module decode (lib "lang.ss" "r5rs")
-(#%require "../mzscheme/r6rs.ss"
-	   "../ntp/ntp.scm"
-	   (only "../u8/u8l.scm"
-		 read-i32
-		 read-i64
-		 read-u64
-		 read-i32
-		 read-f32
-		 read-f64
-		 read-bstr
-		 read-cstr
-		 with-input-from-u8l)
-	   (only "encode.scm"
-		 cstring-length)
-	   "type.scm")
-(#%provide u8l->osc)
+(module decode scheme/base
+
+(require (only-in "../mzscheme/r6rs.ss"
+		  lookahead-u8)
+	 "../ntp/ntp.scm"
+	 (only-in "../u8/u8l.scm"
+		  read-i32
+		  read-i64
+		  read-u64
+		  read-f32
+		  read-f64
+		  read-bstr
+		  read-cstr
+		  with-input-from-u8l)
+	 (only-in "encode.scm"
+		  cstring-length)
+	 "type.scm")
+
+(provide u8l->osc)
 
 ;; OSC strings are C strings padded to a four byte boundary.
 
@@ -25,7 +27,8 @@
 	 (n (modulo (cstring-length s) 4))
 	 (p (- 4 (modulo n 4))))
     (if (not (= n 0))
-	(read-bstr p))
+	(read-bstr p)
+	#f)
     s))
 
 ;; OSC byte strings are length prefixed.
@@ -42,7 +45,7 @@
 ;; `type', encoded at the OSC byte stream `p'.
 
 (define (read-value t)
-  (cond 
+  (cond
    ((eq? t oI32) (read-i32))
    ((eq? t oI64) (read-i64))
    ((eq? t oU64) (read-u64))

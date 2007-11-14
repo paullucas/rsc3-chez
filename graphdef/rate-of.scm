@@ -1,25 +1,27 @@
 ;; rate-of.scm - (c) rohan drape, 2005-2007
 
-(module rate-of (lib "lang.ss" "r5rs")
-(#%require "../mzscheme/r6rs.ss"
-	   (only "control.scm"
-		 control*?
-		 control*-rate)
-	   (only "mce.scm"
-		 mce?
-		 mce-channels)
-	   (only "mrg.scm"
-		 mrg?)
-	   (only "proxy.scm"
-		 proxy?
-		 proxy-ugen)
-	   (only "rate.scm"
-		 ir
-		 rate-select)
-	   (only "ugen.scm"
-		 ugen?
-		 ugen-rate))
-(#%provide rate-of)
+(module rate-of scheme/base
+
+(require (only-in "../mzscheme/r6rs.ss")
+	 (only-in "control.scm"
+		  control*?
+		  control*-rate)
+	 (only-in "mce.scm"
+		  mce?
+		  mce-channels)
+	 (only-in "mrg.scm"
+		  mrg?)
+	 (only-in "proxy.scm"
+		  proxy?
+		  proxy-ugen)
+	 (only-in "rate.scm"
+		  ir
+		  rate-select)
+	 (only-in "ugen.scm"
+		  ugen?
+		  ugen-rate))
+
+(provide rate-of)
 
 (define (rate-of o)
   (cond ((number? o)    ir)

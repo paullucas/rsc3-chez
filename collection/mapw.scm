@@ -1,15 +1,17 @@
 ;; mapw.scm - (c) rohan drape, 2000-2007
 
-(module mapw (lib "lang.ss" "r5rs")
-(#%require (only "list.scm"
-		 extend)
-	   (only (lib "1.ss" "srfi") 
-		 drop
-		 take)
-	   (only (lib "23.ss" "srfi") 
-		 error))
-(#%provide mapw
-	   mapw*)
+(module mapw scheme/base
+
+(require (only-in "list.scm"
+		  extend)
+	 (only-in srfi/1
+		  drop
+		  take)
+	 (only-in srfi/23
+		  error))
+
+(provide mapw
+	 mapw*)
 
 ;; [R5RS+] Windowed map.  Apply 'f' to 'n' element windows with 'm'
 ;; separation at `l' having 'z' elements.

@@ -1,17 +1,19 @@
 ;; pitch.scm - (c) rohan drape, 2005-2007
 
-(module pitch (lib "lang.ss" "r5rs")
-(#%require (only "../collection/list.scm"
-		 list-ref/wrap)
-	   (only "log.scm"
-		 log2))
-(#%provide midicps 
-	   cpsmidi
-	   octcps
-	   cpsoct
-	   midiratio
-	   ratiomidi
-	   degree->key)
+(module pitch scheme/base
+
+(require (only-in "../collection/list.scm"
+		  list-ref/wrap)
+	 (only-in "log.scm"
+		  log2))
+
+(provide midicps
+	 cpsmidi
+	 octcps
+	 cpsoct
+	 midiratio
+	 ratiomidi
+	 degree->key)
 
 (define (midicps note)
   (* 440.0 (expt 2.0 (* (- note 69.0) 0.083333333333))))

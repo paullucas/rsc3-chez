@@ -1,18 +1,19 @@
 ;; rate.scm - (c) rohan drape, 2005-2007
 
-(module rate (lib "lang.ss" "r5rs")
-(#%require "../mzscheme/r6rs.ss"
-	   (only "../structure/structure.scm"
-		 define-structure)
-	   (only "../collection/list.scm"
-		 foldl1))
-(#%provide rate?
-	   rate-select 
-	   rate-value
-	   ar 
-	   kr 
-	   ir 
-	   dr)
+(module rate scheme/base
+
+(require (only-in "../structure/structure.scm"
+		  define-structure)
+	 (only-in "../collection/list.scm"
+		  foldl1))
+
+(provide rate?
+	 rate-select
+	 rate-value
+	 ar
+	 kr
+	 ir
+	 dr)
 
 (define-structure rate value)
 

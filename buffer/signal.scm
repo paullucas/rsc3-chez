@@ -1,18 +1,20 @@
 ;; signal.scm - (c) rohan drape, 2005-2007
 
-(module signal (lib "lang.ss" "r5rs")
-(#%require (only "../collection/list.scm"
-                 splice)
-           (only "../collection/mapw.scm"
-                 mapw
-                 mapw*))
-(#%provide wavetable->signal 
-	   signal->wavetable)
+(module signal scheme/base
+
+(require (only-in "../collection/list.scm"
+		  splice)
+	 (only-in "../collection/mapw.scm"
+		  mapw
+		  mapw*))
+
+(provide wavetable->signal
+	 signal->wavetable)
 
 ;; A Signal is half the size of a Wavetable, each element is the sum
 ;; of two adjacent elements of the Wavetable.
 
-(define (wavetable->signal l) 
+(define (wavetable->signal l)
   (mapw 2 2 + l))
 
 ;; A Wavetable is twice the size of a Signal.  Each element 'e0'

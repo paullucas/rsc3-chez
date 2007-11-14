@@ -1,15 +1,17 @@
 ;; series.scm - (c) rohan drape, 2000-2007
 
-(module series (lib "lang.ss" "r5rs")
-(#%require (only (lib "1.ss" "srfi")
-		 unfold))
-(#%provide dx->d 
-	   d->dx 
-	   d->dx**)
+(module series scheme/base
+
+(require (only-in srfi/1
+		  unfold))
+
+(provide dx->d
+	 d->dx
+	 d->dx**)
 
 ;; Predicate to determine if `l' is a one element list.
 
-(define (singleton? l) 
+(define (singleton? l)
   (and (list? l) (null? (cdr l))))
 
 ;; The sequence of intervals between the elements of the series `s'.
@@ -19,7 +21,7 @@
 
 ;; Variant that considers the interval from the first to last element.
 
-(define (d->dx* s) 
+(define (d->dx* s)
   (d->dx (append s (list (car s)))))
 
 ;; Variant allowing function other than '-'.

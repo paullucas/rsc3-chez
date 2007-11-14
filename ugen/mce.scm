@@ -1,13 +1,14 @@
 ;; mce.scm - (c) rohan drape, 2005-2007
 
-(module mce (lib "lang.ss" "r5rs")
-(#%require (only (lib "1.ss" "srfi")
-		 filter
-		 make-list)
-	   "../collection/list.scm"
-	   "../graphdef/mce.scm"
-	   "../graphdef/ugen.scm")
-(#%provide (all-defined))
+(module mce scheme/base
+
+(require (only-in srfi/1
+		  make-list)
+	 "../collection/list.scm"
+	 "../graphdef/mce.scm"
+	 "../graphdef/ugen.scm")
+
+(provide (all-defined-out))
 
 (define (mce-degree m)
   (length (mce-channels m)))

@@ -1,9 +1,10 @@
 ;; u8.scm - (c) rohan drape, 2006-2007
 
-(module u8 (lib "lang.ss" "r5rs")
-(#%provide u8? 
-	   u8->i8 
-	   i8->u8)
+(module u8 scheme/base
+
+(provide u8?
+	 u8->i8
+	 i8->u8)
 
 (define (u8? b)
   (and (integer? b)

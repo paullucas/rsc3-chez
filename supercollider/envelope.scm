@@ -1,18 +1,19 @@
 ;; envelope.scm - (c) rohan drape, 2003-2007
 
-(module envelope (lib "lang.ss" "r5rs")
-(#%require "../mzscheme/r6rs.ss"
-	   (only "../collection/list.scm"
-		 extend
-		 splice
-		 take-cycle)
-	   (only "../collection/series.scm"
-		 d->dx**)
-	   "../graphdef/mce.scm"
-	   (only "../ugen/operator.scm"
-		 Mul 
-		 Sub))
-(#%provide (all-defined))
+(module envelope scheme/base
+
+(require (only-in "../collection/list.scm"
+		  extend
+		  splice
+		  take-cycle)
+	 (only-in "../collection/series.scm"
+		  d->dx**)
+	 "../graphdef/mce.scm"
+	 (only-in "../ugen/operator.scm"
+		  Mul
+		  Sub))
+
+(provide (all-defined-out))
 
 ;; A curve specification is either a <string> or a <number>.  If it is
 ;; a string it must name a known curve type.  For numerical valued
@@ -54,7 +55,7 @@
 
 (define (env levels times curve release-node loop-node)
   (make-mce
-   (append 
+   (append
     (list (car levels) (length times) release-node loop-node)
     (splice (map (lambda (l t c)
 		   (list l

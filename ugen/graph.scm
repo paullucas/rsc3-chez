@@ -1,24 +1,25 @@
 ;; graph.scm - (c) rohan drape, 2003-2007
 
-(module graph (lib "lang.ss" "r5rs")
-(#%require (only (lib "1.ss" "srfi")
-		 make-list
-		 delete-duplicates
-		 filter)
-	   (only (lib "23.ss" "srfi")
-		 error)
-	   "../collection/list.scm"
-	   "../graphdef/graphdef.scm"
-	   "../graphdef/mce.scm"
-	   "../graphdef/mrg.scm"
-	   "../graphdef/control.scm"
-	   "../graphdef/proxy.scm"
-	   "../graphdef/ugen.scm"
-	   "implicit.scm"
-	   "input.scm"
-	   "mce.scm"
-	   "proxied.scm")
-(#%provide (all-defined))
+(module graph scheme/base
+
+(require (only-in srfi/1
+		  make-list
+		  delete-duplicates)
+	 (only-in srfi/23
+		  error)
+	 "../collection/list.scm"
+	 "../graphdef/graphdef.scm"
+	 "../graphdef/mce.scm"
+	 "../graphdef/mrg.scm"
+	 "../graphdef/control.scm"
+	 "../graphdef/proxy.scm"
+	 "../graphdef/ugen.scm"
+	 "implicit.scm"
+	 "input.scm"
+	 "mce.scm"
+	 "proxied.scm")
+
+(provide (all-defined-out))
 
 ;; Return the <list> of all elements of the UGen graph rooted at `u'.
 ;; Nodes are values of type <ugen>|<proxy>|<control*>|<number>.

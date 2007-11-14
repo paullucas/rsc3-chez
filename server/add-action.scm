@@ -1,7 +1,8 @@
 ;; add-action.scm - (c) rohan drape, 2006-2007
 
-(module add-action (lib "lang.ss" "r5rs")
-(#%provide (all-defined))
+(module add-action scheme/base
+
+(provide (all-defined-out))
 
 ;; The addAction values are interpreted as follows:
 

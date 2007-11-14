@@ -1,13 +1,14 @@
 ;; verify.scm - (c) rohan drape, 2005-2007
 
-(module verify (lib "lang.ss" "r5rs")
-(#%require "../mzscheme/r6rs.ss"
-	   (only (lib "1.ss" "srfi")
-		 find-tail))
-(#%provide message
-	   message?
-	   bundle
-	   bundle?)
+(module verify scheme/base
+
+(require (only-in srfi/1
+		  find-tail))
+
+(provide message
+	 message?
+	 bundle
+	 bundle?)
 
 ;; Validating constructors.
 

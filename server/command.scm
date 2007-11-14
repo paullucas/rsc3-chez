@@ -1,11 +1,13 @@
 ;; command.scm - (c) rohan drape, 2005-2007
 
-(module command (lib "lang.ss" "r5rs")
-(#%require (only "../collection/list.scm"
-		 splice)
-	   (only "../osc/verify.scm"
-		 message))
-(#%provide (all-defined))
+(module command scheme/base
+
+(require (only-in "../collection/list.scm"
+		  splice)
+	 (only-in "../osc/verify.scm"
+		  message))
+
+(provide (all-defined-out))
 
 (define with-reply list)
 
@@ -148,7 +150,7 @@
 (define (/b_set id index value)
   (message "/b_set" id index value))
 
-(define (/b_setn id index n . values) 
+(define (/b_setn id index n . values)
   (apply message "/b_setn" id index n values))
 
 (define (/b_setn* id n l)
@@ -188,7 +190,7 @@
 (define (/c_set id value)
   (message "/c_set" id value))
 
-(define (/c_setn id n . values) 
+(define (/c_setn id n . values)
   (apply message "/c_setn" id n values))
 
 (define (/c_setn* n l)

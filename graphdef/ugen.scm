@@ -1,47 +1,49 @@
 ;; ugen.scm - (c) rohan drape, 2003-2007
 
-(module ugen (lib "lang.ss" "r5rs")
-(#%require (only (lib "1.ss" "srfi")
-		 every
-		 iota)
-	   (only "../structure/structure.scm"
-		 define-structure)
-	   (only "../u8/np.scm"
-		 u8
-		 i16
-		 pstr)
-	   (only "id.scm"
-		 uid?
-		 unique-uid)
-	   (only "input.scm"
-		 input->npt)
-	   (only "control.scm"
-		 control*?)
-	   (only "mce.scm"
-		 mce?
-		 make-mce)
-	   (only "output.scm"
-		 output?
-		 output->npt)
-	   (only "proxy.scm"
-		 proxy?)
-	   (only "rate.scm"
-		 rate?
-		 rate-value))
-(#%provide ugen 
-	   make-ugen 
-	   ugen? 
-	   ugen-inputs 
-	   ugen-name 
-	   ugen-rate 
-	   ugen-outputs 
-	   ugen-special 
-	   ugen-id
-	   ugen-output 
-	   ugen-validate 
-	   ugen-transform 
-	   dupn
-	   ugen->npt)
+(module ugen scheme/base
+
+(require (only-in srfi/1
+		  every
+		  iota)
+	 (only-in "../structure/structure.scm"
+		  define-structure)
+	 (only-in "../u8/np.scm"
+		  u8
+		  i16
+		  pstr)
+	 (only-in "id.scm"
+		  uid?
+		  unique-uid)
+	 (only-in "input.scm"
+		  input->npt)
+	 (only-in "control.scm"
+		  control*?)
+	 (only-in "mce.scm"
+		  mce?
+		  make-mce)
+	 (only-in "output.scm"
+		  output?
+		  output->npt)
+	 (only-in "proxy.scm"
+		  proxy?)
+	 (only-in "rate.scm"
+		  rate?
+		  rate-value))
+
+(provide ugen
+	 make-ugen
+	 ugen?
+	 ugen-inputs
+	 ugen-name
+	 ugen-rate
+	 ugen-outputs
+	 ugen-special
+	 ugen-id
+	 ugen-output
+	 ugen-validate
+	 ugen-transform
+	 dupn
+	 ugen->npt)
 
 ;; A <ugen> represents a UGen in a UGen graph.  The <string> name
 ;; names the C level UGen.  Each value at the <list> inputs is either

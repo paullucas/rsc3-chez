@@ -1,19 +1,21 @@
 ;; distribution.scm - (c) rohan drape, 2000-2007
 
-(module distribution (lib "lang.ss" "r5rs")
-(#%require (only "../math/clip.scm"
-		 clip)
-	   (only "../math/constants.scm"
-		 pi)
-	   (only (lib "1.ss" "srfi")
-		 iota)
-	   (only (lib "27.ss" "srfi")
-		 random-real))
-(#%provide random)
+(module distribution scheme/base
+
+(require (only-in srfi/1
+		  iota)
+	 (only-in srfi/27
+		  random-real)
+	 (only-in "../math/clip.scm"
+		  clip)
+	 (only-in "../math/constants.scm"
+		  pi))
+
+(provide random)
 
 ;; Alias SRFI-27 name
 
-(define random random-real)
+;; (define random random-real)
 
 ;; Linearly distributed in [0,1) with a mean value of 0.2929.  The
 ;; density function is given by 'f(x) = 2 * (1 - x)'.
