@@ -6,6 +6,9 @@
 	 ;; 	  error)
 	 (only-in srfi/39
 		  make-parameter)
+	 (only-in "../mzscheme/udp.ss"
+		  open-udp*
+		  udp*-close)
 	 (only-in "../osc/verify.scm"
 		  bundle)
 	 (only-in "../osc/transport.scm"
@@ -41,5 +44,10 @@
 		(/g_freeAll 0)
 		/clearSched
 		(/g_new 1 0 0))))
+
+(define (with-sc3 f)
+  (let ((fd (open-udp* "127.0.0.1" 57110)))
+    (f fd)
+    (udp*-close fd)))
 
 )
