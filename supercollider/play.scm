@@ -7,7 +7,8 @@
 		  /s_new)
 	 (only-in "../server/server.scm"
 		  ->
-		  -><)
+		  -><
+		  with-sc3)
 	 (only-in "../graphdef/graphdef.scm"
 		  graphdef?
 		  graphdef->u8l
@@ -15,7 +16,8 @@
 	 (only-in "synthdef.scm"
 		  ugen->graphdef/out))
 
-(provide (all-defined-out))
+(provide play
+	 audition)
 
 ;; Play the graph rooted at the <ugen> `u' at the server `s'.
 
@@ -25,5 +27,11 @@
 	       (ugen->graphdef/out u))))
     (->< s (/d_recv (graphdef->u8l g)))
     (->  s (/s_new (graphdef-name g) -1 1 1))))
+
+(define (audition u)
+  (with-sc3 
+    (lambda (fd)
+      (play fd u))))
+
 
 )
