@@ -55,15 +55,6 @@ An error is raised if the directory cannot be located."
 
 ;; Scheme.
 
-(defvar rsc3-shared-directory
-  (locate-plt-library "rsc3")
-  "*The location of the rsc3 directory.
-
-This directory contains the rsc3 distribution.  This includes all
-source and documentation files.  The initial value is found by
-executing the procedure `locate-plt-library'.  This variable can
-be set by the user to use a different set of library files.")
-
 (defvar rsc3-buffer
   "*rsc3*"
   "*The name of the rsc3 scheme process buffer.")
@@ -71,9 +62,33 @@ be set by the user to use a different set of library files.")
 (defvar rsc3-interpreter
   "mzscheme")
 
-(defvar rsc3-load-dot-rsc3
+(defvar rsc3-run-control
+  (concat (getenv "HOME") "/.rsc3.scm")
+  "The run-control file (default=~/.rsc3.scm)")
+
+(defvar rsc3-load-run-control-p
   t
-  "If nil do not load ~/.rsc3.scm at startup")
+  "If nil do not load rsc3-run-control at startup")
+
+(defvar rsc3-help-directory
+  nil
+  "*The directory containing the help files (default=nil).")
+
+(defvar rsc3-tags-file
+  nil
+  "*The directory containing the help files (default=nil).")
+
+(defvar rsc3-literate-p
+  t
+  "*Flag to indicate if we are in literate mode (default=t).")
+
+(make-variable-buffer-local 'rsc3-literate-p)
+
+(defun rsc3-unlit (s)
+  "Remove bird literate marks"
+  (if rsc3-literate-p
+      (replace-regexp-in-string "^> " "" s)
+    s))
 
 (defun rsc3-see-output ()
   "Arrange so that the frame has two windows, the current buffer is
@@ -91,14 +106,11 @@ placed in the upper window and the `rsc3-buffer' in the lower window."
 (defun rsc3-make-interpreter-command ()
   "Generate a command to start the rsc3 interpreter."
   (interactive)
-  (let ((dot-rsc3 (concat (getenv "HOME") "/.rsc3.scm"))
-	(hack (if (equal rsc3-interpreter "mred") "--stdio" "-A")))
-    (if (and rsc3-load-dot-rsc3 (file-exists-p dot-rsc3))
-	(list rsc3-interpreter
-	      hack
-	      "-f"
-	      dot-rsc3)
-      (list rsc3-interpreter hack))))
+  (let* ((i (if (equal rsc3-interpreter "mred") "--stdio" "-i"))
+	 (c (list rsc3-interpreter i "-l" "rsc3/rsc3")))
+    (if (and rsc3-load-run-control-p (file-exists-p rsc3-run-control))
+	(append c (list "-f" rsc3-run-control))
+      c)))
 
 (defun rsc3-start-scheme ()
   "Start the rsc3 scheme process.
@@ -138,9 +150,10 @@ Quit the scheme interpreter and delete the associated buffer."
 ;; start of the preceding expression.
 
 (defun rsc3-expression-before-point ()
-  (buffer-substring-no-properties
-   (save-excursion (backward-sexp) (point))
-   (point)))
+  (rsc3-unlit
+   (buffer-substring-no-properties
+    (save-excursion (backward-sexp) (point))
+    (point))))
 
 ;; Send the string `expression' to the inferior rsc3 process for
 ;; evaluation.  If there is not an active sub-process one is started
@@ -231,7 +244,7 @@ setter function is searched for."
 	(find-tag s)
       (error (find-it (drop-trailing-hyphenated-word s)))))
   (interactive)
-  (setq tags-file-name (concat rsc3-shared-directory "/scheme/TAGS"))
+  (setq tags-file-name rsc3-tags-file)
   (find-it (thing-at-point 'symbol)))
 
 (defun rsc3-help ()
@@ -242,7 +255,7 @@ The symbol at point is preprocessed by `rsc3-cleanup-symbol'."
   (interactive)
   (mapc (lambda (filename)
 	  (find-file-other-window filename))
-	(find-lisp-find-files (concat rsc3-shared-directory "/Help")
+	(find-lisp-find-files rsc3-help-directory
 			      (concat "^"
 				      (rsc3-cleanup-symbol
 				       (thing-at-point 'symbol))
@@ -279,13 +292,13 @@ The symbol at point is preprocessed by `rsc3-cleanup-symbol'."
 
   ;; rsc3
   (define-key map [menu-bar rsc3]
-    (cons "Rsc3" (make-sparse-keymap "Rsc3")))
+    (cons "Scheme-SuperCollider" (make-sparse-keymap "Scheme-SuperCollider")))
 
   ;; Help
   (define-key map [menu-bar rsc3 help]
     (cons "Help" (make-sparse-keymap "Help")))
   (define-key map [menu-bar rsc3 help rsc3]
-    '("Rsc3 help" . rsc3-help))
+    '("Scheme-SuperCollider help" . rsc3-help))
   (define-key map [menu-bar rsc3 help source]
     '("Find definition" . rsc3-find-definition))
 
@@ -327,7 +340,7 @@ The symbol at point is preprocessed by `rsc3-cleanup-symbol'."
 ;; and menu.
 (if rsc3-mode-map
     ()
-  (let ((map (make-sparse-keymap "rsc3")))
+  (let ((map (make-sparse-keymap "Scheme-SuperCollider")))
     (rsc3-mode-keybindings map)
     (rsc3-mode-menu map)
     (setq rsc3-mode-map map)))
@@ -352,35 +365,45 @@ The symbol at point is preprocessed by `rsc3-cleanup-symbol'."
 
 
 
-(define-derived-mode
-  rsc3-mode
-  scheme-mode
-  "rsc3-mode"
-  "Major mode for interacting with an inferior rsc3 process.
-Derived from `scheme-mode' and requiring `comint-mode' mode.
+(defvar rsc3-font-lock-settings
+  '((scheme-font-lock-keywords
+     scheme-font-lock-keywords-1 scheme-font-lock-keywords-2)
+    nil nil (("+-*/.<>=!?$%_&~^:" . "w")) beginning-of-defun
+    (font-lock-mark-block-function . mark-defun)))
 
-The following keys are bound:
-\\{rsc3-mode-map}
+;; Set up font locking.  This duplicates what scheme.el does, but
+;; set case-fold to nil instead of t.  This is required for the math
+;; UGen names, which include Not and Abs.
 
-Customisation: Entry to this mode runs the hooks on `scheme-mode-hook'
-and `rsc3-mode-hook' (in that order).
-"
-  ;; Set up font locking.  This duplicates what scheme.el does, but
-  ;; set case-fold to nil instead of t.  This is required for the math
-  ;; UGen names, which include Not and Abs.
+(defun rsc3-setup-font-lock ()
   (make-local-variable 'font-lock-defaults)
-  (setq font-lock-defaults
-	'((scheme-font-lock-keywords
-	   scheme-font-lock-keywords-1 scheme-font-lock-keywords-2)
-	  nil nil (("+-*/.<>=!?$%_&~^:" . "w")) beginning-of-defun
-	  (font-lock-mark-block-function . mark-defun)))
+  (setq font-lock-defaults rsc3-font-lock-settings)
   (put 'letc 'scheme-indent-function 'scheme-let-indent)
   (rsc3-font-lock-special-forms)
   (setq-default font-lock-keywords-case-fold-search nil))
 
-;; Declare this mode to emacs.
+(define-derived-mode
+  rsc3-mode
+  scheme-mode
+  "Scheme SueprCollider"
+  "Major mode for interacting with an inferior rsc3 process."
+  (rsc3-setup-font-lock)
+  (turn-on-font-lock))
 
+(add-to-list 'auto-mode-alist '("\\.ss$" . rsc3-mode))
 (add-to-list 'auto-mode-alist '("\\.scm$" . rsc3-mode))
+
+(define-derived-mode
+  literate-rsc3-mode
+  rsc3-mode
+  "Literate Scheme SuperCollider"
+  "Major mode for interacting with an inferior rsc3 process."
+  (setq hsc3-literate-p t)
+  (rsc3-setup-font-lock)
+  (turn-on-font-lock))
+
+(add-to-list 'auto-mode-alist '("\\.lss$" . literate-rsc3-mode))
+
 (add-to-list 'interpreter-mode-alist '("rsc3" . rsc3-mode))
 
 (provide 'rsc3)
