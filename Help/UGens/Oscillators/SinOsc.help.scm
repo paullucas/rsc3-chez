@@ -6,18 +6,21 @@
 ;; freq - frequency in Hertz
 ;; phase - phase offset or modulator in radians
 
-(Mul (SinOsc ar 440 0) (Mce 0.15 0.25))
+(audition (Out 0 (Mul (SinOsc ar 440 0) (Mce 0.15 0.25))))
 
 ;; Modulate freq
 
-(Mul (SinOsc ar (XLine kr 2000 200 1 removeSynth) 0) 0.5)
+(let ((f (XLine kr 2000 200 1 removeSynth)))
+  (audition (Out 0 (Mul (SinOsc ar f 0) 0.5))))
 
 ;; Modulate freq
 
-(Mul (SinOsc ar (MulAdd (SinOsc ar (XLine kr 1 1000 9 removeSynth) 0) 200 800) 0)
-     0.25)
+(let* ((f1 (XLine kr 1 1000 9 removeSynth))
+       (f2 (MulAdd (SinOsc ar f1 0) 200 800)))
+  (audition (Out 0 (Mul (SinOsc ar f2 0) 0.25))))
 
 ;; Modulate phase
 
-(Mul (SinOsc ar 800 (Mul (SinOsc ar (XLine kr 20 8000 10 removeSynth) 0) two-pi)) 
-     0.25)
+(let* ((f (XLine kr 20 8000 10 removeSynth))
+       (p (Mul (SinOsc ar f 0) two-pi)))
+  (audition (Out 0 (Mul (SinOsc ar 800 p) 0.25))))
