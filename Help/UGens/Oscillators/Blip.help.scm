@@ -17,12 +17,14 @@
 ;; The number of harmonics may be lowered internally if it would
 ;; cause aliasing.
 
-(Mul (Blip ar 440 200) 0.1)
+(audition (Out 0 (Mul (Blip ar 440 200) 0.1)))
 
 ;; Modulate frequency
 
-(Mul (Blip ar (XLine kr 20000 200 6 removeSynth) 100) 0.2)
+(let ((f (XLine kr 20000 200 6 removeSynth)))
+  (audition (Out 0 (Mul (Blip ar f 100) 0.2))))
 
 ;; Modulate number of harmonics.
 
-(Mul (Blip ar 200 (Line kr 1 100 20 removeSynth)) 0.2)
+(let ((h (Line kr 1 100 20 removeSynth)))
+  (audition (Out 0 (Mul (Blip ar 200 h) 0.2))))
