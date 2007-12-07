@@ -15,6 +15,6 @@
 
 (let* ((r (MouseX kr 0.2 2 1 0.1))
        (t (Impulse ar r 0))
-       (x (Phasor ar t (FDiv r SampleRate) 0 1 0)))
-  (Mul (SinOsc ar (Mce (LinLin x 0 1 600 1000) 1000) 0)
-       0.2))
+       (x (Phasor ar t (FDiv r SampleRate) 0 1 0))
+       (f (Mce (LinLin x 0 1 600 1000) 1000)))
+  (audition (Out 0 (Mul (SinOsc ar f 0) 0.2))))
