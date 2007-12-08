@@ -9,4 +9,6 @@
 ;; The frequency of the slave synched sawtooth wave should always be
 ;; greater than the syncFreq.
 
-(Mul (SyncSaw ar 100 (Line kr 100 800 12 removeSynth)) 0.1)
+(audition
+ (let ((f (Line kr 100 800 12 removeSynth)))
+   (Out 0 (Mul (SyncSaw ar 100 f) 0.1))))

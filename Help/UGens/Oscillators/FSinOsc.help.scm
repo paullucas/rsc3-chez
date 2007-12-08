@@ -14,11 +14,12 @@
 
 ;; Note this has an extra iphase argument from SC2.
 
-(Mul (FSinOsc ar (Mce 440 550) 0) 0.05)
+(audition (Out 0 (Mul (FSinOsc ar (Mce 440 550) 0) 0.05)))
 
-(Mul (FSinOsc ar (XLine kr 200 4000 1 removeSynth) 0) 0.25)
+(let ((f (XLine kr 200 4000 1 removeSynth)))
+  (audition (Out 0 (Mul (FSinOsc ar f 0) 0.25))))
 
 ;; Loses amplitude towards the end
 
 (let ((f (MulAdd (FSinOsc ar (XLine kr 4 401 8 removeSynth) 0) 200 800)))
-  (Mul (FSinOsc ar f 0) 0.25))
+  (audition (Out 0 (Mul (FSinOsc ar f 0) 0.25))))

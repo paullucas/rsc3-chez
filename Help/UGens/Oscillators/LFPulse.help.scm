@@ -8,4 +8,5 @@
 ;; iphase - initial phase offset in cycles ( 0..1 )
 ;; width - pulse width duty cycle from zero to one.
 
-(Mul (LFPulse ar (MulAdd (LFPulse kr 3 0 0.3) 200 200) 0 0.2) 0.1)
+(let ((f (MulAdd (LFPulse kr 3 0 0.3) 200 200)))
+  (audition (Out 0 (Mul (LFPulse ar f 0 0.2) 0.1))))

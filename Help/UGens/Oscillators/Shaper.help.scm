@@ -7,9 +7,12 @@
 ;;          containing the transfer function.
 ;; in     - the input signal.
 
-(->< s (/b_alloc 10 512 1))
+(with-sc3
+ (lambda (fd)
+   (->< fd (/b_alloc 10 512 1))
+   (->< fd (/b_gen* 10 "cheby" 0 (list 1 0 1 1 0 1)))))
 
-(->< s (/b_gen* 10 "cheby" 0 (list 1 0 1 1 0 1)))
-
-(Mul (Shaper 10 (Mul (SinOsc ar 300 0) (Line kr 0 1 6 removeSynth)))
-     0.5)
+(audition
+ (let* ((a (Line kr 0 1 6 removeSynth))
+	(s (Mul (SinOsc ar 300 0) a)))
+   (Out 0 (Mul (Shaper 10 s) 0.5))))

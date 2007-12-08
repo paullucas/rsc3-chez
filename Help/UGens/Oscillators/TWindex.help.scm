@@ -7,15 +7,16 @@
  
 ;; Assuming normalized values 
 
-(let ((prob (Mce 1/5 2/5 2/5))
-      (freq (Mce 400 500 600)))
-  (Mul (SinOsc ar (Select (TWindex (Impulse kr 6 0) 0.0 prob) freq) 0)
-       0.2))
+(audition
+ (let* ((prob (Mce 1/5 2/5 2/5))
+	(freq (Mce 400 500 600))
+	(f (Select (TWindex (Impulse kr 6 0) 0.0 prob) freq)))
+   (Out 0 (Mul (SinOsc ar f 0) 0.2))))
 
 ;; Modulating probability values 
 
-(Mul (SinOsc ar (Select (TWindex (Impulse kr 6 0) 
-				 1.0
-				 (Mce 1/4 1/2 (MulAdd (SinOsc kr 0.3 0) 0.5 0.5)))
-			(Mce 400 500 600)) 0)
-     0.2)
+(audition
+ (let* ((t (Impulse kr 6 0))
+	(a (Mce 1/4 1/2 (MulAdd (SinOsc kr 0.3 0) 0.5 0.5)))
+	(f (Select (TWindex t 1.0 a) (Mce 400 500 600))))
+   (Out 0 (Mul (SinOsc ar f 0) 0.2))))

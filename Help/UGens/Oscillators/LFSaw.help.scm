@@ -6,8 +6,9 @@
 ;; freq   - frequency in Hertz
 ;; iphase - phase in radians
 
-(Mul (LFSaw ar 500 1) 0.1)
+(audition (Out 0 (Mul (LFSaw ar 500 1) 0.1)))
 
 ;; Used as both Oscillator and LFO.
 
-(Mul (LFSaw ar (MulAdd (LFSaw kr 4 0) 400 400) 0) 0.1)
+(let ((f (MulAdd (LFSaw kr 4 0) 400 400)))
+  (audition (Out 0 (Mul (LFSaw ar f 0) 0.1))))

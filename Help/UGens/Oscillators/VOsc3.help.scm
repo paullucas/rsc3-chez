@@ -20,33 +20,34 @@
 ;; Note about wavetables: VOsc3 requires the b_gen sine1 wavetable
 ;; flag to be ON.
 
-;; Allocate and fill tables 0 to 7.
+;; Allocate and fill tables 0 to 7 with a generated list of harmonic
+;; amplitudes.
 
-(require (lib "1.ss" "srfi"))
+(require srfi/1)
 
-(define (square a) (* a a))
-
-(for-each
- (lambda (i)
-   ;; Allocate table
-   (->< s (/b_alloc i 1024 1))
-   ;; Generate list of harmonic amplitudes
-   (let* ((n (expt (+ i 1) 2))
-	  (a (map (lambda (j) (square (/ (- n j) n))) (iota n))))
-     ;; Fill table
-     (->< s (/b_gen* i "sine1" 7 a))))
- (iota 8))
+(with-sc3
+ (lambda (fd)
+   (let* ((square (lambda (a) (* a a)))
+	  (nth (lambda (i)
+		 (->< fd (/b_alloc i 1024 1))
+		 (let* ((n (expt (+ i 1) 2))
+			(a (map (lambda (j) (square (/ (- n j) n))) (iota n))))
+		   (->< s (/b_gen* i "sine1" 7 a))))))
+     (for-each nth (iota 8)))))
 
 ;; Oscillator at buffers 0 through 7.
 
-(let ((p (MouseX kr 0 7 0 0.1)))
-  (Mul (VOsc3 ar p (Mce 240 241) (Mce 240.27 241.1) (Mce 240.43 239.71))
-       0.2))
+(let ((p (MouseX kr 0 7 0 0.1))
+      (f1 (Mce 240 241))
+      (f2 (Mce 240.27 241.1))
+      (f3 (Mce 240.43 239.71)))
+  (audition (Out 0 (Mul (VOsc3 ar p f1 f2 f3) 0.2))))
 
 ;; Reallocate buffers while oscillator is running.
 
-(for-each
- (lambda (i)
-   ;; Fill table
-   (->< s (/b_gen*  i "sine1" 7 (randl 16 0 1))))
- (iota 8))
+(with-sc3
+ (lambda (fd)
+   (for-each
+    (lambda (i)
+      (->< s (/b_gen*  i "sine1" 7 (randl 16 0 1))))
+    (iota 8))))
