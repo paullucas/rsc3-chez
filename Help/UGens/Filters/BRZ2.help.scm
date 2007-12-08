@@ -10,8 +10,6 @@
 
 ;; Compare:
 
-(Mul (WhiteNoise ar) 0.25)
+(audition (Out 0 (Mul (WhiteNoise ar) 0.15)))
 
-(BRZ2 (Mul (WhiteNoise ar) 0.25))
-
-
+(audition (Out 0 (BRZ2 (Mul (WhiteNoise ar) 0.15))))

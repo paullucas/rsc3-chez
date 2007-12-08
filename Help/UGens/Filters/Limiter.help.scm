@@ -6,9 +6,6 @@
 ;; the lookAheadTime.  Limiter, unlike Compander, is completely
 ;; transparent for an in range signal.
 
-(Limiter (Mul (Decay2 (Impulse ar 8 (Mul (LFSaw kr 0.25 -0.6) 0.7))
-		      0.001 
-		      0.3)
-	      (FSinOsc ar 500 0))
-	 0.4 
-	 0.01)
+(let* ((t (Impulse ar 8 (Mul (LFSaw kr 0.25 -0.6) 0.7)))
+       (i (Mul (Decay2 t 0.001 0.3) (FSinOsc ar 500 0))))
+  (audition (Out 0 (Mce (Mul i 0.1) (Limiter i 0.2 0.01)))))

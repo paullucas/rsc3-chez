@@ -6,4 +6,4 @@
 ;; coef - leak coefficient
 
 (let ((a (Mul (LFPulse ar 800 0.5 0.5) 0.1)))
-  (Mce a (LeakDC a 0.995)))
+  (audition (Out 0 (Mce a (LeakDC a 0.995)))))

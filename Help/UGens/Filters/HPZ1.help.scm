@@ -2,4 +2,4 @@
 
 ;; Two point difference filter.
 
-(HPZ1 (Mul (WhiteNoise ar) 0.25))
+(audition (Out 0 (HPZ1 (Mul (WhiteNoise ar) 0.25))))

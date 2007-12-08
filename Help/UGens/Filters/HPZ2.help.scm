@@ -2,4 +2,4 @@
 
 ;; Two zero fixed highpass filter.
 
-(HPZ2 (Mul (WhiteNoise ar) 0.25))
+(audition (Out 0 (HPZ2 (Mul (WhiteNoise ar) 0.25))))

@@ -4,10 +4,12 @@
 
 ;; Same as OnePole.
 
-(let ((x (Mul (LFTri ar 0.4 0) 0.99)))
-  (FOS (Mul (LFSaw ar 200 0) 0.2) (Sub 1 (Abs x)) 0 x))
+(let ((x (Mul (LFTri ar 0.4 0) 0.99))
+      (i (Mul (LFSaw ar 200 0) 0.2)))
+  (audition (Out 0 (FOS i (Sub 1 (Abs x)) 0 x))))
 
 ;; Same as OneZero
 
-(let ((x (Mul (LFTri ar 0.4 0) 0.99)))
-  (FOS (Mul (LFSaw ar 200 0) 0.2) (Sub 1 (Abs x)) x 0))
+(let ((x (Mul (LFTri ar 0.4 0) 0.99))
+      (i (Mul (LFSaw ar 200 0) 0.2)))
+  (audition (Out 0 (FOS i (Sub 1 (Abs x)) x 0))))
