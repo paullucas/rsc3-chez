@@ -24,4 +24,4 @@
 			  (mce-ref encoded 1)
 			  (mce-ref encoded 2)
 			  0)))
-  decoded)
+  (audition (Out 0 decoded)))
