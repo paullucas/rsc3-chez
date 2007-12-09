@@ -46,8 +46,9 @@
 		(/g_new 1 0 0))))
 
 (define (with-sc3 f)
-  (let ((fd (open-udp* "127.0.0.1" 57110)))
-    (f fd)
-    (udp*-close fd)))
+  (let* ((fd (open-udp* "127.0.0.1" 57110))
+	 (r (f fd)))
+    (udp*-close fd)
+    r))
 
 )
