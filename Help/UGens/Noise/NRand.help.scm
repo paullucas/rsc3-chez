@@ -8,5 +8,6 @@
 ;; n = 3 : smooth hump
 ;; as n increases, distribution converges towards gaussian
 
-(Mul (FSinOsc ar (Mul (NRand 1200 4000 2) (Mce 2 5)) 0)
-     (Line kr 0.2 0 0.01 removeSynth))
+(let ((f (Mul (NRand 1200 4000 2) (Mce 2 5)))
+      (a (Line kr 0.2 0 0.01 removeSynth)))
+  (audition (Out 0 (Mul (FSinOsc ar f 0) a))))

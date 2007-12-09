@@ -5,4 +5,4 @@
 ;; produce the same output value. The input need not be from zero to
 ;; one.
 
-(Mul (Hasher (Line ar 0 1 1 2)) 0.2)
+(audition (Out 0 (Mul (Hasher (Line ar 0 1 1 2)) 0.2)))

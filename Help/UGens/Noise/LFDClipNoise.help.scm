@@ -14,11 +14,17 @@
 
 ;; Try wiggling mouse quickly; LFNoise frequently seems stuck,
 ;; LFDNoise changes smoothly.
- 
-(Mul (SinOsc ar (MulAdd (LFClipNoise ar (MouseX kr 0.1 1000 1 0.1)) 200 500) 0) 0.2)
-(Mul (SinOsc ar (MulAdd (LFDClipNoise ar (MouseX kr 0.1 1000 1 0.1)) 200 500) 0) 0.2)
+
+(let ((f (MulAdd (LFClipNoise ar (MouseX kr 0.1 1000 1 0.1)) 200 500)))
+  (audition (Out 0 (Mul (SinOsc ar f 0) 0.2))))
+
+(let ((f (MulAdd (LFDClipNoise ar (MouseX kr 0.1 1000 1 0.1)) 200 500)))
+  (audition (Out 0 (Mul (SinOsc ar f 0) 0.2))))
 
 ;; LFNoise quantizes time steps at high freqs, LFDNoise does not:
 
-(Mul (LFClipNoise ar (XLine kr 1000 20000 10 removeSynth)) 0.1)
-(Mul (LFDClipNoise ar (XLine kr 1000 20000 10 removeSynth)) 0.1)
+(let ((f (XLine kr 1000 20000 10 removeSynth)))
+  (audition (Out 0 (Mul (LFClipNoise ar f) 0.1))))
+
+(let ((f (XLine kr 1000 20000 10 removeSynth)))
+  (audition (Out 0 (Mul (LFDClipNoise ar f) 0.1))))

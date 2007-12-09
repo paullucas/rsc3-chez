@@ -5,12 +5,14 @@
 ;; It is probably pretty hard on your speakers.  The freq argument is
 ;; the approximate rate at which to generate random values.
  
-(Mul (LFClipNoise ar 1000) 0.25)
+(audition (Out 0 (Mul (LFClipNoise ar 1000) 0.1)))
 
 ;; Modulate frequency 
 
-(Mul (LFClipNoise ar (XLine kr 1000 10000 10 removeSynth)) 0.25)
+(let ((f (XLine kr 1000 10000 10 removeSynth)))
+  (audition (Out 0 (Mul (LFClipNoise ar f) 0.1))))
 
 ;; Use as frequency control 
 
-(Mul (SinOsc ar (MulAdd (LFClipNoise kr 4) 200 600) 0) 0.2)
+(let ((f (MulAdd (LFClipNoise kr 4) 200 600)))
+  (audition (Out 0 (Mul (SinOsc ar f 0) 0.2))))

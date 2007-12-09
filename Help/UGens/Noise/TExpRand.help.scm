@@ -5,6 +5,6 @@
 ;; positive values lo and hi must both have the same sign and be
 ;; non-zero.
 
-(let ((trig (Dust kr 10)))
-  (Mul (SinOsc ar (TExpRand 300 3000 trig) 0)
-       0.2))
+(let* ((t (Dust kr 10))
+       (f (TExpRand 300 3000 t)))
+  (audition (Out 0 (Mul (SinOsc ar f 0) 0.2))))
