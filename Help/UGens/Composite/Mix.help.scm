@@ -2,13 +2,17 @@
 
 ;; Force multiple channel expansion and sum signals.
 
-(Mul (mix (FSinOsc ar (Mce 600.2 622.0 641.3 677.7) 0)) 0.1)
+(let ((f (Mce 600.2 622.0 641.3 677.7)))
+  (audition (Out 0 (Mul (mix (FSinOsc ar f 0)) 0.1))))
 
 ;; Expansion nests.
 
-(Mul 0.05 (mix (Mce (FSinOsc ar (Mce 100  500) 0)
-		    (FSinOsc ar (Mce 5000 501) 0))))
+(let ((l (FSinOsc ar (Mce 100  500) 0))
+      (r (FSinOsc ar (Mce 5000 501) 0)))
+  (audition (Out 0 (Mul 0.05 (mix (Mce l r))))))
 
 ;; Simple idiom...
 
-(mix/fill 3 (lambda (_) (Mul (FSinOsc ar (rand 200 700) 0) 0.1)))
+(let ((n 6)
+      (o (lambda (_) (Mul (FSinOsc ar (rand 200 700) 0) 0.1))))
+  (audition (Out 0 (mix/fill n o))))
