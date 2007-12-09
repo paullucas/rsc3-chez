@@ -9,6 +9,6 @@
 ;; trig  - trigger sets output to one
 ;; reset - trigger resets output to zero
 
-(Mul* (SetResetFF (Dust ar 5) (Dust ar 5))
-      (BrownNoise ar)
-      0.2)
+(let ((n (BrownNoise ar))
+      (g (SetResetFF (Dust ar 5) (Dust ar 5))))
+  (audition (Out 0 (Mul* n g 0.2))))

@@ -2,7 +2,8 @@
 
 ;; When `in' is trigerred output the trigger value for `dur' seconds.
 
-(Mul (Trig (Dust ar 1) 0.2)
-     (Mul (FSinOsc ar 800 0) 0.5))
+(let ((s (FSinOsc ar 800 0))
+      (g (Trig (Dust ar 1) 0.2)))
+  (audition (Out 0 (Mul* s g 0.5))))
 
-(Trig (Dust ar 4) 0.1)
+(audition (Out 0 (Trig (Dust ar 4) 0.1)))

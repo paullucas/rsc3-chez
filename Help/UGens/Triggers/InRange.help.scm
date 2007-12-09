@@ -9,5 +9,5 @@
 ;; lo - low threshold
 ;; hi - high threshold
 
-(Mul (InRange (Mul (SinOsc kr 1 0) 0.2) -0.15 0.15) 
-     (Mul (BrownNoise ar) 0.1))
+(let ((a (InRange (Mul (SinOsc kr 1 0) 0.2) -0.15 0.15)))
+  (audition (Out 0 (Mul a (Mul (BrownNoise ar) 0.1)))))

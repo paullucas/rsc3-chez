@@ -13,11 +13,13 @@
 ;;         and its value passed with the trigger message
 
 (let ((s (LFNoise0 kr 10)))
-  (Mrg (SendTrig s 0 s)
-       (Out 0 (Mul (SinOsc ar (MulAdd s 200 500) 0) 0.1))))
+  (audition (Mrg (SendTrig s 0 s)
+		 (Out 0 (Mul (SinOsc ar (MulAdd s 200 500) 0) 0.1)))))
 
-(->< s (/notify 1))
-
-(<-* s 0.1)
-
-(->< s (/notify 0))
+(with-sc3
+ (lambda (fd)
+   (->< fd (/notify 1))
+   (sleep 2.0)
+   (let ((r (<-* fd 0.1)))
+     (->< fd (/notify 0))
+     r)))

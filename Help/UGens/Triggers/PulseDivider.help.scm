@@ -8,4 +8,4 @@
        (d (PulseDivider p (Mce 4 7) 0))
        (a (Mul (SinOsc ar 1200 0) (Decay2 p 0.005 0.1)))
        (b (Mul (SinOsc ar 600 0)  (Decay2 d 0.005 0.5))))
-  (Mul (Add a b) 0.4))
+  (audition (Out 0 (Mul (Add a b) 0.4))))

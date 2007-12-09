@@ -5,25 +5,30 @@
 	
 ;; Using sweep to modulate sine frequency
 
-(let ((trig (Impulse kr (MouseX kr 0.5 20 1 0.1) 0)))
-  (Mul (SinOsc ar (Add (Sweep trig 700) 500) 0) 0.2))
+(let* ((t (Impulse kr (MouseX kr 0.5 20 1 0.1) 0))
+       (f (Add (Sweep t 700) 500)))
+  (audition (Out 0 (Mul (SinOsc ar f 0) 0.2))))
 
 ;; Using sweep to index into a buffer
 
-(->< s (/b_allocRead 0 "/home/rohan/sw/sw-01/audio/metal.wav" 0 0))
+(with-sc3
+ (lambda (fd)
+   (->< fd (/b_allocRead 0 "/home/rohan/audio/metal.wav" 0 0))))
 
-(let ((trig (Impulse ar (MouseX kr 0.5 20 1 0.1) 0)))
-  (BufRd 1 ar 0 (Sweep trig (BufSampleRate ir 0)) 0 2))
+(let* ((t (Impulse ar (MouseX kr 0.5 20 1 0.1) 0))
+       (i (Sweep t (BufSampleRate ir 0))))
+  (audition (Out 0 (BufRd 1 ar 0 i 0 2))))
 
 ;; Backwards, variable offset
 
-(let* ((trig (Impulse ar (MouseX kr 0.5 10 1 0.1) 0))
-       (rate (BufSampleRate ir 0))
-       (pos  (Add (Sweep trig (Neg rate)) (Mul (BufFrames ir 0) (LFNoise0 kr 15)))))
-  (BufRd 1 ar 0 pos 0 2))
+(let* ((t (Impulse ar (MouseX kr 0.5 10 1 0.1) 0))
+       (r (BufSampleRate ir 0))
+       (i (Add (Sweep t (Neg r)) (Mul (BufFrames ir 0) (LFNoise0 kr 15)))))
+  (audition (Out 0 (BufRd 1 ar 0 i 0 2))))
 
 ;; Raising rate
 
-(let* ((trig (Impulse ar (MouseX kr 0.5 10 1 0.1) 0))
-       (rate (Add (Sweep trig 2) 0.5)))
-  (BufRd 1 ar 0 (Sweep trig (Mul (BufSampleRate ir 0) rate)) 0 2))
+(let* ((t (Impulse ar (MouseX kr 0.5 10 1 0.1) 0))
+       (r (Add (Sweep t 2) 0.5))
+       (i (Sweep t (Mul (BufSampleRate ir 0) r))))
+  (audition (Out 0 (BufRd 1 ar 0 i 0 2))))

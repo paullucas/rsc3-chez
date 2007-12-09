@@ -9,5 +9,6 @@
 ;; hi - high threshold
 
 (let* ((in (LFNoise1 kr 3))
-       (octave (Add (Schmidt in -0.15 0.15) 1)))
-  (Mul (SinOsc ar (Add (Mul in 200) (Mul 500 octave)) 0) 0.1))
+       (octave (Add (Schmidt in -0.15 0.15) 1))
+       (f (Add (Mul in 200) (Mul 500 octave))))
+  (audition (Out 0 (Mul (SinOsc ar f 0) 0.1))))

@@ -15,22 +15,26 @@
 
 ;; No decay
 
-(Mul (SinOsc ar (MulAdd (PeakFollower (Mul (Dust ar 20) (Line kr 0 1 4 doNothing)) 1.0) 1500 200) 0)
-     0.2)
+(let* ((s (Mul (Dust ar 20) (Line kr 0 1 4 doNothing)))
+       (f (MulAdd (PeakFollower s 1.0) 1500 200)))
+  (audition (Out 0 (Mul (SinOsc ar f 0) 0.2))))
 
 ;; A little decay
 
-(Mul (SinOsc ar (MulAdd (PeakFollower (Mul (Dust ar 20) (Line kr 0 1 4 doNothing)) 0.999) 1500 200) 0)
-     0.2)
+(let* ((s (Mul (Dust ar 20) (Line kr 0 1 4 doNothing)))
+       (f (MulAdd (PeakFollower s 0.999) 1500 200)))
+  (audition (Out 0 (Mul (SinOsc ar f 0) 0.2))))
 
 ;; Mouse x controls decay
 
-(let ((decay (Min (MouseX kr 0.99 1.0001 1 0.1) 1.0)))
-  (Mul (SinOsc ar (MulAdd (PeakFollower (Dust ar 20) decay) 1500 200) 0)
-       0.2))
+(let* ((x (MouseX kr 0.99 1.0001 1 0.1))
+       (s (Mul (Dust ar 20) (Line kr 0 1 4 doNothing)))
+       (f (MulAdd (PeakFollower s (Min x 1.0)) 1500 200)))
+  (audition (Out 0 (Mul (SinOsc ar f 0) 0.2))))
 
 ;; Follow a sine lfo
 
-(let ((decay (Min (MouseX kr 0.99 1.0001 1 0.1) 1.0)))
-  (Mul (SinOsc ar (MulAdd (PeakFollower (SinOsc kr 0.2 0) decay) 200 500) 0)
-       0.2))
+(let* ((x (MouseX kr 0.99 1.0001 1 0.1))
+       (s (SinOsc kr 0.2 0))
+       (f (MulAdd (PeakFollower s (Min x 1.0)) 200 500)))
+  (audition (Out 0 (Mul (SinOsc ar f 0) 0.2))))

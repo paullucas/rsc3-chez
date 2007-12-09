@@ -1,6 +1,6 @@
 ;; (Poll trig in trigid label)
 
-;; Print the current output value of a UGen.
+;; Print/query the current output value of a UGen.
 
 ;; trig - a non-positive to positive transition telling Poll to return
 ;;        a value
@@ -21,15 +21,23 @@
    (cons (string-length s)
 	 (map char->integer (string->list s)))))
 
-(define (Poll* trig in trigId label)
-  (Poll trig in trigId (string->ugen label)))
+(let ((t (Impulse kr 2 0))
+      (i (Line kr 0 1 5 removeSynth)))
+  (audition (Poll t i 0 (string->ugen "Test"))))
 
-(Poll* (Impulse kr 10 0)
-       (Line kr 0 1 1 doNothing)
-       0
-       "Test")
+(with-sc3
+ (lambda (fd)
+   (letrec ((print (lambda (e) (display e) (newline)))
+	    (showing (lambda (f) (lambda () (let ((v (f))) (print v) v))))
+	    (repeat (lambda (f) (if (f) (repeat f) #f))))
+     (->< fd (/notify 1))
+     (repeat (showing (lambda () (<- fd 1.0))))
+     (->< fd (/notify 0)))))
 
 ;; Multichannel Expansion (Broken...)
+
+(define (Poll* trig in trigId label)
+  (Poll trig in trigId (string->ugen label)))
 
 (Poll* (Impulse kr (Mce 10 5) 0)
        (Line kr 0 (Mce 1 5) (Mce 1 2) doNothing)
