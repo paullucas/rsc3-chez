@@ -129,7 +129,6 @@
 (define-oscillator/id ClipNoise () 1)
 (define-oscillator/id Dust (density) 1)
 (define-oscillator/id Dust2 (density) 1)
-(define-oscillator/id DustR (lo hi) 1)
 (define-oscillator/id GrayNoise () 1)
 (define-oscillator/id LFClipNoise (freq) 1)
 (define-oscillator/id LFDClipNoise (freq) 1)
