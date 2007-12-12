@@ -177,7 +177,7 @@ Quit the scheme interpreter and delete the associated buffer."
   "Rewrite and evaluate the s-expression that precedes point."
   (interactive)
   (rsc3-evaluate-expression
-   (concat "(play s " (rsc3-expression-before-point) ")")))
+   (concat "(audition " (rsc3-expression-before-point) ")")))
 
 (defun rsc3-draw ()
   "Draw the UGen graph at point using draw*."
@@ -196,17 +196,17 @@ Quit the scheme interpreter and delete the associated buffer."
 (defun rsc3-reset-scsynth ()
   "Free all nodes running at the current SCSYNTH server."
   (interactive)
-  (rsc3-evaluate-expression "(reset s)"))
+  (rsc3-evaluate-expression "(with-sc3 reset)"))
 
 (defun rsc3-status-scsynth ()
   "Show status at server."
   (interactive)
-  (rsc3-evaluate-expression "(display-server-status s)"))
+  (rsc3-evaluate-expression "(with-sc3 display-server-status)"))
 
 (defun rsc3-quit-scsynth ()
   "Shutdown the current SCSYNTH server."
   (interactive)
-  (rsc3-evaluate-expression "(->< s /quit)"))
+  (rsc3-evaluate-expression "(with-sc3 (lambda (fd) (->< fd /quit)))"))
 
 
 ;; Help
