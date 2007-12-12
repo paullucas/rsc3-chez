@@ -29,7 +29,7 @@
        (t (Drand +inf.sc (Mce 1.01 0.2 0.1 2.0)))
        (y (MouseY kr 0.01 3 1 0.1))
        (f (DemandEnvGen ar l (Mul t y) 7 0 1 1 1 0 1 doNothing)))
-  (Mul (SinOsc ar (Mul f (Mce 1 1.01)) 0) 0.1))
+  (audition (Mul (SinOsc ar (Mul f (Mce 1 1.01)) 0) 0.1)))
 
 ;; Frequency modulation
 
@@ -39,11 +39,11 @@
        (l (lambda () (Dseq +inf.sc (make-mce (shuffle s)))))
        (t (Mul SampleDur y))
        (f (DemandEnvGen ar (Mce (l) (l)) t 5 x 1 1 1 0 1 doNothing)))
-  (Mul (SinOsc ar f 0) 0.1))
+  (audition (Mul (SinOsc ar f 0) 0.1)))
 
 ;;  Gate. Mouse x on right side of screen toggles gate.
 
 (let* ((x (MouseX kr 0 1 0 0.1))
        (l (Round (Dwhite +inf.sc 300 1000) 100))
        (f (DemandEnvGen kr l 0.1 5 0.3 (GT x 0.5) 1 1 0 1 doNothing)))
-  (Mul (SinOsc ar (Mul f (Mce 1 1.21)) 0) 0.1))
+  (audition (Mul (SinOsc ar (Mul f (Mce 1 1.21)) 0) 0.1)))

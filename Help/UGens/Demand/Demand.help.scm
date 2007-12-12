@@ -14,7 +14,7 @@
 
 ;; reset - trigger. Resets the list of ugens when triggered.
 
-(require (lib "1.ss" "srfi"))
+(require srfi/1)
 
 (define (mirror1 l) 
   (append l (cdr (reverse (cdr l)))))
@@ -22,18 +22,20 @@
 (let* ((t (Impulse kr 24 0))
        (s (Drand +inf.sc (Mce (Dseq 1 (make-mce (mirror1 (iota 5 1))))
 			      (Drand 8 (make-mce (iota 7 4))))))
-       (f (Demand t 0 (Mul s 100))))
-  (Mul (ScaleNeg (Cubed (Cubed (SinOsc ar (Mce f (Add f 0.7)) 0)))
-		 (MouseX kr -1 1 0 0.1))
-       0.1))
+       (f (Demand t 0 (Mul s 100)))
+       (x (MouseX kr -1 1 0 0.1))
+       (o (SinOsc ar (Mce f (Add f 0.7)) 0)))
+  (audition (Mul (ScaleNeg (Cubed (Cubed o)) x) 0.1)))
 
 (let* ((t (Impulse kr 10 0))
        (r (Dust kr 1))
        (s (Dgeom +inf.sc (midicps 72) (midiratio 1)))
-       (f (Demand t r s)))
-  (Mul (Max (Cubed (SinOsc ar (Mce f (Add f 0.7)) 0)) 0) 0.1))
+       (f (Demand t r s))
+       (o (SinOsc ar (Mce f (Add f 0.7)) 0)))
+  (audition (Mul (Max (Cubed o) 0) 0.1)))
 
 (let* ((t (Impulse kr 10 0))
        (s (MIDICPS (Diwhite +inf.sc 60 72)))
-       (f (Demand t 0 s)))
-  (Mul (Cubed (Cubed (SinOsc ar (Mce f (Add f 0.7)) 0))) 0.1))
+       (f (Demand t 0 s))
+       (o (SinOsc ar (Mce f (Add f 0.7)) 0)))
+  (audition (Mul (Cubed (Cubed o)) 0.1)))

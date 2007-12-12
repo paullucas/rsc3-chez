@@ -9,4 +9,4 @@
 		    (Mce 1 3 (MouseY kr 1 15 0 0.1) 2 (Dwhite 2 0 3))))
        (t (Impulse kr 3 0))
        (f (MulAdd (Demand t 0 a) 30 340)))
-  (Mul (SinOsc ar f 0) 0.1))
+  (audition (Mul (SinOsc ar f 0) 0.1)))
