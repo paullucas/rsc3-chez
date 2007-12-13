@@ -20,7 +20,7 @@
 
 (define (range u l r)
   (if (unipolar? u)
-      (MulAdd (Sub r l) l)
+      (MulAdd u (Sub r l) l)
       (let* ((m (Mul (Sub r l) 0.5))
 	     (a (Add m l)))
 	(MulAdd u m a))))
