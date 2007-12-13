@@ -20,6 +20,8 @@
 (define-filter AllpassC (in maxdelaytime delaytime decaytime) 1)
 (define-filter AllpassL (in maxdelaytime delaytime decaytime) 1)
 (define-filter AllpassN (in maxdelaytime delaytime decaytime) 1)
+(define-filter AmpComp (freq root exp) 1)
+(define-filter AmpCompA (freq root minAmp rootAmp) 1)
 (define-filter APF (in freq radius) 1)
 (define-filter Balance2 (left right pos level) 1)
 (define-filter Ball (in g damp friction) 1)
