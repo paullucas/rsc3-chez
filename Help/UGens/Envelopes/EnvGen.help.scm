@@ -30,11 +30,13 @@
 
 ;; Percussive envelope
 
-(Mul (EnvGen kr 1 0.1 0 1 removeSynth (env/perc 0.01 1 1 -4))
-     (SinOsc ar 440 0))
+(let* ((d (env/perc 0.01 1 1 -4))
+       (e (EnvGen kr 1 0.1 0 1 removeSynth d)))
+  (audition (Mul e (SinOsc ar 440 0))))
 
 ;; The break-point assistant makes a static envelope from a
 ;; co-ordinate list.  There is a duration and amplitude scalar.
 
-(Mul (EnvGen kr 1 0.1 0 1 removeSynth (env/bp '(0 0 1/2 1 1 0) 1 1))
-     (SinOsc ar 440 0))
+(let* ((d (env/bp '(0 0 1/2 1 1 0) 1 1))
+       (e (EnvGen kr 1 0.1 0 1 removeSynth d)))
+  (audition (Mul e (SinOsc ar 440 0))))

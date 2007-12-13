@@ -9,5 +9,5 @@
 ;; Note: The SC3 UGen reorders the mul and add inputs to precede the
 ;; doneAction input.
 
-(Mul (SinOsc ar (Line kr 200 17000 5 removeSynth) 0)
-     0.1)
+(let ((f (Line kr 200 17000 5 removeSynth)))
+  (audition (Mul (SinOsc ar f 0) 0.1)))

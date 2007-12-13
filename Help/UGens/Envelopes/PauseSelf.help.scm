@@ -4,5 +4,6 @@
 ;; to positive.  If the synth is restarted and the gate reset the
 ;; synthesis *not* paused a second time.
 
-(Mrg (PauseSelf (MouseX kr -1 1 0 0.1))
-     (Out 0 (Mul (SinOsc ar 440 0) 0.1)))
+(audition
+ (Mrg (PauseSelf (MouseX kr -1 1 0 0.1))
+      (Out 0 (Mul (SinOsc ar 440 0) 0.1))))

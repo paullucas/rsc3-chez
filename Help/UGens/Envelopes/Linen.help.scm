@@ -6,28 +6,29 @@
 ;; Note that the sustain level input is consulted only at the instant
 ;; when the gate is opened.
 
-(Mul* (Linen (Impulse kr 2 0) 0.01 0.6 0.4 doNothing)
-      (SinOsc ar 440 0)
-      0.1)
+(audition 
+ (Mul* (Linen (Impulse kr 2 0) 0.01 0.6 0.4 doNothing)
+       (SinOsc ar 440 0)
+       0.1))
 
-(Mul (SinOsc ar 440 0)
-     (Linen (MouseX kr -1 1 0 0.1) 1 (MouseY kr 0.1 0.5 0 0.1) 1.0 doNothing))
+(let ((y (MouseY kr 0.1 0.5 0 0.1))
+      (x (MouseX kr -1 1 0 0.1))
+      (o (SinOsc ar 440 0)))
+  (audition (Mul o (Linen x 1 y 1.0 doNothing))))
 
 ;; Open gate for a random interval.
 
-(define g
-  (graphdef->u8l
-   (synthdef
-    "linen"
-    (letc ((gate 0))
-      (Out 0 (Mul (SinOsc ar 440 0) (Linen gate 0.1 0.2 0.1 doNothing)))))))
-
-(->< s (/d_recv g))
-
-(-> s (/s_new "linen" 1001 1 1))
-
-(begin (-> s (bundle (utc) (/n_set 1001 "gate" 1)))
-       (-> s (bundle (+ (utc) (rand 0.05 0.4))
-		     (/n_set 1001 "gate" 0))))
-
-(-> s (/n_free 1001))
+(let* ((r (rand 0.05 0.4))
+       (u (letc ((gate 0))
+	    (let ((e (Linen gate 0.1 0.2 0.1 doNothing)))
+	      (Out 0 (Mul (SinOsc ar 440 0) e)))))
+       (g (graphdef->u8l (synthdef "linen" u))))
+  (with-sc3
+   (lambda (fd)
+     (->< fd (/d_recv g))
+     (-> fd (/s_new "linen" 1001 1 1))
+     (-> fd (bundle (utc) (/n_set 1001 "gate" 1)))
+     (-> fd (bundle (+ (utc) r)
+		    (/n_set 1001 "gate" 0)))
+     (sleep (* r 4))
+     (-> fd (/n_free 1001)))))
