@@ -23,6 +23,9 @@
 (define (FFT* buf in) (FFT buf in 0.5 0 1))
 (define-specialized IFFT (buf wintype) 1 ar)
 (define (IFFT* buf) (IFFT buf 0))
+
+(define-specialized Unpack1FFT (chain bufsize binindex whichmeasure) 1 dr)
+
 (define-specialized Convolution (in kernel frameSize) 1 ar)
 (define-specialized Convolution2 (in bufnum trigger frameSize) 1 ar)
 
@@ -83,6 +86,8 @@
     ((_ n (i ... v) o r)
      (define (n i ... v)
        (construct-ugen 'n r (list i ...) v o 0 (make-uid 0))))))
+
+(define-specialized* PackFFT (chain bufsize from to z magsphases) 1 kr)
 
 (define-syntax define-specialized/n
   (syntax-rules ()
