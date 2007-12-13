@@ -19,22 +19,22 @@
 ;; decayscale - a scale factor multiplied by all ring times at
 ;;              initialization time.
 
-(Klank (Mul (Impulse ar 2 0) 0.1) 
-       1 0 1 
-       (klank-data '(800 1071 1153 1723) 1 1))
+(let ((i (Mul (Impulse ar 2 0) 0.1))
+      (d (klank-data '(800 1071 1153 1723) 1 1)))
+  (audition (Out 0 (Klank i 1 0 1 d))))
 
-(Klank (Mul (Dust ar 8) 0.1) 
-       1 0 1 
-       (klank-data '(800 1071 1353 1723) 1 1))
+(let ((i (Mul (Dust ar 8) 0.1))
+      (d (klank-data '(800 1071 1353 1723) 1 1)))
+  (audition (Out 0 (Klank i 1 0 1 d))))
 
-(Klank (Mul (PinkNoise ar) 0.007) 
-       1 0 1 
-       (klank-data '(800 1071 1353 1723) 1 1))
+(let ((i (Mul (PinkNoise ar) 0.007))
+      (d (klank-data '(800 1071 1353 1723) 1 1)))
+  (audition (Out 0 (Klank i 1 0 1 d))))
 
-(Klank (Mul (PinkNoise ar) (Mce 0.007 0.007)) 
-       1 0 1 
-       (klank-data '(200 671 1153 1723) 1 1))
+(let ((i (Mul (PinkNoise ar) (Mce 0.007 0.007)))
+      (d (klank-data '(200 671 1153 1723) 1 1)))
+  (audition (Out 0 (Klank i 1 0 1 d))))
 
-(Klank (Mul (Decay (Impulse ar 4 0) 0.03) (Mul (ClipNoise ar) 0.01)) 
-       1 0 1
-       (klank-data (randl 12 800 4000) 1 (randl 12 0.1 2)))
+(let ((i (Mul (Decay (Impulse ar 4 0) 0.03) (Mul (ClipNoise ar) 0.01)))
+      (d (klank-data (randl 12 800 4000) 1 (randl 12 0.1 2))))
+  (audition (Out 0 (Klank i 1 0 1 d))))
