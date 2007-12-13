@@ -3,9 +3,12 @@
 (module klang scheme/base
 
 (require "../collection/list.scm"
-	 "../graphdef/mce.scm")
+	 "../graphdef/mce.scm"
+	 "../ugen/filter.scm"
+	 "../ugen/operator.scm"
+	 "../graphdef/rate.scm")
 
-(provide klang-data klank-data)
+(provide klang-data klank-data dyn-klank)
 
 ;; Generate a 'spec' list for a Klang UGen.  `freqs' is a list that
 ;; determines the number of partials, `amps' and `phases' are possibly
@@ -23,5 +26,16 @@
 ;; argument is `ring-time', not `phases'.
 
 (define klank-data klang-data)
+
+(define (dyn-klank i fs fo ds s)
+  (letrec ((gen (lambda (l)
+		  (if (null? l)
+		      0
+		      (let ((f (car l))
+			    (a (cadr l))
+			    (d (caddr l)))
+			(Add (Mul (Ringz i (MulAdd f fs fo) (Mul d ds)) a)
+			     (gen (cdddr l))))))))
+    (gen (mce-channels s))))
 
 )
