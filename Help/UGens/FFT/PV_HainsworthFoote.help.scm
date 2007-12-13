@@ -35,41 +35,46 @@
 
 ;; Just Hainsworth metric with low threshold
 
-(->< s (/b_alloc 0 2048 1))
+(with-sc3
+ (lambda (fd)
+   (->< fd (/b_alloc 0 2048 1))))
 
 (let* ((source (audioin 1))
-       (detect (PV_HainsworthFoote (FFT 0 source) 
+       (detect (PV_HainsworthFoote (FFT* 0 source) 
 				   1.0 
 				   0.0
 				   (MouseX kr 0.01 1.0 1 0.1)
 				   0.04)))
-  (Out 0 (Mul* (SinOsc ar (Mce 440 445) 0)
-	       (Decay (Mul 0.1 detect) 0.1)
-	       0.1)))
+  (audition
+   (Out 0 (Mul* (SinOsc ar (Mce 440 445) 0)
+		(Decay (Mul 0.1 detect) 0.1)
+		0.1))))
 
 ;; Just Hainsworth metric, spot note transitions.
 
 (let* ((src (Mul (LFSaw ar (MulAdd (LFNoise0 kr 1) 90 400) 0) 0.5))
-       (dtc (PV_HainsworthFoote (FFT 0 src)
+       (dtc (PV_HainsworthFoote (FFT* 0 src)
 				1.0
 				0.0
 				0.9
 				0.5))
        (cmp (Mul (SinOsc ar 440 0)
 		 (Decay (Mul 0.1 dtc) 0.1))))
-  (Out 0 (Add (Pan2 src -1 0.1)
-	      (Pan2 cmp 1 0.1))))
+  (audition 
+   (Out 0 (Mul (Mce src cmp) 0.1))))
 
 ;; Just Foote metric.  Foote never triggers with threshold over 1.0,
 ;; threshold under mouse control.
 
 (let* ((src (audioin 1))
-       (dtc (PV_HainsworthFoote (FFT 0 src)
+       (dtc (PV_HainsworthFoote (FFT* 0 src)
 				0.0
 				1.0
 				(MouseX kr 0.0 1.1 0 0.1)
 				0.02))
        (cmp (Mul (SinOsc ar 440 0)
 		 (Decay (Mul 0.1 dtc) 0.1))))
-  (Out 0 (Add (Pan2 src -1 0.1)
-	      (Pan2 cmp 1 0.1))))
+  (audition 
+   (Out 0 (Mul (Mce src cmp) 0.1))))
+
+  

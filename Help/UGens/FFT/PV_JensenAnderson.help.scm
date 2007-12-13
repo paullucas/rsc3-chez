@@ -30,12 +30,15 @@
 ;; Default values in sclang are: propsc=0.25, prophfe=0.25,
 ;; prophfc=0.25, propsf=0.25, threshold=1.0, waittime=0.04.
 
-(->< s (/b_alloc 0 2048 1))
+(with-sc3
+ (lambda (fd)
+   (->< fd (/b_alloc 0 2048 1))))
 
 (let* ((source (audioin 1))
-       (detect (PV_JensenAndersen (FFT 0 source)
+       (detect (PV_JensenAndersen (FFT* 0 source)
 				  0.25 0.25 0.25 0.25
 				  (MouseX kr 0.01 1.0 1 0.1)
 				  0.04)))
-  (Out 0 (Mul (SinOsc ar (Mce 440 445) 0)
-	      (Decay (Mul 0.1 detect) 0.1))))
+  (audition
+   (Out 0 (Mul (SinOsc ar (Mce 440 445) 0)
+	       (Decay (Mul 0.1 detect) 0.1)))))

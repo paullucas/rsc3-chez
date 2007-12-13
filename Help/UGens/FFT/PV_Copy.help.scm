@@ -9,12 +9,14 @@
 ;; bufferA - source buffer.
 ;; bufferB - destination buffer.
 
-(begin (->< s (/b_alloc 0 2048 1))
-       (->< s (/b_alloc 1 2048 1)))
+(with-sc3
+ (lambda (fd)
+   (->< fd (/b_alloc 0 2048 1))
+   (->< fd (/b_alloc 1 2048 1))))
 
 ;; Proof of concept, silence
 
 (let* ((in (LFClipNoise ar 100))
-       (c0 (FFT 0 in))
+       (c0 (FFT* 0 in))
        (c1 (PV_Copy c0 1)))
-  (Sub (IFFT c0) (IFFT c1)))
+  (audition (Out 0 (Sub (IFFT* c0) (IFFT* c1)))))

@@ -3,8 +3,9 @@
 ;; Swap the real and imaginary components of every bin at `buffer' and
 ;; swap the of the imaginary components.
 
-(define b 0)
+(with-sc3
+ (lambda (fd)
+   (->< fd (/b_alloc 10 2048 1))))
 
-(->< s (/b_alloc b 2048 1))
-
-(IFFT (PV_PhaseShift90 (FFT b (Mul (WhiteNoise ar) 0.1))))
+(let ((n (Mul (WhiteNoise ar) 0.1)))
+  (audition (Out 0 (IFFT* (PV_PhaseShift90 (FFT* 10 n))))))

@@ -6,28 +6,17 @@
 ;; buffer - fft buffer.
 ;; freeze - if > 0 then magnitudes are frozen at current levels.
 
-(define b 0)
+(with-sc3
+ (lambda (fd)
+   (->< fd (/b_alloc 10 2048 1))
+   (->< fd (/b_allocRead 12 "/home/rohan/audio/metal.wav" 0 0))))
 
-(->< s (/b_alloc b 2048 1))
+(let ((dup (lambda (a) (Mce a a)))
+      (s (SinOsc ar (MulAdd (LFNoise1 kr 5.2) 250 400) 0))
+      (f (SinOsc kr 0.2 0)))
+  (audition (Out 0 (dup (Mul 0.25 (IFFT* (PV_MagFreeze (FFT* 10 s) f)))))))
 
-(define (Dup a) (Mce a a))
-
-(Dup
- (Mul
-  0.25
-  (IFFT
-   (PV_MagFreeze
-    (FFT b (SinOsc ar (MulAdd (LFNoise1 kr 5.2) 250 400) 0))
-    (SinOsc kr 0.2 0)))))
-
-(define c 1)
-
-(->< s (/b_allocRead c "/home/rohan/sw/sw-01/audio/metal.wav" 0 0))
-
-(Dup
- (Mul
-  0.5
-  (IFFT
-   (PV_MagFreeze
-    (FFT b (PlayBuf 1 c (BufRateScale kr c) 1 0 1))
-    (GT (MouseY kr 0 1 0 0.1) 0.5)))))
+(let ((dup (lambda (a) (Mce a a)))
+      (s (PlayBuf 1 12 (BufRateScale kr 12) 1 0 1))
+      (f (GT (MouseY kr 0 1 0 0.1) 0.5)))
+  (audition (Out 0 (dup (Mul 0.25 (IFFT* (PV_MagFreeze (FFT* 10 s) f)))))))

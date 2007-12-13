@@ -12,15 +12,16 @@
 
 ;; trig   - a trigger selects a new random ordering.
 
-(begin
-  (->< s (/b_alloc 10 2048 1))
-  (->< s (/b_allocRead 12 "/home/rohan/sw/sw-01/audio/metal.wav" 0 0)))
+(with-sc3
+ (lambda (fd)
+   (->< fd (/b_alloc 10 2048 1))
+   (->< fd (/b_allocRead 12 "/home/rohan/audio/metal.wav" 0 0))))
 
 (let* ((a (PlayBuf 1 12 (BufRateScale kr 12) 1 0 1))
-       (f (FFT 10 a))
+       (f (FFT* 10 a))
        (g (PV_BinScramble f
 			  (MouseX kr 0.0 1.0 0 0.1)
 			  (MouseY kr 0.0 1.0 0 0.1)
 			  (Impulse kr 4 0)))
-       (h (IFFT g)))
-  (Out 0 (Mul 0.5 (Mce h h))))
+       (h (IFFT* g)))
+  (audition (Out 0 (Mul 0.5 (Mce h h)))))

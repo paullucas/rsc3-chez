@@ -7,25 +7,18 @@
 ;; bins   - number of bins to average on each side of bin. 
 ;;          As this number rises, so will CPU usage.
 
-(define b 0)
+(with-sc3
+ (lambda (fd)
+   (->< fd (/b_alloc 10 2048 1))
+   (->< fd (/b_allocRead 12 "/home/rohan/audio/metal.wav" 0 0))))
 
-(->< s (/b_alloc b 2048 1))
-
-(define (Dup a) (Mce a a))
-
-(let* ((in (Mul (LFSaw ar 500 0) (Decay2 (Mul (Impulse ar 2 0) 0.2) 0.01 2)))
-       (c0 (FFT b in))
+(let* ((dup (lambda (a) (Mce a a)))
+       (in (Mul (LFSaw ar 500 0) (Decay2 (Mul (Impulse ar 2 0) 0.2) 0.01 2)))
+       (c0 (FFT* 10 in))
        (c1 (PV_MagSmear c0 (MouseX kr 0 100 0 0.1))))
-  (Mul 0.5 (Dup (IFFT c1))))
+  (audition (Out 0 (Mul 0.5 (dup (IFFT* c1))))))
 
-(define c 1)
-
-(->< s (/b_allocRead c "/home/rohan/sw/sw-01/audio/metal.wav" 0 0))
-
-(Mul 
- 0.5 
- (Dup 
-  (IFFT 
-   (PV_MagSmear (FFT b (PlayBuf 1 c (BufRateScale kr c) 1 0 1))
-		(MouseX kr 0 100 0 0.1)))))
-
+(let* ((dup (lambda (a) (Mce a a)))
+       (s (PlayBuf 1 12 (BufRateScale kr 12) 1 0 1))
+       (x (MouseX kr 0 100 0 0.1)))
+  (audition (Out 0 (Mul 0.5 (dup (IFFT* (PV_MagSmear (FFT* 10 s) x)))))))
