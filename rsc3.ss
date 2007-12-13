@@ -62,6 +62,7 @@
  (require/provide "supercollider/in.scm")
  (require/provide "supercollider/envelope.scm")
  (require/provide "supercollider/klang.scm")
+ (require/provide "supercollider/fft.scm")
  (require/provide "supercollider/mix.scm")
  (require/provide "supercollider/name.scm")
  (require/provide "supercollider/play.scm")
