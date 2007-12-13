@@ -19,8 +19,10 @@
 (define-specialized K2A (in) 1 ar)
 (define-specialized Pitch (in initFreq minFreq maxFreq execFreq maxBinsPerOctave median ampThreshold peakThreshold downSample) 2 kr)
 
-(define-specialized FFT (buf in) 1 kr)
-(define-specialized IFFT (buf) 1 ar)
+(define-specialized FFT (buf in hop wintype active) 1 kr)
+(define (FFT* buf in) (FFT buf in 0.5 0 1))
+(define-specialized IFFT (buf wintype) 1 ar)
+(define (IFFT* buf) (IFFT buf 0))
 (define-specialized Convolution (in kernel frameSize) 1 ar)
 (define-specialized Convolution2 (in bufnum trigger frameSize) 1 ar)
 
