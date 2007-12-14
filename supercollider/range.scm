@@ -2,21 +2,20 @@
 
 (module range scheme/base
 
-(require (only-in "../graphdef/ugen.scm"
-		  ugen-name)
-	 (only-in "../ugen/filter.scm"
-		  LinExp
-		  MulAdd)
-	 (only-in "../ugen/operator.scm"
-		  Sub
-		  Mul
-		  Add))
+(require (only-in srfi/1 
+		  every)
+	 "../graphdef/mce.scm"
+	 "../graphdef/ugen.scm"
+	 "../ugen/filter.scm"
+	 "../ugen/operator.scm")
 
 (provide (all-defined-out))
 
 (define (unipolar? u)
-  (member (ugen-name u)
-	  (list "LFPulse" "Impulse" "TPulse" "Trig1" "Dust")))
+  (if (mce? u)
+      (every unipolar? (mce-channels u))
+      (member (ugen-name u)
+	      (list "LFPulse" "Impulse" "TPulse" "Trig1" "Dust"))))
 
 (define (range u l r)
   (if (unipolar? u)
