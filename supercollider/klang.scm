@@ -4,11 +4,14 @@
 
 (require "../collection/list.scm"
 	 "../graphdef/mce.scm"
+	 "../graphdef/rate.scm"
+	 "../math/constants.scm"
 	 "../ugen/filter.scm"
 	 "../ugen/operator.scm"
-	 "../graphdef/rate.scm")
+	 "../ugen/oscillator.scm"
+	 "mix.scm")
 
-(provide klang-data klank-data dyn-klank)
+(provide klang-data klank-data dyn-klank freq-shift)
 
 ;; Generate a 'spec' list for a Klang UGen.  `freqs' is a list that
 ;; determines the number of partials, `amps' and `phases' are possibly
@@ -37,5 +40,12 @@
 			(Add (Mul (Ringz i (MulAdd f fs fo) (Mul d ds)) a)
 			     (gen (cdddr l))))))))
     (gen (mce-channels s))))
+
+;; Frequency shifter, in terms of Hilbert UGen.
+
+(define (freq-shift i f p)
+  (let ((o (SinOsc ar f (Mce (Add p (* 0.5 pi)) p)))
+	(h (Hilbert i)))
+    (mix (Mul h o))))
 
 )
