@@ -107,6 +107,7 @@
 (define-specialized/n GrainSin (tr dur freq pan envbuf) ar)
 (define-specialized/n LagIn (bus lag) kr)
 (define-specialized/n PlayBuf (bufnum rate trigger startPos loop) ar)
+(define-specialized/n Warp1 (bufnum pointer freqScale windowSize envbufnum overlaps windowRandRatio interp) ar)
 
 (define-syntax define-specialized/id
   (syntax-rules ()
