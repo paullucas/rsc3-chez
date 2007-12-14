@@ -59,6 +59,8 @@
 (define-filter Formlet (in freq attacktime decaytime) 1)
 (define-filter FOS (in a0 a1 b1) 1)
 (define-filter Free (in nodeID) 1)
+(define-filter FreeVerb (in mix room damp) 1)
+(define-filter FreeVerb2 (in1 in2 mix room damp) 2)
 (define-filter FreeSelf (in) 1)
 (define-filter FreeSelfWhenDone (in) 1)
 (define-filter Gate (in trig) 1)
