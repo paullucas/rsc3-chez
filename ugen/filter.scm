@@ -92,6 +92,7 @@
 (define-filter MantissaMask (in bits) 1)
 (define-filter Median (length in) 1)
 (define-filter MidEQ (in freq rq db) 1)
+(define-filter MoogFF (in freq gain reset) 1)
 (define-filter MostChange (a b) 1)
 (define-filter MulAdd (a b c) 1)
 (define-filter Normalizer (in level dur) 1)
