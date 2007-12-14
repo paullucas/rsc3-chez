@@ -16,7 +16,7 @@
        (r (FreeVerb s y x 0.5)))
   (audition (Out 0 r)))
 
-(let* ((i (audioin (Mce 0 1)))
+(let* ((i (audio-in (Mce 0 1)))
        (c (lambda (u n) (mce-channel u n)))
        (x (MouseX kr 0 1 0 0.1))
        (y (MouseY kr 0 1 0 0.1))

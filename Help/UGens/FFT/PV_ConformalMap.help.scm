@@ -19,7 +19,7 @@
  (Pan2
   (IFFT*
    (PV_ConformalMap
-    (FFT* 10 (Mul (audioin 1) 0.5)) (MouseX kr -1 1 0 0.1)
+    (FFT* 10 (Mul (audio-in 1) 0.5)) (MouseX kr -1 1 0 0.1)
     (MouseY kr -1 1 0 0.1)))
   0
   1))

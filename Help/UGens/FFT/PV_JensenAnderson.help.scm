@@ -34,7 +34,7 @@
  (lambda (fd)
    (->< fd (/b_alloc 0 2048 1))))
 
-(let* ((source (audioin 1))
+(let* ((source (audio-in 1))
        (detect (PV_JensenAndersen (FFT* 0 source)
 				  0.25 0.25 0.25 0.25
 				  (MouseX kr 0.01 1.0 1 0.1)

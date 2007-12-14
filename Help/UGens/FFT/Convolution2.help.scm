@@ -57,5 +57,5 @@
 
 (async (/b_allocRead 10 "/home/rohan/audio/metal.wav" 0 0))
 
-(let ((i (audioin (Mce 1))))
+(let ((i (audio-in (Mce 1))))
   (audition (Out 0 (Mul (Convolution2 i 10 0 512) 0.5))))

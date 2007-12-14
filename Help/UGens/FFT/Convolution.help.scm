@@ -9,7 +9,7 @@
 ;; framesize - size of FFT frame, must be a power of two
 
 (audition
- (let ((input (audioin (Mce 1 2)))
+ (let ((input (audio-in (Mce 1 2)))
        (kernel (WhiteNoise ar)))
    (Mul (Convolution input kernel 2048) 0.1)))
 
@@ -25,7 +25,7 @@
 		 (-> fd (/b_set b (randi 0 a) (rand 0.0 1.0))))
 	       (iota 100))))
   (audition (Mul (Convolution 
-		  (audioin (Mce 1 2)) 
+		  (audio-in (Mce 1 2)) 
 		  (PlayBuf 1 b (BufRateScale kr b) 1 0 1)
 		  (* 2 a))
 		 0.2)))

@@ -28,7 +28,7 @@
   (Mce in (Mul (SinOsc ar (FDiv (car (mce-channels freq+)) 2) 0)
 	       amp)))
 
-(let* ((in (audioin 1))
+(let* ((in (audio-in 1))
        (amp (Amplitude kr in 0.05 0.05))
        (freq+ (Pitch* in 7 0.02)))
   (Mce in (Mul (SinOsc ar (car (mce-channels freq+)) 0)

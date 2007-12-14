@@ -9,5 +9,5 @@
 
 (let ((n 40))
   (Mul* (SinOsc ar 440 0)
-	(RunningSum (audioin (Mce 1 2)) n)
+	(RunningSum (audio-in (Mce 1 2)) n)
 	(Recip n)))
