@@ -19,7 +19,7 @@
 	(and (= (+ x 1) (car xs))
 	     (consecutive? xs)))))
 
-(define (audioin n)
+(define (audio-in n)
   (let ((offset (Sub NumOutputBuses 1)))
     (if (mce? n)
 	(let ((l (mce-channels n)))
