@@ -1,4 +1,4 @@
-;; (freq-shift input shift PHASE)
+;; (freq-shift input shift phase)
 
 ;; freq-shift implements single sideband amplitude modulation, also
 ;; known as frequency shifting, but not to be confused with pitch
