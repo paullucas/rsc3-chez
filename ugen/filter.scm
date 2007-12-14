@@ -111,6 +111,7 @@
 (define-filter Peak (trig reset) 1)
 (define-filter PeakFollower (in decay) 1)
 (define-filter PitchShift (in windowSize pitchRatio pitchDispersion timeDispersion) 1)
+(define-filter Pluck (in trig maxdelaytime delaytime decaytime coef) 1)
 (define-filter PulseCount (trig reset) 1)
 (define-filter PulseDivider (trig div start) 1)
 (define-filter Ramp (in lagTime) 1)
