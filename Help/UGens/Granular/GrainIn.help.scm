@@ -21,8 +21,7 @@
 ;;          grain envelope. -1 uses a built-in Hanning envelope.
 
 (let* ((x (MouseX kr -0.5 0.5 0 0.1))
-       (y (MouseY kr 0 400 0 0.1))
+       (y (MouseY kr 5 25 0 0.1))
        (n (PinkNoise ar))
-       (t (Impulse kr 10 0))
-       (i (range (LFNoise1 kr 500) 1 10)))
+       (t (Impulse kr y 0)))
   (audition (Out 0 (Mul (GrainIn 2 t 0.1 n x -1) 0.1))))
