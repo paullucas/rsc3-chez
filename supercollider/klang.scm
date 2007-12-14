@@ -11,7 +11,7 @@
 	 "../ugen/oscillator.scm"
 	 "mix.scm")
 
-(provide klang-data klank-data dyn-klank freq-shift)
+(provide (all-defined-out))
 
 ;; Generate a 'spec' list for a Klang UGen.  `freqs' is a list that
 ;; determines the number of partials, `amps' and `phases' are possibly
