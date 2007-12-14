@@ -101,6 +101,10 @@
 
 (define-specialized/n InFeedback (bus) ar)
 (define-specialized/n InTrig (bus) kr)
+(define-specialized/n GrainBuf (tr dur sndbuf rate pos interp pan envbuf) ar)
+(define-specialized/n GrainFM (tr dur carfreq modfreq index pan envbuf) ar)
+(define-specialized/n GrainIn (tr dur in pan envbuf) ar)
+(define-specialized/n GrainSin (tr dur freq pan envbuf) ar)
 (define-specialized/n LagIn (bus lag) kr)
 (define-specialized/n PlayBuf (bufnum rate trigger startPos loop) ar)
 
