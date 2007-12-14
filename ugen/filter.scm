@@ -63,6 +63,7 @@
 (define-filter FreeSelfWhenDone (in) 1)
 (define-filter Gate (in trig) 1)
 (define-filter Hasher (in) 1)
+(define-filter Hilbert (in) 2)
 (define-filter HPF (in freq) 1)
 (define-filter HPZ1 (in) 1)
 (define-filter HPZ2 (in) 1)
