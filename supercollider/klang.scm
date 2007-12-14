@@ -48,4 +48,9 @@
 	(h (Hilbert i)))
     (mix (Mul h o))))
 
+;; PMOsc
+
+(define (pm-osc r cf mf pm mp)
+  (SinOsc r cf (Mul (SinOsc r mf mp) pm)))
+
 )
