@@ -385,7 +385,7 @@ The symbol at point is preprocessed by `rsc3-cleanup-symbol'."
 (define-derived-mode
   rsc3-mode
   scheme-mode
-  "Scheme SueprCollider"
+  "Scheme SuperCollider"
   "Major mode for interacting with an inferior rsc3 process."
   (rsc3-setup-font-lock)
   (turn-on-font-lock))
