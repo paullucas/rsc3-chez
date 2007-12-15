@@ -37,7 +37,7 @@
  (lambda (fd)
    (->< fd (/b_allocRead 10 "/home/rohan/audio/metal.wav" 0 0))))
 
-(let* ((p (Line kr 0 1 15 doNothing))
+(let* ((p (LinLin (LFSaw kr 0.05 0) -1 1 0 1))
        (x (MouseX kr 0.5 2 0 0.1))
        (w (Warp1 1 10 p x 0.1 -1 8 0.1 2)))
   (audition (Out 0 w)))
