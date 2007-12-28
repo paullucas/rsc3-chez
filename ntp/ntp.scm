@@ -35,7 +35,7 @@
 (define 2^32. (exact->inexact 2^32))
 
 (define seconds-from-1900-to-1970 (+ (* 70 365 24 60 60) (* 17 24 60 60)))
-(define (seconds-to-ntp i)        (round-exact (* i 2^32)))
+(define (ntpr->ntp i)             (round-exact (* i 2^32)))
 (define (ntp-to-seconds i)        (/ i 2^32))
 (define (ntp-to-seconds. i)       (/ i 2^32.))
 (define (nanoseconds-to-ntp i)    (round-exact (* i (/ 2^32 (expt 10 9)))))
@@ -44,7 +44,7 @@
 ;; Convert between time intervals in seconds and NTP intervals.
 
 (define (time-interval->ntp-interval interval)
-  (seconds-to-ntp interval))
+  (ntpr->ntp interval))
 
 (define (ntp-interval->time-interval ntp-interval)
   (ntp-to-seconds ntp-interval))
@@ -56,7 +56,7 @@
 ;; of the <real> number `n'.
 
 (define (utc->ntp n)
-  (seconds-to-ntp (+ n seconds-from-1900-to-1970)))
+  (ntpr->ntp (+ n seconds-from-1900-to-1970)))
 
 ;; Evaluate to a <real> number representing the UTC time of the
 ;; <integer> NTP time `ntp'.
