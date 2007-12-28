@@ -21,7 +21,7 @@
 (define (score->u8l bundles)
   (flatten
    (map (lambda (bundle)
-	  (let ((l (osc->u8l bundle)))
+	  (let ((l (npt->u8l (encode-bundle-ntp bundle))))
 	    (list (i32->u8l (length l))
 		  l)))
 	bundles)))
