@@ -52,6 +52,12 @@
 (define (ntp-interval->time-interval. ntp-interval)
   (ntp-to-seconds. ntp-interval))
 
+;; Evaluate to an <real> representing the NTP time of the UTC time of
+;; the <real> number `n'.
+
+(define (utc->ntpr n)
+  (+ n seconds-from-1900-to-1970))
+
 ;; Evaluate to an <integer> representing the NTP time of the UTC time
 ;; of the <real> number `n'.
 
