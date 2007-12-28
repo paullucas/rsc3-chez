@@ -12,7 +12,8 @@
 		  message?))
 
 (provide cstring-length
-	 osc->u8l)
+	 osc->u8l
+	 encode-bundle-ntp)
 
 (define (padding-of n) (make-list n (u8 0)))
 
