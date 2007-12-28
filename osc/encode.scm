@@ -79,17 +79,17 @@
 ;; Encode OSC bundle. The first element is a <real> valued UTC
 ;; 'time-tag', each subsequent element must be an OSC 'message'.
 
-(define (encode-bundle b)
+(define (encode-bundle-ntp b)
   (list (encode-string "#bundle")
-	(let ((t (car b)))
-	  (if (> t 0)
-	      (u64 (utc->ntp t))
-	      (u64 0)))
+	(u64 (ntpr->ntp (car b)))
 	(map (lambda (e)
 	       (if (message? e)
 		   (encode-bytes (osc->u8l e))
 		   (error 'encode-bundle "illegal value" e)))
 	     (cdr b))))
+
+(define (encode-bundle b)
+  (encode-bundle-ntp (cons (utc->ntpr (car b)) (cdr b))))
 
 ;; An OSC packet is either an OSC message or an OSC bundle.
 
