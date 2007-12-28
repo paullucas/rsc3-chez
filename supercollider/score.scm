@@ -4,10 +4,9 @@
 
 (require (only-in "../collection/tree.scm"
 		  flatten)
-	 (only-in "../osc/encode.scm"
-		  osc->u8l)
-	 (only-in "../u8/u8l.scm"
-		  i32->u8l))
+	 "../osc/encode.scm"
+	 "../u8/np.scm"
+	 "../u8/u8l.scm")
 
 (provide (all-defined-out))
 
