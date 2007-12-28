@@ -18,7 +18,9 @@
 		  round-exact))
 
 (provide ntp->utc.
-	 utc->ntp)
+	 ntpr->ntp
+	 utc->ntp
+	 utc->ntpr)
 
 ;; NTP is the Network Time Protocol.  NTP time is represented by a 64
 ;; bit fixed point number. The first 32 bits specify the number of
