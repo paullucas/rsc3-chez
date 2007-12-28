@@ -165,7 +165,7 @@
   (map (lambda (_) (get-u8 (current-input-port))) (iota n)))
 
 (define (write-u8l l)
-  (map (lambda (e) (put-u8 e (current-output-port))) l))
+  (for-each (lambda (e) (put-u8 e (current-output-port))) l))
 
 ;; read-pstr :: IO str
 
