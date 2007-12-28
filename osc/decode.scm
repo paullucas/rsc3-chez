@@ -38,7 +38,8 @@
 	 (b (read-bstr n))
 	 (p (- 4 (modulo n 4))))
     (if (not (= n 0))
-	read-bstr p)
+	(read-bstr p)
+	#f)
     b))
 
 ;; Evaluates to the object, described by the OSC type character
