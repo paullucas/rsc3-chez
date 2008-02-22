@@ -42,7 +42,7 @@
 	 ugen-output
 	 ugen-validate
 	 ugen-transform
-	 dupn
+	 clone
 	 ugen->npt)
 
 ;; A <ugen> represents a UGen in a UGen graph.  The <string> name
@@ -101,10 +101,8 @@
    (lambda (n r i o s d)
      (make-ugen n r i o s (unique-uid)))))
 
-(define (dupn n u)
+(define (clone n u)
   (make-mce
    (map (lambda (_) (uniquify u)) (iota n))))
-
-(define (dup u) (dupn 2 u))
 
 )
