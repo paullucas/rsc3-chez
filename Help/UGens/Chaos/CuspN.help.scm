@@ -14,23 +14,18 @@
 
 ;; vary frequency
 
-(Mul (Cusp_ ar (MouseX kr 20 SampleRate 0 0.1) 1.0 1.99 0)
-     0.3)
+(let ((x (MouseX kr 20 SampleRate 0 0.1)))
+  (audition (Out 0 (Mul (Cusp_ ar x 1.0 1.99 0) 0.3))))
 
 ;; mouse-controlled params
 
-(Mul (Cusp_ ar (FDiv SampleRate 4)
-	       (MouseX kr 0.9 1.1 1 0.1)
-	       (MouseY kr 1.8 2 1 0.1)
-	       0)
-     0.3)
+(let ((x (MouseX kr 0.9 1.1 1 0.1))
+      (y (MouseY kr 1.8 2 1 0.1)))
+  (audition (Out 0 (Mul (Cusp_ ar (FDiv SampleRate 4) x y 0) 0.3))))
 
 ;; as a frequency control
 
-(Mul (SinOsc ar (MulAdd (Cusp_ ar 40
-			       (MouseX kr 0.9 1.1 1 0.1)
-			       (MouseY kr 1.8 2 1 0.1)
-			       0)
-			800 900)
-	     0.0)
-     0.4)
+(let* ((x (MouseX kr 0.9 1.1 1 0.1))
+       (y (MouseY kr 1.8 2 1 0.1))
+       (f (MulAdd (Cusp_ ar 40 x y 0) 800 900)))
+  (audition (Out 0 (Mul (SinOsc ar f 0.0) 0.4))))
