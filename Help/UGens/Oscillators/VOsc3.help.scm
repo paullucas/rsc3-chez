@@ -29,10 +29,10 @@
  (lambda (fd)
    (let* ((square (lambda (a) (* a a)))
 	  (nth (lambda (i)
-		 (->< fd (/b_alloc i 1024 1))
+		 (async fd (/b_alloc i 1024 1))
 		 (let* ((n (expt (+ i 1) 2))
 			(a (map (lambda (j) (square (/ (- n j) n))) (iota n))))
-		   (->< s (/b_gen* i "sine1" 7 a))))))
+		   (async fd (/b_gen* i "sine1" 7 a))))))
      (for-each nth (iota 8)))))
 
 ;; Oscillator at buffers 0 through 7.
@@ -49,5 +49,5 @@
  (lambda (fd)
    (for-each
     (lambda (i)
-      (->< s (/b_gen*  i "sine1" 7 (randl 16 0 1))))
+      (async fd (/b_gen*  i "sine1" 7 (randl 16 0 1))))
     (iota 8))))

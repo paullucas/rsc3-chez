@@ -18,8 +18,8 @@
 
 (with-sc3
  (lambda (fd)
-   (->< fd (/notify 1))
+   (async fd (/notify 1))
    (sleep 2.0)
-   (let ((r (<-* fd 0.1)))
-     (->< fd (/notify 0))
+   (let ((r (wait fd "/tr")))
+     (async fd (/notify 0))
      r)))

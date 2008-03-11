@@ -79,7 +79,7 @@ expression to do this is written below.  To evaluate an expression
 move the cursor to the closing parenthesis and type C-cC-e (Scheme
 SuperCollider -> Expression -> Evaluate).
 
-> (with-sc3 (lambda (fd) (-> fd (/g_new 1 addToTail 0))))
+> (with-sc3 (lambda (fd) (send fd (/g_new 1 addToTail 0))))
 
 We can then audition a quiet sine oscillator at A440.
 
@@ -89,7 +89,7 @@ To stop the sound we can delete the group it is a part of, the
 audition function places the synthesis node into the group node with
 ID 1, the expression below deletes that group.
 
-> (with-sc3 (lambda (fd) (-> fd (/n_free 1))))
+> (with-sc3 (lambda (fd) (send fd (/n_free 1))))
 
 In order to audition another graph we need to re-create a group with
 ID 1.  Sound.SC3 includes a function 'reset' that sequences these two
@@ -155,11 +155,11 @@ To monitor what OSC messages scsynth is receiving use the 'dumpOSC'
 server command to request that scsynth print text traces of incoming
 messages to its standard output.
 
-> (with-sc3 (lambda (fd) (-> fd (/dumpOSC 1))))
+> (with-sc3 (lambda (fd) (send fd (/dumpOSC 1))))
 
 To end printing send:
 
-> (with-sc3 (lambda (fd) (-> fd (/dumpOSC 0))))
+> (with-sc3 (lambda (fd) (send fd (/dumpOSC 0))))
 
 * References
 

@@ -9,8 +9,8 @@
 		  233.082 87.307 391.995 87.307 261.626
 		  195.998 77.782 233.082 195.998 97.999
 		  155.563)))
-     (->< fd (/b_alloc 10 128 1))
-     (-> fd (/b_setn* 10 0 a)))))
+     (async fd (/b_alloc 10 128 1))
+     (send fd (/b_setn* 10 0 a)))))
 
 ;; Function composition...
 
@@ -58,7 +58,7 @@
    (let ((p (map (lambda (e)
 		   (midicps (+ 36 (degree->key e (list 0 3 5 7 10) 12))))
 		 (map floor-exact (randl 16 0 15)))))
-     (-> fd (/b_setn* 10 0 p)))))
+     (send fd (/b_setn* 10 0 p)))))
 
 ;; A shorter variant, using some simple syntax...
 

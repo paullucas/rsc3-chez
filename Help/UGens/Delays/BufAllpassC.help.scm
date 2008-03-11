@@ -21,7 +21,9 @@
 ;;             negative, thus emphasizing only odd harmonics at an
 ;;             octave lower.
 
-(->< s (/b_alloc 0 44100 1))
+(with-sc3
+ (lambda (fd)
+   (async fd (/b_alloc 0 44100 1))))
 
 (let ((x (Mul* (Decay (Dust ar 1) 0.2) (WhiteNoise ar) 0.5)))
-  (BufAllpassN 0 x 0.25 6))
+  (audition (Out 0 (BufAllpassN 0 x 0.25 6))))

@@ -9,8 +9,8 @@
 
 (with-sc3
  (lambda (fd)
-   (->< fd (/b_alloc 10 512 1))
-   (->< fd (/b_gen* 10 "cheby" 0 (list 1 0 1 1 0 1)))))
+   (async fd (/b_alloc 10 512 1))
+   (async fd (/b_gen* 10 "cheby" 0 (list 1 0 1 1 0 1)))))
 
 (audition
  (let* ((a (Line kr 0 1 6 removeSynth))

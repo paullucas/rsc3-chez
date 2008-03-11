@@ -14,7 +14,9 @@
 ;; in        - the input signal.
 ;; delaytime - delay time in seconds.
 
-(->< s (/b_alloc 0 44100 1))
+(with-sc3
+ (lambda (fd)
+   (async fd (/b_alloc 0 44100 1))))
 
 (let ((z (Mul* (Decay (Dust ar 1) 0.5) 0.3 (WhiteNoise ar))))
-  (Add (BufDelayC 0 z 0.2) z))
+  (audition (Out 0 (Add (BufDelayC 0 z 0.2) z))))

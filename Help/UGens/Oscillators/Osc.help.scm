@@ -17,8 +17,8 @@
 
 (with-sc3
  (lambda (fd)
-   (->< fd (/b_alloc 10 512 1))
-   (->< fd (/b_gen 10 "sine1" (+ 1 2 4) 1 1/2 1/3 1/4 1/5))))
+   (async fd (/b_alloc 10 512 1))
+   (async fd (/b_gen 10 "sine1" (+ 1 2 4) 1 1/2 1/3 1/4 1/5))))
 
 (audition (Out 0 (Mul (Osc ar 10 220 0) 0.1)))
 
@@ -45,4 +45,4 @@
 
 (with-sc3
  (lambda (fd)
-   (->< fd (/b_gen 10 "sine1" (+ 1 2 4) 1 (rand 0 1) 1/4))))
+   (async fd (/b_gen 10 "sine1" (+ 1 2 4) 1 (rand 0 1) 1/4))))

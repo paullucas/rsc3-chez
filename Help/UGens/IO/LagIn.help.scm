@@ -2,7 +2,9 @@
 
 ;; Set bus 10.
 
-(with-sc3 (lambda (fd) (-> fd (/c_set 10 (rand 200 8000)))))
+(with-sc3 
+ (lambda (fd) 
+   (send fd (/c_set 10 (rand 200 8000)))))
 
 ;; Smooth a control rate input signal.
 

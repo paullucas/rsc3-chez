@@ -9,9 +9,9 @@
 ;; bufnum - index of the buffer
 ;; in     - the input signal.
 
-(->< s (/b_alloc 0 6 1))
-
-(-> s (/b_setn* 0 0 (list 200 300 400 500 600 800)))
-
-(let ((f (WrapIndex 0 (MouseX kr 0 18 0 0.1))))
-  (Mul (SinOsc ar f 0) 0.5))
+(with-sc3 
+ (lambda (fd)
+   (async fd (/b_alloc 0 6 1))
+   (send fd (/b_setn* 0 0 (list 200 300 400 500 600 800)))
+   (let ((f (WrapIndex 0 (MouseX kr 0 18 0 0.1))))
+     (play fd (Out 0 (Mul (SinOsc ar f 0) 0.5))))))

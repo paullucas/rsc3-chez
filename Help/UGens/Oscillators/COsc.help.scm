@@ -10,8 +10,8 @@
 
 (with-sc3
  (lambda (fd)
-   (->< fd (/b_alloc 10 512 1))
-   (->< fd (/b_gen 10 "sine1" (+ 1 2 4) 1 1/2 1/3 1/4 1/5 1/6 1/7 1/8 1/9 1/10))))
+   (async fd (/b_alloc 10 512 1))
+   (async fd (/b_gen 10 "sine1" (+ 1 2 4) 1 1/2 1/3 1/4 1/5 1/6 1/7 1/8 1/9 1/10))))
 
 (audition (Out 0 (Mul (COsc ar 10 200 0.7) 0.25)))
 

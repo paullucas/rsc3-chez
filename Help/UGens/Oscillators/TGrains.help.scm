@@ -36,7 +36,7 @@
 
 (with-sc3
  (lambda (fd)
-   (->< fd (/b_allocRead 10 "/home/rohan/audio/metal.wav" 0 0))))
+   (async fd (/b_allocRead 10 "/home/rohan/audio/metal.wav" 0 0))))
 
 (audition
  (let* ((b 10)

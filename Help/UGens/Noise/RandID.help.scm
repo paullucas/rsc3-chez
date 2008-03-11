@@ -26,21 +26,21 @@
 
 (with-sc3
  (lambda (fd)
-   (-> fd (/s_new "r" 1001 1 1 "out" 0 "id" 1))
-   (-> fd (/s_new "r" 1002 1 1 "out" 1 "id" 2))))
+   (send fd (/s_new "r" 1001 1 1 "out" 0 "id" 1))
+   (send fd (/s_new "r" 1002 1 1 "out" 1 "id" 2))))
 
 ;; Reset the seed of randgen 1 
 
-(with-sc3 (lambda (fd) (-> fd (/s_new "s" 1003 1 1 "id" 1))))
+(with-sc3 (lambda (fd) (send fd (/s_new "s" 1003 1 1 "id" 1))))
 
 ;; Change the target RNG with ID 2, ie. effect right channel.
 
-(with-sc3 (lambda (fd) (-> fd (/n_set 1003 "id" 2))))
+(with-sc3 (lambda (fd) (send fd (/n_set 1003 "id" 2))))
 
 ;; Free noise nodes.
 
 (with-sc3
  (lambda (fd)
-   (-> fd (/n_free 1001))
-   (-> fd (/n_free 1002))
-   (-> fd (/n_free 1003))))
+   (send fd (/n_free 1001))
+   (send fd (/n_free 1002))
+   (send fd (/n_free 1003))))

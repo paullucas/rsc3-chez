@@ -35,7 +35,7 @@
 
 (with-sc3
  (lambda (fd)
-   (->< fd (/b_allocRead 10 "/home/rohan/audio/metal.wav" 0 0))))
+   (async fd (/b_allocRead 10 "/home/rohan/audio/metal.wav" 0 0))))
 
 (let* ((p (LinLin (LFSaw kr 0.05 0) -1 1 0 1))
        (x (MouseX kr 0.5 2 0 0.1))

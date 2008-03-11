@@ -32,5 +32,7 @@
 
 (let ((t (utc))
       (dt (/ 1 (server-sample-rate/actual s))))
-  (-> s (bundle (+ t 0.2) (/s_new "s" -1 1 1 "addOffset" 3)))
-  (-> s (bundle (+ t 0.2 dt) (/s_new "s" -1 1 1 "addOffset" 0))))
+  (wuth-sc3
+   (lambda (fd)
+     (send fd (bundle (+ t 0.2) (/s_new "s" -1 1 1 "addOffset" 3)))
+     (send fd (bundle (+ t 0.2 dt) (/s_new "s" -1 1 1 "addOffset" 0))))))

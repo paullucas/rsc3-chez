@@ -14,6 +14,7 @@
 ;  float - sample rate
 ; ] * N
 
-(->< s (/b_alloc 10 6 1))
-
-(->< s (/b_query 10))
+(with-sc3 
+ (lambda (fd)
+   (async fd (/b_alloc 10 6 1))
+   (async fd (/b_query 10))))

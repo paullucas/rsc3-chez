@@ -20,39 +20,54 @@
 ;;              A trigger occurs when a signal changes from <=0 to >0.
 ;; inputArray - an Array of input channels
 
-(send-synth 
- s "recorder"
- (letc ((in 0) (bufnum 0)
-	(offset 1) (recLevel 1) (preLevel 0)
-	(run 1) (loop 1) (trigger 1))
-   (RecordBuf bufnum offset recLevel preLevel run loop trigger (In 2 ar in))))
+(with-sc3
+ (lambda (fd)
+   (send-synth 
+    fd 
+    "recorder"
+    (letc ((in 0) 
+	   (bufnum 0)
+	   (offset 1) 
+	   (recLevel 1) 
+	   (preLevel 0)
+	   (run 1) 
+	   (loop 1) 
+	   (trigger 1))
+      (let ((i (In 2 ar in)))
+	(Out 0 (RecordBuf bufnum offset recLevel preLevel run loop trigger i)))))
+   (let ((b 10)
+	 (y 1001)
+	 (z 1002))
+     (async fd (/b_alloc b 44100 2))
+     (send fd (/s_new "recorder" y addToTail 1 "bufnum" b "in" 8))
+     (send fd (/n_trace y))
+     (send-synth 
+      fd
+      "player"
+      (letc ((bufnum 0) 
+	     (rate 1)
+	     (trigger 1) 
+	     (startPos 0) 
+	     (loop 1) 
+	     (gain 1))
+	(Out 0 (Mul (PlayBuf 2 bufnum rate trigger startPos loop) gain))))
+     (send fd (/s_new "player" z addToTail 1 "bufnum" b)))))
 
-(define b 10)
+(define do-send
+  (lambda (m)
+    (with-sc3
+     (lambda (fd)
+       (send fd m)))))
 
-(->< s (/b_alloc b 44100 2))
+(do-send (/n_set 1001 "run" 1))
 
-(define y 1001)
+(do-send (/n_set 1002 "loop" 1))
+(do-send (/n_set 1002 "gain" 2))
+(do-send (/n_set 1002 "trigger" 1))
 
-(-> s (/s_new "recorder" y addToTail 1 "bufnum" b "in" 8))
+(do-send (/n_free 1001))
+(do-send (/n_free 1002))
 
-(-> s (/n_trace y))
-
-(send-synth 
- s "player"
- (letc ((bufnum 0) (rate 1) (trigger 1) (startPos 0) (loop 1) (gain 1))
-   (Mul (PlayBuf 2 bufnum rate trigger startPos loop) gain)))
-
-(define z 1002)
-
-(-> s (/s_new "player" z addToTail 1 "bufnum" b))
-
-(-> s (/n_set y "run" 1))
-
-(-> s (/n_set z "loop" 1))
-(-> s (/n_set z "gain" 2))
-(-> s (/n_set z "trigger" 1))
-
-(-> s (/n_free y))
-(-> s (/n_free z))
-
-(->< s (/b_free b))
+(with-sc3
+ (lambda (fd)
+   (async fd (/b_free 10))))

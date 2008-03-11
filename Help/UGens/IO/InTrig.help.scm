@@ -16,4 +16,6 @@
 
 ;; Set bus 10.
 
-(with-sc3 (lambda (fd) (-> fd (/c_set 10 (rand 0.0 0.5)))))
+(with-sc3 
+ (lambda (fd) 
+   (send fd (/c_set 10 (rand 0.0 0.5)))))

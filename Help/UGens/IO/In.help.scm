@@ -18,7 +18,9 @@
 
 ;; Reading a control bus.
 
-(with-sc3 (lambda (fd) (-> fd (/c_set 0 (rand 200 5000)))))
+(with-sc3
+ (lambda (fd)
+   (send fd (/c_set 0 (rand 200 5000)))))
 
 (audition (Out 0 (Mul (SinOsc ar (In 1 kr 0) 0) 0.1)))
 
@@ -27,7 +29,7 @@
    (at Q 
        (utc)
        (lambda (t f)
-	 (-> fd (/c_set 0 (rand 200 5000)))
+	 (send fd (/c_set 0 (rand 200 5000)))
 	 (f 0.06)))
    (sleep 4)
    (schedule-clear Q)))

@@ -10,17 +10,19 @@
 ;; The interpolation type is an integer: 1 no interpolation, 2 linear
 ;; interpolation, 4 cubic interpolation.
 
-(->< s (/b_allocRead 0 "/home/rohan/sw/sw-01/audio/metal.wav" 0 0))
+(with-sc3
+ (lambda (fd)
+   (async fd (/b_allocRead 0 "/home/rohan/audio/metal.wav" 0 0))))
 
-(BufRd 1 ar 0 (Mul (SinOsc ar 0.1 0) (BufFrames ir 0)) 0 2)
+(audition (Out 0 (BufRd 1 ar 0 (Mul (SinOsc ar 0.1 0) (BufFrames ir 0)) 0 2)))
 
 (let ((phase (Mul (LFNoise1 ar (MouseX kr (Mce 5 10) 100 0 0.1))
 		  (BufFrames ir 0))))
-  (BufRdL 1 ar 0 phase 0))
+  (audition (Out 0 (BufRdL 1 ar 0 phase 0))))
 
 (let ((phase (Add (LFTri ar 0.1 0)
 		  (Mul (LFTri ar 0.23 0) (BufFrames ir 0)))))
-  (BufRdL 1 ar 0 phase 0))
+  (audition (Out 0 (BufRdL 1 ar 0 phase 0))))
 
 ;; Use a phasor index into the file
 
@@ -31,4 +33,4 @@
 		     0 
 		     (BufFrames kr 0) 
 		     0)))
-  (BufRd 1 ar 0 phase 1 (MouseY kr 0 5 0 0.1)))
+  (audition (Out 0 (BufRd 1 ar 0 phase 1 (MouseY kr 0 5 0 0.1)))))

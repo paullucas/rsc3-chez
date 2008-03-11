@@ -27,35 +27,39 @@
 
 ;; loop - 1 means true, 0 means false.  This is modulate-able.
 
-(->< s (/b_allocRead 10 "/home/rohan/sw/sw-01/audio/metal.wav" 0 0))
+(with-sc3
+ (lambda (fd)
+   (async fd (/b_allocRead 10 "/home/rohan/audio/metal.wav" 0 0))))
 
 ;; Play once only.
 
-(PlayBuf 1 10 (BufRateScale kr 10) 1 0 0)
+(audition (Out 0 (PlayBuf 1 10 (BufRateScale kr 10) 1 0 0)))
 
 ;; Play in infinite loop.
 
-(PlayBuf 1 10 (BufRateScale kr 10) 1 0 1)
+(audition (Out 0 (PlayBuf 1 10 (BufRateScale kr 10) 1 0 1)))
 
 ;; Trigger playback at each pulse.
 
-(PlayBuf 1 10 (BufRateScale kr 10) (Impulse kr 2 0) 0 0)
+(audition (Out 0 (PlayBuf 1 10 (BufRateScale kr 10) (Impulse kr 2 0) 0 0)))
 
 ;; Trigger playback at each pulse (diminishing intervals).
 
 (let ((t (Impulse kr (XLine kr 0.1 100 10 removeSynth) 0)))
-  (PlayBuf 1 10 (BufRateScale kr 10) t 0 0))
+  (audition (Out 0 (PlayBuf 1 10 (BufRateScale kr 10) t 0 0))))
 
 ;; Loop playback, accelerating pitch.
 
 (let ((rate (XLine kr 0.1 100 60 removeSynth)))
-  (PlayBuf 1 10 rate 1 0 1))
+  (audition (Out 0 (PlayBuf 1 10 rate 1 0 1))))
 
 ;; Sine wave control of playback rate, negative rate plays backwards.
 
 (let ((r (MulAdd (FSinOsc kr (XLine kr 0.2 8 30 removeSynth) 0) 3 0.6)))
-  (PlayBuf 1 10 (Mul (BufRateScale kr 10) r) 1 0 1))
+  (audition (Out 0 (PlayBuf 1 10 (Mul (BufRateScale kr 10) r) 1 0 1))))
 
 ;; Release buffer.
 
-(->< s (/b_free 10))
+(with-sc3
+ (lambda (fd)
+   (async fd (/b_free 10))))

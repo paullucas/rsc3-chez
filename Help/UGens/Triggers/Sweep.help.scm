@@ -13,7 +13,7 @@
 
 (with-sc3
  (lambda (fd)
-   (->< fd (/b_allocRead 0 "/home/rohan/audio/metal.wav" 0 0))))
+   (async fd (/b_allocRead 0 "/home/rohan/audio/metal.wav" 0 0))))
 
 (let* ((t (Impulse ar (MouseX kr 0.5 20 1 0.1) 0))
        (i (Sweep t (BufSampleRate ir 0))))
