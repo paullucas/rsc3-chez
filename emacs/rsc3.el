@@ -206,7 +206,7 @@ Quit the scheme interpreter and delete the associated buffer."
 (defun rsc3-quit-scsynth ()
   "Shutdown the current SCSYNTH server."
   (interactive)
-  (rsc3-evaluate-expression "(with-sc3 (lambda (fd) (->< fd /quit)))"))
+  (rsc3-evaluate-expression "(with-sc3 (lambda (fd) (async fd /quit)))"))
 
 
 ;; Help

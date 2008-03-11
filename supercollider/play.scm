@@ -6,8 +6,8 @@
 		  /d_recv
 		  /s_new)
 	 (only-in "../server/server.scm"
-		  ->
-		  -><
+		  send
+		  async
 		  with-sc3)
 	 (only-in "../graphdef/graphdef.scm"
 		  graphdef?
@@ -21,12 +21,12 @@
 
 ;; Play the graph rooted at the <ugen> `u' at the server `s'.
 
-(define (play s u)
+(define (play fd u)
   (let ((g (if (graphdef? u)
 	       u
 	       (ugen->graphdef/out u))))
-    (->< s (/d_recv (graphdef->u8l g)))
-    (->  s (/s_new (graphdef-name g) -1 1 1))))
+    (async fd (/d_recv (graphdef->u8l g)))
+    (send fd (/s_new (graphdef-name g) -1 1 1))))
 
 (define (audition u)
   (with-sc3 

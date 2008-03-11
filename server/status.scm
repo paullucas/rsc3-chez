@@ -1,4 +1,4 @@
-;; status.scm - (c) rohan drape, 2006-2007
+;; status.scm - (c) rohan drape, 2006-2008
 
 (module status scheme/base
 
@@ -6,8 +6,7 @@
 		  intersperse)
 	 (only-in "command.scm"
 		  /status)
-	 (only-in "server.scm"
-		  -><))
+	 "server.scm")
 
 (provide (all-defined-out))
 
@@ -30,8 +29,9 @@
 
 ;; Collect server status information.
 
-(define (server-status s)
-  (let ((r (->< s /status)))
+(define (server-status fd)
+  (send fd /status)
+  (let ((r (wait fd "status.reply")))
     (status-format r)))
 
 (define (display-server-status s)
@@ -41,8 +41,9 @@
 
 ;; Accessors
 
-(define (server-status-field s n)
-  (let ((r (->< s /status)))
+(define (server-status-field fd n)
+  (send fd /status)
+  (let ((r (wait fd "status.reply")))
     (list-ref r n)))
 
 (define (server-sample-rate/nominal s)

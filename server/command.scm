@@ -1,4 +1,4 @@
-;; command.scm - (c) rohan drape, 2005-2007
+;; command.scm - (c) rohan drape, 2005-2008
 
 (module command scheme/base
 
@@ -9,7 +9,9 @@
 
 (provide (all-defined-out))
 
-(define with-reply list)
+(define with-reply 
+  (lambda (_ m)
+    m))
 
 (define /quit
   (with-reply
@@ -80,8 +82,9 @@
   (message "/n_before" a b))
 
 (define (/n_query id)
-  (with-reply "n_info"
-	      (message "/n_query" id)))
+  (with-reply 
+   "n_info"
+   (message "/n_query" id)))
 
 (define (/n_trace id)
   (message "/n_trace" id))

@@ -1,11 +1,11 @@
-;; synthdef.scm - (c) rohan drape, 2003-2007
+;; synthdef.scm - (c) rohan drape, 2003-2008
 
 (module synthdef scheme/base
 
 (require (only-in "../server/command.scm"
 		  /d_recv)
 	 (only-in "../server/server.scm"
-		  -><)
+		  async)
 	 (only-in "../graphdef/graphdef.scm"
 		  graphdef->u8l)
 	 (only-in "../graphdef/letc.scm"
@@ -36,8 +36,8 @@
       (letc ((bus 0.0)) (Out bus u))
       u))
 
-(define (send-synth s n u)
-  (->< s (/d_recv (graphdef->u8l (synthdef n (with-out u))))))
+(define (send-synth fd n u)
+  (async fd (/d_recv (graphdef->u8l (synthdef n (with-out u))))))
 
 (define (ugen->graphdef/out u)
   (synthdef "Anonymous" (with-out u)))

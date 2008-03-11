@@ -1,4 +1,4 @@
-;; server.scm - (c) rohan drape, 2003-2007
+;; server.scm - (c) rohan drape, 2003-2008
 
 (module server scheme/base
 
@@ -18,32 +18,33 @@
 
 (provide (all-defined-out))
 
-(define -> osc-send)
+(define send osc-send)
 
-(define <- osc-recv)
+(define recv osc-recv)
 
-(define (<-* s t)
+(define (recv* fd t)
   (let loop ((r (list)))
-    (let ((p (<- s t)))
+    (let ((p (recv fd t)))
       (if p (loop (cons p r)) (reverse r)))))
 
 (define timeout (make-parameter 1.0))
 
-(define (->< s l)
-  (let ((r (car l))
-	(m (cadr l)))
-    (-> s m)
-    (let ((p (<- s (timeout))))
-      (cond
-       ((not p)                    (error "-><: timed out"))
-       ((not (string=? (car p) r)) (error "-><: bad return packet" p r))
-       (else                       p)))))
+(define (wait fd m)
+  (let ((p (recv fd (timeout))))
+    (cond
+     ((not p) (error "wait: timed out"))
+     ((not (string=? (car p) m)) (error "wait: bad return packet" p m))
+     (else p))))
 
-(define (reset s)
-  (-> s (bundle -1
-		(/g_freeAll 0)
-		/clearSched
-		(/g_new 1 0 0))))
+(define (async fd m)
+  (send fd m)
+  (wait fd "/done"))
+
+(define (reset fd)
+  (send fd (bundle -1
+		   (/g_freeAll 0)
+		   /clearSched
+		   (/g_new 1 0 0))))
 
 (define (with-sc3 f)
   (let* ((fd (open-udp* "127.0.0.1" 57110))
