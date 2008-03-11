@@ -8,8 +8,8 @@
 
  (require/provide "mzscheme/r6rs.ss")
  (require/provide "mzscheme/udp.ss")
+;(require/provide "collection/hscheme.scm")
  (require/provide "collection/list.scm")
- (require/provide "collection/mapw.scm")
  (require/provide "collection/series.scm")
  (require/provide "collection/tree.scm")
  (require/provide "structure/structure.scm")
