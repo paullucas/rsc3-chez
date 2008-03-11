@@ -129,7 +129,7 @@
   (u8 (rate-value (output-rate o))))
 
 (define (make-outputs n r)
-  (make-list n (make-output r)))
+  (replicate n (make-output r)))
 
 
 ;; proxy
@@ -138,18 +138,6 @@
 ;; outputs.
 
 (define-structure proxy ugen port)
-
-
-;; rate-of
-
-(define (rate-of o)
-  (cond ((number? o)    ir)
-	((control*? o)  (control*-rate o))
-	((ugen? o)      (ugen-rate o))
-	((proxy? o)     (rate-of (proxy-ugen o)))
-	((mce? o)       (rate-select (map rate-of (mce-channels o))))
-	((mrg? o)       (error 'rate-of "mrg?" o))
-	(else           (error 'rate-of "illegal value" o))))
 
 
 ;; rate
@@ -178,6 +166,18 @@
 
 (define (rate-select l)
   (foldl1 rate-select* l))
+
+
+;; rate-of
+
+(define (rate-of o)
+  (cond ((number? o)    ir)
+	((control*? o)  (control*-rate o))
+	((ugen? o)      (ugen-rate o))
+	((proxy? o)     (rate-of (proxy-ugen o)))
+	((mce? o)       (rate-select (map rate-of (mce-channels o))))
+	((mrg? o)       (error 'rate-of "mrg?" o))
+	(else           (error 'rate-of "illegal value" o))))
 
 
 ;; ugen
@@ -214,8 +214,8 @@
    (lambda (n r i o s d)
      (and (string? n)
 	  (rate? r)
-	  (and (list? i) (every input*? i))
-	  (and (list? o) (every output? o))
+	  (and (list? i) (all input*? i))
+	  (and (list? o) (all output? o))
 	  (integer? s)
 	  (uid? d)))))
 

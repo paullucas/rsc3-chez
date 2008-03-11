@@ -326,7 +326,7 @@
 
 (define (display-server-status s)
   (newline)
-  (for-each display (intersperse (server-status s) "\n"))
+  (for-each display (intersperse "\n" (server-status s)))
   (newline))
 
 ;; Accessors

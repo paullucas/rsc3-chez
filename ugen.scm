@@ -271,23 +271,25 @@
 
 ;; Filters over nodes.
 
+;; right preserving variant
+(define nub-right
+  (lambda (l)
+    (reverse (nub (reverse l)))))
+
 (define (graph-constants u)
-  (delete-duplicates
-   (filter number? (graph-nodes u))
-   equal?))
+  (nub
+   (filter number? (graph-nodes u))))
 
 (define (graph-controls* u)
-  (delete-duplicates
-   (filter control*? (graph-nodes u))
-   equal?))
+  (nub
+   (filter control*? (graph-nodes u))))
 
 ;; Ordering is *essential* - the antecedents of `u' are depth first,
 ;; `u' is the last element.
 
 (define (graph-ugens u)
-  (delete-duplicates
-   (reverse (filter ugen? (graph-nodes u)))
-   equal?))
+  (nub
+   (reverse (filter ugen? (graph-nodes u)))))
 
 (define (ugen-close u nn cc uu)
   (if (not (ugen-validate u))
@@ -322,7 +324,7 @@
   (make-ugen "Control"
 	     kr
 	     (list)
-	     (map make-output (make-list (length cc) kr))
+	     (map make-output (replicate (length cc) kr))
 	     0
 	     (make-uid 0)))
 
@@ -332,11 +334,12 @@
 ;; In the context of graphdef serialization <ugen> inputs must be
 ;; re-written into an <input> form.
 
-(define (calculate-index n nn)
-  (let ((i (list-index (cut equal? <> n) nn)))
-    (if (not i)
-	(error "calculate-index: not located" n nn)
-	i)))
+(define calculate-index 
+  (lambda (n nn)
+    (let ((i (find-index (lambda (e) (equal? e n)) nn)))
+      (if (not i)
+	  (error "calculate-index: not located" n nn)
+	  i))))
 
 (define (number->input n nn)
   (make-input -1 (calculate-index n nn)))
@@ -382,7 +385,7 @@
 (define (mce-extend n i)
   (if (mce? i)
       (extend (mce-channels i) n)
-      (make-list n i)))
+      (replicate n i)))
 
 (define (mce-transform u)
   (ugen-transform
@@ -488,10 +491,10 @@
 (define-binary-operator IDiv 3 #f)
 (define-binary-operator FDiv 4 /)
 (define-binary-operator Mod 5 #f)
-(define-binary-operator EQ 6 #f)
+(define-binary-operator EQ* 6 #f)
 (define-binary-operator NE 7 #f)
-(define-binary-operator LT 8 #f)
-(define-binary-operator GT 9 #f)
+(define-binary-operator LT* 8 #f)
+(define-binary-operator GT* 9 #f)
 (define-binary-operator LE 10 #f)
 (define-binary-operator GE 11 #f)
 (define-binary-operator Min 12 min)
@@ -614,7 +617,7 @@
 (define-oscillator BufSamples (buf) 1)
 
 (define (without n l)
-  (append (take l n) (drop l (+ n 1))))
+  (append (take n l) (drop (+ n 1) l)))
 
 (define-syntax define-oscillator/n
   (syntax-rules ()

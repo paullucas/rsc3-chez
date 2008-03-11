@@ -192,9 +192,11 @@
 (define (klang-data freqs amps phases)
   (let ((n (length freqs)))
     (make-mce
-     (interleave freqs
-		 (extend amps n)
-		 (extend phases n)))))
+     (concat 
+      (transpose
+       (list freqs
+	     (extend amps n)
+	     (extend phases n)))))))
 
 ;; Variant to generate a 'spec' list for a Klank UGen, the last
 ;; argument is `ring-time', not `phases'.
@@ -237,8 +239,9 @@
 
 ;; Use the unary procedure `f' to build an mce value of `n' places.
 
-(define (mce/fill n f)
-  (make-mce (list-tabulate n f)))
+(define mce/fill 
+  (lambda (n f)
+    (make-mce (map1 f (iota n)))))
 
 ;; mix . mce/fill
 
@@ -303,7 +306,7 @@ Clip2 Excess Fold2 Wrap2 FirstArg RandRange ExpRandRange))
 
 (define (unipolar? u)
   (if (mce? u)
-      (every unipolar? (mce-channels u))
+      (all unipolar? (mce-channels u))
       (member (ugen-name u)
 	      (list "LFPulse" "Impulse" "TPulse" "Trig1" "Dust"))))
 
@@ -366,7 +369,7 @@ Clip2 Excess Fold2 Wrap2 FirstArg RandRange ExpRandRange))
 
 (define (au-mk-hdr nf enc sr nc)
   (let ((nb (* nf nc (au-size-of enc))))
-    (append-map i32->u8l (list au-magic 28 nb enc sr nc 0))))
+    (concat-map i32->u8l (list au-magic 28 nb enc sr nc 0))))
 
 (define au-f32 (list au-float  f32->u8l))
 (define au-f64 (list au-double f64->u8l))
@@ -378,7 +381,7 @@ Clip2 Excess Fold2 Wrap2 FirstArg RandRange ExpRandRange))
     (with-output-to-file fn
       (lambda ()
 	(for-each put-u8 (au-mk-hdr nf enc sr nc))
-	(for-each put-u8 (append-map encdr d))))))
+	(for-each put-u8 (concat-map encdr d))))))
 
 
 ;; spec
