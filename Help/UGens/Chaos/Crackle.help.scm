@@ -6,8 +6,9 @@
 
 ;; The equation implemented is: y0 = fabs(y1 * param - y2 - 0.05f)
 
-(Mul (Crackle ar 1.95) 0.5)
+(audition (Out 0 (Mul (Crackle ar 1.95) 0.5)))
 
 ;; Modulate chaos parameter
 
-(Mul (Crackle ar (Line kr 1.0 2.0 3 removeSynth)) 0.5)
+(let ((p (Line kr 1.0 2.0 3 removeSynth)))
+  (audition (Out 0 (Mul (Crackle ar p) 0.5))))
