@@ -327,8 +327,8 @@
   (let* ((n 12)
 	 (half-n (/ n 2))
 	 (scale (/ 1 (sqrt (/ n 12)))))
-    (let ((sum (apply + (map (lambda (_) (random)) (enum-from-to 1 n)))))
-      (+ (* sigma scale (- sum half-n)) mu))))
+    (let ((s (sum (map (lambda (_) (random)) (enum-from-to 1 n)))))
+      (+ (* sigma scale (- s half-n)) mu))))
 
 ;; Clamped 'random-guassian' in [0,1).
 
