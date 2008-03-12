@@ -1,7 +1,7 @@
 
 ;; constructor
 
-;; name = <string> | <symbol>
+;; name = <symbol>
 ;; rate? = <rate> | #f
 ;; inputs = <list> of <input*>
 ;; mce? = <input*> | #f
@@ -18,7 +18,7 @@
 			inputs))
 	   (rate (if rate?
 		     rate?
-		     (rate-select (map rate-of inputs*))))
+		     (rate-select (map1 rate-of inputs*))))
 	   (u (make-ugen
 	       (symbol->string name)
 	       rate
@@ -37,12 +37,12 @@
 (define graph-nodes
   (lambda (u)
     (cond
-     ((ugen? u) (cons u (splice (map graph-nodes (ugen-inputs u)))))
+     ((ugen? u) (cons u (splice (map1 graph-nodes (ugen-inputs u)))))
      ((proxy? u) (cons u (graph-nodes (proxy-ugen u))))
      ((control*? u) (list u))
      ((number? u) (list u))
-     ((mce? u) (concat (map graph-nodes (mce-channels u))))
-     ((mrg? u) (concat (map graph-nodes (mrg-roots u))))
+     ((mce? u) (concat (map1 graph-nodes (mce-channels u))))
+     ((mrg? u) (concat (map1 graph-nodes (mrg-roots u))))
      (else (error "graph-nodes: illegal value" u)))))
 
 ;; Filters over nodes.
@@ -68,9 +68,9 @@
 	(error "ugen-close: ugen invalid" u)
 	(make-ugen (ugen-name u)
 		   (ugen-rate u)
-		   (map (lambda (i)
-			  (input*->input i nn cc uu))
-			(ugen-inputs u))
+		   (map1 (lambda (i)
+			   (input*->input i nn cc uu))
+			 (ugen-inputs u))
 		   (ugen-outputs u)
 		   (ugen-special u)
 		   (ugen-id u)))))
@@ -83,22 +83,23 @@
     (make-graphdef
      name
      nn
-     (map control*-default cc)
-     (map (lambda (c) (control*->control c cc)) cc)
-     (map (lambda (u) (ugen-close u nn cc uu*)) uu*))))
+     (map1 control*-default cc)
+     (map1 (lambda (c) (control*->control c cc)) cc)
+     (map1 (lambda (u) (ugen-close u nn cc uu*)) uu*))))
 
 
 ;; implicit
 
 ;; Gloss, k-rate only, no lag.
 
-(define (implicit-ugen cc)
-  (make-ugen "Control"
-	     kr
-	     (list)
-	     (map make-output (replicate (length cc) kr))
-	     0
-	     (make-uid 0)))
+(define implicit-ugen
+  (lambda (cc)
+    (make-ugen 'Control
+	       kr
+	       (list)
+	       (map1 make-output (replicate (length cc) kr))
+	       0
+	       (make-uid 0))))
 
 
 ;; input
@@ -164,10 +165,10 @@
    u
    (lambda (n r i o s d)
      (let* ((f (lambda (i*) (make-ugen n r i* o s d)))
-	    (m (maximum (map mce-degree (filter mce? i))))
+	    (m (maximum (map1 mce-degree (filter mce? i))))
 	    (e (lambda (i) (mce-extend m i)))
-	    (i* (transpose (map e i))))
-       (make-mce (map f i*))))))
+	    (i* (transpose (map1 e i))))
+       (make-mce (map1 f i*))))))
 
 (define (mced u)
   (if (mce-required? u)
@@ -188,9 +189,9 @@
 		     (n (length o)))
 		(if (< n 2)
 		    u
-		    (make-mce (map (lambda (i) (make-proxy u i))
-				   (enum-from-to 0 (- n 1)))))))
-   ((mce? u) (make-mce (map proxied (mce-channels u))))))
+		    (make-mce (map1 (lambda (i) (make-proxy u i))
+				    (enum-from-to 0 (- n 1)))))))
+   ((mce? u) (make-mce (map1 proxied (mce-channels u))))))
 
 
 ;; operator
