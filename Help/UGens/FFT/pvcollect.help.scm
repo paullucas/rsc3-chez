@@ -19,8 +19,6 @@
 ;; Note that this procedure can be relatively CPU-heavy, depending on
 ;; how you use it.
 
-(require srfi/1)
-
 (define no-op
   (lambda (m p _)
     (list m p)))
@@ -53,8 +51,8 @@
 
 (with-sc3
  (lambda (fd)
-   (->< fd (/b_alloc 10 1024 1))
-   (->< fd (/b_allocRead 11 "/home/rohan/audio/metal.wav" 0 0))))
+   (async fd (/b_alloc 10 1024 1))
+   (async fd (/b_allocRead 11 "/home/rohan/audio/metal.wav" 0 0))))
 
 (let* ((nf 1024)
        (i (PlayBuf 1 11 (BufRateScale kr 11) 1 0 1))

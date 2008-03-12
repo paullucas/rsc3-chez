@@ -23,8 +23,6 @@
 ;; Allocate and fill tables 0 to 7 with a generated list of harmonic
 ;; amplitudes.
 
-(require srfi/1)
-
 (with-sc3
  (lambda (fd)
    (let* ((square (lambda (a) (* a a)))
@@ -33,7 +31,7 @@
 		 (let* ((n (expt (+ i 1) 2))
 			(a (map (lambda (j) (square (/ (- n j) n))) (iota n))))
 		   (async fd (/b_gen* i "sine1" 7 a))))))
-     (for-each nth (iota 8)))))
+     (for-each nth (enum-from-to 0 8)))))
 
 ;; Oscillator at buffers 0 through 7.
 

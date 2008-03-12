@@ -12,27 +12,28 @@
 ;; freq - resonant frequency in Hertz
 ;; rq - bandwidth ratio (reciprocal of Q). rq = bandwidth / centerFreq
 
-(Resonz (Mul (WhiteNoise ar) 0.5) 2000 0.1)
+(audition (Out 0 (Resonz (Mul (WhiteNoise ar) 0.5) 2000 0.1)))
 
 ;; Modulate frequency
 
-(Resonz (Mul (WhiteNoise ar) 0.5) (XLine kr 1000 8000 10 removeSynth) 0.05)
+(let ((f (XLine kr 1000 8000 10 removeSynth)))
+  (audition (Out 0 (Resonz (Mul (WhiteNoise ar) 0.5) f 0.05))))
 
 ;; Modulate bandwidth
 
-(Resonz (Mul (WhiteNoise ar) 0.5) 2000 (XLine kr 1 0.001 8 removeSynth))
+(let ((rq (XLine kr 1 0.001 8 removeSynth)))
+  (audition (Out 0 (Resonz (Mul (WhiteNoise ar) 0.5) 2000 rq))))
 
 ;; Modulate bandwidth opposite direction
 
-(Resonz (Mul (WhiteNoise ar) 0.5) 2000 (XLine kr 0.001 1 8 removeSynth))
+(let ((rq (XLine kr 0.001 1 8 removeSynth)))
+  (audition (Out 0 (Resonz (Mul (WhiteNoise ar) 0.5) 2000 rq))))
 
 ;; Random resonator at a random location, run as often as you like...
 
-(require (only (lib "1.ss" "srfi") iota))
-
-(let ((freq (choose (map (lambda (z) (* z 120)) (iota 16 1))))
+(let ((freq (choose (map (lambda (z) (* z 120)) (enum-from-to 1 16))))
       (bw 1/4)
       (gain 8))
-  (Pan2 (Resonz (WhiteNoise ar) freq (/ bw freq))
-	(Rand -1 1)
-	gain))
+  (audition (Out 0 (Pan2 (Resonz (WhiteNoise ar) freq (/ bw freq))
+			 (Rand -1 1)
+			 gain))))

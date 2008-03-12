@@ -28,10 +28,8 @@
       (dl (/ 1 440)))
   (audition (Out 0 (Pluck n t dl dl 10 x))))
 
-(require srfi/1)
-
 (let* ((n 25)
-       (gen (lambda (n f) (make-mce (map (lambda (_) (f)) (iota n)))))
+       (gen (lambda (n f) (mce/fill n (lambda (_) (f)))))
        (f (gen n (lambda () (Rand 0.05 0.2))))
        (p (gen n (lambda () (Rand 0 1))))
        (x (MouseX kr 60 1000 1 0.1))

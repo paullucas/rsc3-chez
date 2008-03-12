@@ -19,8 +19,6 @@
       s
       (seq ((car l) s) (cdr l))))
 
-(require (only-in srfi/1 make-list))
-
 (let* ((rate (MouseX kr 1 5 1 0.1))
        (clock (Impulse kr rate 0))
        (env (Decay2 clock 0.002 2.5))
@@ -42,7 +40,7 @@
 	      ;; Echo
 	      (lambda (s) (MulAdd (CombL s 1 (FDiv 0.66 rate) 2) 0.8 s))
 	      ;; Reverb
-	      (lambda (s) (Add s (Mul (seq s (make-list 5 rvb)) 0.3)))
+	      (lambda (s) (Add s (Mul (seq s (replicate 5 rvb)) 0.3)))
 	      (lambda (s) (LeakDC s 0.1))
 	      ;; Flanger
 	      (lambda (s) (Add (DelayL s 0.1 lfo) s))
@@ -85,7 +83,7 @@
 		   (Mul (RLPF s ffreq 0.3) env)
 		   (Mul s 0.2)
 		   (MulAdd (CombL s 1 (FDiv 0.66 rate) 2) 0.8 s)
-		   (Add s (Mul (seq s (make-list 5 rvb)) 0.3))
+		   (Add s (Mul (seq s (replicate 5 rvb)) 0.3))
 		   (LeakDC s 0.1)
 		   (Add (DelayL s 0.1 lfo) s)
 		   (OnePole s 0.9))))

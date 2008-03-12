@@ -31,20 +31,18 @@
 ;; Here's an unusual example which uses PackFFT without using
 ;; UnpackFFT first - essentially creating our FFT data from scratch.
 
-(require (only-in srfi/1 make-list iota))
-
 (with-sc3
  (lambda (fd)
-   (->< fd (/b_alloc 10 512 1))))
+   (send fd (/b_alloc 10 512 1))))
 
 (let* ((n 100)
-       (n* (iota n))
+       (n* (enum-from-to 1 n))
        (m1 (map (lambda (_) (range (FSinOsc kr (ExpRand 0.1 1) 0) 0 1)) n*))
        (square (lambda (a) (* a a)))
        (m2 (map Mul m1 (map square (iota n 1.0 (- (/ 1.0 n))))))
        (i (map (lambda (_) (LFPulse kr (Pow 2 (IRand -3 5)) 0 0.3)) n*))
        (m3 (map Mul m2 i))
-       (p (make-list n 0.0))
+       (p (replicate n 0.0))
        (c1 (FFT* 10 (FSinOsc ar 440 0)))
        (c2 (PackFFT c1 512 0 (- n 1) 1 (packfft-data m3 p)))
        (s (IFFT* c2)))
