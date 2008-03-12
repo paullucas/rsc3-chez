@@ -125,7 +125,7 @@
 ;; npt->u8l :: [npt] -> [int]
 
 (define (npt->u8l t)
-  (flatten (mapt np->u8l t)))
+  (concat (map1 np->u8l (flatten t))))
 
 
 ;; u8l

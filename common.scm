@@ -85,13 +85,6 @@
     (lambda (t)
       (f t nil))))
 
-;; Map f over the leaf nodes of t.
-
-(define (mapt f t)
-  (cond ((null? t) nil)
-	((list? t) (map (lambda (e) (mapt f e)) t))
-	(else      (f t))))
-
 
 ;; clip
 
