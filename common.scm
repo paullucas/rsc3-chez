@@ -181,3 +181,7 @@
       (+ (* steps (quotient degree scale-n))
 	 (list-ref scale (modulo degree scale-n))))))
 
+(define without
+  (lambda (n l)
+    (append (take n l) (drop (+ n 1) l))))
+
