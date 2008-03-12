@@ -22,208 +22,158 @@
 
 ;; command
 
-(define with-reply 
-  (lambda (_ m)
-    m))
-
 (define /quit
-  (with-reply
-   "/done"
-   (message "/quit")))
+  (message "/quit" nil))
 
-(define (/notify code)
-  (with-reply
-   "/done"
-   (message "/notify" code)))
+(define (/notify i)
+  (message "/notify" (list i)))
 
 (define /status
-  (with-reply
-   "status.reply"
-   (message "/status")))
+  (message "/status" nil))
 
-(define (/dumpOSC code)
-  (message "/dumpOSC" code))
+(define (/dumpOSC i)
+  (message "/dumpOSC" (list i)))
 
-(define (/sync id)
-  (with-reply
-   "/synced"
-   (message "/sync" id)))
+(define (/sync i)
+  (message "/sync" (list i)))
 
 (define /clearSched
-  (message "/clearSched"))
+  (message "/clearSched" nil))
 
-(define (/d_recv data)
-  (with-reply
-   "/done"
-   (message "/d_recv" data)))
+(define (/d_recv b)
+  (message "/d_recv" (list b)))
 
-(define (/d_load path)
-  (with-reply
-   "/done"
-   (message "/d_load" path)))
+(define (/d_load s)
+  (message "/d_load" (list s)))
 
-(define (/d_loadDir path)
-  (with-reply
-   "/done"
-   (message "/d_loadDir" path)))
+(define (/d_loadDir s)
+  (message "/d_loadDir" (list s)))
 
-(define (/d_free name)
-  (message "/d_free" name))
+(define (/d_free1 s)
+  (message "/d_free" (list s)))
 
-(define (/n_free id)
-  (message "/n_free" id))
+(define (/n_free1 i)
+  (message "/n_free" (list i)))
 
-(define (/n_run id flag)
-  (message "/n_run" id flag))
+(define (/n_run1 i j)
+  (message "/n_run" (list i j)))
 
-(define (/n_set id index value)
-  (message "/n_set" id index value))
+(define (/n_set1 i s f)
+  (message "/n_set" (list i s f)))
 
-(define (/n_setn id index n . values)
-  (apply message "/n_setn" id index n values))
+(define (/n_setn1 i s fs)
+  (message "/n_setn" (cons i (cons s (cons (length fs) fs)))))
 
-(define (/n_fill id index n value)
-  (message "/n_fill" id index n value))
+(define (/n_fill1 i s j f)
+  (message "/n_fill" (list i s j f)))
 
-(define (/n_map id index bus)
-  (message "/n_map" id index bus))
+(define (/n_map1 i s j)
+  (message "/n_map" (list i s j)))
 
-(define (/n_mapn id index bus n)
-  (message "/n_mapn" id index bus n))
+(define (/n_mapn1 i s j k)
+  (message "/n_mapn" (list i s j k)))
 
-(define (/n_before a b)
-  (message "/n_before" a b))
+(define (/n_before i j)
+  (message "/n_before" (list i j)))
 
-(define (/n_query id)
-  (with-reply 
-   "n_info"
-   (message "/n_query" id)))
+(define (/n_query i)
+  (message "/n_query" (list i)))
 
-(define (/n_trace id)
-  (message "/n_trace" id))
+(define (/n_trace i)
+  (message "/n_trace" (list i)))
 
-(define (/s_new name id action target . initialize)
-  (apply message "/s_new" name id action target initialize))
+(define (/s_new0 s i j k)
+  (message "/s_new" (list s i j k)))
 
-(define (/s_get id index)
-  (with-reply
-   "n_set"
-   (message "/s_get" id index)))
+(define (/s_new1 s i j k t f)
+  (message "/s_new" (list s i j k t f)))
 
-(define (/s_getn id index n)
-  (with-reply
-   "n_setn"
-   (message "/s_getn" id index n)))
+(define (/s_new2 s i j k t1 f1 t2 f2)
+  (message "/s_new" (list s i j k t1 f1 t2 f2)))
 
-(define (/s_noid id)
-  (message "/s_noid" id))
+(define (/s_new s i j k cs)
+  (message "/s_new" (append2 (list s i j k) cs)))
 
-(define (/g_new id action target)
-  (message "/g_new" id action target))
+(define (/s_get1 i j)
+  (message "/s_get" (list i j)))
 
-(define (/g_head group node)
-  (message "/g_head" group node))
+(define (/s_getn1 i s j)
+  (message "/s_getn" (list i s j)))
 
-(define (/g_tail group node)
-  (message "/g_tail" group node))
+(define (/s_noid i)
+  (message "/s_noid" (list i)))
 
-(define (/g_freeAll id)
-  (message "/g_freeAll" id))
+(define (/g_new1 i j k)
+  (message "/g_new" (list i j k)))
 
-(define (/g_deepFree id)
-  (message "/g_deepFree" id))
+(define (/g_head1 i j)
+  (message "/g_head" (list i j)))
+
+(define (/g_tail1 i j)
+  (message "/g_tail" (list i j)))
+
+(define (/g_freeAll1 i)
+  (message "/g_freeAll" (list i)))
+
+(define (/g_deepFree1 i)
+  (message "/g_deepFree" (list i)))
 
 (define (/b_alloc id frames channels)
-  (with-reply
-   "/done"
-   (message "/b_alloc" id frames channels)))
+  (message "/b_alloc" (list id frames channels)))
 
 (define (/b_allocRead id path frame n)
-  (with-reply
-   "/done"
-   (message "/b_allocRead" id path frame n)))
+  (message "/b_allocRead" (list id path frame n)))
 
 (define (/b_read id path frame n bframe flag)
-  (with-reply
-   "/done"
-   (message "/b_read" id path frame n bframe flag)))
+  (message "/b_read" (list id path frame n bframe flag)))
 
 (define (/b_write id path header type frames start flag)
-  (with-reply
-   "/done"
-   (message "/b_write" id path header type frames start flag)))
+  (message "/b_write" (list id path header type frames start flag)))
 
-(define (/b_free id)
-  (with-reply
-   "/done"
-   (message "/b_free" id)))
+(define (/b_free i)
+  (message "/b_free" (list i)))
 
-(define (/b_zero id)
-  (with-reply
-   "/done"
-   (message "/b_zero" id)))
+(define (/b_zero i)
+  (message "/b_zero" (list i)))
 
-(define (/b_set id index value)
-  (message "/b_set" id index value))
+(define (/b_set1 i j f)
+  (message "/b_set" (list i j f)))
 
-(define (/b_setn id index n . values)
-  (apply message "/b_setn" id index n values))
+(define (/b_setn1 i j fs)
+  (message "/b_setn" (cons i (cons j fs))))
 
-(define (/b_setn* id n l)
-  (apply /b_setn id n (length l) l))
+(define (/b_fill1 i j k f)
+  (message "/b_fill" (list i j k f)))
 
-(define (/b_fill id index n value)
-  (message "/b_fill" id index n value))
+(define (/b_close i)
+  (message "/b_close" (list i)))
 
-(define (/b_close id)
-  (with-reply
-   "/done"
-   (message "/b_close" id)))
+(define (/b_query1 i)
+  (message "/b_query" (list i)))
 
-(define (/b_query id)
-  (with-reply
-   "/b_info"
-   (message "/b_query" id)))
+(define (/b_get1 i j)
+  (message "/b_get" (list i j)))
 
-(define (/b_get id index)
-  (with-reply
-   "/b_set"
-   (message "/b_get" id index)))
+(define (/b_getn1 i j k)
+  (message "/b_getn" (list i j k)))
 
-(define (/b_getn id index n)
-  (with-reply
-   "/b_setn"
-   (message "/b_getn" id index n)))
+(define (/b_gen1 i s fs)
+  (message "/b_gen" (cons i (cons s fs))))
 
-(define (/b_gen id cmd . values)
-  (with-reply
-   "/done"
-   (apply message "/b_gen" id cmd values)))
+(define (/c_set1 i f)
+  (message "/c_set" (list i f)))
 
-(define (/b_gen* id cmd . l)
-  (apply /b_gen id cmd (splice l)))
+(define (/c_setn1 i fs)
+  (message "/c_setn" (cons i fs)))
 
-(define (/c_set id value)
-  (message "/c_set" id value))
+(define (/c_fill1 i j f)
+  (message "/c_fill" (list i j f)))
 
-(define (/c_setn id n . values)
-  (apply message "/c_setn" id n values))
+(define (/c_get1 i)
+  (message "/c_get" (list i)))
 
-(define (/c_setn* n l)
-  (apply /c_setn n (length l) l))
-
-(define (/c_fill id n value)
-  (message "/c_fill" id n value))
-
-(define (/c_get id)
-  (with-reply
-   "/c_set"
-   (message "/c_get" id)))
-
-(define (/c_getn id n)
-  (with-reply
-   "/c_setn"
-   (message "/c_getn" id n)))
+(define (/c_getn1 i j)
+  (message "/c_getn" (list i j)))
 
 
 ;; done-action
@@ -287,9 +237,9 @@
 
 (define (reset fd)
   (send fd (bundle -1
-		   (/g_freeAll 0)
+		   (/g_freeAll1 0)
 		   /clearSched
-		   (/g_new 1 0 0))))
+		   (/g_new1 1 0 0))))
 
 (define (with-sc3 f)
   (let* ((fd (open-udp* "127.0.0.1" 57110))

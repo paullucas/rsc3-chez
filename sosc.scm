@@ -661,10 +661,10 @@
 
 ;; Validating constructors.
 
-(define (message c . l)
+(define (message c l)
   (if (string? c)
       (cons c l)
-      (error 'message "illegal command" c)))
+      (error "message: illegal address")))
 
 (define (bundle t . l)
   (if (number? t)

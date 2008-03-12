@@ -283,7 +283,7 @@ Clip2 Excess Fold2 Wrap2 FirstArg RandRange ExpRandRange))
 	       u
 	       (ugen->graphdef/out u))))
     (async fd (/d_recv (graphdef->u8l g)))
-    (send fd (/s_new (graphdef-name g) -1 1 1))))
+    (send fd (/s_new0 (graphdef-name g) -1 1 1))))
 
 (define (audition u)
   (with-sc3 
