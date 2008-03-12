@@ -51,9 +51,9 @@
   (lambda (u)
     (nub (filter number? (graph-nodes u)))))
 
-(define (graph-controls* u)
-  (nub
-   (filter control*? (graph-nodes u))))
+(define graph-controls* 
+  (lambda (u)
+    (nub (filter control*? (graph-nodes u)))))
 
 ;; Ordering is *essential* - the antecedents of `u' are depth first,
 ;; `u' is the last element.
