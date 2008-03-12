@@ -65,10 +65,12 @@
 ;; summing the previous element with the interval from the interval
 ;; series `i'.
 
-(define (dx->d n i)
-  (if (null? i)
-      (list n)
-      (cons n (dx->d (+ (car i) n) (cdr i)))))
+(define dx->d 
+  (lambda (f)
+    (lambda (n i)
+      (if (null? i)
+	  (list1 n)
+	  (cons n (dx->d (f (head i) n) (tail i)))))))
 
 
 ;; tree
@@ -215,7 +217,7 @@
 ;; Weighted choose, w must sum to 1.
 
 (define (windex w n)
-  (find-index (lambda (e) (< n e)) (cdr (dx->d 0 w))))
+  (find-index (lambda (e) (< n e)) (cdr ((dx->d +) 0 w))))
 
 (define (wchoose l w)
   (list-ref l (windex w (rand 0.0 1.0))))
@@ -234,7 +236,7 @@
 ;; This is pchoose with reversed arguments...
 
 (define (choose/proportions proportions l)
-  (let* ((p-sum (cdr (dx->d 0 proportions)))
+  (let* ((p-sum (cdr ((dx->d +) 0 proportions)))
 	 (n     (rand 0 (last p-sum))))
     (list-ref l (find-index (lambda (e) (< n e)) p-sum))))
 

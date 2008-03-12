@@ -54,7 +54,7 @@
 
 (define (env/bp* bp dur amp curve)
   (env (map (lambda (e) (Mul e amp)) (take-cycle (cdr bp) 2))
-       (map (lambda (e) (Mul e dur)) (d->dx** (take-cycle bp 2) Sub))
+       (map (lambda (e) (Mul e dur)) ((d->dx Sub) (take-cycle bp 2)))
        curve
        -1
        -1))
