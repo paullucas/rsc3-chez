@@ -164,8 +164,9 @@
 	(b* (rate->ordinal b)))
     (if (> a* b*) a b)))
 
-(define (rate-select l)
-  (foldl1 rate-select* l))
+(define rate-select 
+  (lambda (l)
+    (foldl1 rate-select* l)))
 
 
 ;; rate-of
