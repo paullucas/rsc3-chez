@@ -54,11 +54,6 @@
 (define (d->dx s)
   (d->dx** s -))
 
-;; Variant that considers the interval from the first to last element.
-
-(define (d->dx* s)
-  (d->dx (append s (list (car s)))))
-
 ;; Variant allowing function other than '-'.
 
 (define (d->dx** s f)
