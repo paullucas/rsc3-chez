@@ -49,20 +49,17 @@
 
 ;; series
 
-;; The sequence of intervals between the elements of the series `s'.
-
-(define (d->dx s)
-  (d->dx** s -))
-
 ;; Variant allowing function other than '-'.
 
-(define (d->dx** s f)
-  (unfoldr
-   (lambda (b)
-     (if (null? (tail b))
-         #f
-         (tuple2 (f (head (tail b)) (head b)) (tail b))))
-   s))
+(define d->dx 
+  (lambda (f)
+    (lambda (l)
+      (unfoldr
+       (lambda (x)
+	 (if (null? (tail x))
+	     #f
+	     (tuple2 (f (head (tail x)) (head x)) (tail x))))
+       l))))
 
 ;; A series, the first element being `n', and subsequent elements
 ;; summing the previous element with the interval from the interval
