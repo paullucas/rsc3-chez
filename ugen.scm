@@ -58,9 +58,9 @@
 ;; Ordering is *essential* - the antecedents of `u' are depth first,
 ;; `u' is the last element.
 
-(define (graph-ugens u)
-  (nub
-   (reverse (filter ugen? (graph-nodes u)))))
+(define graph-ugens 
+  (lambda (u)
+    (nub (reverse (filter ugen? (graph-nodes u))))))
 
 (define (ugen-close u nn cc uu)
   (if (not (ugen-validate u))
