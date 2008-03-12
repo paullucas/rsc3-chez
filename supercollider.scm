@@ -1,8 +1,8 @@
 
 ;; envelope
 
-;; A curve specification is either a <string> or a <number>.  If it is
-;; a string it must name a known curve type.  For numerical valued
+;; A curve specification is either a <string> or a <number>. If it is
+;; a string it must name a known curve type. For numerical valued
 ;; curves the shape '5' indicates the actual curve input value is to
 ;; be used.
 
@@ -10,14 +10,14 @@
   (cond ((string? curve)
 	 (let ((f (lambda (s) (string=? s curve))))
 	   (cond
-	    ((f "step")        0.0)
-	    ((f "linear")      1.0)
+	    ((f "step") 0.0)
+	    ((f "linear") 1.0)
 	    ((f "exponential") 2.0)
-	    ((f "sin")         3.0)
-	    ((f "cos")         4.0)
-	    ((f "squared")     6.0)
-	    ((f "cubed")       7.0)
-	    (else              (error "curve->shape:" curve)))))
+	    ((f "sin") 3.0)
+	    ((f "cos") 4.0)
+	    ((f "squared") 6.0)
+	    ((f "cubed") 7.0)
+	    (else (error "curve->shape:" curve)))))
 	((number? curve)
 	 5.0)
 	(else
@@ -32,11 +32,11 @@
 ;; Make a <list> for use with the EnvGen UGen. `levels' is a <list>
 ;; containing the left to right gain values for the envelope, it has
 ;; one more element than the <list> `times', having the delta times
-;; for each envelope segment.  `curve' is either a string or a number
+;; for each envelope segment. `curve' is either a string or a number
 ;; or a <list> of such, in either case it is expanded to a list of the
-;; same length as `times'.  `release-node' is the index of the
+;; same length as `times'. `release-node' is the index of the
 ;; 'release' stage of the envelope, `loop-node' is the index of the
-;; 'loop' stage of the envelope.  These indices are set as invalid, by
+;; 'loop' stage of the envelope. These indices are set as invalid, by
 ;; convention -1, to indicate there is no such node.
 
 (define (env levels times curve release-node loop-node)
@@ -62,11 +62,11 @@
 (define (env/bp bp dur amp)
   (env/bp* bp dur amp "linear"))
 
-;; Design a standard trapezoidal envelope.  `shape' determines the
+;; Design a standard trapezoidal envelope. `shape' determines the
 ;; sustain time as a proportion of `dur', zero is a triangular
-;; envelope, one a rectangular envelope.  `skew' determines the
+;; envelope, one a rectangular envelope. `skew' determines the
 ;; attack/decay ratio, zero is an immediate attack and a slow decay,
-;; one a slow attack and an immediate decay.  This implementation
+;; one a slow attack and an immediate decay. This implementation
 ;; builds a zero one breakpoint data set and calls env/bp.
 
 (define (env/trapezoid shape skew dur amp)
@@ -146,7 +146,7 @@
   (make-mce (cons (* 2 (length mp)) (splice mp))))
 
 (define (unpack-fft c nf from to mp?)
-  (map (lambda (i) 
+  (map (lambda (i)
 	 (Unpack1FFT c nf i mp?))
        (enum-from-to from to)))
 
@@ -160,7 +160,7 @@
 
 ;; in
 
-;; Audio input.  Does not support MulAdd.
+;; Audio input. Does not support MulAdd.
 
 (define (consecutive? l)
   (let ((x (car l))
@@ -181,7 +181,7 @@
 
 ;; klang
 
-;; Generate a 'spec' list for a Klang UGen.  `freqs' is a list that
+;; Generate a 'spec' list for a Klang UGen. `freqs' is a list that
 ;; determines the number of partials, `amps' and `phases' are possibly
 ;; abbreviated lists subject to expansion by 'extend' to the length of
 ;; `freqs'.
@@ -189,7 +189,7 @@
 (define (klang-data freqs amps phases)
   (let ((n (length freqs)))
     (make-mce
-     (concat 
+     (concat
       (transpose
        (list freqs
 	     (extend amps n)
@@ -226,17 +226,17 @@
 
 ;; mix
 
-;; Mix the UGen at `inputs'.  This is an idiom over the binary math
+;; Mix the UGen at `inputs'. This is an idiom over the binary math
 ;; operator 'Add'.
 
 (define (mix u)
   (cond
    ((mce? u) (foldl1 Add (mce-channels u)))
-   (else     u)))
+   (else u)))
 
 ;; Use the unary procedure `f' to build an mce value of `n' places.
 
-(define mce/fill 
+(define mce/fill
   (lambda (n f)
     (make-mce (map1 f (enum-from-to 0 (- n 1))))))
 
@@ -249,20 +249,20 @@
 ;; name
 
 (define unary-operator-names '(Neg Not IsNil NotNil BitNot Abs
-AsFloat AsInt Ceil Floor Frac Sign Squared Cubed Sqrt Exp Recip
-MIDICPS CPSMIDI MIDIRatio RatioMIDI DbAmp AmpDb OctCPS CPSOct Log Log2
-Log10 Sin Cos Tan ArcSin ArcCos ArcTan SinH CosH TanH _Rand Rand2
-_LinRand BiLinRand Sum3Rand Distort SoftClip Coin DigitValue Silence
-Thru RectWindow HanWindow WelchWindow TriWindow _Ramp SCurve))
+				   AsFloat AsInt Ceil Floor Frac Sign Squared Cubed Sqrt Exp Recip
+				   MIDICPS CPSMIDI MIDIRatio RatioMIDI DbAmp AmpDb OctCPS CPSOct Log Log2
+				   Log10 Sin Cos Tan ArcSin ArcCos ArcTan SinH CosH TanH _Rand Rand2
+				   _LinRand BiLinRand Sum3Rand Distort SoftClip Coin DigitValue Silence
+				   Thru RectWindow HanWindow WelchWindow TriWindow _Ramp SCurve))
 
 (define (unary-operator-name special)
   (list-ref unary-operator-names special))
 
 (define binary-operator-names '(Add Sub Mul IDiv FDiv Mod EQ NE LT GT
-LE GE Min Max BitAnd BitOr BitXor LCM GCD Round RoundUp Trunc Atan2
-Hypot Hypotx Pow ShiftLeft ShiftRight UnsignedShift Fill Ring1 Ring2
-Ring3 Ring4 DifSqr SumSqr SqrSum SqrDif AbsDif Thresh AMClip ScaleNeg
-Clip2 Excess Fold2 Wrap2 FirstArg RandRange ExpRandRange))
+				    LE GE Min Max BitAnd BitOr BitXor LCM GCD Round RoundUp Trunc Atan2
+				    Hypot Hypotx Pow ShiftLeft ShiftRight UnsignedShift Fill Ring1 Ring2
+				    Ring3 Ring4 DifSqr SumSqr SqrSum SqrDif AbsDif Thresh AMClip ScaleNeg
+				    Clip2 Excess Fold2 Wrap2 FirstArg RandRange ExpRandRange))
 
 (define (binary-operator-name special)
   (list-ref binary-operator-names special))
@@ -270,8 +270,8 @@ Clip2 Excess Fold2 Wrap2 FirstArg RandRange ExpRandRange))
 (define (ugen-name/operator name special)
   (cond
    ((string=? name "BinaryOpUGen") (binary-operator-name special))
-   ((string=? name "UnaryOpUGen")  (unary-operator-name special))
-   (else                           name)))
+   ((string=? name "UnaryOpUGen") (unary-operator-name special))
+   (else name)))
 
 
 ;; play
@@ -286,9 +286,9 @@ Clip2 Excess Fold2 Wrap2 FirstArg RandRange ExpRandRange))
     (send fd (/s_new0 (graphdef-name g) -1 1 1))))
 
 (define (audition u)
-  (with-sc3 
-    (lambda (fd)
-      (play fd u))))
+  (with-sc3
+   (lambda (fd)
+     (play fd u))))
 
 
 ;; quantize
@@ -318,14 +318,14 @@ Clip2 Excess Fold2 Wrap2 FirstArg RandRange ExpRandRange))
 
 (define (exprange u l r)
   (if (unipolar? u)
-      (LinExp u  0 1 l r)
+      (LinExp u 0 1 l r)
       (LinExp u -1 1 l r)))
 
 
 ;; score
 
-;; A score is a list of OSC bundles.  The timestamps are given in
-;; seconds where zero is the start of the score.  An OSC file is a
+;; A score is a list of OSC bundles. The timestamps are given in
+;; seconds where zero is the start of the score. An OSC file is a
 ;; binary file format understood by the SC3 synthesis server, and
 ;; consists of a sequence of length prefixed OSC bundles.
 
@@ -345,36 +345,36 @@ Clip2 Excess Fold2 Wrap2 FirstArg RandRange ExpRandRange))
 (define au-magic #x2e736e64)
 
 (define au-unspecified 0)
-(define au-mulaw8      1)
-(define au-linear8     2)
-(define au-linear16    3)
-(define au-linear24    4)
-(define au-linear32    5)
-(define au-float       6)
-(define au-double      7)
+(define au-mulaw8 1)
+(define au-linear8 2)
+(define au-linear16 3)
+(define au-linear24 4)
+(define au-linear32 5)
+(define au-float 6)
+(define au-double 7)
 
 (define (au-size-of e)
   (cond ((= e au-unspecified) (error 'au-size-of "unspecified encoding"))
-	((= e au-mulaw8)      1)
-	((= e au-linear8)     1)
-	((= e au-linear16)    2)
-	((= e au-linear24)    3)
-	((= e au-linear32)    4)
-	((= e au-float)       4)
-	((= e au-double)      8)
-	(else                 (error "au-size-of: illegal encoding"))))
+	((= e au-mulaw8) 1)
+	((= e au-linear8) 1)
+	((= e au-linear16) 2)
+	((= e au-linear24) 3)
+	((= e au-linear32) 4)
+	((= e au-float) 4)
+	((= e au-double) 8)
+	(else (error "au-size-of: illegal encoding"))))
 
 (define (au-mk-hdr nf enc sr nc)
   (let ((nb (* nf nc (au-size-of enc))))
     (concat-map i32->u8l (list au-magic 28 nb enc sr nc 0))))
 
-(define au-f32 (list au-float  f32->u8l))
+(define au-f32 (list au-float f32->u8l))
 (define au-f64 (list au-double f64->u8l))
 
 (define (write-snd-file e sr nc fn d)
-  (let ((enc   (car e))
+  (let ((enc (car e))
 	(encdr (cadr e))
-	(nf    (/ (length d) nc)))
+	(nf (/ (length d) nc)))
     (with-output-to-file fn
       (lambda ()
 	(for-each put-u8 (au-mk-hdr nf enc sr nc))
@@ -400,11 +400,11 @@ Clip2 Excess Fold2 Wrap2 FirstArg RandRange ExpRandRange))
 
 (define (symbol->spec s)
   (case s
-    ((unipolar)       (make-spec  0.0 1.0     'linear))
-    ((bipolar pan)    (make-spec -1.0 1.0     'linear))
+    ((unipolar) (make-spec 0.0 1.0 'linear))
+    ((bipolar pan) (make-spec -1.0 1.0 'linear))
     ((freq frequency) (make-spec 20.0 20000.0 'linear))
-    ((phase)          (make-spec  0.0 two-pi  'linear))
-    (else             (error 'symbol->spec "illegal value" s))))
+    ((phase) (make-spec 0.0 (* 2 pi) 'linear))
+    (else (error 'symbol->spec "illegal value" s))))
 
 
 ;; synthdef
@@ -435,10 +435,10 @@ Clip2 Excess Fold2 Wrap2 FirstArg RandRange ExpRandRange))
 
 ;; warp
 
-;; A warp is a procedure of two arguments.  The first is the <symbol>
+;; A warp is a procedure of two arguments. The first is the <symbol>
 ;; direction of the warp, which should be either 'map' or 'unmap'.
-;; The second is a <real> number.  Warps map from the space [0,1] to a
-;; user defined space [minima,maxima].  A warp generator takes the
+;; The second is a <real> number. Warps map from the space [0,1] to a
+;; user defined space [minima,maxima]. A warp generator takes the
 ;; arguments `minima' and `maxima', even if it then ignores these
 ;; values.
 
@@ -500,8 +500,8 @@ Clip2 Excess Fold2 Wrap2 FirstArg RandRange ExpRandRange))
 	 (linear (warp-linear minima range)))
     (lambda (direction value)
       (if (warp-fwd? direction)
-	  (linear 'map (sin (* half-pi value)))
-	  (/ (asin (linear 'unmap value)) half-pi)))))
+	  (linear 'map (sin (* (/ pi 2) value)))
+	  (/ (asin (linear 'unmap value)) (/ pi 2))))))
 
 ;; The minima and maxima values are ignored, they are implicitly zero
 ;; and one.
@@ -513,7 +513,7 @@ Clip2 Excess Fold2 Wrap2 FirstArg RandRange ExpRandRange))
 	(sqrt value))))
 
 ;; The minima and maxima values are ignored, they are implicitly
-;; negative infinity and zero.  An input value of zero gives -180.
+;; negative infinity and zero. An input value of zero gives -180.
 
 (define (warp-db-fader minima maxima)
   (lambda (direction value)
@@ -556,7 +556,7 @@ Clip2 Excess Fold2 Wrap2 FirstArg RandRange ExpRandRange))
 (define (wavetable->signal l)
   (concat-map sum (segment 2 2 l)))
 
-;; A Wavetable is twice the size of a Signal.  Each element 'e0'
+;; A Wavetable is twice the size of a Signal. Each element 'e0'
 ;; expands to {2*e0-e1, e1-e0} where e1 is the next element.
 
 (define (signal->wavetable l)
@@ -568,7 +568,7 @@ Clip2 Excess Fold2 Wrap2 FirstArg RandRange ExpRandRange))
 
 ;; SuperCollider names.
 
-(define pi2 
+(define pi2
   (/ pi 2))
 
 (define pi32
@@ -577,7 +577,7 @@ Clip2 Excess Fold2 Wrap2 FirstArg RandRange ExpRandRange))
 (define twopi
   (* pi 2))
 
-(define rtwopi 
+(define rtwopi
   (/ 1 twopi))
 
 (define log001
@@ -599,4 +599,5 @@ Clip2 Excess Fold2 Wrap2 FirstArg RandRange ExpRandRange))
   (/ 1.0 sqrt2))
 
 ;; +inf.0 cannot be use in unit generator graphs
-(define inf 1073741824.0)
+(define inf 
+  1073741824.0)
