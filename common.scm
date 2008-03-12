@@ -88,56 +88,49 @@
 
 ;; math
 
-;; Clip `n' between a and b.
 (define clip
   (lambda (a b n) 
-    (if (< n a) a (if (> n b) b n))))
+    (cond ((< n a) a)
+	  ((> n b) b)
+	  (else n))))
 
-(define (squared n)
-  (* n n))
+(define squared 
+  (lambda (n)
+    (* n n)))
 
-(define (cubed n)
-  (* n n n))
+(define cubed 
+  (lambda (n)
+    (* n n n)))
 
-(define (recip n)
-  (/ 1 n))
+(define recip 
+  (lambda (n)
+    (/ 1 n)))
 
-
-;; constants
+(define e 
+  (exp 1.0))
 
-(define e (exp 1.0))
-(define pi (* 4 (atan 1)))
-(define two-pi (* 2 pi))
-(define half-pi (/ pi 2))
+(define pi
+  (* 4 (atan 1)))
 
-;; SuperCollider names.
+(define floor-exact
+  (compose inexact->exact floor))
 
-(define pi2    half-pi)
-(define pi32   (* pi 1.5))
-(define twopi  two-pi)
-(define rtwopi (/ 1.0 two-pi))
-(define log001 (log 0.001))
-(define log01  (log 0.01))
-(define log1   (log 0.1))
-(define rlog2  (/ 1.0 (log 2.0)))
-(define sqrt2  (sqrt 2.0))
-(define rsqrt2 (/ 1.0 sqrt2))
+(define ceiling-exact
+  (compose inexact->exact ceiling))
 
-;; +inf.0 does not write to UGen graph files...
+(define truncate-exact
+  (compose inexact->exact truncate))
 
-(define inf 1073741824.0)
+(define round-exact
+  (compose inexact->exact round))
 
-
-;; exact
+(define log2
+  (lambda (x)
+    (/ (log (abs x)) (log 2))))
 
-;; Exact integer constructors and predicate.
-
-(define (floor-exact n)    (inexact->exact (floor n)))
-(define (ceiling-exact n)  (inexact->exact (ceiling n)))
-(define (truncate-exact n) (inexact->exact (truncate n)))
-(define (round-exact n)    (inexact->exact (round n)))
-
-;;(define (exact-integer? x) (and (integer? x) (exact? x)))
+(define log10
+  (lambda (x)
+    (/ (log x) (log 10))))
 
 
 ;; gain
@@ -145,18 +138,21 @@
 ;; Convert a linear rms gain value to a decibel value and the inverse.
 ;; Zero decibels is unity gain.  These algorithms are from SC3.
 
-(define (ampdb amp) (* (log10 amp) 20))
-(define (dbamp db)  (expt 10 (* db 0.05)))
+(define ampdb 
+  (lambda (x) 
+    (* (log10 x) 20)))
 
-(define (powdb pow) (* (log10 pow) 10))
-(define (dbpow db)  (expt 10 (* db 0.1)))
+(define dbamp
+  (lambda (x)
+    (expt 10 (* x 0.05))))
 
-
-;; log
+(define powdb
+  (lambda (x) 
+    (* (log10 x) 10)))
 
-(define (log* n)         (if (zero? n) n (log n)))
-(define (log2 x)         (/ (log (abs x)) (log 2)))
-(define (log10 x)        (/ (log x) (log 10)))
+(define dbpow
+  (lambda (x) 
+    (expt 10 (* x 0.1))))
 
 
 ;; pitch

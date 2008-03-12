@@ -562,3 +562,41 @@ Clip2 Excess Fold2 Wrap2 FirstArg RandRange ExpRandRange))
 (define (signal->wavetable l)
   (let ((f (lambda (e0 e1) (list (- (* 2.0 e0) e1) (- e1 e0)))))
     (concat-map f (segment 1 2 (append2 l (list1 (head l)))))))
+
+
+;; math
+
+;; SuperCollider names.
+
+(define pi2 
+  (/ pi 2))
+
+(define pi32
+  (* pi 1.5))
+
+(define twopi
+  (* pi 2))
+
+(define rtwopi 
+  (/ 1 twopi))
+
+(define log001
+  (log 0.001))
+
+(define log01
+  (log 0.01))
+
+(define log1
+  (log 0.1))
+
+(define rlog2
+  (/ 1.0 (log 2.0)))
+
+(define sqrt2
+  (sqrt 2.0))
+
+(define rsqrt2
+  (/ 1.0 sqrt2))
+
+;; +inf.0 cannot be use in unit generator graphs
+(define inf 1073741824.0)
