@@ -36,14 +36,6 @@
 	   (n (maximum (map1 f l))))
       (map1 (lambda (e) (extend e n)) l))))
 
-;; Return a rotation of `l' by `n' places.
-
-(define rotate 
-  (lambda (l n)
-    (let ((m (length l)))
-      (map (lambda (i) (list-ref l (modulo (+ n i) m)))
-	   (enum-from-to 0 (- m 1))))))
-
 ;; Return a <list> containing every `n'th element of the list `l' in
 ;; sequence.
 
