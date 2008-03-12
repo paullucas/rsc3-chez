@@ -230,7 +230,7 @@
 	 (list-ref scale (modulo degree scale-n))))))
 
 
-;; choose.scm - (c) rohan drape, 2005-2007
+;; choose
 
 ;; Return a randomly selected element of the <list> 'l'.
 
@@ -279,7 +279,7 @@
   (vector-ref v (randi 0 (vector-length v))))
 
 
-;; distribution.scm - (c) rohan drape, 2000-2007
+;; distribution
 
 ;; Alias SRFI-27 name
 
