@@ -34,39 +34,18 @@
 ;; Return the <list> of all elements of the UGen graph rooted at `u'.
 ;; Nodes are values of type <ugen>|<proxy>|<control*>|<number>.
 
-(define (graph-nodes u)
-  (cond
-   ((ugen? u)       (cons u (splice (map graph-nodes (ugen-inputs u)))))
-   ((proxy? u)      (cons u (graph-nodes (proxy-ugen u))))
-   ((control*? u)   (list u))
-   ((number? u)     (list u))
-   ((mce? u)        (concat (map graph-nodes (mce-channels u))))
-   ((mrg? u)        (concat (map graph-nodes (mrg-roots u))))
-   (else            (error "graph-nodes: illegal value" u))))
-
-;; Depth first traversal
-
-(define (graph-traverse f u)
-  (let ((f* (lambda (u) (graph-traverse f u))))
+(define graph-nodes
+  (lambda (u)
     (cond
-     ((ugen? u)  (f (make-ugen (ugen-name u)
-			       (ugen-rate u)
-			       (map f* (ugen-inputs u))
-			       (ugen-outputs u)
-			       (ugen-special u)
-			       (ugen-id u))))
-     ((proxy? u) (f (make-proxy (graph-traverse f (proxy-ugen u))
-				(proxy-port u))))
-     ((mce? u)   (f (make-mce (map f* (mce-channels u)))))
-     ((mrg? u)   (f (make-mrg (map f* (mrg-roots u)))))
-     (else       u))))
+     ((ugen? u) (cons u (splice (map graph-nodes (ugen-inputs u)))))
+     ((proxy? u) (cons u (graph-nodes (proxy-ugen u))))
+     ((control*? u) (list u))
+     ((number? u) (list u))
+     ((mce? u) (concat (map graph-nodes (mce-channels u))))
+     ((mrg? u) (concat (map graph-nodes (mrg-roots u))))
+     (else (error "graph-nodes: illegal value" u)))))
 
 ;; Filters over nodes.
-
-;; right preserving variant
-(define nub-right
-  (lambda (l)
-    (reverse (nub (reverse l)))))
 
 (define (graph-constants u)
   (nub
@@ -96,9 +75,9 @@
 		 (ugen-id u))))
 
 (define (graph->graphdef name u)
-  (let* ((nn  (graph-constants u))
-	 (cc  (graph-controls* u))
-	 (uu  (graph-ugens u))
+  (let* ((nn (graph-constants u))
+	 (cc (graph-controls* u))
+	 (uu (graph-ugens u))
 	 (uu* (if (null? cc) uu (cons (implicit-ugen cc) uu))))
     (make-graphdef
      name
@@ -151,13 +130,13 @@
 
 (define (input*->input i nn cc uu)
   (cond
-   ((number? i)   (number->input i nn))
+   ((number? i) (number->input i nn))
    ((control*? i) (control*->input i cc))
-   ((ugen? i)     (ugen->input i uu))
-   ((proxy? i)    (proxy->input i uu))
-   ((mce? i)      (error "input*->input: mce?" i))
-   ((mrg? i)      (error "input*->input: mrg?" i))
-   (else          (error "input*->input: illegal input" i))))
+   ((ugen? i) (ugen->input i uu))
+   ((proxy? i) (proxy->input i uu))
+   ((mce? i) (error "input*->input: mce?" i))
+   ((mrg? i) (error "input*->input: mrg?" i))
+   (else (error "input*->input: illegal input" i))))
 
 
 ;; mce
@@ -206,11 +185,11 @@
   (cond
    ((ugen? u) (let* ((o (ugen-outputs u))
 		     (n (length o)))
-	        (if (< n 2)
+		(if (< n 2)
 		    u
 		    (make-mce (map (lambda (i) (make-proxy u i))
 				   (enum-from-to 0 (- n 1)))))))
-   ((mce? u)  (make-mce (map proxied (mce-channels u))))))
+   ((mce? u) (make-mce (map proxied (mce-channels u))))))
 
 
 ;; operator
