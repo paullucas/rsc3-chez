@@ -140,7 +140,7 @@
   (message "/b_set" (list i j f)))
 
 (define (/b_setn1 i j fs)
-  (message "/b_setn" (cons i (cons j fs))))
+  (message "/b_setn" (cons i (cons j (cons (length fs) fs)))))
 
 (define (/b_fill1 i j k f)
   (message "/b_fill" (list i j k f)))
@@ -164,7 +164,7 @@
   (message "/c_set" (list i f)))
 
 (define (/c_setn1 i fs)
-  (message "/c_setn" (cons i fs)))
+  (message "/c_setn" (cons i (cons (length fs) fs))))
 
 (define (/c_fill1 i j f)
   (message "/c_fill" (list i j f)))
