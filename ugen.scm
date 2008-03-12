@@ -47,9 +47,9 @@
 
 ;; Filters over nodes.
 
-(define (graph-constants u)
-  (nub
-   (filter number? (graph-nodes u))))
+(define graph-constants
+  (lambda (u)
+    (nub (filter number? (graph-nodes u)))))
 
 (define (graph-controls* u)
   (nub
