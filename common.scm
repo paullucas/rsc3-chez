@@ -49,11 +49,6 @@
 
 ;; series
 
-;; Predicate to determine if `l' is a one element list.
-
-(define (singleton? l)
-  (and (list? l) (null? (cdr l))))
-
 ;; The sequence of intervals between the elements of the series `s'.
 
 (define (d->dx s)
