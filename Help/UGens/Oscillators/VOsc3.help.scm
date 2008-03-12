@@ -25,13 +25,17 @@
 
 (with-sc3
  (lambda (fd)
-   (let* ((square (lambda (a) (* a a)))
-	  (nth (lambda (i)
-		 (async fd (/b_alloc i 1024 1))
-		 (let* ((n (expt (+ i 1) 2))
-			(a (map (lambda (j) (square (/ (- n j) n))) (iota n))))
-		   (async fd (/b_gen* i "sine1" 7 a))))))
-     (for-each nth (enum-from-to 0 8)))))
+   (let* ((square
+	   (lambda (a) (* a a)))
+	  (nth
+	   (lambda (i)
+	     (async fd (/b_alloc i 1024 1))
+	     (let* ((n (expt (+ i 1) 2))
+		    (a (map (lambda (j)
+			      (square (/ (- n j) n))) 
+			    (enum-from-to 0 (- n 1)))))
+	       (async fd (/b_gen* i "sine1" 7 a))))))
+     (for-each nth (enum-from-to 0 7)))))
 
 ;; Oscillator at buffers 0 through 7.
 
@@ -48,4 +52,4 @@
    (for-each
     (lambda (i)
       (async fd (/b_gen*  i "sine1" 7 (randl 16 0 1))))
-    (iota 8))))
+    (enum-from-to 0 7))))

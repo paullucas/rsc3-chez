@@ -214,7 +214,9 @@
 ;; read-u8l :: int -> IO [u8]
 
 (define (read-u8l n)
-  (map (lambda (_) (get-u8 (current-input-port))) (iota n)))
+  (map1 (lambda (_) 
+	  (get-u8 (current-input-port))) 
+	(enum-from-to 1 n)))
 
 (define (write-u8l l)
   (for-each (lambda (e) (put-u8 e (current-output-port))) l))
@@ -513,7 +515,7 @@
 	 (newline)
 	 (display #\space)))
    l
-   (iota (length l))))
+   (enum-from-to 0 (- (length l) 1))))
 
 
 ;; encode

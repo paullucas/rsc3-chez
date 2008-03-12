@@ -30,6 +30,323 @@
     (proxied (mced u))))
 
 
+;; graph
+
+;; Return the <list> of all elements of the UGen graph rooted at `u'.
+;; Nodes are values of type <ugen>|<proxy>|<control*>|<number>.
+
+(define (graph-nodes u)
+  (cond
+   ((ugen? u)       (cons u (splice (map graph-nodes (ugen-inputs u)))))
+   ((proxy? u)      (cons u (graph-nodes (proxy-ugen u))))
+   ((control*? u)   (list u))
+   ((number? u)     (list u))
+   ((mce? u)        (concat (map graph-nodes (mce-channels u))))
+   ((mrg? u)        (concat (map graph-nodes (mrg-roots u))))
+   (else            (error "graph-nodes: illegal value" u))))
+
+;; Depth first traversal
+
+(define (graph-traverse f u)
+  (let ((f* (lambda (u) (graph-traverse f u))))
+    (cond
+     ((ugen? u)  (f (make-ugen (ugen-name u)
+			       (ugen-rate u)
+			       (map f* (ugen-inputs u))
+			       (ugen-outputs u)
+			       (ugen-special u)
+			       (ugen-id u))))
+     ((proxy? u) (f (make-proxy (graph-traverse f (proxy-ugen u))
+				(proxy-port u))))
+     ((mce? u)   (f (make-mce (map f* (mce-channels u)))))
+     ((mrg? u)   (f (make-mrg (map f* (mrg-roots u)))))
+     (else       u))))
+
+;; Filters over nodes.
+
+;; right preserving variant
+(define nub-right
+  (lambda (l)
+    (reverse (nub (reverse l)))))
+
+(define (graph-constants u)
+  (nub
+   (filter number? (graph-nodes u))))
+
+(define (graph-controls* u)
+  (nub
+   (filter control*? (graph-nodes u))))
+
+;; Ordering is *essential* - the antecedents of `u' are depth first,
+;; `u' is the last element.
+
+(define (graph-ugens u)
+  (nub
+   (reverse (filter ugen? (graph-nodes u)))))
+
+(define (ugen-close u nn cc uu)
+  (if (not (ugen-validate u))
+      (error "ugen-close: ugen invalid" u)
+      (make-ugen (ugen-name u)
+		 (ugen-rate u)
+		 (map (lambda (i)
+			(input*->input i nn cc uu))
+		      (ugen-inputs u))
+		 (ugen-outputs u)
+		 (ugen-special u)
+		 (ugen-id u))))
+
+(define (graph->graphdef name u)
+  (let* ((nn  (graph-constants u))
+	 (cc  (graph-controls* u))
+	 (uu  (graph-ugens u))
+	 (uu* (if (null? cc) uu (cons (implicit-ugen cc) uu))))
+    (make-graphdef
+     name
+     nn
+     (map control*-default cc)
+     (map (lambda (c) (control*->control c cc)) cc)
+     (map (lambda (u) (ugen-close u nn cc uu*)) uu*))))
+
+
+;; implicit
+
+;; Gloss, k-rate only, no lag.
+
+(define (implicit-ugen cc)
+  (make-ugen "Control"
+	     kr
+	     (list)
+	     (map make-output (replicate (length cc) kr))
+	     0
+	     (make-uid 0)))
+
+
+;; input
+
+;; In the context of graphdef serialization <ugen> inputs must be
+;; re-written into an <input> form.
+
+(define calculate-index 
+  (lambda (n nn)
+    (let ((i (find-index (lambda (e) (equal? e n)) nn)))
+      (if (not i)
+	  (error "calculate-index: not located" n nn)
+	  i))))
+
+(define (number->input n nn)
+  (make-input -1 (calculate-index n nn)))
+
+(define (control*->control c cc)
+  (make-control (control*-name c) (calculate-index c cc)))
+
+(define (control*->input c cc)
+  (make-input 0 (calculate-index c cc)))
+
+(define (ugen->input u uu)
+  (make-input (calculate-index u uu) 0))
+
+(define (proxy->input p uu)
+  (make-input (calculate-index (proxy-ugen p) uu)
+	      (proxy-port p)))
+
+(define (input*->input i nn cc uu)
+  (cond
+   ((number? i)   (number->input i nn))
+   ((control*? i) (control*->input i cc))
+   ((ugen? i)     (ugen->input i uu))
+   ((proxy? i)    (proxy->input i uu))
+   ((mce? i)      (error "input*->input: mce?" i))
+   ((mrg? i)      (error "input*->input: mrg?" i))
+   (else          (error "input*->input: illegal input" i))))
+
+
+;; mce
+
+(define (mce-degree m)
+  (length (mce-channels m)))
+
+(define (mce-ref m n)
+  (list-ref (mce-channels m) n))
+
+(define (mce-reverse u)
+  (make-mce (reverse (mce-channels u))))
+
+(define (mce-required? u)
+  (not (null? (filter mce? (ugen-inputs u)))))
+
+(define (mce-extend n i)
+  (if (mce? i)
+      (extend (mce-channels i) n)
+      (replicate n i)))
+
+(define (mce-transform u)
+  (ugen-transform
+   u
+   (lambda (n r i o s d)
+     (let* ((f (lambda (i*) (make-ugen n r i* o s d)))
+	    (m (maximum (map mce-degree (filter mce? i))))
+	    (e (lambda (i) (mce-extend m i)))
+	    (i* (transpose (map e i))))
+       (make-mce (map f i*))))))
+
+(define (mced u)
+  (if (mce-required? u)
+      (mce-transform u)
+      u))
+
+(define (mce-l u)
+  (if (mce? u)
+      (mce-channels u)
+      (list u)))
+
+
+;; proxied
+
+(define (proxied u)
+  (cond
+   ((ugen? u) (let* ((o (ugen-outputs u))
+		     (n (length o)))
+	        (if (< n 2)
+		    u
+		    (make-mce (map (lambda (i) (make-proxy u i))
+				   (enum-from-to 0 (- n 1)))))))
+   ((mce? u)  (make-mce (map proxied (mce-channels u))))))
+
+
+;; operator
+
+;; Operators may, when applied to numbers, yield numbers.
+
+(define-syntax define-unary-operator
+  (syntax-rules ()
+    ((_ n s f)
+     (define (n a)
+       (if (and (number? a) f)
+	   (f a)
+	   (construct-ugen 'UnaryOpUGen #f (list a) #f 1 s (make-uid 0)))))))
+
+(define-unary-operator Neg 0 -)
+(define-unary-operator Not 1 #f)
+(define-unary-operator IsNil 2 #f)
+(define-unary-operator NotNil 3 #f)
+(define-unary-operator BitNot 4 #f)
+(define-unary-operator Abs 5 abs)
+(define-unary-operator AsFloat 6 #f)
+(define-unary-operator AsInt 7 #f)
+(define-unary-operator Ceil 8 ceiling)
+(define-unary-operator Floor 9 floor)
+(define-unary-operator Frac 10 #f)
+(define-unary-operator Sign 11 #f)
+(define-unary-operator Squared 12 squared)
+(define-unary-operator Cubed 13 cubed)
+(define-unary-operator Sqrt 14 sqrt)
+(define-unary-operator Exp 15 #f)
+(define-unary-operator Recip 16 recip)
+(define-unary-operator MIDICPS 17 midicps)
+(define-unary-operator CPSMIDI 18 cpsmidi)
+(define-unary-operator MIDIRatio 19 midiratio)
+(define-unary-operator RatioMIDI 20 ratiomidi)
+(define-unary-operator DbAmp 21 dbamp)
+(define-unary-operator AmpDb 22 ampdb)
+(define-unary-operator OctCPS 23 octcps)
+(define-unary-operator CPSOct 24 cpsoct)
+(define-unary-operator Log 25 log)
+(define-unary-operator Log2 26 log2)
+(define-unary-operator Log10 27 log10)
+(define-unary-operator Sin 28 sin)
+(define-unary-operator Cos 29 cos)
+(define-unary-operator Tan 30 tan)
+(define-unary-operator ArcSin 31 asin)
+(define-unary-operator ArcCos 32 acos)
+(define-unary-operator ArcTan 33 atan)
+(define-unary-operator SinH 34 #f)
+(define-unary-operator CosH 35 #f)
+(define-unary-operator TanH 36 #f)
+(define-unary-operator _Rand 37 _rand)
+(define-unary-operator Rand2 38 rand2)
+(define-unary-operator _LinRand 39 #f)
+(define-unary-operator BiLinRand 40 #f)
+(define-unary-operator Sum3Rand 41 #f)
+(define-unary-operator Distort 42 #f)
+(define-unary-operator SoftClip 43 #f)
+(define-unary-operator Coin 44 #f)
+(define-unary-operator DigitValue 45 #f)
+(define-unary-operator Silence 46 #f)
+(define-unary-operator Thru 47 #f)
+(define-unary-operator RectWindow 48 #f)
+(define-unary-operator HanWindow 49 #f)
+(define-unary-operator WelchWindow 50 #f)
+(define-unary-operator TriWindow 51 #f)
+(define-unary-operator _Ramp 52 #f)
+(define-unary-operator SCurve 53 #f)
+
+(define-syntax define-binary-operator
+  (syntax-rules ()
+    ((_ n s f)
+     (define (n a b)
+       (if (and (number? a)
+		(number? b)
+		f)
+	   (f a b)
+	   (construct-ugen 'BinaryOpUGen #f (list a b) #f 1 s (make-uid 0)))))))
+
+(define-binary-operator Add 0 +)
+(define-binary-operator Sub 1 -)
+(define-binary-operator Mul 2 *)
+(define-binary-operator IDiv 3 #f)
+(define-binary-operator FDiv 4 /)
+(define-binary-operator Mod 5 #f)
+(define-binary-operator EQ* 6 #f)
+(define-binary-operator NE 7 #f)
+(define-binary-operator LT* 8 #f)
+(define-binary-operator GT* 9 #f)
+(define-binary-operator LE 10 #f)
+(define-binary-operator GE 11 #f)
+(define-binary-operator Min 12 min)
+(define-binary-operator Max 13 max)
+(define-binary-operator BitAnd 14 #f)
+(define-binary-operator BitOr 15 #f)
+(define-binary-operator BitXor 16 #f)
+(define-binary-operator LCM 17 #f)
+(define-binary-operator GCD 18 #f)
+(define-binary-operator Round 19 #f)
+(define-binary-operator RoundUp 20 #f)
+(define-binary-operator Trunc 21 #f)
+(define-binary-operator Atan2 22 #f)
+(define-binary-operator Hypot 23 #f)
+(define-binary-operator Hypotx 24 #f)
+(define-binary-operator Pow 25 #f)
+(define-binary-operator ShiftLeft 26 #f)
+(define-binary-operator ShiftRight 27 #f)
+(define-binary-operator UnsignedShift 28 #f)
+(define-binary-operator Fill 29 #f)
+(define-binary-operator Ring1 30 #f)
+(define-binary-operator Ring2 31 #f)
+(define-binary-operator Ring3 32 #f)
+(define-binary-operator Ring4 33 #f)
+(define-binary-operator DifSqr 34 #f)
+(define-binary-operator SumSqr 35 #f)
+(define-binary-operator SqrSum 36 #f)
+(define-binary-operator SqrDif 37 #f)
+(define-binary-operator AbsDif 38 #f)
+(define-binary-operator Thresh 39 #f)
+(define-binary-operator AMClip 40 #f)
+(define-binary-operator ScaleNeg 41 #f)
+(define-binary-operator Clip2 42 #f)
+(define-binary-operator Excess 43 #f)
+(define-binary-operator Fold2 44 #f)
+(define-binary-operator Wrap2 45 #f)
+(define-binary-operator FirstArg 46 #f)
+(define-binary-operator RandRange 47 #f)
+(define-binary-operator ExpRandRange 48 #f)
+
+;; N-ary variants
+
+(define (Mul* . l) (foldl Mul 1 l))
+(define (Add* . l) (foldl Add 0 l))
+
+
 ;; filter
 
 (define-syntax define-filter
@@ -237,310 +554,6 @@
   (Select (TWindex trig normalize weights) array))
 
 
-;; graph
-
-;; Return the <list> of all elements of the UGen graph rooted at `u'.
-;; Nodes are values of type <ugen>|<proxy>|<control*>|<number>.
-
-(define (graph-nodes u)
-  (cond
-   ((ugen? u)       (cons u (splice (map graph-nodes (ugen-inputs u)))))
-   ((proxy? u)      (cons u (graph-nodes (proxy-ugen u))))
-   ((control*? u)   (list u))
-   ((number? u)     (list u))
-   ((mce? u)        (concat (map graph-nodes (mce-channels u))))
-   ((mrg? u)        (concat (map graph-nodes (mrg-roots u))))
-   (else            (error "graph-nodes: illegal value" u))))
-
-;; Depth first traversal
-
-(define (graph-traverse f u)
-  (let ((f* (lambda (u) (graph-traverse f u))))
-    (cond
-     ((ugen? u)  (f (make-ugen (ugen-name u)
-			       (ugen-rate u)
-			       (map f* (ugen-inputs u))
-			       (ugen-outputs u)
-			       (ugen-special u)
-			       (ugen-id u))))
-     ((proxy? u) (f (make-proxy (graph-traverse f (proxy-ugen u))
-				(proxy-port u))))
-     ((mce? u)   (f (make-mce (map f* (mce-channels u)))))
-     ((mrg? u)   (f (make-mrg (map f* (mrg-roots u)))))
-     (else       u))))
-
-;; Filters over nodes.
-
-;; right preserving variant
-(define nub-right
-  (lambda (l)
-    (reverse (nub (reverse l)))))
-
-(define (graph-constants u)
-  (nub
-   (filter number? (graph-nodes u))))
-
-(define (graph-controls* u)
-  (nub
-   (filter control*? (graph-nodes u))))
-
-;; Ordering is *essential* - the antecedents of `u' are depth first,
-;; `u' is the last element.
-
-(define (graph-ugens u)
-  (nub
-   (reverse (filter ugen? (graph-nodes u)))))
-
-(define (ugen-close u nn cc uu)
-  (if (not (ugen-validate u))
-      (error "ugen-close: ugen invalid" u)
-      (make-ugen (ugen-name u)
-		 (ugen-rate u)
-		 (map (lambda (i)
-			(input*->input i nn cc uu))
-		      (ugen-inputs u))
-		 (ugen-outputs u)
-		 (ugen-special u)
-		 (ugen-id u))))
-
-(define (graph->graphdef name u)
-  (let* ((nn  (graph-constants u))
-	 (cc  (graph-controls* u))
-	 (uu  (graph-ugens u))
-	 (uu* (if (null? cc) uu (cons (implicit-ugen cc) uu))))
-    (make-graphdef
-     name
-     nn
-     (map control*-default cc)
-     (map (lambda (c) (control*->control c cc)) cc)
-     (map (lambda (u) (ugen-close u nn cc uu*)) uu*))))
-
-
-;; implicit
-
-;; Gloss, k-rate only, no lag.
-
-(define (implicit-ugen cc)
-  (make-ugen "Control"
-	     kr
-	     (list)
-	     (map make-output (replicate (length cc) kr))
-	     0
-	     (make-uid 0)))
-
-
-;; input
-
-;; In the context of graphdef serialization <ugen> inputs must be
-;; re-written into an <input> form.
-
-(define calculate-index 
-  (lambda (n nn)
-    (let ((i (find-index (lambda (e) (equal? e n)) nn)))
-      (if (not i)
-	  (error "calculate-index: not located" n nn)
-	  i))))
-
-(define (number->input n nn)
-  (make-input -1 (calculate-index n nn)))
-
-(define (control*->control c cc)
-  (make-control (control*-name c) (calculate-index c cc)))
-
-(define (control*->input c cc)
-  (make-input 0 (calculate-index c cc)))
-
-(define (ugen->input u uu)
-  (make-input (calculate-index u uu) 0))
-
-(define (proxy->input p uu)
-  (make-input (calculate-index (proxy-ugen p) uu)
-	      (proxy-port p)))
-
-(define (input*->input i nn cc uu)
-  (cond
-   ((number? i)   (number->input i nn))
-   ((control*? i) (control*->input i cc))
-   ((ugen? i)     (ugen->input i uu))
-   ((proxy? i)    (proxy->input i uu))
-   ((mce? i)      (error "input*->input: mce?" i))
-   ((mrg? i)      (error "input*->input: mrg?" i))
-   (else          (error "input*->input: illegal input" i))))
-
-
-;; mce
-
-(define (mce-degree m)
-  (length (mce-channels m)))
-
-(define (mce-ref m n)
-  (list-ref (mce-channels m) n))
-
-(define (mce-reverse u)
-  (make-mce (reverse (mce-channels u))))
-
-(define (mce-required? u)
-  (not (null? (filter mce? (ugen-inputs u)))))
-
-(define (mce-extend n i)
-  (if (mce? i)
-      (extend (mce-channels i) n)
-      (replicate n i)))
-
-(define (mce-transform u)
-  (ugen-transform
-   u
-   (lambda (n r i o s d)
-     (let* ((f (lambda (i*) (make-ugen n r i* o s d)))
-	    (m (maximum (map mce-degree (filter mce? i))))
-	    (e (lambda (i) (mce-extend m i)))
-	    (i* (invert (map e i))))
-       (make-mce (map f i*))))))
-
-(define (mced u)
-  (if (mce-required? u)
-      (mce-transform u)
-      u))
-
-(define (mce-l u)
-  (if (mce? u)
-      (mce-channels u)
-      (list u)))
-
-
-;; operator
-
-;; Operators may, when applied to numbers, yield numbers.
-
-(define-syntax define-unary-operator
-  (syntax-rules ()
-    ((_ n s f)
-     (define (n a)
-       (if (and (number? a) f)
-	   (f a)
-	   (construct-ugen 'UnaryOpUGen #f (list a) #f 1 s (make-uid 0)))))))
-
-(define-unary-operator Neg 0 -)
-(define-unary-operator Not 1 #f)
-(define-unary-operator IsNil 2 #f)
-(define-unary-operator NotNil 3 #f)
-(define-unary-operator BitNot 4 #f)
-(define-unary-operator Abs 5 abs)
-(define-unary-operator AsFloat 6 #f)
-(define-unary-operator AsInt 7 #f)
-(define-unary-operator Ceil 8 ceiling)
-(define-unary-operator Floor 9 floor)
-(define-unary-operator Frac 10 #f)
-(define-unary-operator Sign 11 #f)
-(define-unary-operator Squared 12 squared)
-(define-unary-operator Cubed 13 cubed)
-(define-unary-operator Sqrt 14 sqrt)
-(define-unary-operator Exp 15 #f)
-(define-unary-operator Recip 16 recip)
-(define-unary-operator MIDICPS 17 midicps)
-(define-unary-operator CPSMIDI 18 cpsmidi)
-(define-unary-operator MIDIRatio 19 midiratio)
-(define-unary-operator RatioMIDI 20 ratiomidi)
-(define-unary-operator DbAmp 21 dbamp)
-(define-unary-operator AmpDb 22 ampdb)
-(define-unary-operator OctCPS 23 octcps)
-(define-unary-operator CPSOct 24 cpsoct)
-(define-unary-operator Log 25 log)
-(define-unary-operator Log2 26 log2)
-(define-unary-operator Log10 27 log10)
-(define-unary-operator Sin 28 sin)
-(define-unary-operator Cos 29 cos)
-(define-unary-operator Tan 30 tan)
-(define-unary-operator ArcSin 31 asin)
-(define-unary-operator ArcCos 32 acos)
-(define-unary-operator ArcTan 33 atan)
-(define-unary-operator SinH 34 #f)
-(define-unary-operator CosH 35 #f)
-(define-unary-operator TanH 36 #f)
-(define-unary-operator _Rand 37 _rand)
-(define-unary-operator Rand2 38 rand2)
-(define-unary-operator _LinRand 39 #f)
-(define-unary-operator BiLinRand 40 #f)
-(define-unary-operator Sum3Rand 41 #f)
-(define-unary-operator Distort 42 #f)
-(define-unary-operator SoftClip 43 #f)
-(define-unary-operator Coin 44 #f)
-(define-unary-operator DigitValue 45 #f)
-(define-unary-operator Silence 46 #f)
-(define-unary-operator Thru 47 #f)
-(define-unary-operator RectWindow 48 #f)
-(define-unary-operator HanWindow 49 #f)
-(define-unary-operator WelchWindow 50 #f)
-(define-unary-operator TriWindow 51 #f)
-(define-unary-operator _Ramp 52 #f)
-(define-unary-operator SCurve 53 #f)
-
-(define-syntax define-binary-operator
-  (syntax-rules ()
-    ((_ n s f)
-     (define (n a b)
-       (if (and (number? a)
-		(number? b)
-		f)
-	   (f a b)
-	   (construct-ugen 'BinaryOpUGen #f (list a b) #f 1 s (make-uid 0)))))))
-
-(define-binary-operator Add 0 +)
-(define-binary-operator Sub 1 -)
-(define-binary-operator Mul 2 *)
-(define-binary-operator IDiv 3 #f)
-(define-binary-operator FDiv 4 /)
-(define-binary-operator Mod 5 #f)
-(define-binary-operator EQ* 6 #f)
-(define-binary-operator NE 7 #f)
-(define-binary-operator LT* 8 #f)
-(define-binary-operator GT* 9 #f)
-(define-binary-operator LE 10 #f)
-(define-binary-operator GE 11 #f)
-(define-binary-operator Min 12 min)
-(define-binary-operator Max 13 max)
-(define-binary-operator BitAnd 14 #f)
-(define-binary-operator BitOr 15 #f)
-(define-binary-operator BitXor 16 #f)
-(define-binary-operator LCM 17 #f)
-(define-binary-operator GCD 18 #f)
-(define-binary-operator Round 19 #f)
-(define-binary-operator RoundUp 20 #f)
-(define-binary-operator Trunc 21 #f)
-(define-binary-operator Atan2 22 #f)
-(define-binary-operator Hypot 23 #f)
-(define-binary-operator Hypotx 24 #f)
-(define-binary-operator Pow 25 #f)
-(define-binary-operator ShiftLeft 26 #f)
-(define-binary-operator ShiftRight 27 #f)
-(define-binary-operator UnsignedShift 28 #f)
-(define-binary-operator Fill 29 #f)
-(define-binary-operator Ring1 30 #f)
-(define-binary-operator Ring2 31 #f)
-(define-binary-operator Ring3 32 #f)
-(define-binary-operator Ring4 33 #f)
-(define-binary-operator DifSqr 34 #f)
-(define-binary-operator SumSqr 35 #f)
-(define-binary-operator SqrSum 36 #f)
-(define-binary-operator SqrDif 37 #f)
-(define-binary-operator AbsDif 38 #f)
-(define-binary-operator Thresh 39 #f)
-(define-binary-operator AMClip 40 #f)
-(define-binary-operator ScaleNeg 41 #f)
-(define-binary-operator Clip2 42 #f)
-(define-binary-operator Excess 43 #f)
-(define-binary-operator Fold2 44 #f)
-(define-binary-operator Wrap2 45 #f)
-(define-binary-operator FirstArg 46 #f)
-(define-binary-operator RandRange 47 #f)
-(define-binary-operator ExpRandRange 48 #f)
-
-;; N-ary variants
-
-(define (Mul* . l) (foldl Mul 1 l))
-(define (Add* . l) (foldl Add 0 l))
-
-
 ;; oscillator
 
 (define-syntax define-oscillator
@@ -674,19 +687,6 @@
 (define-oscillator/id RandID (id) 1)
 (define-oscillator/id RandSeed (trig seed) 1)
 (define-oscillator/id WhiteNoise () 1)
-
-
-;; proxied
-
-(define (proxied u)
-  (cond
-   ((ugen? u) (let* ((o (ugen-outputs u))
-		     (n (length o)))
-	        (if (< n 2)
-		    u
-		    (make-mce (map (lambda (i) (make-proxy u i))
-				   (iota n))))))
-   ((mce? u)  (make-mce (map proxied (mce-channels u))))))
 
 
 ;; specialized

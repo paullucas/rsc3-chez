@@ -238,7 +238,7 @@
 
 (define mce/fill 
   (lambda (n f)
-    (make-mce (map1 f (iota n)))))
+    (make-mce (map1 f (enum-from-to 0 (- n 1))))))
 
 ;; mix . mce/fill
 
