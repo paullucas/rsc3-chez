@@ -77,13 +77,13 @@
 
 ;; A not entirely naive flatten - ie. does not use append.
 
-(define (flatten* t r)
-  (cond ((null? t) r)
-	((list? t) (flatten* (car t) (flatten* (cdr t) r)))
-	(else      (cons t r))))
-
-(define (flatten t)
-  (flatten* t nil))
+(define flatten
+  (letrec ((f (lambda (t r)
+		(cond ((null? t) r)
+		      ((pair? t) (f (head t) (f (tail t) r)))
+		      (else (cons t r))))))
+    (lambda (t)
+      (f t nil))))
 
 ;; Map f over the leaf nodes of t.
 
