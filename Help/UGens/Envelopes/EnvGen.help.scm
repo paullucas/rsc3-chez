@@ -32,11 +32,11 @@
 
 (let* ((d (env/perc 0.01 1 1 -4))
        (e (EnvGen kr 1 0.1 0 1 removeSynth d)))
-  (audition (Mul e (SinOsc ar 440 0))))
+  (audition (Out 0 (Mul e (SinOsc ar 440 0)))))
 
 ;; The break-point assistant makes a static envelope from a
 ;; co-ordinate list.  There is a duration and amplitude scalar.
 
 (let* ((d (env/bp '(0 0 1/2 1 1 0) 1 1))
        (e (EnvGen kr 1 0.1 0 1 removeSynth d)))
-  (audition (Mul e (SinOsc ar 440 0))))
+  (audition (Out 0 (Mul e (SinOsc ar 440 0)))))

@@ -75,7 +75,8 @@
 		   (ugen-special u)
 		   (ugen-id u)))))
 
-(define graph->graphdef
+;; String -> UGen -> Graphdef
+(define synthdef
   (lambda (name u)
     (let* ((nn (graph-constants u))
 	   (cc (graph-controls* u))
