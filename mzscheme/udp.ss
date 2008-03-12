@@ -1,15 +1,7 @@
-;; udp.ss - (c) rohan drape, 2004-2007
-
 (module udp scheme
 
-(require (only-in "../structure/structure.scm"
-		  define-structure))
-
-(provide udp*?
-	 open-udp*
-	 udp*-send
-	 udp*-recv
-	 udp*-close)
+(require "structure.ss")
+(provide (all-defined-out))
 
 (define-structure udp* s h p)
 

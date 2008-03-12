@@ -1,7 +1,3 @@
-;; r6rs.ss - (c) rohan drape, 2006-2007
-
-;; r6rs names...
-
 (module r6rs scheme/base
 
 (require (prefix-in srfi: (lib "1.ss" "srfi")))
