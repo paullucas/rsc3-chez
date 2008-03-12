@@ -51,18 +51,18 @@
   (lambda (u)
     (nub (filter number? (graph-nodes u)))))
 
-(define graph-controls* 
+(define graph-controls*
   (lambda (u)
     (nub (filter control*? (graph-nodes u)))))
 
 ;; Ordering is *essential* - the antecedents of `u' are depth first,
 ;; `u' is the last element.
 
-(define graph-ugens 
+(define graph-ugens
   (lambda (u)
     (nub (reverse (filter ugen? (graph-nodes u))))))
 
-(define ugen-close 
+(define ugen-close
   (lambda (u nn cc uu)
     (if (not (ugen-validate u))
 	(error "ugen-close: ugen invalid" u)
@@ -106,7 +106,7 @@
 ;; In the context of graphdef serialization <ugen> inputs must be
 ;; re-written into an <input> form.
 
-(define calculate-index 
+(define calculate-index
   (lambda (n nn)
     (let ((i (find-index (lambda (e) (equal? e n)) nn)))
       (if (not i)
