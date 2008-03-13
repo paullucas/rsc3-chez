@@ -71,18 +71,6 @@
 	  (list1 n)
 	  (cons n (dx->d (f (head i) n) (tail i)))))))
 
-
-;; tree
-
-;; A not entirely naive flatten - ie. does not use append.
-
-(define flatten
-  (letrec ((f (lambda (t r)
-		(cond ((null? t) r)
-		      ((pair? t) (f (head t) (f (tail t) r)))
-		      (else (cons t r))))))
-    (lambda (t)
-      (f t nil))))
 
 
 ;; math
