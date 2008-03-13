@@ -555,27 +555,27 @@
 
 ;; transport
 
-;; 'u' is a <udp*>, 't' is a timeout in seconds.
-
-(define osc-send
+;; port -> osc -> ()
+(define send
   (lambda (u m)
     (cond ((udp*? u)
 	   (udp*-send u (encode-osc m)))
 	  (else
-	   (error 'osc-send "unknown transport")))))
+	   (error "send: unknown transport")))))
 
-(define osc-recv
+;; port -> float -> osc
+(define recv
   (lambda (u t)
     (cond ((udp*? u)
 	   (let ((b (udp*-recv u t)))
 	     (if b (decode-osc b) #f)))
 	  (else
-	   (error 'osc-recv "unknown transport")))))
+	   (error "recv: unknown transport")))))
 
 (define osc-request
   (lambda (u r m t)
-    (osc-send u m)
-    (let ((p (osc-recv u t)))
+    (send u m)
+    (let ((p (recv u t)))
       (if (and p (string=? (car p) r)) p #f))))
 
 

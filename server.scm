@@ -1,26 +1,19 @@
-
-;; add-action
-
-;; The addAction values are interpreted as follows:
-;; 0 - add the new node to the the head of the group specified by the
-;;     add target ID.
-;; 1 - add the new node to the the tail of the group specified by the
-;;     add target ID.
-;; 2 - add the new node just before the node specified by the add
-;;     target ID.
-;; 3 - add the new node just after the node specified by the add
-;;     target ID.
-;; 4 - the new node replaces the node specified by the add target
-;;     ID. The target node is freed.
-
-(define addToHead  0)
-(define addToTail  1)
-(define addBefore  2)
-(define addAfter   3)
+;; int
+(define addToHead 0)
+(define addToTail 1)
+(define addBefore 2)
+(define addAfter 3)
 (define addReplace 4)
 
-
-;; command
+;; int
+(define genNormalize 1)
+(define genWavetable 2)
+(define genClear 4)
+
+;; int
+(define doNothing 0)
+(define pauseSynth 1)
+(define removeSynth 2)
 
 (define /quit
   (message "/quit" nil))
@@ -224,74 +217,40 @@
     (message "/c_getn" (list i j))))
 
 
-;; done-action
 
-;; The doneAction values are interpreted as follows:
-;;  0 - do nothing when the envelope has ended
-;;  1 - pause the synth, it is still resident
-;;  2 - remove the synth and deallocate it
-;;  3 - remove and deallocate both this synth and the preceeding node
-;;  4 - remove and deallocate both this synth and the following node
-;;  5 - remove and deallocate this synth and if the preceeding node is a
-;;      group then do g_freeAll on it, else n_free it
-;;  6 - remove and deallocate this synth and if the following node is a
-;;      group then do g_freeAll on it, else n_free it
-;;  7 - remove and deallocate this synth and all preceeding nodes in this
-;;      group
-;;  8 - remove and deallocate this synth and all following nodes in this
-;;      group
-;;  9 - remove and deallocate this synth and pause the preceeding node
-;; 10 - remove and deallocate this synth and pause the following node
-;; 11 - remove and deallocate this synth and if the preceeding node is a
-;;      group then do g_deepFree on it, else n_free it
-;; 12 - remove and deallocate this synth and if the following node is a
-;;      group then do g_deepFree on it, else n_free it
-
-(define doNothing   0)
-(define pauseSynth  1)
-(define removeSynth 2)
-
-
-;; gen
-
-(define genNormalize 1)
-(define genWavetable 2)
-(define genClear     4)
-
-
-;; server
-
-(define send osc-send)
-
-(define recv osc-recv)
-
+;; port -> float -> [osc]
 (define recv*
   (lambda (fd t)
     (let loop ((r (list)))
       (let ((p (recv fd t)))
 	(if p (loop (cons p r)) (reverse r))))))
 
-(define timeout (make-parameter 1.0))
+(define timeout 
+  (make-parameter 1.0))
 
+;; port -> string -> osc
 (define wait
-  (lambda (fd m)
+  (lambda (fd s)
     (let ((p (recv fd (timeout))))
       (cond
        ((not p) (error "wait: timed out"))
-       ((not (string=? (car p) m)) (error "wait: bad return packet" p m))
+       ((not (string=? (car p) s)) (error "wait: bad return packet" p s))
        (else p)))))
 
+;; port -> osc -> ()
 (define async
   (lambda (fd m)
     (send fd m)
     (wait fd "/done")))
 
+;; port -> ()
 (define reset
   (lambda (fd)
     (send fd (bundle -1 (list (/g_freeAll1 0)
 			      /clearSched
 			      (/g_new1 1 0 0))))))
 
+;; (port -> any) -> any
 (define with-sc3
   (lambda (f)
     (let* ((fd (open-udp* "127.0.0.1" 57110))
@@ -300,8 +259,8 @@
       r)))
 
 
-;; status.scm
 
+;; [string]
 (define status-fields
   (list "# UGens                     "
 	"# Synths                    "
@@ -312,41 +271,41 @@
 	"Sample Rate (Nominal)       "
 	"Sample Rate (Actual)        "))
 
-(define status-info
-  (lambda (r)
-    (map1 number->string (cddr r))))
-
+;; osc -> [string]
 (define status-format
   (lambda (r)
     (cons "***** SuperCollider Server Status *****"
-	  (zip-with string-append status-fields (status-info r)))))
+	  (zip-with string-append
+		    status-fields 
+		    (map1 number->string (cddr r))))))
 
-;; Collect server status information.
-
+;; port -> [string]
 (define server-status
   (lambda (fd)
     (send fd /status)
     (let ((r (wait fd "status.reply")))
       (status-format r))))
 
+;; port -> ()
 (define display-server-status
-  (lambda (s)
+  (lambda (fd)
     (newline)
-    (for-each display (intersperse "\n" (server-status s)))
+    (for-each display (intersperse "\n" (server-status fd)))
     (newline)))
 
-;; Accessors
-
+;; port -> int -> number
 (define server-status-field
   (lambda (fd n)
     (send fd /status)
     (let ((r (wait fd "status.reply")))
       (list-ref r n))))
 
+;; port -> float
 (define server-sample-rate/nominal
   (lambda (s)
     (server-status-field s 8)))
 
+;; port -> float
 (define server-sample-rate/actual
   (lambda (s)
     (server-status-field s 9)))

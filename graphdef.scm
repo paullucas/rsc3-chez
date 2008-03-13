@@ -74,54 +74,41 @@
 ;; int -> rate
 (define-structure rate value)
 
-;; string -> rate -> [ugen] -> [output] -> int -> uid -> ugen
-(define-structure ugen name rate inputs outputs special id)
-
-;; syntax for binding control values
-(define-syntax letc
-  (syntax-rules ()
-    ((_ () expr)
-     expr)
-    ((_ ((name default) ...) expr)
-     (let ((name (make-control* (symbol->string (quote name)) default kr 0))
-	   ...)
-       expr))))
-
-
-
-;; proxy
-
-;; An <mce> of <proxy> records represents a UGen with multiple
-;; outputs.
-
-
-
 ;; rate
-
-
 (define ir
   (make-rate 0))
 
+;; rate
 (define kr
   (make-rate 1))
 
+;; rate
 (define ar
   (make-rate 2))
 
+;; rate
 (define dr
   (make-rate 3))
 
-;; Order rates for determing the result of math operators.  Operators
-;; involving a Demand rate UGen operate at Demand rate.
+;; any -> rate
+(define rate-of
+  (lambda (o)
+    (cond ((number? o) ir)
+	  ((control*? o) (control*-rate o))
+	  ((ugen? o) (ugen-rate o))
+	  ((proxy? o) (rate-of (proxy-ugen o)))
+	  ((mce? o) (rate-select (map rate-of (mce-channels o))))
+	  ((mrg? o) (error 'rate-of "mrg?" o))
+	  (else (error 'rate-of "illegal value" o)))))
 
 ;; rate -> int
 (define rate-to-ordinal
   (lambda (r)
-    (cond ((eq? r ir)  0)
-	  ((eq? r kr)  1)
-	  ((eq? r ar)  2)
-	  ((eq? r dr)  3)
-	  (else        (error "rate-to-ordinal: illegal rate")))))
+    (cond ((eq? r ir) 0)
+	  ((eq? r kr) 1)
+	  ((eq? r ar) 2)
+	  ((eq? r dr) 3)
+	  (else (error "rate-to-ordinal: illegal rate")))))
 
 ;; rate -> rate -> rate
 (define rate-select*
@@ -135,32 +122,15 @@
   (lambda (l)
     (foldl1 rate-select* l)))
 
-
-;; rate-of
+;; string -> rate -> [ugen] -> [output] -> int -> uid -> ugen
+(define-structure ugen name rate inputs outputs special id)
 
-(define rate-of
-  (lambda (o)
-    (cond ((number? o)    ir)
-	  ((control*? o)  (control*-rate o))
-	  ((ugen? o)      (ugen-rate o))
-	  ((proxy? o)     (rate-of (proxy-ugen o)))
-	  ((mce? o)       (rate-select (map rate-of (mce-channels o))))
-	  ((mrg? o)       (error 'rate-of "mrg?" o))
-	  (else           (error 'rate-of "illegal value" o)))))
-
-
-;; ugen
-
-;; A <ugen> represents a UGen in a UGen graph.  The <string> name
-;; names the C level UGen.  Each value at the <list> inputs is either
-;; a <number>, a <constant>, a <control>, a <ugen> or a <proxy>.  Each
-;; value at the <list> outputs is a an <output>.  The id is an <id>.
-
-
+;; ugen -> int -> output
 (define ugen-output
   (lambda (u n)
     (list-ref (ugen-outputs u) n)))
 
+;; ugen -> (ugen -> any) -> any
 (define ugen-transform
   (lambda (u f)
     (let ((n (ugen-name u))
@@ -171,6 +141,7 @@
 	  (d (ugen-id u)))
       (f n r i o s d))))
 
+;; any -> bool
 (define input*?
   (lambda (i)
     (or (number? i)
@@ -179,7 +150,8 @@
 	(proxy? i)
 	(mce? i))))
 
-(define ugen-validate
+;; ugen -> bool
+(define ugen-valid?
   (lambda (u)
     (ugen-transform
      u
@@ -191,6 +163,7 @@
 	    (integer? s)
 	    (uid? d))))))
 
+;; ugen -> ugen
 (define uniquify
   (lambda (u)
     (ugen-transform
@@ -198,29 +171,34 @@
      (lambda (n r i o s d)
        (make-ugen n r i o s (unique-uid))))))
 
+;; int -> ugen -> mce
 (define clone
   (lambda (n u)
     (make-mce
      (map (lambda (_) (uniquify u)) (enum-from-to 1 n)))))
 
-
-
+;; control -> [bytevector]
 (define encode-control
   (lambda (c)
     (list (encode-pstr (control-name c))
 	  (encode-i16 (control-index c)))))
 
+;; input -> [bytevector]
 (define encode-input
   (lambda (i)
     (list (encode-i16 (input-ugen i))
 	  (encode-i16 (input-port i)))))
 
+;; output -> [bytevector]
 (define encode-output
   (lambda (o)
     (encode-u8 (rate-value (output-rate o)))))
 
-(define SCgf (map encode-u8 (map char->integer (string->list "SCgf"))))
+;; [bytevector]
+(define SCgf 
+  (map encode-u8 (map char->integer (string->list "SCgf"))))
 
+;; ugen -> [bytevector]
 (define encode-ugen
   (lambda (u)
     (ugen-transform
@@ -235,6 +213,7 @@
 	(map encode-input i)
 	(map encode-output o))))))
 
+;; graphdef -> bytevector
 (define encode-graphdef
   (lambda (g)
     (flatten-bytevectors
@@ -256,4 +235,14 @@
 	(map encode-control k)
 	(encode-i16 (length u))
 	(map encode-ugen u))))))
+
+;; syntax for binding control values
+(define-syntax letc
+  (syntax-rules ()
+    ((_ () expr)
+     expr)
+    ((_ ((name default) ...) expr)
+     (let ((name (make-control* (symbol->string (quote name)) default kr 0))
+	   ...)
+       expr))))
 

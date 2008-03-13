@@ -1,16 +1,6 @@
-
-;; constructor
+;; node = ugen | proxy | control* | float
 
-;; name = <symbol>
-;; rate? = <rate> | #f
-;; inputs = <list> of <input*>
-;; mce? = <input*> | #f
-;; outputs = <int>
-;; special = <int>
-
-;; It is significant whether MCE or Proxing occurs first, the ordering
-;; here follows that in sclang.
-
+;; symbol -> maybe rate -> [node] -> maybe node -> int -> int -> uid -> ugen
 (define construct-ugen
   (lambda (name rate? inputs mce? outputs special id)
     (let* ((inputs* (if mce?
@@ -28,12 +18,7 @@
 	       id)))
       (proxied (mced u)))))
 
-
-;; graph
-
-;; Return the <list> of all elements of the UGen graph rooted at `u'.
-;; Nodes are values of type <ugen>|<proxy>|<control*>|<number>.
-
+;; ugen -> [node]
 (define graph-nodes
   (lambda (u)
     (cond
@@ -45,27 +30,26 @@
      ((mrg? u) (append2 (graph-nodes (mrg-left u)) (graph-nodes (mrg-right u))))
      (else (error "graph-nodes: illegal value" u)))))
 
-;; Filters over nodes.
-
+;; ugen -> [float]
 (define graph-constants
   (lambda (u)
     (nub (filter number? (graph-nodes u)))))
 
+;; ugen -> [control*]
 (define graph-controls*
   (lambda (u)
     (nub (filter control*? (graph-nodes u)))))
 
-;; Ordering is *essential* - the antecedents of `u' are depth first,
-;; `u' is the last element.
-
+;; ugen -> [ugen]
 (define graph-ugens
   (lambda (u)
     (nub (reverse (filter ugen? (graph-nodes u))))))
 
+;; ugen -> [node] -> [control] -> [ugen] -> ugen
 (define ugen-close
   (lambda (u nn cc uu)
-    (if (not (ugen-validate u))
-	(error "ugen-close: ugen invalid" u)
+    (if (not (ugen-valid? u))
+	(error "ugen-close: invalid ugen" u)
 	(make-ugen (ugen-name u)
 		   (ugen-rate u)
 		   (map1 (lambda (i)
@@ -89,11 +73,7 @@
        (map1 (lambda (c) (control*-to-control c cc)) cc)
        (map1 (lambda (u) (ugen-close u nn cc uu*)) uu*)))))
 
-
-;; implicit
-
-;; Gloss, k-rate only, no lag.
-
+;; [control] -> ugen
 (define implicit-ugen
   (lambda (cc)
     (make-ugen "Control"
@@ -103,12 +83,7 @@
 	       0
 	       (make-uid 0))))
 
-
-;; input
-
-;; In the context of graphdef serialization <ugen> inputs must be
-;; re-written into an <input> form.
-
+;; node -> [node] -> int
 (define calculate-index
   (lambda (n nn)
     (let ((i (find-index (lambda (e) (equal? e n)) nn)))
@@ -116,27 +91,33 @@
 	  (error "calculate-index: not located" n nn)
 	  i))))
 
+;; float -> [node] -> input
 (define number-to-input
   (lambda (n nn)
     (make-input -1 (calculate-index n nn))))
 
+;; control* -> [control*] -> control
 (define control*-to-control
   (lambda (c cc)
     (make-control (control*-name c) (calculate-index c cc))))
 
+;; control* -> [control*] -> input
 (define control*-to-input
   (lambda (c cc)
     (make-input 0 (calculate-index c cc))))
 
+;; ugen -> [ugen] -> input
 (define ugen-to-input
   (lambda (u uu)
     (make-input (calculate-index u uu) 0)))
 
+;; proxy -> [ugen] -> input
 (define proxy-to-input
   (lambda (p uu)
     (make-input (calculate-index (proxy-ugen p) uu)
 		(proxy-port p))))
 
+;; node -> [node] -> [control] -> [ugen] -> input
 (define input*-to-input
   (lambda (i nn cc uu)
     (cond
@@ -148,31 +129,34 @@
      ((mrg? i) (error "input*-to-input: mrg?" i))
      (else (error "input*-to-input: illegal input" i)))))
 
-
-;; mce
-
+;; mce -> int
 (define mce-degree
   (lambda (m)
     (length (mce-channels m))))
 
+;; mce -> int -> node
 (define mce-ref
   (lambda (m n)
     (list-ref (mce-channels m) n)))
 
+;; mce -> mce
 (define mce-reverse
   (lambda (u)
     (make-mce (reverse (mce-channels u)))))
 
+;; node -> bool
 (define mce-required?
   (lambda (u)
     (not (null? (filter mce? (ugen-inputs u))))))
 
+;; int -> node -> [node]
 (define mce-extend
   (lambda (n i)
     (if (mce? i)
 	(extend (mce-channels i) n)
 	(replicate n i))))
 
+;; ugen -> mce
 (define mce-transform
   (lambda (u)
     (ugen-transform
@@ -184,21 +168,21 @@
 	      (i* (transpose (map1 e i))))
 	 (make-mce (map1 f i*)))))))
 
+;; node -> node|mce
 (define mced
   (lambda (u)
     (if (mce-required? u)
 	(mce-transform u)
 	u)))
 
+;; node -> [node]
 (define mce-l
   (lambda (u)
     (if (mce? u)
 	(mce-channels u)
 	(list u))))
 
-
-;; proxied
-
+;; node -> mce
 (define proxied
   (lambda (u)
     (cond
@@ -210,9 +194,7 @@
 				      (enum-from-to 0 (- n 1)))))))
      ((mce? u) (make-mce (map1 proxied (mce-channels u)))))))
 
-
-;; unit generator definition syntax
-
+;; symbol -> int -> (float -> float) :bind: (node -> node)
 (define-syntax define-unary-operator
   (syntax-rules ()
     ((_ n s f)
