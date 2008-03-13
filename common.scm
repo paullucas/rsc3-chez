@@ -1,6 +1,7 @@
 ;; [sclang] Elements at `l' are spliced into a list.  This is a
 ;; non-recursive flatten operation.
 
+;; [any|[any]] -> [any]
 (define splice 
   (lambda (l)
     (let ((f (lambda (a b)
@@ -179,6 +180,17 @@
       (+ (* steps (quotient degree scale-n))
 	 (list-ref scale (modulo degree scale-n))))))
 
+;; int -> [any] -> [any]
 (define without
   (lambda (n l)
     (append2 (take n l) (drop (+ n 1) l))))
+
+;; [int] -> bool
+(define consecutive?
+  (lambda (l)
+    (let ((x (head l))
+	  (xs (tail l)))
+      (or (null? xs)
+	  (and (= (+ x 1) (head xs))
+	       (consecutive? xs))))))
+

@@ -1,11 +1,4 @@
-
-;; envelope
-
-;; If the curve specification is a string it must name a known curve
-;; type. For numerical valued curves the shape '5' indicates the
-;; actual curve input value is to be used.
-
-;; String|Number -> Number
+;; string|number -> number
 (define curve-to-shape
   (lambda (c)
     (cond
@@ -23,10 +16,7 @@
      (else
       (error "curve-to-shape: illegal curve" c)))))
 
-;; If the curve is a number the value is that number, else the value
-;; will be ignored and is here set to zero.
-
-;; Any -> Number
+;; any -> number
 (define curve-to-value
   (lambda (c)
     (if (number? c) c 0.0)))
@@ -44,14 +34,18 @@
 (define env
   (lambda (levels times curve release-node loop-node)
     (make-mce
-     (append
+     (append2
       (list (head levels) (length times) release-node loop-node)
-      (splice (map (lambda (l t c)
-		     (list l
-			   t
-			   (curve-to-shape c)
-			   (curve-to-value c)))
-		   (tail levels) times (extend curve (length times))))))))
+      (splice 
+       (zip-with3
+	(lambda (l t c)
+	  (list l
+		t
+		(curve-to-shape c)
+		(curve-to-value c)))
+	(tail levels) 
+	times 
+	(extend curve (length times))))))))
 
 ;; Co-ordinate based static envelope generator.
 
@@ -146,9 +140,6 @@
 	 -1
 	 -1)))
 
-
-;; fft
-
 ;; [m] -> [p] -> [#, m, p...]
 (define packfft-data
   (lambda (m p)
@@ -173,19 +164,7 @@
 	   (e (map f m p i)))
       (PackFFT c nf from to z? (packfft-data* e)))))
 
-
-;; in
-
-;; Audio input. Does not support MulAdd.
-
-(define consecutive?
-  (lambda (l)
-    (let ((x (head l))
-	  (xs (tail l)))
-      (or (null? xs)
-	  (and (= (+ x 1) (head xs))
-	       (consecutive? xs))))))
-
+;; ugen -> ugen
 (define audio-in
   (lambda (n)
     (let ((offset (Sub NumOutputBuses 1)))
@@ -231,47 +210,36 @@
 			       (gen (cdddr l))))))))
       (gen (mce-channels s)))))
 
-;; Frequency shifter, in terms of Hilbert UGen.
-
+;; ugen -> ugen -> ugen -> ugen
 (define freq-shift
   (lambda (i f p)
     (let ((o (SinOsc ar f (mce2 (Add p (* 0.5 pi)) p)))
 	  (h (Hilbert i)))
       (mix (Mul h o)))))
 
-;; PMOsc
-
+;; rate -> ugen -> ugen -> ugen -> ugen -> ugen
 (define pm-osc
   (lambda (r cf mf pm mp)
     (SinOsc r cf (Mul (SinOsc r mf mp) pm))))
 
-
-;; mix
-
-;; Mix the UGen at `inputs'. This is an idiom over the binary math
-;; operator 'Add'.
-
+;; ugen|mce -> ugen
 (define mix
   (lambda (u)
     (cond
      ((mce? u) (foldl1 Add (mce-channels u)))
      (else u))))
 
-;; Use the unary procedure `f' to build an mce value of `n' places.
-
+;; int -> (int -> ugen) -> mce
 (define mce/fill
   (lambda (n f)
     (make-mce (map1 f (enum-from-to 0 (- n 1))))))
 
-;; mix . mce/fill
-
+;; int -> (int -> ugen) -> ugen
 (define mix/fill
   (lambda (n f)
     (mix (mce/fill n f))))
 
-
-
-;; [Symbol]
+;; [symbol]
 (define unary-operator-names 
   (list 'Neg 
 	'Not 
@@ -328,12 +296,12 @@
 	'_Ramp 
 	'SCurve))
 
-;; Int -> Symbol
+;; int -> symbol
 (define unary-operator-name
   (lambda (i)
     (list-ref unary-operator-names i)))
 
-;; [Symbol]
+;; [symbol]
 (define binary-operator-names
   (list 'Add
 	'Sub
@@ -385,12 +353,12 @@
 	'RandRange
 	'ExpRandRange))
 
-;; Int -> Symbol
+;; int -> symbol
 (define binary-operator-name
   (lambda (i)
     (list-ref binary-operator-names i)))
 
-;; String -> Int -> String
+;; string -> int -> string
 (define ugen-name/operator
   (lambda (s i)
     (cond
@@ -398,24 +366,20 @@
      ((string=? s "UnaryOpUGen") (unary-operator-name i))
      (else s))))
 
-
-
-;; Port -> UGen -> IO ()
+;; port -> ugen -> ()
 (define play
   (lambda (fd u)
     (async fd (/d_recv (encode-graphdef (synthdef "Anonymous" u))))
     (send fd (/s_new0 "Anonymous" -1 1 1))))
 
-;; UGen -> IO ()
+;; ugen -> ()
 (define audition
   (lambda (u)
     (with-sc3
      (lambda (fd)
        (play fd u)))))
 
-
-;; range
-
+;; ugen -> bool
 (define unipolar?
   (lambda (u)
     (if (mce? u)
@@ -423,40 +387,24 @@
 	(member (ugen-name u)
 		(list "LFPulse" "Impulse" "TPulse" "Trig1" "Dust")))))
 
+;; ugen -> ugen -> ugen -> ugen
 (define range
   (lambda (u l r)
     (if (unipolar? u)
-	(MulAdd u (Sub r l) l)
-	(let* ((m (Mul (Sub r l) 0.5))
-	       (a (Add m l)))
-	  (MulAdd u m a)))))
+	(LinLin u 0 1 l r)
+	(LinLin u -1 1 l r))))
 
-;; Note: uses LinExp so `l' and `r' are i-rate.
-
+;; ugen -> ugen -> ugen -> ugen
 (define exprange
   (lambda (u l r)
     (if (unipolar? u)
 	(LinExp u 0 1 l r)
 	(LinExp u -1 1 l r))))
 
-
-;; synthdef
-
-;; Transform a <ugen> into a <graphdef>.
-
+;; port -> string -> ugen -> ()
 (define send-synth
   (lambda (fd n u)
     (async fd (/d_recv (encode-graphdef (synthdef n u))))))
-
-;; A large positive integer that can be used as an argument to
-;; synthdefs.
-
-(define +inf.sc 9.0e8)
-
-
-;; math
-
-;; SuperCollider names.
 
 (define pi2
   (/ pi 2))
@@ -488,6 +436,8 @@
 (define rsqrt2
   (/ 1.0 sqrt2))
 
-;; +inf.0 cannot be use in unit generator graphs
+(define +inf.sc 
+  9.0e8)
+
 (define inf 
   1073741824.0)
