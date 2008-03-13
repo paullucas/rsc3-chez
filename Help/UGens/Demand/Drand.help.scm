@@ -10,9 +10,9 @@
 ;; value in the list.
 
 (let ((f (lambda (u)
-	   (let* ((a (u +inf.sc (Mce 1 3 2 7 8)))
+	   (let* ((a (u +inf.sc (make-mce (list 1 3 2 7 8))))
 		  (t (Impulse kr (MouseX kr 1 400 1 0.1) 0))
 		  (f (MulAdd (Demand t 0 a) 30 340)))
 	     (Mul (SinOsc ar f 0) 0.1)))))
-  (audition (Mce (f Drand)
-		 (f Dxrand))))
+  (audition (Out 0 (mce2 (f Drand)
+			 (f Dxrand)))))

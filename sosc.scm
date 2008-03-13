@@ -1,4 +1,22 @@
-(define u8t->bytevector
+;; bytevector -> int -> int -> bytevector
+(define bytevector-section
+  (lambda (v l r)
+    (let* ((n (- r l))
+	   (w (r6rs:make-bytevector n 0)))
+      (r6rs:bytevector-copy! v l w 0 n)
+      w)))
+
+;; bytevector -> byte -> int
+(define bytevector-find-index
+  (lambda (v x)
+    (letrec ((f (lambda (i)
+		  (if (= (r6rs:bytevector-u8-ref v i) x)
+		      i
+		      (f (+ i 1))))))
+      (f 0))))
+
+;; [bytevector] -> bytevector
+(define flatten-bytevectors
   (lambda (t)
     (let* ((l (flatten t))
 	   (n (map1 r6rs:bytevector-length l))
@@ -14,8 +32,19 @@
 	      (r6rs:bytevector-copy! l0 0 v i n0)
 	      (loop (+ i n0) (cdr l) (cdr n))))))))
 
-
-;; u8/decode
+;; (bytevector -> int -> x) -> int -> x
+(define bytevector-make-and-set1
+  (lambda (f k n)
+    (let ((v (r6rs:make-bytevector k 0)))
+      (f v 0 n)
+      v)))
+
+;; (bytevector -> int -> x) -> int -> x
+(define bytevector-make-and-set
+  (lambda (f k n)
+    (let ((v (r6rs:make-bytevector k 0)))
+      (f v 0 n be)
+      v)))
 
 (define decode-u8
   (lambda (v) 
@@ -57,15 +86,6 @@
   (lambda (v) 
     (r6rs:bytevector-ieee-double-ref v 0)))
 
-;; inclusive, exclusive
-
-(define section
-  (lambda (v l r)
-    (let* ((n (- r l))
-	   (w (r6rs:make-bytevector n 0)))
-      (r6rs:bytevector-copy! v l w 0 n)
-      w)))
-
 (define decode-str
   (lambda (b)
     (r6rs:utf8->string b)))
@@ -73,79 +93,56 @@
 (define decode-pstr
   (lambda (v)
     (let* ((n (decode-u8 v))
-	   (w (section v 1 (+ n 1))))
+	   (w (bytevector-section v 1 (+ n 1))))
       (decode-str w))))
-
-(define index
-  (lambda (v x)
-    (letrec ((f (lambda (i)
-		  (if (= (r6rs:bytevector-u8-ref v i) x)
-		      i
-		      (f (+ i 1))))))
-      (f 0))))
 
 (define decode-cstr
   (lambda (v)
-    (let* ((n (index v 0))
-	   (w (section v 0 n)))
+    (let* ((n (bytevector-find-index v 0))
+	   (w (bytevector-section v 0 n)))
       (decode-str w))))
-
-
-;;
 
 (define be (r6rs:endianness big))
 
-(define make-and-set*
-  (lambda (f k n)
-    (let ((v (r6rs:make-bytevector k 0)))
-      (f v 0 n)
-      v)))
-
-(define make-and-set
-  (lambda (f k n)
-    (let ((v (r6rs:make-bytevector k 0)))
-      (f v 0 n be)
-      v)))
-
 (define encode-u8
   (lambda (n)  
-    (make-and-set* r6rs:bytevector-u8-set! 1 n)))
+    (bytevector-make-and-set1 r6rs:bytevector-u8-set! 1 n)))
 
 (define encode-u16
   (lambda (n)
-    (make-and-set r6rs:bytevector-u16-set! 2 n)))
+    (bytevector-make-and-set r6rs:bytevector-u16-set! 2 n)))
 
 (define encode-u32
   (lambda (n)
-    (make-and-set r6rs:bytevector-u32-set! 4 n)))
+    (bytevector-make-and-set r6rs:bytevector-u32-set! 4 n)))
 
 (define encode-u64
   (lambda (n)
-    (make-and-set r6rs:bytevector-u64-set! 8 n)))
+    (bytevector-make-and-set r6rs:bytevector-u64-set! 8 n)))
 
 (define encode-i8
   (lambda (n) 
-    (make-and-set* r6rs:bytevector-s8-set! 1 n)))
+    (bytevector-make-and-set1 r6rs:bytevector-s8-set! 1 n)))
 
 (define encode-i16
   (lambda (n)
-    (make-and-set r6rs:bytevector-s16-set! 2 n)))
+    (bytevector-make-and-set r6rs:bytevector-s16-set! 2 n)))
 
 (define encode-i32
   (lambda (n) 
-    (make-and-set r6rs:bytevector-s32-set! 4 n)))
+    (bytevector-make-and-set r6rs:bytevector-s32-set! 4 n)))
 
 (define encode-i64
   (lambda (n)
-    (make-and-set r6rs:bytevector-s64-set! 8 n)))
+    (bytevector-make-and-set r6rs:bytevector-s64-set! 8 n)))
 
 (define encode-f32
   (lambda (n)
-    (make-and-set r6rs:bytevector-ieee-single-set! 4 n)))
+    (bytevector-make-and-set r6rs:bytevector-ieee-single-set! 4 n)))
 
 (define encode-f64
   (lambda (n)
-    (make-and-set r6rs:bytevector-ieee-double-set! 8 n)))
+    (bytevector-make-and-set r6rs:bytevector-ieee-double-set! 8 n)))
 
 (define encode-str
   (lambda (s)
@@ -163,8 +160,6 @@
 	   (z (encode-u8 0)))
       (list b z))))
 
-;; read-pstr :: IO str
-
 (define read-pstr
   (lambda ()
     (let* ((p (current-input-port))
@@ -172,7 +167,6 @@
 	   (v (read-bstr (+ n 1))))
       (decode-pstr v))))
 
-;; IO String
 (define read-cstr
   (lambda ()
     (let loop ((l nil)
@@ -181,7 +175,7 @@
 	  (list->string (map integer->char (reverse l)))
 	  (loop (cons b l) (r6rs:get-u8 (current-input-port)))))))
 
-;; Int -> [u8]
+;; int -> bytevector
 (define read-bstr
   (lambda (n)
     (r6rs:get-bytevector-n (current-input-port) n)))
@@ -532,15 +526,12 @@
 
 ;; An OSC packet is either an OSC message or an OSC bundle.
 
-(define osc->u8t
-  (lambda (p)
-    (if (bundle? p)
-	(encode-bundle p)
-	(encode-message p))))
-
 (define encode-osc
   (lambda (p)
-    (u8t->bytevector (osc->u8t p))))
+    (flatten-bytevectors
+     (if (bundle? p)
+	 (encode-bundle p)
+	 (encode-message p)))))
 
 
 ;; purify

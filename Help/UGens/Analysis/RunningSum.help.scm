@@ -8,6 +8,7 @@
 ;;           (initialisation rate)
 
 (let ((n 40))
-  (Mul* (SinOsc ar 440 0)
-	(RunningSum (audio-in (Mce 1 2)) n)
-	(Recip n)))
+  (audition
+   (Out 0 (foldl1 Mul (list (SinOsc ar 440 0)
+			    (RunningSum (audio-in (mce2 1 2)) n)
+			    (Recip n))))))

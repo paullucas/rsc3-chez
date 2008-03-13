@@ -6,15 +6,14 @@
 ;; Note that the sustain level input is consulted only at the instant
 ;; when the gate is opened.
 
-(audition 
- (Mul* (Linen (Impulse kr 2 0) 0.01 0.6 0.4 doNothing)
-       (SinOsc ar 440 0)
-       0.1))
+(let ((e (Linen (Impulse kr 2 0) 0.01 0.1 0.4 doNothing)))
+  (audition (Out 0 (Mul (SinOsc ar 440 0) e))))
 
-(let ((y (MouseY kr 0.1 0.5 0 0.1))
-      (x (MouseX kr -1 1 0 0.1))
-      (o (SinOsc ar 440 0)))
-  (audition (Mul o (Linen x 1 y 1.0 doNothing))))
+(let* ((y (MouseY kr 0.1 0.5 0 0.1))
+       (x (MouseX kr -1 1 0 0.1))
+       (e (Linen x 1 y 1.0 doNothing))
+       (o (SinOsc ar 440 0)))
+  (audition (Out 0 (Mul o e))))
 
 ;; Open gate for a random interval.
 
@@ -22,7 +21,7 @@
        (u (letc ((gate 0))
 	    (let ((e (Linen gate 0.1 0.2 0.1 doNothing)))
 	      (Out 0 (Mul (SinOsc ar 440 0) e)))))
-       (g (graphdef->u8l (synthdef "linen" u))))
+       (g (encode-graphdef (synthdef "linen" u))))
   (with-sc3
    (lambda (fd)
      (async fd (/d_recv g))

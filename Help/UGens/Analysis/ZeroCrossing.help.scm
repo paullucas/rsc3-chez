@@ -10,5 +10,6 @@
 
 ;; in - input signal.
 
-(let ((a (Mul (SinOsc ar (MulAdd (SinOsc kr 1 0) 600 700) 0) 0.1)))
-  (Mce a (Mul (Impulse ar (ZeroCrossing a) 0) 0.25)))
+(let* ((a (Mul (SinOsc ar (MulAdd (SinOsc kr 1 0) 600 700) 0) 0.1))
+       (b (Mul (Impulse ar (ZeroCrossing a) 0) 0.25)))
+  (audition (Out 0 (mce2 a b))))

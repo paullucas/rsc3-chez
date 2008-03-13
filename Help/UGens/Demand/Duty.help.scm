@@ -22,16 +22,18 @@
 
 ;; level: demand ugen providing the output values.
 
-(let ((freq (Duty kr
-		  (Drand +inf.sc (Mce 0.01 0.2 0.4))
-		  0
-		  2
-		  (Dseq +inf.sc (Mce 204 400 201 502 300 200)))))
-  (audition (Mul (SinOsc ar (Mul freq (Mce 1 1.01)) 0) 0.1)))
+(let* ((f (Duty kr
+		(Drand +inf.sc (mce3 0.01 0.2 0.4))
+		0
+		2
+		(Dseq +inf.sc (make-mce (list 204 400 201 502 300 200)))))
+       (o (SinOsc ar (Mul f (mce2 1 1.01)) 0)))
+  (audition (Out 0 (Mul o 0.1))))
 
-(let ((freq (Duty kr
-		  (MouseX kr 0.001 2 1 0.1)
-		  0
-		  2
-		  (Dseq +inf.sc (Mce 204 400 201 502 300 200)))))
-  (audition (Mul (SinOsc ar (Mul freq (Mce 1 1.0)) 0) 0.1)))
+(let* ((f (Duty kr
+		(MouseX kr 0.001 2 1 0.1)
+		0
+		2
+		(Dseq +inf.sc (make-mce (list 204 400 201 502 300 200)))))
+       (o (SinOsc ar (Mul f (mce2 1 1.0)) 0)))
+  (audition (Out 0 (Mul o 0.1))))

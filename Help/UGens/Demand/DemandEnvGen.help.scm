@@ -25,11 +25,11 @@
 
 ;; Frequency envelope with random times.
 
-(let* ((l (Dseq +inf.sc (Mce 204 400 201 502 300 200)))
-       (t (Drand +inf.sc (Mce 1.01 0.2 0.1 2.0)))
+(let* ((l (Dseq +inf.sc (make-mce (list 204 400 201 502 300 200))))
+       (t (Drand +inf.sc (make-mce (list 1.01 0.2 0.1 2.0))))
        (y (MouseY kr 0.01 3 1 0.1))
        (f (DemandEnvGen ar l (Mul t y) 7 0 1 1 1 0 1 doNothing)))
-  (audition (Mul (SinOsc ar (Mul f (Mce 1 1.01)) 0) 0.1)))
+  (audition (Out 0 (Mul (SinOsc ar (Mul f (mce2 1 1.01)) 0) 0.1))))
 
 ;; Frequency modulation
 

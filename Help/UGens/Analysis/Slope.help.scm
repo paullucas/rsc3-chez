@@ -14,5 +14,6 @@
        (a (LFNoise2 kr r))
        (scale (Recip r))
        (b (Mul (Slope a) scale))
-       (c (Mul (Slope b) (Squared scale))))
-  (mix (Mul (SinOsc ar (MulAdd (Mce a b c) 220 220) 0) 1/3)))
+       (c (Mul (Slope b) (Squared scale)))
+       (o (SinOsc ar (MulAdd (mce3 a b c) 220 220) 0)))
+  (audition (Out 0 (mix (Mul o 1/3)))))

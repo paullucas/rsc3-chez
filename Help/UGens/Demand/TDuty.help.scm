@@ -28,21 +28,21 @@
 
 ;; Play a little rhythm
 
-(let ((s (Dseq +inf.sc (Mce 0.1 0.2 0.4 0.3))))
-  (audition (TDuty ar s 0 0 1)))
+(let ((s (Dseq +inf.sc (make-mce (list 0.1 0.2 0.4 0.3)))))
+  (audition (Out 0 (TDuty ar s 0 0 1))))
 
 ;; Amplitude changes
 
 (let ((t (TDuty ar 
-		(Dseq +inf.sc (Mce 0.1 0.2 0.4 0.3))
+		(Dseq +inf.sc (make-mce (list 0.1 0.2 0.4 0.3)))
 		0
 		0
-		(Dseq +inf.sc (Mce 0.1 0.4 0.01 0.5 1.0)))))
-  (audition (Ringz t 1000 0.1)))
+		(Dseq +inf.sc (make-mce (list 0.1 0.4 0.01 0.5 1.0))))))
+  (audition (Out 0 (Ringz t 1000 0.1))))
 
 (let ((t (TDuty ar
 		(MouseX kr 0.001 2 1 0.1)
 		0
 		0
-		(Dseq +inf.sc (Mce 0.1 0.4 0.01 0.5 1.0)))))
-  (audition (Ringz t 1000 0.1)))
+		(Dseq +inf.sc (make-mce (list 0.1 0.4 0.01 0.5 1.0))))))
+  (audition (Out 0 (Ringz t 1000 0.1))))

@@ -11,4 +11,4 @@
 ;;              completed. See EnvGen for details.
 
 (let ((f (XLine kr 200 17000 10 removeSynth)))
-  (audition (Mul (SinOsc ar f 0) 0.1)))
+  (audition (Out 0 (Mul (SinOsc ar f 0) 0.1))))

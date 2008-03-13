@@ -235,7 +235,7 @@
 
 (define freq-shift
   (lambda (i f p)
-    (let ((o (SinOsc ar f (Mce (Add p (* 0.5 pi)) p)))
+    (let ((o (SinOsc ar f (mce2 (Add p (* 0.5 pi)) p)))
 	  (h (Hilbert i)))
       (mix (Mul h o)))))
 

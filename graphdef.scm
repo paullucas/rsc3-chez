@@ -1,61 +1,83 @@
-
-;; control
+;; int -> uid
+(define-structure uid n)
 
-;; A <control> is accessed by a <string> name and an <integer> index.
+;; () -> uid
+(define unique-uid
+  (let ((n 0))
+    (lambda ()
+      (set! n (+ n 1))
+      (make-uid n))))
 
+;; string -> int -> control
 (define-structure control name index)
 
-;; A <control*> is a place holder for a <control>.
-
+;; string -> float -> rate -> float -> control*
 (define-structure control* name default rate lag)
 
-
-;; graphdef
-
-;; A <graphdef> represents a UGen graph.
-
+;; string -> [float] -> [float] -> [controls] -> [ugens] -> graphdef
 (define-structure graphdef name constants defaults controls ugens)
 
+;; graphdef -> int -> ugen
 (define graphdef-ugen
   (lambda (g n)
     (list-ref (graphdef-ugens g) n)))
 
+;; graphdef -> int -> control
 (define graphdef-control
   (lambda (g n)
     (list-ref (graphdef-controls g) n)))
 
+;; graphdef -> int -> float
 (define graphdef-constant
   (lambda (g n)
     (list-ref (graphdef-constants g) n)))
 
-
-;; uid
-
-(define-structure uid value)
-
-;; Counting from 1...
-
-(define unique-uid
-  (let ((id 0))
-    (lambda ()
-      (set! id (+ id 1))
-      (make-uid id))))
-
-
-;; input
-
-;; An <input> represents a UGen input signal in a UGen graph, an
-;; 'Input Specification'.  The <integer> ugen is the index of the
-;; UGen, the <integer> port is an output port at ugen.
-
+;; int -> int -> input
 (define-structure input ugen port)
 
-
-;; letc
+;; [ugen] -> mce
+(define-structure mce channels)
 
-;; Syntax for defining <control*> values.  Does not implement rate or
-;; lag variants.  See deleted file control-set.scm for details.
+;; ugen -> ugen -> mce
+(define mce2
+  (lambda (a b)
+    (make-mce (list a b))))
 
+;; ugen -> ugen -> ugen -> mce
+(define mce3
+  (lambda (a b c)
+    (make-mce (list a b c))))
+
+;; mce -> int -> ugen
+(define mce-channel
+  (lambda (u n)
+    (list-ref (mce-channels u) n)))
+
+;; ugen -> ugen -> mrg
+(define-structure mrg left right)
+
+;; ugen -> ugen -> mrg
+(define mrg2
+  make-mrg)
+
+;; ugen -> ugen -> ugen -> mrg
+(define mrg3
+  (lambda (a b c)
+    (make-mrg a (make-mrg b c))))
+
+;; rate -> output
+(define-structure output rate)
+
+;; ugen -> int -> proxy
+(define-structure proxy ugen port)
+
+;; int -> rate
+(define-structure rate value)
+
+;; string -> rate -> [ugen] -> [output] -> int -> uid -> ugen
+(define-structure ugen name rate inputs outputs special id)
+
+;; syntax for binding control values
 (define-syntax letc
   (syntax-rules ()
     ((_ () expr)
@@ -65,42 +87,6 @@
 	   ...)
        expr))))
 
-
-;; mce
-
-(define-structure mce channels)
-
-(define Mce
-  (lambda channels
-    (if (null? channels)
-	(error "empty mce")
-	(make-mce channels))))
-
-(define mce-channel
-  (lambda (u n)
-    (list-ref (mce-channels u) n)))
-
-
-;; mrg
-
-(define-structure mrg roots)
-
-(define Mrg
-  (lambda roots
-    (if (null? roots)
-	(error 'Mrg "empty mrg")
-	(make-mrg roots))))
-
-
-;; output
-
-;; An <output> represents a UGen output signal in a UGen graph.
-
-(define-structure output rate)
-
-(define make-outputs
-  (lambda (n r)
-    (replicate n (make-output r))))
 
 
 ;; proxy
@@ -108,21 +94,27 @@
 ;; An <mce> of <proxy> records represents a UGen with multiple
 ;; outputs.
 
-(define-structure proxy ugen port)
 
 
 ;; rate
 
-(define-structure rate value)
 
-(define ir (make-rate 0))
-(define kr (make-rate 1))
-(define ar (make-rate 2))
-(define dr (make-rate 3))
+(define ir
+  (make-rate 0))
+
+(define kr
+  (make-rate 1))
+
+(define ar
+  (make-rate 2))
+
+(define dr
+  (make-rate 3))
 
 ;; Order rates for determing the result of math operators.  Operators
 ;; involving a Demand rate UGen operate at Demand rate.
 
+;; rate -> int
 (define rate-to-ordinal
   (lambda (r)
     (cond ((eq? r ir)  0)
@@ -131,12 +123,14 @@
 	  ((eq? r dr)  3)
 	  (else        (error "rate-to-ordinal: illegal rate")))))
 
+;; rate -> rate -> rate
 (define rate-select*
   (lambda (a b)
     (let ((a* (rate-to-ordinal a))
 	  (b* (rate-to-ordinal b)))
       (if (> a* b*) a b))))
 
+;; [rate] -> rate
 (define rate-select 
   (lambda (l)
     (foldl1 rate-select* l)))
@@ -162,7 +156,6 @@
 ;; a <number>, a <constant>, a <control>, a <ugen> or a <proxy>.  Each
 ;; value at the <list> outputs is a an <output>.  The id is an <id>.
 
-(define-structure ugen name rate inputs outputs special id)
 
 (define ugen-output
   (lambda (u n)
@@ -242,28 +235,25 @@
 	(map encode-input i)
 	(map encode-output o))))))
 
-(define graphdef-to-u8t
-  (lambda (g)
-    (let ((n (graphdef-name g))
-	  (c (graphdef-constants g))
-	  (d (graphdef-defaults g))
-	  (k (graphdef-controls g))
-	  (u (graphdef-ugens g)))
-      (list
-       SCgf
-       (encode-i32 0)
-       (encode-i16 1)
-       (encode-pstr n)
-       (encode-i16 (length c))
-       (map encode-f32 c)
-       (encode-i16 (length d))
-       (map encode-f32 d)
-       (encode-i16 (length k))
-       (map encode-control k)
-       (encode-i16 (length u))
-       (map encode-ugen u)))))
-
 (define encode-graphdef
   (lambda (g)
-    (u8t->bytevector (graphdef-to-u8t g))))
+    (flatten-bytevectors
+     (let ((n (graphdef-name g))
+	   (c (graphdef-constants g))
+	   (d (graphdef-defaults g))
+	   (k (graphdef-controls g))
+	   (u (graphdef-ugens g)))
+       (list
+	SCgf
+	(encode-i32 0)
+	(encode-i16 1)
+	(encode-pstr n)
+	(encode-i16 (length c))
+	(map encode-f32 c)
+	(encode-i16 (length d))
+	(map encode-f32 d)
+	(encode-i16 (length k))
+	(map encode-control k)
+	(encode-i16 (length u))
+	(map encode-ugen u))))))
 

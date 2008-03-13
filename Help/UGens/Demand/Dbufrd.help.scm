@@ -11,9 +11,9 @@
 (with-sc3
  (lambda (fd)
    (async fd (/b_alloc 10 24 1))
-   (send fd (/b_setn* 10 0 (randxl 24 200 500)))))
+   (send fd (/b_setn1 10 0 (randxl 24 200 500)))))
 
-(let ((p (Dseq +inf.sc (Mce (Dseq 3 (Mce 0 3 5 0 3 7 0 5 9)) (Dbrown 5 0 23 1))))
+(let ((p (Dseq +inf.sc (mce2 (Dseq 3 (Mce 0 3 5 0 3 7 0 5 9)) (Dbrown 5 0 23 1))))
       (t (Dust kr 10)))
   (audition (Mul (SinOsc ar (Demand t 0 (Dbufrd 10 p 1)) 0) 0.1)))
 

@@ -5,8 +5,8 @@
 ;; rate? = <rate> | #f
 ;; inputs = <list> of <input*>
 ;; mce? = <input*> | #f
-;; outputs = <integer>
-;; special = <integer>
+;; outputs = <int>
+;; special = <int>
 
 ;; It is significant whether MCE or Proxing occurs first, the ordering
 ;; here follows that in sclang.
@@ -23,7 +23,7 @@
 	       (symbol->string name)
 	       rate
 	       inputs*
-	       (make-outputs outputs rate)
+	       (replicate outputs (make-output rate))
 	       special
 	       id)))
       (proxied (mced u)))))
@@ -42,7 +42,7 @@
      ((control*? u) (list u))
      ((number? u) (list u))
      ((mce? u) (concat (map1 graph-nodes (mce-channels u))))
-     ((mrg? u) (concat (map1 graph-nodes (mrg-roots u))))
+     ((mrg? u) (append2 (graph-nodes (mrg-left u)) (graph-nodes (mrg-right u))))
      (else (error "graph-nodes: illegal value" u)))))
 
 ;; Filters over nodes.
@@ -799,6 +799,10 @@
 
 ;;
 
+(define Add3
+  (lambda (a b c)
+    (Add (Add a b) c)))
+
 (define BufRdC
   (lambda (nc r b p l) 
     (BufRd nc r b p l 4)))
@@ -818,6 +822,10 @@
 (define IFFT* 
   (lambda (buf)
     (IFFT buf 0)))
+
+(define Mul3
+  (lambda (a b c)
+    (Mul (Mul a b) c)))
 
 (define TChoose
   (lambda (trig array)
