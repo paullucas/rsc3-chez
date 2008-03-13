@@ -5,11 +5,6 @@
 
 (define-structure control name index)
 
-(define control->npt
-  (lambda (c)
-    (list (pstr (control-name c))
-	  (i16 (control-index c)))))
-
 ;; A <control*> is a place holder for a <control>.
 
 (define-structure control* name default rate lag)
@@ -33,33 +28,6 @@
   (lambda (g n)
     (list-ref (graphdef-constants g) n)))
 
-(define SCgf (map u8 (map char->integer (string->list "SCgf"))))
-
-(define graphdef->npt
-  (lambda (g)
-    (let ((n (graphdef-name g))
-	  (c (graphdef-constants g))
-	  (d (graphdef-defaults g))
-	  (k (graphdef-controls g))
-	  (u (graphdef-ugens g)))
-      (list
-       SCgf
-       (i32 0)
-       (i16 1)
-       (pstr n)
-       (i16 (length c))
-       (map f32 c)
-       (i16 (length d))
-       (map f32 d)
-       (i16 (length k))
-       (map control->npt k)
-       (i16 (length u))
-       (map ugen->npt u)))))
-
-(define graphdef->u8l
-  (lambda (g)
-    (npt->u8l (graphdef->npt g))))
-
 
 ;; uid
 
@@ -81,11 +49,6 @@
 ;; UGen, the <integer> port is an output port at ugen.
 
 (define-structure input ugen port)
-
-(define input->npt
-  (lambda (i)
-    (list (i16 (input-ugen i))
-	  (i16 (input-port i)))))
 
 
 ;; letc
@@ -135,10 +98,6 @@
 
 (define-structure output rate)
 
-(define output->npt
-  (lambda (o)
-    (u8 (rate-value (output-rate o)))))
-
 (define make-outputs
   (lambda (n r)
     (replicate n (make-output r))))
@@ -164,18 +123,18 @@
 ;; Order rates for determing the result of math operators.  Operators
 ;; involving a Demand rate UGen operate at Demand rate.
 
-(define rate->ordinal
+(define rate-to-ordinal
   (lambda (r)
     (cond ((eq? r ir)  0)
 	  ((eq? r kr)  1)
 	  ((eq? r ar)  2)
 	  ((eq? r dr)  3)
-	  (else        (error 'rate->ordinal "illegal rate")))))
+	  (else        (error "rate-to-ordinal: illegal rate")))))
 
 (define rate-select*
   (lambda (a b)
-    (let ((a* (rate->ordinal a))
-	  (b* (rate->ordinal b)))
+    (let ((a* (rate-to-ordinal a))
+	  (b* (rate-to-ordinal b)))
       (if (> a* b*) a b))))
 
 (define rate-select 
@@ -239,20 +198,6 @@
 	    (integer? s)
 	    (uid? d))))))
 
-(define ugen->npt
-  (lambda (u)
-    (ugen-transform
-     u
-     (lambda (n r i o s d)
-       (list
-	(pstr n)
-	(u8 (rate-value r))
-	(i16 (length i))
-	(i16 (length o))
-	(i16 s)
-	(map input->npt i)
-	(map output->npt o))))))
-
 (define uniquify
   (lambda (u)
     (ugen-transform
@@ -264,3 +209,61 @@
   (lambda (n u)
     (make-mce
      (map (lambda (_) (uniquify u)) (enum-from-to 1 n)))))
+
+
+
+(define encode-control
+  (lambda (c)
+    (list (encode-pstr (control-name c))
+	  (encode-i16 (control-index c)))))
+
+(define encode-input
+  (lambda (i)
+    (list (encode-i16 (input-ugen i))
+	  (encode-i16 (input-port i)))))
+
+(define encode-output
+  (lambda (o)
+    (encode-u8 (rate-value (output-rate o)))))
+
+(define SCgf (map encode-u8 (map char->integer (string->list "SCgf"))))
+
+(define encode-ugen
+  (lambda (u)
+    (ugen-transform
+     u
+     (lambda (n r i o s d)
+       (list
+	(encode-pstr n)
+	(encode-u8 (rate-value r))
+	(encode-i16 (length i))
+	(encode-i16 (length o))
+	(encode-i16 s)
+	(map encode-input i)
+	(map encode-output o))))))
+
+(define graphdef-to-u8t
+  (lambda (g)
+    (let ((n (graphdef-name g))
+	  (c (graphdef-constants g))
+	  (d (graphdef-defaults g))
+	  (k (graphdef-controls g))
+	  (u (graphdef-ugens g)))
+      (list
+       SCgf
+       (encode-i32 0)
+       (encode-i16 1)
+       (encode-pstr n)
+       (encode-i16 (length c))
+       (map encode-f32 c)
+       (encode-i16 (length d))
+       (map encode-f32 d)
+       (encode-i16 (length k))
+       (map encode-control k)
+       (encode-i16 (length u))
+       (map encode-ugen u)))))
+
+(define encode-graphdef
+  (lambda (g)
+    (u8t->bytevector (graphdef-to-u8t g))))
+

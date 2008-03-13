@@ -288,10 +288,9 @@
 
 (define reset
   (lambda (fd)
-    (send fd (bundle -1
-		     (/g_freeAll1 0)
-		     /clearSched
-		     (/g_new1 1 0 0)))))
+    (send fd (bundle -1 (list (/g_freeAll1 0)
+			      /clearSched
+			      (/g_new1 1 0 0))))))
 
 (define with-sc3
   (lambda (f)

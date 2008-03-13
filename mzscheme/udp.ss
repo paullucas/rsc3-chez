@@ -12,7 +12,7 @@
   (let ((s (udp*-s u))
 	(h (udp*-h u))
 	(p (udp*-p u)))
-    (udp-send-to* s h p (list->bytes b))))
+    (udp-send-to* s h p b)))
 
 (define (udp*-close u)
   (udp-close (udp*-s u)))
@@ -26,7 +26,7 @@
 	 (b (make-bytes 8192))
 	 (r (sync/timeout t (udp-receive!-evt s b))))
     (if r
-	(bytes->list (subbytes b 0 (car r)))
+	(subbytes b 0 (car r))
 	#f)))
 
 )

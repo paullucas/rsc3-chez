@@ -69,7 +69,7 @@
 	(make-ugen (ugen-name u)
 		   (ugen-rate u)
 		   (map1 (lambda (i)
-			   (input*->input i nn cc uu))
+			   (input*-to-input i nn cc uu))
 			 (ugen-inputs u))
 		   (ugen-outputs u)
 		   (ugen-special u)
@@ -86,7 +86,7 @@
        name
        nn
        (map1 control*-default cc)
-       (map1 (lambda (c) (control*->control c cc)) cc)
+       (map1 (lambda (c) (control*-to-control c cc)) cc)
        (map1 (lambda (u) (ugen-close u nn cc uu*)) uu*)))))
 
 
@@ -116,37 +116,37 @@
 	  (error "calculate-index: not located" n nn)
 	  i))))
 
-(define number->input
+(define number-to-input
   (lambda (n nn)
     (make-input -1 (calculate-index n nn))))
 
-(define control*->control
+(define control*-to-control
   (lambda (c cc)
     (make-control (control*-name c) (calculate-index c cc))))
 
-(define control*->input
+(define control*-to-input
   (lambda (c cc)
     (make-input 0 (calculate-index c cc))))
 
-(define ugen->input
+(define ugen-to-input
   (lambda (u uu)
     (make-input (calculate-index u uu) 0)))
 
-(define proxy->input
+(define proxy-to-input
   (lambda (p uu)
     (make-input (calculate-index (proxy-ugen p) uu)
 		(proxy-port p))))
 
-(define input*->input
+(define input*-to-input
   (lambda (i nn cc uu)
     (cond
-     ((number? i) (number->input i nn))
-     ((control*? i) (control*->input i cc))
-     ((ugen? i) (ugen->input i uu))
-     ((proxy? i) (proxy->input i uu))
-     ((mce? i) (error "input*->input: mce?" i))
-     ((mrg? i) (error "input*->input: mrg?" i))
-     (else (error "input*->input: illegal input" i)))))
+     ((number? i) (number-to-input i nn))
+     ((control*? i) (control*-to-input i cc))
+     ((ugen? i) (ugen-to-input i uu))
+     ((proxy? i) (proxy-to-input i uu))
+     ((mce? i) (error "input*-to-input: mce?" i))
+     ((mrg? i) (error "input*-to-input: mrg?" i))
+     (else (error "input*-to-input: illegal input" i)))))
 
 
 ;; mce

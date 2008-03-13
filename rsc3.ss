@@ -1,7 +1,9 @@
 (module rsc3 scheme/base
 (require mzlib/include)
 (require rsc3/mzscheme/structure)
-(require rsc3/mzscheme/r6rs)
+(require (prefix-in r6rs: rnrs/bytevectors-6))
+(require (prefix-in r6rs: rnrs/io/ports-6))
+(require (prefix-in r6rs: rsc3/mzscheme/r6rs))
 (require rsc3/mzscheme/udp)
 (provide (all-defined-out))
 (include "hscheme.scm")

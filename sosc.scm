@@ -1,388 +1,222 @@
-
-;; int
-
-(define byte
-  (lambda (n i)
-    (fxand (fxarithmetic-shift-right i n) #xFF)))
-
-(define int->u8l
-  (lambda (n size)
-    (map1 (lambda (b)
-	    (byte b n))
-	  (reverse (enum-from-then-to 0 8 (- size 8))))))
-
-;; >=?
-
-(define sign
-  (lambda (n b)
-    (let ((z (expt 2 b)))
-      (if (> n (/ z 2))
-	  (- n z)
-	  n))))
-
-(define u8l->int
-  (lambda (l signed?)
-    (let ((n (length l)))
-      (let ((u (foldl + 0 (map1 fxarithmetic-shift-left
-				l
-				(reverse (enum-from-then-to 0 8 (* (- n 1) 8)))))))
-	(if signed?
-	    (sign u (* n 8))
-	    u)))))
-
-
-;; np
-
-;; Network protocol.
-
-(define-structure np tag value)
-
-;; Tags :: symbol
-
-(define U8   'u8)
-(define U16  'u16)
-(define U32  'u32)
-(define U64  'u64)
-(define I16  'i16)
-(define I32  'i32)
-(define I64  'i64)
-(define F32  'f32)
-(define F64  'f64)
-(define PSTR 'pstr)
-(define CSTR 'cstr)
-(define BSTR 'bstr)
-
-;; Constructors :: ?value? -> np
-
-(define u8
-  (lambda (n) (make-np U8   n)))
-
-(define u16
-  (lambda (n) (make-np U16  n)))
-
-(define u32
-  (lambda (n) (make-np U32  n)))
-
-(define u64
-  (lambda (n) (make-np U64  n)))
-
-(define i16
-  (lambda (n) (make-np I16  n)))
-
-(define i32
-  (lambda (n) (make-np I32  n)))
-
-(define i64
-  (lambda (n) (make-np I64  n)))
-
-(define f32
-  (lambda (n) (make-np F32  n)))
-
-(define f64
-  (lambda (n) (make-np F64  n)))
-
-(define pstr
-  (lambda (s) (make-np PSTR s)))
-
-(define cstr
-  (lambda (s) (make-np CSTR s)))
-
-(define bstr
-  (lambda (s) (make-np BSTR s)))
-
-;; np->u8l :: np -> [u8]
-
-(define np->u8l
-  (lambda (e)
-    (let ((t (np-tag e))
-	  (v (np-value e)))
-      (case t
-	((u8)   (u8->u8l   v))
-	((u16)  (u16->u8l  v))
-	((u32)  (u32->u8l  v))
-	((u64)  (u64->u8l  v))
-	((i16)  (i16->u8l  v))
-	((i32)  (i32->u8l  v))
-	((i64)  (i64->u8l  v))
-	((f32)  (f32->u8l  v))
-	((f64)  (f64->u8l  v))
-	((pstr) (pstr->u8l v))
-	((cstr) (cstr->u8l v))
-	((bstr) v)
-	(else   (error 'np->u8l "illegal value" t v))))))
-
-;; u8l->np :: tag -> [u8] -> np
-
-(define u8l->np
-  (lambda (tag l)
-    (case tag
-      ((u8)   (u8l->u8   l))
-      ((u16)  (u8l->u16  l))
-      ((u32)  (u8l->u32  l))
-      ((u64)  (u8l->u64  l))
-      ((i16)  (u8l->i16  l))
-      ((i32)  (u8l->i32  l))
-      ((i64)  (u8l->i64  l))
-      ((f32)  (u8l->f32  l))
-      ((f64)  (u8l->f64  l))
-      ((pstr) (u8l->pstr l))
-      ((cstr) (u8l->cstr l))
-      (else   (error 'u8l->np "illegal tag" tag l)))))
-
-;; read-np :: tag -> IO ?value?
-
-(define read-np
-  (lambda (tag)
-    (case tag
-      ((u8)   (get-u8))
-      ((u16)  (u8l->u16 (read-u8l 2)))
-      ((u32)  (u8l->u32 (read-u8l 4)))
-      ((u64)  (u8l->u64 (read-u8l 6)))
-      ((i16)  (u8l->i16 (read-u8l 2)))
-      ((i32)  (u8l->i32 (read-u8l 4)))
-      ((i64)  (u8l->i64 (read-u8l 8)))
-      ((f32)  (u8l->f32 (read-u8l 4)))
-      ((f64)  (u8l->f64 (read-u8l 8)))
-      ((pstr) (read-pstr))
-      ((cstr) (read-cstr))
-      (else   (error 'read-np "illegal tag" tag)))))
-
-;; write-np :: np -> IO ()
-
-(define write-np
-  (lambda (np)
-    (map put-u8 (np->u8l np))))
-
-;; npt->u8l :: [npt] -> [int]
-
-(define npt->u8l
+(define u8t->bytevector
   (lambda (t)
-    (concat (map1 np->u8l (flatten t)))))
+    (let* ((l (flatten t))
+	   (n (map1 r6rs:bytevector-length l))
+	   (m (sum n))
+	   (v (r6rs:make-bytevector m)))
+      (let loop ((i 0)
+		 (l l)
+		 (n n))
+	(if (null? l)
+	    v
+	    (let ((l0 (car l))
+		  (n0 (car n)))
+	      (r6rs:bytevector-copy! l0 0 v i n0)
+	      (loop (+ i n0) (cdr l) (cdr n))))))))
 
 
-;; u8l
+;; u8/decode
 
-(define real->u8l
-  (lambda (x size)
-    (let* ((n (/ size 8))
-	   (v (make-bytevector n 0)))
-      (if (= n 4)
-	  (bytevector-ieee-single-set! v 0 x (endianness 'big))
-	  (bytevector-ieee-double-set! v 0 x (endianness 'big)))
-      (bytevector->u8-list v))))
+(define decode-u8
+  (lambda (v) 
+    (r6rs:bytevector-u8-ref v 0)))
 
-(define u8l->real
-  (lambda (l)
-    (let ((v (u8-list->bytevector l)))
-      (if (= (bytevector-length v) 4)
-	  (bytevector-ieee-single-ref v (endianness 'big))
-	  (bytevector-ieee-double-ref v (endianness 'big))))))
+(define decode-u16
+  (lambda (v) 
+    (r6rs:bytevector-u16-ref v 0 be)))
 
-(define with-input-from-u8l
-  (lambda (l f)
-    (parameterize
-     ((current-input-port (open-bytevector-input-port (u8-list->bytevector l))))
-     (f))))
+(define decode-u32
+  (lambda (v) 
+    (r6rs:bytevector-u32-ref v 0 be)))
 
-(define with-output-to-u8l
-  (lambda (f)
-    (let ((f* (lambda (p)
-		(parameterize
-		 ((current-output-port p))
-		 (f)))))
-      (bytevector->u8-list (call-with-bytevector-output-port f*)))))
+(define decode-u64
+  (lambda (v) 
+    (r6rs:bytevector-u64-ref v 0 be)))
 
-;; u8l? :: [u8] -> true
+(define decode-i8
+  (lambda (v) 
+    (r6rs:bytevector-s8-ref v 0)))
 
-(define u8l?
-  (lambda (l)
-    (and (list? l)
-	 (all u8? l))))
+(define decode-i16
+  (lambda (v) 
+    (r6rs:bytevector-s16-ref v 0 be)))
 
-;; Decoders
+(define decode-i32
+  (lambda (v)
+    (r6rs:bytevector-s32-ref v 0 be)))
 
-(define u8l->u8
-  (lambda ( l) (list-ref l 0)))
+(define decode-i64
+  (lambda (v)
+    (r6rs:bytevector-s64-ref v 0 be)))
 
-(define u8l->u16
-  (lambda (l) (u8l->int l #f)))
+(define decode-f32
+  (lambda (v) 
+    (r6rs:bytevector-ieee-single-ref v 0)))
 
-(define u8l->u32
-  (lambda (l) (u8l->int l #f)))
+(define decode-f64
+  (lambda (v) 
+    (r6rs:bytevector-ieee-double-ref v 0)))
 
-(define u8l->u64
-  (lambda (l) (u8l->int l #f)))
+;; inclusive, exclusive
 
-(define u8l->i8
-  (lambda ( l) (u8->i8 (u8l->u8 l))))
+(define section
+  (lambda (v l r)
+    (let* ((n (- r l))
+	   (w (r6rs:make-bytevector n 0)))
+      (r6rs:bytevector-copy! v l w 0 n)
+      w)))
 
-(define u8l->i16
-  (lambda (l) (u8l->int l #t)))
+(define decode-str
+  (lambda (b)
+    (r6rs:utf8->string b)))
 
-(define u8l->i32
-  (lambda (l) (u8l->int l #t)))
+(define decode-pstr
+  (lambda (v)
+    (let* ((n (decode-u8 v))
+	   (w (section v 1 (+ n 1))))
+      (decode-str w))))
 
-(define u8l->i64
-  (lambda (l) (u8l->int l #t)))
+(define index
+  (lambda (v x)
+    (letrec ((f (lambda (i)
+		  (if (= (r6rs:bytevector-u8-ref v i) x)
+		      i
+		      (f (+ i 1))))))
+      (f 0))))
 
-(define u8l->f32
-  (lambda (l) (u8l->real l)))
+(define decode-cstr
+  (lambda (v)
+    (let* ((n (index v 0))
+	   (w (section v 0 n)))
+      (decode-str w))))
 
-(define u8l->f64
-  (lambda (l) (u8l->real l)))
+
+;;
 
-;; Encoders
+(define be (r6rs:endianness big))
 
-(define u8->u8l
-  (lambda ( n) (list n)))
+(define make-and-set*
+  (lambda (f k n)
+    (let ((v (r6rs:make-bytevector k 0)))
+      (f v 0 n)
+      v)))
 
-(define u16->u8l
-  (lambda (n) (int->u8l n 16)))
+(define make-and-set
+  (lambda (f k n)
+    (let ((v (r6rs:make-bytevector k 0)))
+      (f v 0 n be)
+      v)))
 
-(define u32->u8l
-  (lambda (n) (int->u8l n 32)))
+(define encode-u8
+  (lambda (n)  
+    (make-and-set* r6rs:bytevector-u8-set! 1 n)))
 
-(define u64->u8l
-  (lambda (n) (int->u8l n 64)))
-
-(define i8->u8l
-  (lambda ( n) (u8->u8l (i8->u8 n))))
-
-(define i16->u8l
-  (lambda (n) (int->u8l n 16)))
-
-(define i32->u8l
-  (lambda (n) (int->u8l n 32)))
-
-(define i64->u8l
-  (lambda (n) (int->u8l n 64)))
-
-(define f32->u8l
-  (lambda (n) (real->u8l n 32)))
-
-(define f64->u8l
-  (lambda (n) (real->u8l n 64)))
-
-;; String coding
-
-(define u8l->str
-  (lambda (l n)
-    (list->string (map integer->char (take n l)))))
-
-(define u8l->pstr
-  (lambda (l)
-    (let ((n (car l))
-	  (l* (cdr l)))
-      (u8l->str l* n))))
-
-(define u8l->cstr
-  (lambda (l)
-    (let ((n (find-index (lambda (b) (= b 0)) l)))
-      (u8l->str l n))))
-
-(define str->u8l
-  (lambda (s)
-    (map char->integer (string->list s))))
-
-(define pstr->u8l
-  (lambda (s)
-    (cons (string-length s) (str->u8l s))))
-
-(define cstr->u8l
-  (lambda (s)
-    (append (str->u8l s) (list 0))))
-
-;; read-u8l :: int -> IO [u8]
-
-(define read-u8l
+(define encode-u16
   (lambda (n)
-    (map1 (lambda (_) 
-	    (get-u8 (current-input-port))) 
-	  (enum-from-to 1 n))))
+    (make-and-set r6rs:bytevector-u16-set! 2 n)))
 
-(define write-u8l
-  (lambda (l)
-    (for-each (lambda (e) (put-u8 e (current-output-port))) l)))
+(define encode-u32
+  (lambda (n)
+    (make-and-set r6rs:bytevector-u32-set! 4 n)))
+
+(define encode-u64
+  (lambda (n)
+    (make-and-set r6rs:bytevector-u64-set! 8 n)))
+
+(define encode-i8
+  (lambda (n) 
+    (make-and-set* r6rs:bytevector-s8-set! 1 n)))
+
+(define encode-i16
+  (lambda (n)
+    (make-and-set r6rs:bytevector-s16-set! 2 n)))
+
+(define encode-i32
+  (lambda (n) 
+    (make-and-set r6rs:bytevector-s32-set! 4 n)))
+
+(define encode-i64
+  (lambda (n)
+    (make-and-set r6rs:bytevector-s64-set! 8 n)))
+
+(define encode-f32
+  (lambda (n)
+    (make-and-set r6rs:bytevector-ieee-single-set! 4 n)))
+
+(define encode-f64
+  (lambda (n)
+    (make-and-set r6rs:bytevector-ieee-double-set! 8 n)))
+
+(define encode-str
+  (lambda (s)
+    (r6rs:string->utf8 s)))
+
+(define encode-pstr
+  (lambda (s)
+    (let* ((b (encode-str s))
+	   (n (encode-u8 (r6rs:bytevector-length b))))
+      (list n b))))
+
+(define encode-cstr
+  (lambda (s)
+    (let* ((b (encode-str s))
+	   (z (encode-u8 0)))
+      (list b z))))
 
 ;; read-pstr :: IO str
 
 (define read-pstr
   (lambda ()
-    (u8l->str (read-u8l (get-u8 (current-input-port))))))
+    (let* ((p (current-input-port))
+	   (n (r6rs:lookahead-u8 p))
+	   (v (read-bstr (+ n 1))))
+      (decode-pstr v))))
 
-;; read-cstr :: IO str
-
+;; IO String
 (define read-cstr
   (lambda ()
-    (let loop ((l (list))
-	       (b (get-u8 (current-input-port))))
+    (let loop ((l nil)
+	       (b (r6rs:get-u8 (current-input-port))))
       (if (= b 0)
-	  (u8l->str (reverse l) (length l))
-	  (loop (cons b l) (get-u8 (current-input-port)))))))
+	  (list->string (map integer->char (reverse l)))
+	  (loop (cons b l) (r6rs:get-u8 (current-input-port)))))))
 
-;; read-bstr :: IO [u8]
-
-(define read-bstr read-u8l)
-
-;; Readers :: IO ?value?
-
-(define (read-i16)  (u8l->i16 (read-u8l 2)))
-(define (read-u16)  (u8l->u16 (read-u8l 2)))
-(define (read-i32)  (u8l->i32 (read-u8l 4)))
-(define (read-u32)  (u8l->u32 (read-u8l 4)))
-(define (read-i64)  (u8l->i64 (read-u8l 8)))
-(define (read-u64)  (u8l->u64 (read-u8l 8)))
-(define (read-f32)  (u8l->f32 (read-u8l 4)))
-(define (read-f64)  (u8l->f64 (read-u8l 8)))
-
-;; tag->reader :: sym -> IO ?value?
-
-(define tag->reader
-  (lambda (t)
-    (case t
-      ((u8)   (lambda () (get-u8 (current-input-port))))
-      ((u16)  read-u16)
-      ((i16)  read-i16)
-      ((u32)  read-u32)
-      ((i32)  read-i32)
-      ((u64)  read-u64)
-      ((i64)  read-i64)
-      ((f32)  read-f32)
-      ((f64)  read-f64)
-      ((pstr) read-pstr)
-      ((cstr) read-cstr))))
-
-;; file->u8l :: string -> [u8]
-
-(define file->u8l
-  (lambda (f)
-    (with-input-from-file f
-      (lambda ()
-	(let loop ((l (list)))
-	  (if (eof-object? (lookahead-u8 (current-input-port)))
-	      (reverse l)
-	      (loop (cons (get-u8 (current-input-port)) l))))))))
-
-
-;; u8
-
-(define u8?
-  (lambda (b)
-    (and (integer? b)
-	 (>= b 0)
-	 (< b 256))))
-
-(define u8->i8
+;; Int -> [u8]
+(define read-bstr
   (lambda (n)
-    (if (> n 127)
-	(- n 256)
-	n)))
+    (r6rs:get-bytevector-n (current-input-port) n)))
 
-(define i8->u8
-  (lambda (n)
-    (if (< n 0)
-	(+ n 256)
-	n)))
+(define read-i16
+  (lambda () 
+    (decode-i16 (read-bstr 2))))
+
+(define read-u16
+  (lambda () 
+    (decode-u16 (read-bstr 2))))
+
+(define read-i32 
+  (lambda () 
+    (decode-i32 (read-bstr 4))))
+
+(define read-u32 
+  (lambda () 
+    (decode-u32 (read-bstr 4))))
+
+(define read-i64 
+  (lambda () 
+    (decode-i64 (read-bstr 8))))
+
+(define read-u64 
+  (lambda () 
+    (decode-u64 (read-bstr 8))))
+
+(define read-f32 
+  (lambda () 
+    (decode-f32 (read-bstr 4))))
+
+(define read-f64 
+  (lambda () 
+    (decode-f64 (read-bstr 8))))
 
 
 ;; ntp
@@ -565,7 +399,7 @@
 	  (error 'read-bundle "illegal bundle tag" bundletag)
 	  (cons timetag
 		(let loop ((parts (list)))
-		  (if (eof-object? (lookahead-u8 (current-input-port)))
+		  (if (eof-object? (r6rs:lookahead-u8 (current-input-port)))
 		      (reverse parts)
 		      (begin
 			;; We have no use for the message size...
@@ -581,20 +415,23 @@
 
 (define read-packet
   (lambda ()  
-    (if (eq? (lookahead-u8 (current-input-port)) hash-u8)
+    (if (eq? (r6rs:lookahead-u8 (current-input-port)) hash-u8)
 	(read-bundle)
 	(read-message))))
 
-(define u8l->osc
+(define with-input-from-bytevector 
+  (lambda (b f)
+    (parameterize
+     ((current-input-port (r6rs:open-bytevector-input-port b)))
+     (f))))
+
+(define decode-osc
   (lambda (b)
-    (with-input-from-u8l b read-packet)))
+    (with-input-from-bytevector b read-packet)))
 
 
-;; display
 
-;; Write a text representation of the OSC u8l `l'.  The format is that
-;; used throughout the OSC specification.
-
+;; [Word8] -> IO ()
 (define osc-display
   (lambda (l)
     (for-each
@@ -610,7 +447,7 @@
 ;; encode
 
 (define padding-of
-  (lambda (n) (replicate n (u8 0))))
+  (lambda (n) (replicate n (encode-u8 0))))
 
 ;; OSC strings are C strings padded to a four byte boundary.
 
@@ -621,7 +458,7 @@
 (define encode-string
   (lambda (s)
     (let ((n (modulo (cstring-length s) 4)))
-      (list (cstr s)
+      (list (encode-cstr s)
 	    (if (= n 0)
 		(list)
 		(padding-of (- 4 n)))))))
@@ -630,15 +467,15 @@
 
 (define encode-bytes
   (lambda (b)
-    (let* ((n (length b))
+    (let* ((n (r6rs:bytevector-length b))
 	   (n* (modulo n 4)))
-      (list (i32 n)
-	    (bstr b)
+      (list (encode-i32 n)
+	    b
 	    (if (= n* 0)
 		(list)
 		(padding-of (- 4 n*)))))))
 
-;; Allowable types are <integer>, <real>, <string>, or <u8l>.  Note
+;; Allowable types are <integer>, <real>, <string>, or <bytevector>.  Note
 ;; further that determining if a <real> should be written as a float
 ;; or a double is non-trivial and not undertaken here, all <real>s are
 ;; written as floats.
@@ -649,14 +486,11 @@
 
 (define encode-value
   (lambda (e)
-    (cond ((exact-integer? e)   (i32 e))
-	  ((real? e)            (f32 e))
+    (cond ((exact-integer? e)   (encode-i32 e))
+	  ((real? e)            (encode-f32 e))
 	  ((string? e)          (encode-string e))
-	  ((u8l? e)             (encode-bytes e))
+	  ((r6rs:bytevector? e)      (encode-bytes e))
 	  (else                 (error 'encode-value "illegal value" e)))))
-
-;; Encode the type string for the Evaluates to the OSC <u8l> indicating the types of the elements of
-;; the list `l'.
 
 (define encode-types
   (lambda (l)
@@ -667,7 +501,7 @@
 		   (cond ((exact-integer? e) #\i)
 			 ((real? e)          #\f)
 			 ((string? e)        #\s)
-			 ((u8l? e)           #\b)
+			 ((r6rs:bytevector? e)           #\b)
 			 (else               (error 'encode-types "type?" e))))
 		 l))))))
 
@@ -685,10 +519,10 @@
 (define encode-bundle-ntp
   (lambda (b)
     (list (encode-string "#bundle")
-	  (u64 (ntpr->ntp (car b)))
+	  (encode-u64 (ntpr->ntp (car b)))
 	  (map (lambda (e)
 		 (if (message? e)
-		     (encode-bytes (osc->u8l e))
+		     (encode-bytes (encode-osc e))
 		     (error 'encode-bundle "illegal value" e)))
 	       (cdr b)))))
 
@@ -698,11 +532,15 @@
 
 ;; An OSC packet is either an OSC message or an OSC bundle.
 
-(define osc->u8l
+(define osc->u8t
   (lambda (p)
-    (npt->u8l (if (bundle? p)
-		  (encode-bundle p)
-		  (encode-message p)))))
+    (if (bundle? p)
+	(encode-bundle p)
+	(encode-message p))))
+
+(define encode-osc
+  (lambda (p)
+    (u8t->bytevector (osc->u8t p))))
 
 
 ;; purify
@@ -717,7 +555,7 @@
 
 (define purify
   (lambda (e)
-    (cond ((or (number? e) (string? e) (u8l? e)) e)
+    (cond ((or (number? e) (string? e) (r6rs:bytevector? e)) e)
 	  ((list? e) (map purify e))
 	  ((symbol? e) (symbol->string e))
 	  ((boolean? e) (if e 1 0))
@@ -731,7 +569,7 @@
 (define osc-send
   (lambda (u m)
     (cond ((udp*? u)
-	   (udp*-send u (osc->u8l m)))
+	   (udp*-send u (encode-osc m)))
 	  (else
 	   (error 'osc-send "unknown transport")))))
 
@@ -739,7 +577,7 @@
   (lambda (u t)
     (cond ((udp*? u)
 	   (let ((b (udp*-recv u t)))
-	     (if b (u8l->osc b) #f)))
+	     (if b (decode-osc b) #f)))
 	  (else
 	   (error 'osc-recv "unknown transport")))))
 
@@ -819,4 +657,3 @@
   (lambda (p)
     (or (verify-message p)
 	(verify-bundle p))))
-

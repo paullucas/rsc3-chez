@@ -403,7 +403,7 @@
 ;; Port -> UGen -> IO ()
 (define play
   (lambda (fd u)
-    (async fd (/d_recv (graphdef->u8l (synthdef "Anonymous" u))))
+    (async fd (/d_recv (encode-graphdef (synthdef "Anonymous" u))))
     (send fd (/s_new0 "Anonymous" -1 1 1))))
 
 ;; UGen -> IO ()
@@ -446,7 +446,7 @@
 
 (define send-synth
   (lambda (fd n u)
-    (async fd (/d_recv (graphdef->u8l (synthdef n u))))))
+    (async fd (/d_recv (encode-graphdef (synthdef n u))))))
 
 ;; A large positive integer that can be used as an argument to
 ;; synthdefs.
