@@ -105,7 +105,7 @@
 (define be (r6rs:endianness big))
 
 (define encode-u8
-  (lambda (n)  
+  (lambda (n) 
     (bytevector-make-and-set1 r6rs:bytevector-u8-set! 1 n)))
 
 (define encode-u16
@@ -215,7 +215,7 @@
 
 ;; ntp
 
-;; NTP is the Network Time Protocol.  NTP time is represented by a 64
+;; NTP is the Network Time Protocol. NTP time is represented by a 64
 ;; bit fixed point number. The first 32 bits specify the number of
 ;; seconds since midnight on January 1, 1900, and the last 32 bits
 ;; specify fractional parts of a second to a precision of about 200
@@ -223,7 +223,7 @@
 ;; timestamps.
 
 ;; The number of seconds from the start of 1900 to the start of 1970.
-;; NTP is measured from the former, UTC from the latter.  There are 17
+;; NTP is measured from the former, UTC from the latter. There are 17
 ;; leap years in this period.
 
 (define 2^32
@@ -294,29 +294,6 @@
   (lambda (ntp)
     (- (ntp-to-seconds. ntp) seconds-from-1900-to-1970)))
 
-;; Evaluate to an integer representing the NTP time of the SRFI-19
-;; time object `time', which must be in UTC format.
-
-					;(define utc-time->ntp
-					; (lambda (time)
-					;  (let ((seconds (time-second time))
-					;	(nanoseconds (time-nanosecond time)))
-					;    (fxior (fxarithmetic-shift-left (+ seconds seconds-from-1900-to-1970)
-					;				    32)
-					;	   (nanoseconds-to-ntp nanoseconds)))))
-
-;; Evaluate to an SRFI-19 time object representing UTC time of the NTP
-;; time `ntp'.
-
-					;(define ntp->utc-time
-					; (lambda (ntp)
-					;  (let ((seconds (- (fxarithmetic-shift-right ntp 32) seconds-from-1900-to-1970))
-					;	(nanoseconds (ntp-to-nanoseconds (fxand ntp #xFFFFFFFF))))
-					;    (make-time time-utc nanoseconds seconds))))
-
-
-;; decode
-
 ;; OSC strings are C strings padded to a four byte boundary.
 
 (define read-ostr
@@ -354,7 +331,7 @@
      ((eq? t oF64) (read-f64))
      ((eq? t oStr) (read-ostr))
      ((eq? t oByt) (read-obyt))
-     (else         (error 'read-value "bad type" t)))))
+     (else (error 'read-value "bad type" t)))))
 
 ;; Evaluate to the list of objects encoded at the OSC byte stream
 ;; `p', conforming to the types given in the OSC character type
@@ -368,7 +345,7 @@
 	      (read-arguments (cdr types))))))
 
 ;; Evaluate to the scheme representation of the OSC message at the OSC
-;; byte stream `p'.  The first object is the 'address' of the
+;; byte stream `p'. The first object is the 'address' of the
 ;; message, any subsequent objects are arguments for that address.
 
 (define read-message
@@ -379,8 +356,8 @@
 	    (read-arguments (cdr (string->list types)))))))
 
 ;; Evaluate to a scheme representation of the OSC bundle encoded at
-;; the OSC stream `p'.  The bundle ends at the end of the byte
-;; stream.  The first object is the <real> UTC 'timetag' of the
+;; the OSC stream `p'. The bundle ends at the end of the byte
+;; stream. The first object is the <real> UTC 'timetag' of the
 ;; bundle, any subsequent objects are either OSC messages or embedded
 ;; OSC bundles.
 
@@ -400,32 +377,23 @@
 			(read-i32)
 			(loop (cons (read-packet) parts))))))))))
 
-;; Evaluate to the scheme representation of the OSC packet encoded at
-;; the OSC byte stream `p'. An OSC packet is either an OSC message
-;; or an OSC bundle.
-
+;; byte
 (define hash-u8
   (char->integer #\#))
 
+;; () -> osc
 (define read-packet
-  (lambda ()  
+  (lambda () 
     (if (eq? (r6rs:lookahead-u8 (current-input-port)) hash-u8)
 	(read-bundle)
 	(read-message))))
 
-(define with-input-from-bytevector 
-  (lambda (b f)
-    (parameterize
-     ((current-input-port (r6rs:open-bytevector-input-port b)))
-     (f))))
-
+;; bytevector -> osc
 (define decode-osc
   (lambda (b)
     (with-input-from-bytevector b read-packet)))
 
-
-
-;; [Word8] -> IO ()
+;; [byte] -> ()
 (define osc-display
   (lambda (l)
     (for-each
@@ -437,18 +405,16 @@
      l
      (enum-from-to 0 (- (length l) 1)))))
 
-
-;; encode
-
+;; int -> [bytevector]
 (define padding-of
   (lambda (n) (replicate n (encode-u8 0))))
 
-;; OSC strings are C strings padded to a four byte boundary.
-
+;; string -> int
 (define cstring-length
   (lambda (s)
     (+ 1 (string-length s))))
 
+;; string -> [bytevector]
 (define encode-string
   (lambda (s)
     (let ((n (modulo (cstring-length s) 4)))
@@ -457,8 +423,7 @@
 		(list)
 		(padding-of (- 4 n)))))))
 
-;; OSC byte strings are length prefixed?
-
+;; bytevector -> [bytevector]
 (define encode-bytes
   (lambda (b)
     (let* ((n (r6rs:bytevector-length b))
@@ -469,23 +434,16 @@
 		(list)
 		(padding-of (- 4 n*)))))))
 
-;; Allowable types are <integer>, <real>, <string>, or <bytevector>.  Note
-;; further that determining if a <real> should be written as a float
-;; or a double is non-trivial and not undertaken here, all <real>s are
-;; written as floats.
-
-;; (define exact-integer?
-;; (lambda (n)
-;;   (and (integer? n) (exact? n))))
-
+;; any -> bytevector|[bytevector]
 (define encode-value
   (lambda (e)
-    (cond ((exact-integer? e)   (encode-i32 e))
-	  ((real? e)            (encode-f32 e))
-	  ((string? e)          (encode-string e))
-	  ((r6rs:bytevector? e)      (encode-bytes e))
-	  (else                 (error 'encode-value "illegal value" e)))))
+    (cond ((exact-integer? e) (encode-i32 e))
+	  ((real? e) (encode-f32 e))
+	  ((string? e) (encode-string e))
+	  ((r6rs:bytevector? e) (encode-bytes e))
+	  (else (error 'encode-value "illegal value" e)))))
 
+;; [any] -> [bytevector]
 (define encode-types
   (lambda (l)
     (encode-string
@@ -493,23 +451,20 @@
       (cons #\,
 	    (map (lambda (e)
 		   (cond ((exact-integer? e) #\i)
-			 ((real? e)          #\f)
-			 ((string? e)        #\s)
-			 ((r6rs:bytevector? e)           #\b)
-			 (else               (error 'encode-types "type?" e))))
+			 ((real? e) #\f)
+			 ((string? e) #\s)
+			 ((r6rs:bytevector? e) #\b)
+			 (else (error 'encode-types "type?" e))))
 		 l))))))
 
-;; Encode OSC message.
-
+;; osc -> [bytevector]
 (define encode-message
   (lambda (m)
     (list (encode-string (car m))
 	  (encode-types (cdr m))
 	  (map encode-value (cdr m)))))
 
-;; Encode OSC bundle. The first element is a <real> valued UTC
-;; 'time-tag', each subsequent element must be an OSC 'message'.
-
+;; osc -> [bytevector]
 (define encode-bundle-ntp
   (lambda (b)
     (list (encode-string "#bundle")
@@ -520,12 +475,12 @@
 		     (error 'encode-bundle "illegal value" e)))
 	       (cdr b)))))
 
+;; osc -> [bytevector]
 (define encode-bundle
   (lambda (b)
     (encode-bundle-ntp (cons (utc->ntpr (car b)) (cdr b)))))
 
-;; An OSC packet is either an OSC message or an OSC bundle.
-
+;; osc -> bytevector
 (define encode-osc
   (lambda (p)
     (flatten-bytevectors
@@ -533,17 +488,7 @@
 	 (encode-bundle p)
 	 (encode-message p)))))
 
-
-;; purify
-
-;; Evaluates to a type-correct form of the OSC data `e'.  This
-;; procedure does not verify that `e' is syntactically correct.
-;; Boolean values are rewritten as integers, zero for '#f' and one for
-;; '#t'.  Symbols are rewritten as the strings given by
-;; 'symbol->string'.  An error is raised if `e' cannot be rewritten.
-;; Note that R5RS does not require symbols to be case sensitive
-;; although most interpreters will have an option to set this.
-
+;; any|[any] -> number|string|bytevector|[number|string|bytevector]
 (define purify
   (lambda (e)
     (cond ((or (number? e) (string? e) (r6rs:bytevector? e)) e)
@@ -551,9 +496,6 @@
 	  ((symbol? e) (symbol->string e))
 	  ((boolean? e) (if e 1 0))
 	  (else (error 'purify "illegal input" e)))))
-
-
-;; transport
 
 ;; port -> osc -> ()
 (define send
@@ -572,15 +514,16 @@
 	  (else
 	   (error "recv: unknown transport")))))
 
+;; port -> string -> osc -> float -> mabye osc
 (define osc-request
-  (lambda (u r m t)
-    (send u m)
-    (let ((p (recv u t)))
-      (if (and p (string=? (car p) r)) p #f))))
+  (lambda (fd r m t)
+    (send fd m)
+    (let ((p (recv fd t)))
+      (if (and p (string=? (head p) r)) 
+	  p 
+	  #f))))
 
-
-;; type
-
+;; char
 (define oI32 #\i)
 (define oI64 #\h)
 (define oU64 #\t)
@@ -589,37 +532,31 @@
 (define oStr #\s)
 (define oByt #\b)
 
-
-;; verify
-
-;; Validating constructors.
-
+;; string -> [any] -> osc
 (define message
   (lambda (c l)
     (if (string? c)
 	(cons c l)
 	(error "message: illegal address"))))
 
+;; float -> [any] -> osc
 (define bundle
   (lambda (t l)
     (if (number? t)
 	(cons t l)
 	(error "bundle: illegal timestamp" t))))
 
-;; Predicates for OSC packet types.
-
+;; osc -> bool
 (define message?
   (lambda (p)
     (string? (car p))))
 
+;; osc -> bool
 (define bundle?
   (lambda (p)
     (number? (car p))))
 
-;; Evaluates to '#t' iff `m' is a correct OSC message.  The first
-;; element must be a string 'address', subsequent elements are
-;; arguments of types integer, real or string.
-
+;; osc -> bool
 (define verify-message
   (lambda (m)
     (and (string? (car m))
@@ -628,11 +565,7 @@
 			      (string? e)))
 	      (cdr m)))))
 
-;; Evaluates to '#t' iff `b' is a correct OSC bundle.  The first
-;; element must be an integer 'timetag', subsequent elements may be OSC
-;; messages or OSC bundles.  The timetags of embedded bundles must be
-;; greater than or equal to the timetag of the containing bundle.
-
+;; osc -> bool
 (define verify-bundle
   (lambda (b)
     (and (integer? (car b))
@@ -641,9 +574,7 @@
 				   (>= (car e) (car b)))))
 	      (cdr b)))))
 
-;; Evaluates to '#t' iff `p' is a correct OSC packet.  An OSC packet
-;; is either an OSC message or an OSC bundle.
-
+;; osc -> bool
 (define verify-packet
   (lambda (p)
     (or (verify-message p)

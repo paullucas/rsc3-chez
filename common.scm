@@ -194,3 +194,10 @@
 	  (and (= (+ x 1) (head xs))
 	       (consecutive? xs))))))
 
+;; bytevector -> (() -> any) -> any
+(define with-input-from-bytevector 
+  (lambda (b f)
+    (parameterize
+     ((current-input-port (r6rs:open-bytevector-input-port b)))
+     (f))))
+
