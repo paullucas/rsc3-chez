@@ -1,5 +1,3 @@
-;; info.ss - (c) rohan drape, 2004-2007
-
 (module info setup/infotab
 (define name "rsc3")
 (define version "0.1")
