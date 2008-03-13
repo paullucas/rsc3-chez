@@ -99,17 +99,11 @@
 (define pi
   (* 4 (atan 1)))
 
-(define floor-exact
-  (compose inexact->exact floor))
-
 (define ceiling-exact
   (compose inexact->exact ceiling))
 
 (define truncate-exact
   (compose inexact->exact truncate))
-
-(define round-exact
-  (compose inexact->exact round))
 
 (define log2
   (lambda (x)
@@ -182,10 +176,4 @@
 	  (and (= (+ x 1) (head xs))
 	       (consecutive? xs))))))
 
-;; bytevector -> (() -> any) -> any
-(define with-input-from-bytevector 
-  (lambda (b f)
-    (parameterize
-     ((current-input-port (r6rs:open-bytevector-input-port b)))
-     (f))))
 
