@@ -1,5 +1,3 @@
-
-
 ;; [sclang] Elements at `l' are spliced into a list.  This is a
 ;; non-recursive flatten operation.
 
@@ -183,5 +181,4 @@
 
 (define without
   (lambda (n l)
-    (append (take n l) (drop (+ n 1) l))))
-
+    (append2 (take n l) (drop (+ n 1) l))))
