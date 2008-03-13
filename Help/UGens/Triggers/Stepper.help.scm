@@ -10,7 +10,7 @@
 		  195.998 77.782 233.082 195.998 97.999
 		  155.563)))
      (async fd (/b_alloc 10 128 1))
-     (send fd (/b_setn* 10 0 a)))))
+     (send fd (/b_setn1 10 0 a)))))
 
 ;; Function composition...
 
@@ -28,11 +28,11 @@
 		       (Lag2 freq 0.1)
 		       (Mul (MouseY kr 80 1600 1 0.1) (Add (Mul env 4) 2)))
 		   (Mce 0 0.3)))
-       (lfo (SinOsc kr 0.2 (Mce 0 half-pi 0.0024 0.0025)))
+       (lfo (SinOsc kr 0.2 (Mce 0 (/ pi 2) 0.0024 0.0025)))
        (rvb (lambda (s) (AllpassN s
 				  0.05
-				  (make-mce (randl 2 0 0.05))
-				  (rand 1.5 2.0))))
+				  (clone 2 (Rand 0 0.05))
+				  (Rand 1.5 2.0))))
        (proc (list 
 	      (lambda (s) (Mul (RLPF s ffreq 0.3) env))
 	      (lambda (s) (Mul (RLPF s ffreq 0.3) env))
@@ -56,7 +56,7 @@
    (let ((p (map (lambda (e)
 		   (midicps (+ 36 (degree->key e (list 0 3 5 7 10) 12))))
 		 (map floor-exact (randl 16 0 15)))))
-     (send fd (/b_setn* 10 0 p)))))
+     (send fd (/b_setn1 10 0 p)))))
 
 ;; A shorter variant, using some simple syntax...
 
@@ -71,11 +71,11 @@
        (index (Stepper clock 0 0 15 1 0))
        (freq (BufRd 1 kr 10 index 1 1))
        (ffreq (Add (Lag2 freq 0.1) (Mce 0 0.3)))
-       (lfo (SinOsc kr 0.2 (Mce 0 half-pi 0.0024 0.0025)))
+       (lfo (SinOsc kr 0.2 (Mce 0 (/ pi 2) 0.0024 0.0025)))
        (rvb (lambda (s) (AllpassN s
 				  0.05
-				  (make-mce (randl 2 0 0.05))
-				  (rand 1.5 2.0))))
+				  (clone 2 (Rand 0 0.05))
+				  (Rand 1.5 2.0))))
        (init (mix (LFPulse ar (Mul freq (Mce 1 3/2 2)) 0 0.3)))
        (proc (seq* init
 		   s
