@@ -20,7 +20,7 @@
 ;; right, +1 is behind.
 
 (let* ((p (Mul (WhiteNoise ar) 0.05))
-       (q (Mul (mix (LFSaw ar (Mce 200 200.37 201) 0)) 0.03))
+       (q (Mul (mix (LFSaw ar (make-mce (list 200 200.37 201)) 0)) 0.03))
        (encoded (Add (PanB2 p -0.5 1) (PanB2 q -0.5 1)))
        (rotated (Rotate2 (mce-ref encoded 1) 
 			 (mce-ref encoded 2) 
@@ -40,6 +40,6 @@
 
 ;; Rotation of stereo sound, via mouse.
 
-(let ((x (mix/fill 4 (lambda (_) (Mul (LFSaw ar (rand 198 202) 0) 0.1))))
+(let ((x (mix/fill 4 (lambda (_) (Mul (LFSaw ar (Rand 198 202) 0) 0.1))))
       (y (Mul (SinOsc ar 900 0) (Mul (LFPulse kr 3 0 0.3) 0.2))))
   (audition (Out 0 (Rotate2 x y (MouseX kr 0 2 0 0.1)))))
