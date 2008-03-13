@@ -5,7 +5,7 @@
   (lambda (l)
     (let ((f (lambda (a b)
 	       (if (list? a)
-		   (append a b)
+		   (append2 a b)
 		   (cons a b)))))
       (foldr f nil l))))
 
