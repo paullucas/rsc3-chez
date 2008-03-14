@@ -23,10 +23,10 @@
 ;; level: demand ugen providing the output values.
 
 (let* ((f (Duty kr
-		(Drand +inf.sc (mce3 0.01 0.2 0.4))
+		(Drand dinf (mce3 0.01 0.2 0.4))
 		0
 		2
-		(Dseq +inf.sc (make-mce (list 204 400 201 502 300 200)))))
+		(Dseq dinf (make-mce (list 204 400 201 502 300 200)))))
        (o (SinOsc ar (Mul f (mce2 1 1.01)) 0)))
   (audition (Out 0 (Mul o 0.1))))
 
@@ -34,6 +34,6 @@
 		(MouseX kr 0.001 2 1 0.1)
 		0
 		2
-		(Dseq +inf.sc (make-mce (list 204 400 201 502 300 200)))))
+		(Dseq dinf (make-mce (list 204 400 201 502 300 200)))))
        (o (SinOsc ar (Mul f (mce2 1 1.0)) 0)))
   (audition (Out 0 (Mul o 0.1))))

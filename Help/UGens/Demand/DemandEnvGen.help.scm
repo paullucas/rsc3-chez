@@ -25,8 +25,8 @@
 
 ;; Frequency envelope with random times.
 
-(let* ((l (Dseq +inf.sc (make-mce (list 204 400 201 502 300 200))))
-       (t (Drand +inf.sc (make-mce (list 1.01 0.2 0.1 2.0))))
+(let* ((l (Dseq dinf (make-mce (list 204 400 201 502 300 200))))
+       (t (Drand dinf (make-mce (list 1.01 0.2 0.1 2.0))))
        (y (MouseY kr 0.01 3 1 0.1))
        (f (DemandEnvGen ar l (Mul t y) 7 0 1 1 1 0 1 doNothing)))
   (audition (Out 0 (Mul (SinOsc ar (Mul f (mce2 1 1.01)) 0) 0.1))))
@@ -35,7 +35,7 @@
 
 (let* ((x (MouseX kr -0.01 -4 0 0.1))
        (y (MouseY kr 1 3000 1 0.1))
-       (l (lambda () (Dseq +inf.sc (clone 32 (ExpRand 200 1000)))))
+       (l (lambda () (Dseq dinf (clone 32 (ExpRand 200 1000)))))
        (t (Mul SampleDur y))
        (f (DemandEnvGen ar (mce2 (l) (l)) t 5 x 1 1 1 0 1 doNothing)))
   (audition (Out 0 (Mul (SinOsc ar f 0) 0.1))))
@@ -43,6 +43,6 @@
 ;;  Gate. Mouse x on right side of screen toggles gate.
 
 (let* ((x (MouseX kr 0 1 0 0.1))
-       (l (Round (Dwhite +inf.sc 300 1000) 100))
+       (l (Round (Dwhite dinf 300 1000) 100))
        (f (DemandEnvGen kr l 0.1 5 0.3 (GT x 0.5) 1 1 0 1 doNothing)))
   (audition (Out 0 (Mul (SinOsc ar (Mul f (mce2 1 1.21)) 0) 0.1))))

@@ -18,7 +18,7 @@
   (append l (cdr (reverse (cdr l)))))
 
 (let* ((t (Impulse kr 24 0))
-       (s (Drand +inf.sc (mce2 (Dseq 1 (make-mce (mirror1 (enum-from-to 1 5))))
+       (s (Drand dinf (mce2 (Dseq 1 (make-mce (mirror1 (enum-from-to 1 5))))
 			       (Drand 8 (make-mce (enum-from-to 4 11))))))
        (f (Demand t 0 (Mul s 100)))
        (x (MouseX kr -1 1 0 0.1))
@@ -27,13 +27,13 @@
 
 (let* ((t (Impulse kr 10 0))
        (r (Dust kr 1))
-       (s (Dgeom +inf.sc (midicps 72) (midiratio 1)))
+       (s (Dgeom dinf (midicps 72) (midiratio 1)))
        (f (Demand t r s))
        (o (SinOsc ar (mce2 f (Add f 0.7)) 0)))
   (audition (Out 0 (Mul (Max (Cubed o) 0) 0.1))))
 
 (let* ((t (Impulse kr 10 0))
-       (s (MIDICPS (Diwhite +inf.sc 60 72)))
+       (s (MIDICPS (Diwhite dinf 60 72)))
        (f (Demand t 0 s))
        (o (SinOsc ar (mce2 f (Add f 0.7)) 0)))
   (audition (Out 0 (Mul (Cubed (Cubed o)) 0.1))))

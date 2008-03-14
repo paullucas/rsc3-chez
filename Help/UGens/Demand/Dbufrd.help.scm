@@ -13,8 +13,9 @@
    (async fd (/b_alloc 10 24 1))
    (send fd (/b_setn1 10 0 (randxl 24 200 500)))))
 
-(let ((p (Dseq +inf.sc (mce2 (Dseq 3 (Mce 0 3 5 0 3 7 0 5 9)) (Dbrown 5 0 23 1))))
-      (t (Dust kr 10)))
+(let* ((q (Dseq 3 (make-mce (list 0 3 5 0 3 7 0 5 9))))
+       (p (Dseq dinf (mce2 q (Dbrown 5 0 23 1))))
+       (t (Dust kr 10)))
   (audition (Mul (SinOsc ar (Demand t 0 (Dbufrd 10 p 1)) 0) 0.1)))
 
 ;; Buffer as a time pattern.
@@ -24,8 +25,8 @@
    (async fd (/b_alloc 11 24 1))
    (send  fd (/b_setn* 11 0 (choosel 24 (list 1 0.5 0.25))))))
 
-(let* ((p (Dseq +inf.sc (Mce (Dseq 3 (Mce 0 3 5 0 3 7 0 5 9)) (Dbrown 5 0 23 1))))
-       (d (Mul (Dbufrd 11 (Dseries +inf.sc 0 1) 1) 0.5))
+(let* ((p (Dseq dinf (Mce (Dseq 3 (Mce 0 3 5 0 3 7 0 5 9)) (Dbrown 5 0 23 1))))
+       (d (Mul (Dbufrd 11 (Dseries dinf 0 1) 1) 0.5))
        (l (Dbufrd 10 p 1)))
   (audition (Mul (SinOsc ar (Duty kr d 0 doNothing l) 0) 0.1)))
 

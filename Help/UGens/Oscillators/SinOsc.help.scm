@@ -6,7 +6,7 @@
 ;; freq - frequency in Hertz
 ;; phase - phase offset or modulator in radians
 
-(audition (Out 0 (Mul (SinOsc ar 440 0) (Mce 0.15 0.25))))
+(audition (Out 0 (Mul (SinOsc ar 440 0) (mce2 0.15 0.25))))
 
 ;; Modulate freq
 
