@@ -9,7 +9,7 @@
 ;; Run an oscillator with the trigger at bus 10.
 
 (let* ((t (InTrig 1 10))
-       (p (env/perc 0.01 1 1 -4))
+       (p (env/perc 0.01 1 1 (list -4 -4)))
        (e (EnvGen kr t t 0 1 doNothing p))
        (f (MulAdd (Latch t t) 440 880)))
   (audition (Out 0 (Mul (SinOsc ar f 0)	e))))
@@ -18,4 +18,4 @@
 
 (with-sc3 
  (lambda (fd) 
-   (send fd (/c_set 10 (rand 0.0 0.5)))))
+   (send fd (/c_set1 10 0.5))))
