@@ -1433,7 +1433,7 @@
     (let ((p (recv fd timeout)))
       (cond
        ((not p) (error "wait: timed out"))
-       ((not (string=? (car p) s)) (error "wait: bad return packet" p s))
+       ((not (string=? (head p) s)) (error "wait: bad return packet" p s))
        (else p)))))
 
 ;; port -> osc -> ()
@@ -1474,7 +1474,7 @@
     (cons "***** SuperCollider Server Status *****"
 	  (zip-with string-append
 		    status-fields 
-		    (map1 number->string (cddr r))))))
+		    (map1 number->string (tail (tail r)))))))
 
 ;; port -> [string]
 (define server-status
@@ -1682,36 +1682,29 @@
 		(In 1 ar (Add offset n))))
 	  (In 1 ar (Add offset n))))))
 
-;; Generate a 'spec' list for a Klang UGen. `freqs' is a list that
-;; determines the number of partials, `amps' and `phases' are possibly
-;; abbreviated lists subject to expansion by 'extend' to the length of
-;; `freqs'.
-
+;; [ugen] -> [ugen] -> [ugen] -> ugen
 (define klang-data
   (lambda (freqs amps phases)
-    (let ((n (length freqs)))
-      (make-mce
-       (concat
-	(transpose
-	 (list freqs
-	       (extend amps n)
-	       (extend phases n))))))))
+    (make-mce
+     (concat
+      (zip-with3
+       list3
+       freqs amps phases)))))
 
-;; Variant to generate a 'spec' list for a Klank UGen, the last
-;; argument is `ring-time', not `phases'.
-
+;; [ugen] -> [ugen] -> [ugen] -> ugen
 (define klank-data klang-data)
 
+;; ugen -> ugen -> ugen -> ugen -> ugen -> ugen
 (define dyn-klank
   (lambda (i fs fo ds s)
     (letrec ((gen (lambda (l)
 		    (if (null? l)
 			0
-			(let ((f (head l))
-			      (a (cadr l))
-			      (d (caddr l)))
+			(let ((f (list-ref l 0))
+			      (a (list-ref l 1))
+			      (d (list-ref l 2)))
 			  (Add (Mul (Ringz i (MulAdd f fs fo) (Mul d ds)) a)
-			       (gen (cdddr l))))))))
+			       (gen (drop 3 l))))))))
       (gen (mce-channels s)))))
 
 ;; ugen -> ugen -> ugen -> ugen
@@ -1743,137 +1736,15 @@
   (lambda (n f)
     (mix (mce/fill n f))))
 
-;; [symbol]
-(define unary-operator-names 
-  (list 'Neg 
-	'Not 
-	'IsNil 
-	'NotNil 
-	'BitNot 
-	'Abs
-	'AsFloat 
-	'AsInt 
-	'Ceil 
-	'Floor 
-	'Frac 
-	'Sign 
-	'Squared 
-	'Cubed 
-	'Sqrt 
-	'Exp 
-	'Recip
-	'MIDICPS 
-	'CPSMIDI 
-	'MIDIRatio 
-	'RatioMIDI 
-	'DbAmp 
-	'AmpDb 
-	'OctCPS 
-	'CPSOct 
-	'Log 
-	'Log2
-	'Log10 
-	'Sin 
-	'Cos 
-	'Tan 
-	'ArcSin 
-	'ArcCos 
-	'ArcTan 
-	'SinH 
-	'CosH 
-	'TanH 
-	'_Rand 
-	'Rand2
-	'_LinRand 
-	'BiLinRand 
-	'Sum3Rand 
-	'Distort 
-	'SoftClip 
-	'Coin 
-	'DigitValue 
-	'Silence
-	'Thru 
-	'RectWindow 
-	'HanWindow 
-	'WelchWindow 
-	'TriWindow 
-	'_Ramp 
-	'SCurve))
-
-;; int -> symbol
-(define unary-operator-name
-  (lambda (i)
-    (list-ref unary-operator-names i)))
-
-;; [symbol]
-(define binary-operator-names
-  (list 'Add
-	'Sub
-	'Mul
-	'IDiv
-	'FDiv
-	'Mod
-	'EQ
-	'NE
-	'LT
-	'GT
-	'LE
-	'GE
-	'Min
-	'Max
-	'BitAnd
-	'BitOr
-	'BitXor
-	'LCM
-	'GCD
-	'Round
-	'RoundUp
-	'Trunc
-	'Atan2
-	'Hypot
-	'Hypotx
-	'Pow
-	'ShiftLeft
-	'ShiftRight
-	'UnsignedShift
-	'Fill
-	'Ring1
-	'Ring2
-	'Ring3
-	'Ring4
-	'DifSqr
-	'SumSqr
-	'SqrSum
-	'SqrDif
-	'AbsDif
-	'Thresh
-	'AMClip
-	'ScaleNeg
-	'Clip2
-	'Excess
-	'Fold2
-	'Wrap2
-	'FirstArg
-	'RandRange
-	'ExpRandRange))
-
-;; int -> symbol
-(define binary-operator-name
-  (lambda (i)
-    (list-ref binary-operator-names i)))
-
-;; string -> int -> string
-(define ugen-name/operator
-  (lambda (s i)
-    (cond
-     ((string=? s "BinaryOpUGen") (binary-operator-name i))
-     ((string=? s "UnaryOpUGen") (unary-operator-name i))
-     (else s))))
+;; port -> string -> ugen -> ()
+(define send-synth
+  (lambda (fd n u)
+    (async fd (/d_recv (encode-graphdef (synthdef n u))))))
 
 ;; port -> ugen -> ()
 (define play
   (lambda (fd u)
-    (async fd (/d_recv (encode-graphdef (synthdef "Anonymous" u))))
+    (send-synth fd "Anonymous" u)
     (send fd (/s_new0 "Anonymous" -1 1 1))))
 
 ;; ugen -> ()
@@ -1883,65 +1754,6 @@
      (lambda (fd)
        (play fd u)))))
 
-;; ugen -> bool
-(define unipolar?
-  (lambda (u)
-    (if (mce? u)
-	(all unipolar? (mce-channels u))
-	(member (ugen-name u)
-		(list "LFPulse" "Impulse" "TPulse" "Trig1" "Dust")))))
-
-;; ugen -> ugen -> ugen -> ugen
-(define range
-  (lambda (u l r)
-    (if (unipolar? u)
-	(LinLin u 0 1 l r)
-	(LinLin u -1 1 l r))))
-
-;; ugen -> ugen -> ugen -> ugen
-(define exprange
-  (lambda (u l r)
-    (if (unipolar? u)
-	(LinExp u 0 1 l r)
-	(LinExp u -1 1 l r))))
-
-;; port -> string -> ugen -> ()
-(define send-synth
-  (lambda (fd n u)
-    (async fd (/d_recv (encode-graphdef (synthdef n u))))))
-
-(define pi2
-  (/ pi 2))
-
-(define pi32
-  (* pi 1.5))
-
-(define twopi
-  (* pi 2))
-
-(define rtwopi
-  (/ 1 twopi))
-
-(define log001
-  (log 0.001))
-
-(define log01
-  (log 0.01))
-
-(define log1
-  (log 0.1))
-
-(define rlog2
-  (/ 1.0 (log 2.0)))
-
-(define sqrt2
-  (sqrt 2.0))
-
-(define rsqrt2
-  (/ 1.0 sqrt2))
-
-(define +inf.sc 
+;; float
+(define dinf 
   9.0e8)
-
-(define inf 
-  1073741824.0)
