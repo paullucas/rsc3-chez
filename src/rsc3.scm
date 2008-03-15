@@ -144,7 +144,8 @@
 	  (and (= (+ x 1) (head xs))
 	       (consecutive? xs))))))
 ;; int -> uid
-(define-structure uid n)
+(define-record-type uid 
+  (fields n))
 
 ;; () -> uid
 (define unique-uid
@@ -154,13 +155,16 @@
       (make-uid n))))
 
 ;; string -> int -> control
-(define-structure control name index)
+(define-record-type control 
+  (fields name index))
 
 ;; string -> float -> rate -> float -> control*
-(define-structure control* name default rate lag)
+(define-record-type control* 
+  (fields name default rate lag))
 
 ;; string -> [float] -> [float] -> [controls] -> [ugens] -> graphdef
-(define-structure graphdef name constants defaults controls ugens)
+(define-record-type graphdef 
+  (fields name constants defaults controls ugens))
 
 ;; graphdef -> int -> ugen
 (define graphdef-ugen
@@ -178,20 +182,32 @@
     (list-ref (graphdef-constants g) n)))
 
 ;; int -> int -> input
-(define-structure input ugen port)
+(define-record-type input 
+  (fields ugen port))
 
 ;; [ugen] -> mce
-(define-structure mce channels)
+(define-record-type mce 
+  (fields channels))
 
 ;; ugen -> ugen -> mce
 (define mce2
   (lambda (a b)
-    (make-mce (list a b))))
+    (make-mce (list2 a b))))
 
 ;; ugen -> ugen -> ugen -> mce
 (define mce3
   (lambda (a b c)
-    (make-mce (list a b c))))
+    (make-mce (list3 a b c))))
+
+;; ugen -> ugen -> ugen -> ugen -> mce
+(define mce4
+  (lambda (a b c d)
+    (make-mce (list4 a b c d))))
+
+;; ugen -> ugen -> ugen -> ugen -> ugen -> mce
+(define mce5
+  (lambda (a b c d e)
+    (make-mce (list5 a b c d e))))
 
 ;; mce -> int -> ugen
 (define mce-channel
@@ -199,7 +215,8 @@
     (list-ref (mce-channels u) n)))
 
 ;; ugen -> ugen -> mrg
-(define-structure mrg left right)
+(define-record-type mrg
+  (fields left right))
 
 ;; ugen -> ugen -> mrg
 (define mrg2
@@ -211,13 +228,16 @@
     (make-mrg a (make-mrg b c))))
 
 ;; rate -> output
-(define-structure output rate)
+(define-record-type output
+  (fields rate))
 
 ;; ugen -> int -> proxy
-(define-structure proxy ugen port)
+(define-record-type proxy
+  (fields ugen port))
 
 ;; int -> rate
-(define-structure rate value)
+(define-record-type rate
+  (fields value))
 
 ;; rate
 (define ir
@@ -268,7 +288,8 @@
     (foldl1 rate-select* l)))
 
 ;; string -> rate -> [ugen] -> [output] -> int -> uid -> ugen
-(define-structure ugen name rate inputs outputs special id)
+(define-record-type ugen
+  (fields name rate inputs outputs special id))
 
 ;; ugen -> int -> output
 (define ugen-output
@@ -1423,14 +1444,10 @@
   (lambda (i j)
     (message "/c_getn" (list i j))))
 
-;; float
-(define timeout 
-  1.0)
-
 ;; port -> string -> osc
 (define wait
   (lambda (fd s)
-    (let ((p (recv fd timeout)))
+    (let ((p (recv fd)))
       (cond
        ((not p) (error "wait: timed out"))
        ((not (string=? (head p) s)) (error "wait: bad return packet" p s))
@@ -1452,9 +1469,9 @@
 ;; (port -> a) -> a
 (define with-sc3
   (lambda (f)
-    (let* ((fd (open-udp* "127.0.0.1" 57110))
+    (let* ((fd (udp:open "127.0.0.1" 57110))
 	   (r (f fd)))
-      (udp*-close fd)
+      (udp:close fd)
       r)))
 
 ;; [string]
@@ -1575,15 +1592,15 @@
 
 (define env/trapezoid
   (lambda (shape skew dur amp)
-    (let* ((x1 (* skew (- 1.0 shape)))
+    (let* ((x1 (Mul skew (Sub 1.0 shape)))
 	   (bp (list 0
-		     (if (<= skew 0.0) 1.0 0.0)
+		     (if (LE skew 0.0) 1.0 0.0)
 		     x1
 		     1.0
-		     (+ shape x1)
+		     (Add shape x1)
 		     1.0
 		     1.0
-		     (if (>= skew 1.0) 1.0 0.0))))
+		     (if (GE skew 1.0) 1.0 0.0))))
       (env/bp bp dur amp (replicate 4 "linear")))))
 
 (define env/triangle
@@ -1757,3 +1774,14 @@
 ;; float
 (define dinf 
   9.0e8)
+
+;; float -> float -> float
+(define rand
+  (lambda (a b) 
+    (+ (* (random) (- b a)) a)))
+
+;; float -> float -> float
+(define randx
+  (lambda (a b)
+    (let ((r (/ b a)))
+      (* (expt r (rand 0 1)) a))))

@@ -107,7 +107,7 @@ placed in the upper window and the `rsc3-buffer' in the lower window."
   "Generate a command to start the rsc3 interpreter."
   (interactive)
   (let* ((i (if (equal rsc3-interpreter "mred") "--stdio" "-i"))
-	 (c (list rsc3-interpreter i "-l" "rsc3/rsc3")))
+	 (c (list rsc3-interpreter i "-l" "rsc3/plt/rsc3")))
     (if (and rsc3-load-run-control-p (file-exists-p rsc3-run-control))
 	(append c (list "-f" rsc3-run-control))
       c)))
