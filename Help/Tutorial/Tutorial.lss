@@ -8,8 +8,11 @@ and Emacs [3] are all installed and working properly.
 * Setting up Scheme SuperCollider
 
 Scheme SuperCollider is currently only available as a set of darcs
-repositories, the basic system is called rsc3.
+repositories, the basic system is called rsc3 and requires the rhs
+and sosc libraries.
 
+  $ darcs get http://slavepianos.org/rd/sw/rhs
+  $ darcs get http://slavepianos.org/rd/sw/sosc
   $ darcs get http://slavepianos.org/rd/sw/rsc3
 
 To build ensure the rsc3 directory is on the PLT path, see
@@ -79,7 +82,7 @@ expression to do this is written below.  To evaluate an expression
 move the cursor to the closing parenthesis and type C-cC-e (Scheme
 SuperCollider -> Expression -> Evaluate).
 
-> (with-sc3 (lambda (fd) (send fd (/g_new 1 addToTail 0))))
+> (with-sc3 (lambda (fd) (send fd (/g_new1 1 addToTail 0))))
 
 We can then audition a quiet sine oscillator at A440.
 
@@ -89,7 +92,7 @@ To stop the sound we can delete the group it is a part of, the
 audition function places the synthesis node into the group node with
 ID 1, the expression below deletes that group.
 
-> (with-sc3 (lambda (fd) (send fd (/n_free 1))))
+> (with-sc3 (lambda (fd) (send fd (/n_free1 1))))
 
 In order to audition another graph we need to re-create a group with
 ID 1.  Sound.SC3 includes a function 'reset' that sequences these two
