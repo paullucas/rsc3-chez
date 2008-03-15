@@ -4,5 +4,5 @@
 (define blurb (list "rsc3 supercollider client"))
 (define categories (list 'media))
 (define homepage "http://slavepianos.org/rd/f/149683/")
-(define primary-file "rsc3.ss")
+(define primary-file "plt/rsc3.ss")
 )
