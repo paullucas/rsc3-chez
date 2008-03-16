@@ -1,0 +1,17 @@
+(import (rhs r6rs rhs))
+(load "/home/rohan/sw/rhs/util/util.scm")
+
+(mk-r6rs '(rsc3 ikarus rsc3)
+	 '("/home/rohan/sw/rsc3/src/rsc3.scm")
+	 "/home/rohan/sw/rsc3/ikarus/rsc3.scm"
+	 '((rnrs base)
+	   (rnrs records syntactic)
+	   (rnrs bytevectors)
+	   (rnrs io ports)
+	   (rnrs io simple)
+	   (rhs r6rs rhs)
+	   (sosc ikarus sosc)
+	   (only (ikarus) parameterize tcp-connect)
+	   (xitomatl srfi random))
+	 '()
+	 '())
