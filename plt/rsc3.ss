@@ -3,5 +3,8 @@
 (require rhs/plt/rhs)
 (require sosc/plt/sosc)
 (provide (all-defined-out))
+(define div quotient)
+;(define mod modulo)
+(define random-real random)
 (include "../src/rsc3.scm")
 )

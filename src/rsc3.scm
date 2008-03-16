@@ -127,8 +127,8 @@
 (define degree->key
   (lambda (degree scale steps)
     (let ((scale-n (length scale)))
-      (+ (* steps (quotient degree scale-n))
-	 (list-ref scale (modulo degree scale-n))))))
+      (+ (* steps (div degree scale-n))
+	 (list-ref scale (mod degree scale-n))))))
 
 ;; int -> [any] -> [any]
 (define without
@@ -1466,7 +1466,7 @@
 			      /clearSched
 			      (/g_new1 1 0 0))))))
 
-;; (port -> a) -> a
+;; (socket -> a) -> a
 (define with-sc3
   (lambda (f)
     (let* ((fd (udp:open "127.0.0.1" 57110))
@@ -1778,7 +1778,7 @@
 ;; float -> float -> float
 (define rand
   (lambda (a b) 
-    (+ (* (random) (- b a)) a)))
+    (+ (* (random-real ) (- b a)) a)))
 
 ;; float -> float -> float
 (define randx
