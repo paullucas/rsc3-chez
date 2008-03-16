@@ -26,23 +26,6 @@
       (setq end (point)))
     (buffer-substring-no-properties beg end)))
 
-(defun locate-plt-library (name)
-  "Locate the directory for the PLT library `name'.
-An error is raised if the directory cannot be located."
-  (defun iter (prefixes)
-    (if (null prefixes)
-	(error "Cannot locate PLT library: %s" name)
-      (let* ((dir (concat (car prefixes) "/" name))
-	     (dir* (file-expand-wildcards dir)))
-	(if dir*
-	    (expand-file-name (car dir*))
-	  (iter (cdr prefixes))))))
-  (iter (list "/usr/local/plt/collects"
-	      "/usr/plt/collects"
-	      "/Applications/PLT Scheme*/collects"
-	      "~/.plt-scheme/*/collects"
-	      "~/Library/PLT Scheme*/*/collects")))
-
 ;; Open info documentation at `manual' and search the indices for
 ;; `query'.
 
@@ -60,15 +43,7 @@ An error is raised if the directory cannot be located."
   "*The name of the rsc3 scheme process buffer.")
 
 (defvar rsc3-interpreter
-  "mzscheme")
-
-(defvar rsc3-run-control
-  (concat (getenv "HOME") "/.rsc3.scm")
-  "The run-control file (default=~/.rsc3.scm)")
-
-(defvar rsc3-load-run-control-p
-  t
-  "If nil do not load rsc3-run-control at startup")
+  (list "mzscheme" "-f" ".rsc3.scm"))
 
 (defvar rsc3-help-directory
   nil
@@ -103,15 +78,6 @@ placed in the upper window and the `rsc3-buffer' in the lower window."
 	(save-selected-window
 	  (set-window-point window (point-max)))))))
 
-(defun rsc3-make-interpreter-command ()
-  "Generate a command to start the rsc3 interpreter."
-  (interactive)
-  (let* ((i (if (equal rsc3-interpreter "mred") "--stdio" "-i"))
-	 (c (list rsc3-interpreter i "-l" "rsc3/plt/rsc3")))
-    (if (and rsc3-load-run-control-p (file-exists-p rsc3-run-control))
-	(append c (list "-f" rsc3-run-control))
-      c)))
-
 (defun rsc3-start-scheme ()
   "Start the rsc3 scheme process.
 
@@ -121,14 +87,13 @@ evaluating rsc3 expressions.  Input and output is via `rsc3-buffer'."
   (interactive)
   (if (comint-check-proc rsc3-buffer)
       (error "An rsc3 scheme process is already running")
-    (let ((command (rsc3-make-interpreter-command)))
-      (apply
-       'make-comint
-       "rsc3"
-       (car command)
-       nil
-       (cdr command))
-      (rsc3-see-output))))
+    (apply
+     'make-comint
+     "rsc3"
+     (car rsc3-interpreter)
+     nil
+     (cdr rsc3-interpreter))
+    (rsc3-see-output)))
 
 (defun rsc3-clear-schedule ()
   "Clear the schedule (Q)."
