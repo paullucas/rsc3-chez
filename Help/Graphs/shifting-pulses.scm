@@ -1,0 +1,12 @@
+;; shifting pulses (rd)
+
+(let* ((wrp (lambda (i l r) (LinLin i -1 1 l r)))
+       (n1 (clone 2 (BrownNoise kr)))
+       (n2 (clone 2 (BrownNoise kr)))
+       (n3 (clone 2 (BrownNoise kr)))
+       (t (Dust kr 0.75))
+       (l (Latch t t))
+       (p (Mul (Pulse ar (wrp n1 2 (mce2 11 15)) 0.01) 0.1))
+       (f (wrp n2 300 1800))
+       (rq (wrp n3 0.01 2)))
+  (audition (Out 0 (Mul l (RLPF p f rq)))))

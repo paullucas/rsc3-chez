@@ -1,0 +1,11 @@
+;; three-cpsw (rd)
+
+(let* ((t (Dust kr (mce2 12 18)))
+       (f0 (TRand 1 64 t))
+       (f1 (LFNoise0 kr f0))
+       (a  (TRand 0.0 0.5 t))
+       (dt (TRand 0.975 1.025 t))
+       (dh (TRand 0.750 0.7505 t))
+       (f (MulAdd f1 (mce2 9000 12000) 9500))
+       (o (Add3 (Saw ar f) (Saw ar (Mul f dh)) (Saw ar (Mul f dt)))))
+  (audition (Out 0 (Clip2 (Mul o a) 0.75))))

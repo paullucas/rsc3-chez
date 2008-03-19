@@ -1,0 +1,11 @@
+;; drummer (thor magnusson)
+
+(let* ((tempo 4)
+       (n (WhiteNoise ar))
+       (tr (Impulse ar tempo 0))
+       (tr_2 (PulseDivider tr 4 2))
+       (tr_4 (PulseDivider tr 4 0))
+       (snare (Mul n (Decay2 tr_2 0.005 0.5)))
+       (bass (Mul (SinOsc ar 60 0) (Decay2 tr_4 0.005 0.5)))
+       (hihat (Mul (HPF n 10000) (Decay2 tr 0.005 0.5))))
+  (audition (Out 0 (Pan2 (Add3 snare bass hihat) 0 0.4))))
