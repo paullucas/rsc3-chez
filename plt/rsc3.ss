@@ -10,8 +10,9 @@
 		    current-output-port
 		    current-input-port
 		    current-error-port))
-(require rhs/r6rs/rhs)
-(require sosc/plt/sosc)
+(require rhs/r6rs/rhs
+	 sosc/plt/sosc
+	 sosc/plt/transport)
 (require srfi/27)
 (include "../src/rsc3.scm")
 )

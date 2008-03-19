@@ -636,13 +636,13 @@
        (lambda (i ...)
 	 (construct-ugen m #f (list i ...) #f o 0 (make-uid 0)))))))
 
-(define-syntax define-filter/n
+(define-syntax define-filter-n
   (syntax-rules ()
     ((_ n m (i ...))
      (define n
        (lambda (nc i ...)
 	 (if (not (integer? nc))
-	     (error "define-filter/n" "illegal channel count" 'n nc)
+	     (error "define-filter-n" "illegal channel count" 'n nc)
 	     #f)
 	 (let ((l (list i ...)))
 	   (construct-ugen m #f l #f nc 0 (make-uid 0))))))))
@@ -654,7 +654,7 @@
        (lambda (i ... v)
 	 (construct-ugen m #f (list i ...) v o 0 (make-uid 0)))))))
 
-(define-syntax define-filter/id
+(define-syntax define-filter-id
   (syntax-rules ()
     ((_ n m (i ...) o)
      (define n
@@ -662,7 +662,7 @@
 	 (construct-ugen m #f (list i ...) #f o 0 (unique-uid)))))))
 
 ;; keyed filter, rate is determined by a known input
-(define-syntax define-filter/k
+(define-syntax define-filter-k
   (syntax-rules ()
     ((_ n m (i ...) o k)
      (define n
@@ -677,13 +677,13 @@
        (lambda (r i ...)
 	 (construct-ugen m r (list i ...) #f o 0 (make-uid 0)))))))
 
-(define-syntax define-oscillator/n
+(define-syntax define-oscillator-n
   (syntax-rules ()
     ((_ n m (i ...))
      (define n
        (lambda (nc r i ...)
 	 (if (not (integer? nc))
-	     (error "define-oscillator/n" "illegal channel count:" 'n nc)
+	     (error "define-oscillator-n" "illegal channel count:" 'n nc)
 	     #f)
 	 (let ((l (list i ...)))
 	   (construct-ugen m r l #f nc 0 (make-uid 0))))))))
@@ -695,7 +695,7 @@
        (lambda (r i ... v)
 	 (construct-ugen m r (list i ...) v o 0 (make-uid 0)))))))
 
-(define-syntax define-oscillator/id
+(define-syntax define-oscillator-id
   (syntax-rules ()
     ((_ n m (i ...) o)
      (define n
@@ -709,7 +709,7 @@
        (lambda (i ...)
 	 (construct-ugen m r (list i ...) #f o 0 (make-uid 0)))))))
 
-(define-syntax define-specialized/c
+(define-syntax define-specialized-c
   (syntax-rules ()
     ((_ n m o r)
      (define n
@@ -722,25 +722,25 @@
        (lambda (i ... v)
 	 (construct-ugen m r (list i ...) v o 0 (make-uid 0)))))))
 
-(define-syntax define-specialized/n
+(define-syntax define-specialized-n
   (syntax-rules ()
     ((_ n m (i ...) r)
      (define n
        (lambda (nc i ...)
 	 (if (not (integer? nc))
-	     (error "define-specialized/n" "illegal channel count:" 'n nc)
+	     (error "define-specialized-n" "illegal channel count:" 'n nc)
 	     #f)
 	 (let ((l (list i ...)))
 	   (construct-ugen m r l #f nc 0 (make-uid 0))))))))
 
-(define-syntax define-specialized/id
+(define-syntax define-specialized-id
   (syntax-rules ()
     ((_ n m (i ...) o r)
      (define n
        (lambda (i ...)
 	 (construct-ugen m r (list i ...) #f o 0 (unique-uid)))))))
 
-(define-syntax define-specialized*/id
+(define-syntax define-specialized*-id
   (syntax-rules ()
     ((_ n m (i ... v) o r)
      (define n
@@ -799,9 +799,9 @@
 (define-unary-operator thru 47 #f)
 (define-unary-operator tri-window 51 #f)
 (define-unary-operator welch-window 50 #f)
-(define-unary-operator -lin-rand 39 #f)
-(define-unary-operator -ramp 52 #f)
-(define-unary-operator -rand 37 #f)
+(define-unary-operator lin-rand* 39 #f)
+(define-unary-operator ramp* 52 #f)
+(define-unary-operator rand* 37 #f)
 
 ;; ugen -> ugen -> ugen
 (define-binary-operator amclip 40 #f)
@@ -987,11 +987,11 @@
 (define-filter xy "XY" (xscale yscale xoff yoff rot rate) 1)
 (define-filter zero-crossing "ZeroCrossing" (in) 1)
 
-(define-filter/k demand "Demand" (trig reset demand-ugens) 1 0)
+(define-filter-k demand "Demand" (trig reset demand-ugens) 1 0)
 
-(define-filter/n decode-b2 "DecodeB2" (w x y orientation))
-(define-filter/n silent "Silent" ())
-(define-filter/n tgrains "TGrains" (trigger bufnum rate center-pos dur pan amp interp))
+(define-filter-n decode-b2 "DecodeB2" (w x y orientation))
+(define-filter-n silent "Silent" ())
+(define-filter-n tgrains "TGrains" (trigger bufnum rate center-pos dur pan amp interp))
 
 (define-filter* buf-wr "BufWr" (bufnum phase loop input-array) 1)
 (define-filter* klank "Klank" (input freqscale freqoffset decayscale specifications-array-ref) 1)
@@ -1008,12 +1008,12 @@
 (define-filter* scope-out "ScopeOut" (input-array bufnum) 0)
 (define-filter* xout "XOut" (bus xfade channels-array) 0)
 
-(define-filter/id coin-gate "CoinGate" (prob in) 1)
-(define-filter/id texp-rand "TExpRand" (lo hi trig) 1)
-(define-filter/id tirand "TIRand" (lo hi trig) 1)
-(define-filter/id trand "TRand" (lo hi trig) 1)
+(define-filter-id coin-gate "CoinGate" (prob in) 1)
+(define-filter-id texp-rand "TExpRand" (lo hi trig) 1)
+(define-filter-id tirand "TIRand" (lo hi trig) 1)
+(define-filter-id trand "TRand" (lo hi trig) 1)
 
-(define-oscillator amplitude "amplitude" (in attack-time release-time) 1)
+(define-oscillator amplitude "Amplitude" (in attack-time release-time) 1)
 (define-oscillator blip "Blip" (freq numharm) 1)
 (define-oscillator buf-channels "BufChannels" (buf) 1)
 (define-oscillator buf-dur "BufDur" (buf) 1)
@@ -1079,35 +1079,35 @@
 (define-oscillator var-saw "VarSaw" (freq iphase width) 1)
 (define-oscillator xline "XLine" (start end dur done-action) 1)
 
-(define-oscillator/n buf-rd "BufRd" (bufnum phase loop interpolation))
-(define-oscillator/n disk-in "DiskIn" (bufnum))
-(define-oscillator/n in "In" (bus))
-(define-oscillator/n local-in "LocalIn" ())
-(define-oscillator/n trig-control "TrigControl" ())
+(define-oscillator-n buf-rd "BufRd" (bufnum phase loop interpolation))
+(define-oscillator-n disk-in "DiskIn" (bufnum))
+(define-oscillator-n in "In" (bus))
+(define-oscillator-n local-in "LocalIn" ())
+(define-oscillator-n trig-control "TrigControl" ())
 
 (define-oscillator* duty "Duty" (dur reset done-action level) 1)
 (define-oscillator* env-gen "EnvGen" (gate level-scale level-bias time-scale done-action envelope-array) 1)
 (define-oscillator* klang "Klang" (freqscale freqoffset spec-array) 1)
 (define-oscillator* tduty "TDuty" (dur reset done-action level) 1)
 
-(define-oscillator/id brown-noise "BrownNoise" () 1)
-(define-oscillator/id clip-noise "ClipNoise" () 1)
-(define-oscillator/id dust "Dust" (density) 1)
-(define-oscillator/id dust2 "Dust2" (density) 1)
-(define-oscillator/id gray-noise "GrayNoise" () 1)
-(define-oscillator/id lfclip-noise "LFClipNoise" (freq) 1)
-(define-oscillator/id lfdclip-noise "LFDClipNoise" (freq) 1)
-(define-oscillator/id lfdnoise0 "LFDNoise0" (freq) 1)
-(define-oscillator/id lfdnoise1 "LFDNoise1" (freq) 1)
-(define-oscillator/id lfdnoise3 "LFDNoise3" (freq) 1)
-(define-oscillator/id lfnoise0 "LFNoise0" (freq) 1)
-(define-oscillator/id lfnoise1 "LFNoise1" (freq) 1)
-(define-oscillator/id lfnoise2 "LFNoise2" (freq) 1)
-(define-oscillator/id noah-noise "NoahNoise" () 1)
-(define-oscillator/id pink-noise "PinkNoise" () 1)
-(define-oscillator/id rand-id "RandId" (id) 1)
-(define-oscillator/id rand-seed "RandSeed" (trig seed) 1)
-(define-oscillator/id white-noise "WhiteNoise" () 1)
+(define-oscillator-id brown-noise "BrownNoise" () 1)
+(define-oscillator-id clip-noise "ClipNoise" () 1)
+(define-oscillator-id dust "Dust" (density) 1)
+(define-oscillator-id dust2 "Dust2" (density) 1)
+(define-oscillator-id gray-noise "GrayNoise" () 1)
+(define-oscillator-id lfclip-noise "LFClipNoise" (freq) 1)
+(define-oscillator-id lfdclip-noise "LFDClipNoise" (freq) 1)
+(define-oscillator-id lfdnoise0 "LFDNoise0" (freq) 1)
+(define-oscillator-id lfdnoise1 "LFDNoise1" (freq) 1)
+(define-oscillator-id lfdnoise3 "LFDNoise3" (freq) 1)
+(define-oscillator-id lfnoise0 "LFNoise0" (freq) 1)
+(define-oscillator-id lfnoise1 "LFNoise1" (freq) 1)
+(define-oscillator-id lfnoise2 "LFNoise2" (freq) 1)
+(define-oscillator-id noah-noise "NoahNoise" () 1)
+(define-oscillator-id pink-noise "PinkNoise" () 1)
+(define-oscillator-id rand-id "RandId" (id) 1)
+(define-oscillator-id rand-seed "RandSeed" (trig seed) 1)
+(define-oscillator-id white-noise "WhiteNoise" () 1)
 
 (define-specialized convolution "Convolution" (in kernel frame-size) 1 ar)
 (define-specialized convolution2 "Convolution2" (in bufnum trigger frame-size) 1 ar)
@@ -1149,48 +1149,48 @@
 (define-specialized shared-out "SharedOut" (bus channels-array) 0 kr)
 (define-specialized unpack1-fft "Unpack1FFT" (chain bufsize binindex whichmeasure) 1 dr)
 
-(define-specialized/c control-rate "ControlRate" 1 ir)
-(define-specialized/c num-audio-buses "NumAudioBuses" 1 ir)
-(define-specialized/c num-buffers "NumBuffers" 1 ir)
-(define-specialized/c num-control-buses "NumControlBuses" 1 ir)
-(define-specialized/c num-input-buses "NumInputBuses" 1 ir)
-(define-specialized/c num-output-buses "NumOutputBuses" 1 ir)
-(define-specialized/c num-running-synths "NumRunningSynths" 1 ir)
-(define-specialized/c radians-per-sample "RadiansPerSample" 1 ir)
-(define-specialized/c sample-dur "SampleDur" 1 ir)
-(define-specialized/c sample-rate "SampleRate" 1 ir)
-(define-specialized/c subsample-offset "SubsampleOffset" 1 ir)
+(define-specialized-c control-rate "ControlRate" 1 ir)
+(define-specialized-c num-audio-buses "NumAudioBuses" 1 ir)
+(define-specialized-c num-buffers "NumBuffers" 1 ir)
+(define-specialized-c num-control-buses "NumControlBuses" 1 ir)
+(define-specialized-c num-input-buses "NumInputBuses" 1 ir)
+(define-specialized-c num-output-buses "NumOutputBuses" 1 ir)
+(define-specialized-c num-running-synths "NumRunningSynths" 1 ir)
+(define-specialized-c radians-per-sample "RadiansPerSample" 1 ir)
+(define-specialized-c sample-dur "SampleDur" 1 ir)
+(define-specialized-c sample-rate "SampleRate" 1 ir)
+(define-specialized-c subsample-offset "SubsampleOffset" 1 ir)
 
-(define-specialized/n grain-buf "GrainBuf" (tr dur sndbuf rate pos interp pan envbuf) ar)
-(define-specialized/n grain-fm "GrainFM" (tr dur carfreq modfreq index pan envbuf) ar)
-(define-specialized/n grain-in "GrainIn" (tr dur in pan envbuf) ar)
-(define-specialized/n grain-sin "GrainSin" (tr dur freq pan envbuf) ar)
-(define-specialized/n in-feedback "InFeedback" (bus) ar)
-(define-specialized/n in-trig "InTrig" (bus) kr)
-(define-specialized/n lag-in "LagIn" (bus lag) kr)
-(define-specialized/n play-buf "PlayBuf" (bufnum rate trigger start-pos loop) ar)
-(define-specialized/n warp1 "Warp1" (bufnum pointer freq-scale window-size envbufnum overlaps window-rand-ratio interp) ar)
+(define-specialized-n grain-buf "GrainBuf" (tr dur sndbuf rate pos interp pan envbuf) ar)
+(define-specialized-n grain-fm "GrainFM" (tr dur carfreq modfreq index pan envbuf) ar)
+(define-specialized-n grain-in "GrainIn" (tr dur in pan envbuf) ar)
+(define-specialized-n grain-sin "GrainSin" (tr dur freq pan envbuf) ar)
+(define-specialized-n in-feedback "InFeedback" (bus) ar)
+(define-specialized-n in-trig "InTrig" (bus) kr)
+(define-specialized-n lag-in "LagIn" (bus lag) kr)
+(define-specialized-n play-buf "PlayBuf" (bufnum rate trigger start-pos loop) ar)
+(define-specialized-n warp1 "Warp1" (bufnum pointer freq-scale window-size envbufnum overlaps window-rand-ratio interp) ar)
 
 (define-specialized* pack-fft "PackFFT" (chain bufsize from to z magsphases) 1 kr)
 
-(define-specialized/id dbrown "Dbrown" (length lo hi step) 1 dr)
-(define-specialized/id dbufrd "Dbufrd" (bufnum phase loop) 1 dr)
-(define-specialized/id dgeom "Dgeom" (length start grow) 1 dr)
-(define-specialized/id dibrown "Dibrown" (length lo hi step) 1 dr)
-(define-specialized/id diwhite "Diwhite" (length lo hi) 1 dr)
-(define-specialized/id dseries "Dseries" (length start step) 1 dr)
-(define-specialized/id dwhite "Dwhite" (length lo hi) 1 dr)
-(define-specialized/id exp-rand "ExpRand" (lo hi) 1 ir)
-(define-specialized/id irand "IRand" (lo hi) 1 ir)
-(define-specialized/id lin-rand "LinRand" (lo hi minmax) 1 ir)
-(define-specialized/id nrand "NRand" (lo hi n) 1 ir)
-(define-specialized/id rand "Rand" (lo hi) 1 ir)
+(define-specialized-id dbrown "Dbrown" (length lo hi step) 1 dr)
+(define-specialized-id dbufrd "Dbufrd" (bufnum phase loop) 1 dr)
+(define-specialized-id dgeom "Dgeom" (length start grow) 1 dr)
+(define-specialized-id dibrown "Dibrown" (length lo hi step) 1 dr)
+(define-specialized-id diwhite "Diwhite" (length lo hi) 1 dr)
+(define-specialized-id dseries "Dseries" (length start step) 1 dr)
+(define-specialized-id dwhite "Dwhite" (length lo hi) 1 dr)
+(define-specialized-id exp-rand "ExpRand" (lo hi) 1 ir)
+(define-specialized-id irand "IRand" (lo hi) 1 ir)
+(define-specialized-id lin-rand "LinRand" (lo hi minmax) 1 ir)
+(define-specialized-id nrand "NRand" (lo hi n) 1 ir)
+(define-specialized-id rand "Rand" (lo hi) 1 ir)
 
-(define-specialized*/id drand "Drand" (length array) 1 dr)
-(define-specialized*/id dseq "Dseq" (length array) 1 dr)
-(define-specialized*/id dser "Dser" (length array) 1 dr)
-(define-specialized*/id dswitch1 "Dswitch1" (length array) 1 dr)
-(define-specialized*/id dxrand "Dxrand" (length array) 1 dr)
+(define-specialized*-id drand "Drand" (length array) 1 dr)
+(define-specialized*-id dseq "Dseq" (length array) 1 dr)
+(define-specialized*-id dser "Dser" (length array) 1 dr)
+(define-specialized*-id dswitch1 "Dswitch1" (length array) 1 dr)
+(define-specialized*-id dxrand "Dxrand" (length array) 1 dr)
 
 (define add3
   (lambda (a b c)
@@ -1219,6 +1219,10 @@
 (define mul3
   (lambda (a b c)
     (mul (mul a b) c)))
+
+(define mul4
+  (lambda (a b c d)
+    (mul (mul (mul a b) c) d)))
 
 (define tchoose
   (lambda (trig array)
@@ -1469,11 +1473,19 @@
 			      (g-new1 1 0 0))))))
 
 ;; (socket -> a) -> a
-(define with-sc3
+(define with-udp-sc3
   (lambda (f)
     (let* ((fd (udp:open "127.0.0.1" 57110))
 	   (r (f fd)))
       (udp:close fd)
+      r)))
+
+;; (socket -> a) -> a
+(define with-tcp-sc3
+  (lambda (f)
+    (let* ((fd (tcp:open "127.0.0.1" 57110))
+	   (r (f fd)))
+      (tcp:close fd)
       r)))
 
 ;; [string]
@@ -1766,12 +1778,13 @@
     (send-synth fd "anonymous" u)
     (send fd (s-new0 "anonymous" -1 1 1))))
 
-;; ugen -> ()
-(define audition
-  (lambda (u)
-    (with-sc3
-     (lambda (fd)
-       (play fd u)))))
+;; ((socket -> a) -> a) -> (ugen -> ())
+(define audition-using
+  (lambda (f)
+    (lambda (u)
+      (f
+       (lambda (fd)
+	 (play fd u))))))
 
 ;; float
 (define dinf 
@@ -1787,3 +1800,8 @@
   (lambda (a b)
     (let ((r (/ b a)))
       (* (expt r (random 0 1)) a))))
+
+;; [a] -> a
+(define choose
+  (lambda (xs)
+    (list-ref xs (random-integer (length xs)))))
