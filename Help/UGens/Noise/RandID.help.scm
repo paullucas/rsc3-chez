@@ -1,10 +1,10 @@
-;; (RandID rate id)
+;; (rand-id rate id)
  
 ;; Choose which random number generator to use for this synth.  All
 ;; synths that use the same generator reproduce the same sequence of
 ;; numbers when the same seed is set again.
 
-;; See also: RandSeed.
+;; See also: rand-seed.
 
 ;; Graphs to generate noise in the context of a given RNG and to reset
 ;; a specified RNG.
@@ -14,13 +14,13 @@
    (send-synth
     fd "r"
     (letc ((out 0) (id 1))
-      (Mrg (RandID ir id)
-	   (Out out (Add (Mul (WhiteNoise ar) 0.05) (Dust2 ar 70))))))
+      (mrg2 (rand-id ir id)
+	    (out out (add (mul (white-noise ar) 0.05) (dust2 ar 70))))))
    (send-synth
     fd "s"
     (letc ((seed 1910) (id 1))
-      (Mrg (RandID kr id)
-	   (RandSeed kr (Impulse kr (MulAdd (FSinOsc kr 0.2 0) 10 11) 0) seed))))))
+      (mrg2 (rand-id kr id)
+	    (rand-seed kr (impulse kr (mul-add (fsin-osc kr 0.2 0) 10 11) 0) seed))))))
 
 ;; Start two noise synths on left and right channel with a different randgen id
 
@@ -37,7 +37,7 @@
 
 (with-sc3 (lambda (fd) (send fd (/n_set 1003 "id" 2))))
 
-;; Free noise nodes.
+;; free noise nodes.
 
 (with-sc3
  (lambda (fd)

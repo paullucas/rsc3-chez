@@ -2,7 +2,7 @@
 
 ;; Reciprocal.
 
-(let* ((a (Line ar -2 2 2 removeSynth))
+(let* ((a (line ar -2 2 2 remove-synth))
        (b (Recip a))
-       (f (MulAdd (Mce a b) 600 900)))
-  (Mul (SinOsc ar f 0) 0.1))
+       (f (mul-add (Mce a b) 600 900)))
+  (mul (sin-osc ar f 0) 0.1))

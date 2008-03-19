@@ -2,9 +2,9 @@
 
 (let ((insects
        (lambda (_)
-	 (let* ((n1 (BrownNoise ar))
-		(n2 (LFNoise2 kr 50))
-		(f (MulAdd n2 50 50))
-		(o (MulAdd (SinOsc kr f 0) 100 2000)))
-	   (Mul (BPF n1 o 0.001) 10)))))
-  (audition (Out 0 (mce/fill 2 insects))))
+	 (let* ((n1 (brown-noise ar))
+		(n2 (lfnoise2 kr 50))
+		(f (mul-add n2 50 50))
+		(o (mul-add (sin-osc kr f 0) 100 2000)))
+	   (mul (bpf n1 o 0.001) 10)))))
+  (audition (out 0 (mce-fill 2 insects))))

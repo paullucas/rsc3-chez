@@ -2,6 +2,6 @@
 
 ;; Negation.
 
-(let ((s (SinOsc ar 440 0)))
-  (Mce (Mul s 0.1)
-       (Add s (Neg s))))
+(let ((s (sin-osc ar 440 0)))
+  (Mce (mul s 0.1)
+       (add s (Neg s))))

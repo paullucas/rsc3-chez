@@ -2,4 +2,4 @@
 
 ;; Convert MIDI note to cycles per second.
 
-(Mul (Saw ar (MIDICPS (Line kr 24 108 10 removeSynth))) 0.2)
+(mul (saw ar (MIDICPS (line kr 24 108 10 remove-synth))) 0.2)

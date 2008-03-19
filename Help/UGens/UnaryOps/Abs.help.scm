@@ -2,4 +2,4 @@
 
 ;; Absolute value.
 
-(Abs (Mul (SyncSaw ar 100 440) 0.1))
+(Abs (mul (Syncsaw ar 100 440) 0.1))

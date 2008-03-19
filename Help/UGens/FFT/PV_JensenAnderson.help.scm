@@ -1,17 +1,17 @@
-;; (PV_JensenAndersen buffer propsc prophfe prophfc propsf threshold waittime)
+;; (pv-jensen-andersen buffer propsc prophfe prophfc propsf threshold waittime)
 
-;; FFT feature detector for onset detection based on work described in
+;; fft feature detector for onset detection based on work described in
 
 ;; Jensen,K. & Andersen, T. H. (2003). Real-time Beat Estimation Using
 ;; Feature Extraction.
 
-;; In Proceedings of the Computer Music Modeling and Retrieval
-;; Symposium, Lecture Notes in Computer Science. Springer Verlag.
+;; in Proceedings of the Computer Music Modeling and Retrieval
+;; Symposium, Lecture Notes in Computer Science. springer Verlag.
 
 ;; First order derivatives of the features are taken. Threshold may
 ;; need to be set low to pick up on changes.
 
-;; buffer - FFT buffer to read from.
+;; buffer - fft buffer to read from.
 
 ;; propsc - Proportion of spectral centroid feature.
 
@@ -35,10 +35,10 @@
    (->< fd (/b_alloc 0 2048 1))))
 
 (let* ((source (audio-in 1))
-       (detect (PV_JensenAndersen (FFT* 0 source)
+       (detect (pv-jensen-andersen (fft* 0 source)
 				  0.25 0.25 0.25 0.25
-				  (MouseX kr 0.01 1.0 1 0.1)
+				  (mouse-x kr 0.01 1.0 1 0.1)
 				  0.04)))
   (audition
-   (Out 0 (Mul (SinOsc ar (Mce 440 445) 0)
-	       (Decay (Mul 0.1 detect) 0.1)))))
+   (out 0 (mul (sin-osc ar (Mce 440 445) 0)
+	       (decay (mul 0.1 detect) 0.1)))))

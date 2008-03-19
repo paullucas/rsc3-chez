@@ -5,7 +5,7 @@
 (define (IsStrictlyPositive a)
   (GT a 0.0))
 
-(let* ((a (Line ar -1 1 1 removeSynth))
+(let* ((a (line ar -1 1 1 remove-synth))
        (b (IsStrictlyPositive a))
-       (f (MulAdd (mce2 a b) 600 900)))
-  (Mul (SinOsc ar f 0) 0.1))
+       (f (mul-add (mce2 a b) 600 900)))
+  (mul (sin-osc ar f 0) 0.1))

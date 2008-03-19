@@ -4,12 +4,12 @@
 ;; + b). This is more efficient than using separate unit generators
 ;; for the multiply and add.
 
-;; See also Mul, Ring1, Ring3, Ring4.
+;; See also mul, Ring1, Ring3, Ring4.
 
-(Mul (Ring2 (FSinOsc ar 800 0)
-	    (FSinOsc ar (XLine kr 200 500 5 doNothing) 0))
+(mul (Ring2 (fsin-osc ar 800 0)
+	    (fsin-osc ar (xline kr 200 500 5 do-nothing) 0))
      0.125)
 
-(let ((a (FSinOsc ar 800 0))
-      (b (FSinOsc ar (XLine kr 200 500 5 doNothing) 0)))
-  (Mul (Add* (Mul a b) a b) 0.125))
+(let ((a (fsin-osc ar 800 0))
+      (b (fsin-osc ar (xline kr 200 500 5 do-nothing) 0)))
+  (mul (add* (Mul a b) a b) 0.125))

@@ -1,10 +1,10 @@
-;; (Sub a b)
+;; (sub a b)
 
-;; Subtraction, written '-' in sclang.
+;; subtraction, written '-' in sclang.
 
 ;; Silence.
 
-(let ((z (FSinOsc ar 800 0)))
-  (Sub z z))
+(let ((z (fsin-osc ar 800 0)))
+  (sub z z))
 
 

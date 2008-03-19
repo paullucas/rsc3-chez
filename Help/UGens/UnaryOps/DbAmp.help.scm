@@ -2,5 +2,5 @@
 
 ;; Convert decibels to linear amplitude.
 
-(Mul (FSinOsc ar 800 0.0)
-     (DbAmp (Line kr -3 -40 10 removeSynth)))
+(mul (fsin-osc ar 800 0.0)
+     (DbAmp (line kr -3 -40 10 remove-synth)))

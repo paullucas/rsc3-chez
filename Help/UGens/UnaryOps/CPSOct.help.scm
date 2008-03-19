@@ -2,4 +2,4 @@
 
 ;; Convert cycles per second to decimal octaves.
 
-(Mul (Saw ar (OctCPS (CPSOct (XLine kr 600 900 6 removeSynth)))) 0.2)
+(mul (saw ar (OctCPS (CPSOct (xline kr 600 900 6 remove-synth)))) 0.2)

@@ -10,8 +10,8 @@
 ;; would otherwise be loaded.)
 
 (let* ((n 122)
-       (c (env/bp '(0 0 0.15 1 6 0) 1 1 '(1 1 1)))
-       (e (EnvGen kr 1 1 0 1 removeSynth c))
-       (f (lambda (o) (Mul (SinOsc ar (Add 440 o) 0) 0.001)))
-       (s (mix/fill n f)))
-  (audition (Out 0 (Mul s e))))
+       (c (env-bp '(0 0 0.15 1 6 0) 1 1 '(1 1 1)))
+       (e (env-gen kr 1 1 0 1 remove-synth c))
+       (f (lambda (o) (mul (sin-osc ar (add 440 o) 0) 0.001)))
+       (s (mix-fill n f)))
+  (audition (out 0 (mul s e))))

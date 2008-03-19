@@ -7,14 +7,14 @@
 ;; index - modulation index in radians.
 ;; modphase - a modulation input for the modulator's phase in radians
 
-(let* ((f (Line kr 600 900 5 removeSynth))
-       (o (Mul (pm-osc ar f 600 3 0) 0.1)))
-  (audition (Out 0 o)))
+(let* ((f (line kr 600 900 5 remove-synth))
+       (o (mul (pm-osc ar f 600 3 0) 0.1)))
+  (audition (out 0 o)))
 
-(let* ((mf (Line kr 600 900 5 removeSynth))
-       (o (Mul (pm-osc ar 300 mf 3 0) 0.1)))
-  (audition (Out 0 o)))
+(let* ((mf (line kr 600 900 5 remove-synth))
+       (o (mul (pm-osc ar 300 mf 3 0) 0.1)))
+  (audition (out 0 o)))
 
-(let* ((i (Line kr 0 20 8 removeSynth))
-       (o (Mul (pm-osc ar 300 550 i 0) 0.1)))
-  (audition (Out 0 o)))
+(let* ((i (line kr 0 20 8 remove-synth))
+       (o (mul (pm-osc ar 300 550 i 0) 0.1)))
+  (audition (out 0 o)))

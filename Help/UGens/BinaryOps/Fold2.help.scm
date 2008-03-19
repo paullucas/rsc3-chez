@@ -1,6 +1,6 @@
-;; (Fold2 a b)
+;; (fold2 a b)
 
-;; Bilateral folding.  Folds a to +/- b.
+;; Bilateral folding.  folds a to +/- b.
 
-(Fold2 (FSinOsc ar 1000 0)
-       (Line kr 0 1 8 doNothing))
+(fold2 (fsin-osc ar 1000 0)
+       (line kr 0 1 8 do-nothing))
