@@ -1,10 +1,17 @@
-(module rsc3 scheme/base
-(require mzlib/include)
-(require rhs/plt/rhs)
-(require sosc/plt/sosc)
+(module rsc3 rhs/plt/empty
 (provide (all-defined-out))
-(define div quotient)
-;(define mod modulo)
-(define random-real random)
+(require mzlib/include)
+(require rnrs/base-6
+	 rnrs/bytevectors-6
+	 rnrs/lists-6
+	 rnrs/records/syntactic-6
+	 rnrs/io/simple-6
+	 (except-in rnrs/io/ports-6
+		    current-output-port
+		    current-input-port
+		    current-error-port))
+(require rhs/r6rs/rhs)
+(require sosc/plt/sosc)
+(require srfi/27)
 (include "../src/rsc3.scm")
 )
