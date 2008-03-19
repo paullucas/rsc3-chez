@@ -5,7 +5,7 @@
 
 (with-sc3
  (lambda (fd)
-   (async fd (/b_allocRead 0 "/home/rohan/audio/metal.wav" 0 0))))
+   (async fd (b-alloc-read 0 "/home/rohan/audio/metal.wav" 0 0))))
 
 (let* ((r (mul (rand 0.5 2) (buf-rate-scale kr 0)))
        (p (phasor ar 0 r 0 (buf-frames kr 0) 0)))

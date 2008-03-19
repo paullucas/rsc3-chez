@@ -7,6 +7,6 @@
 
 (audition (out 0 (audio-in 1)))
 
-(audition (out 0 (audio-in (Mce 1 2))))
+(audition (out 0 (audio-in (mce2 1 2))))
 
-(audition (out 0 (audio-in (Mce 1 3 2 4))))
+(audition (out 0 (audio-in (mce4 1 3 2 4))))

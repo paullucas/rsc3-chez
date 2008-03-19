@@ -4,4 +4,4 @@
 ;; The user is responsible for making sure that the number of channels
 ;; match and that there are no conflicts.
 
-(audition (out 0 (mul (sin-osc ar (Mce 330 331) 0) 0.1)))
+(audition (out 0 (mul (sin-osc ar (mce2 330 331) 0) 0.1)))

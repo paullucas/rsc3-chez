@@ -227,6 +227,11 @@
   (lambda (a b c)
     (make-mrg a (make-mrg b c))))
 
+;; ugen -> ugen -> ugen -> ugen -> mrg
+(define mrg4
+  (lambda (a b c d)
+    (make-mrg a (make-mrg b (make-mrg c d)))))
+
 ;; rate -> output
 (define-record-type output
   (fields rate))
@@ -780,7 +785,7 @@
 (define-unary-operator neg 0 -)
 (define-unary-operator u:not 1 #f)
 (define-unary-operator not-nil 3 #f)
-(define-unary-operator oct-cps 23 s:octcps)
+(define-unary-operator octcps 23 s:octcps)
 (define-unary-operator rand2 38 #f)
 (define-unary-operator ratio-midi 20 ratiomidi)
 (define-unary-operator recip 16 s:recip)
