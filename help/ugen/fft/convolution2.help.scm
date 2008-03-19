@@ -22,7 +22,7 @@
  (lambda (fd)
    (for-each
     (lambda (b) 
-      (async fd (/b_alloc b 2048 1)))
+      (async fd (b-alloc b 2048 1)))
     (list 10 11 12))
    (for-each (lambda (n) (send fd (/b_set 10 (+ (* 400 n) 100) 1))) (iota 3))
    (for-each (lambda (n) (send fd (/b_set 11 (+ (* 20 n) 10) (rand 0 1)))) (iota 50))
@@ -56,7 +56,7 @@
 
 ;; With soundfile.
 
-(async-to (/b_allocRead 10 "/home/rohan/audio/metal.wav" 0 0))
+(async-to (b-allocRead 10 "/home/rohan/audio/metal.wav" 0 0))
 
-(let ((i (audio-in (Mce 1))))
+(let ((i (audio-in (mce2 1))))
   (audition (out 0 (mul (convolution2 i 10 0 512) 0.5))))

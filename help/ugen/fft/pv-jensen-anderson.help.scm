@@ -32,7 +32,7 @@
 
 (with-sc3
  (lambda (fd)
-   (->< fd (/b_alloc 0 2048 1))))
+   (async fd (b-alloc 0 2048 1))))
 
 (let* ((source (audio-in 1))
        (detect (pv-jensen-andersen (fft* 0 source)
@@ -40,5 +40,5 @@
 				  (mouse-x kr 0.01 1.0 1 0.1)
 				  0.04)))
   (audition
-   (out 0 (mul (sin-osc ar (Mce 440 445) 0)
+   (out 0 (mul (sin-osc ar (mce2 440 445) 0)
 	       (decay (mul 0.1 detect) 0.1)))))

@@ -6,8 +6,8 @@
 
 (with-sc3
  (lambda (fd)
-   (->< fd (/b_alloc 10 2048 1))))
+   (async fd (b-alloc 10 2048 1))))
 
 (let ((x (mouse-x kr -1 1 0 0.1))
       (c (fft* 10 (mul (white-noise ar) 0.2))))
-  (audition (out 0 (Ifft* (pv-brick-wall c x)))))
+  (audition (out 0 (ifft* (pv-brick-wall c x)))))

@@ -29,7 +29,7 @@
 
 (define noise-phase
   (lambda (m p _)
-    (list m (range (lfnoise0 kr 3) 0 3.14))))
+    (list m (lin-lin (lfnoise0 kr 3) -1 1 0 3.14))))
 
 (define combf
   (lambda (m p i)
@@ -37,25 +37,25 @@
 
 (define noise-mag
   (lambda (m p _)
-    (list (mul (GT (lfnoise0 kr 10) 0) m) p)))
+    (list (mul (gt (lfnoise0 kr 10) 0) m) p)))
 
 (define spectral-delay
   (lambda (m p _)
-    (let ((v (range (lfpar kr 0.5 0) 0.1 1)))
+    (let ((v (lin-lin (lfpar kr 0.5 0) -1 1 0.1 1)))
       (list (add m (delay-n m 1 v)) p))))
 
 (define (bpf-sweep nf)
   (lambda (m p i)
-    (let ((e (Abs (sub i (range (lfpar kr 0.1 0) 2 (/ nf 20))))))
-      (list (mul (LT e 10) m) p))))
+    (let ((e (u:abs (sub i (lin-lin (lfpar kr 0.1 0) -1 1 2 (/ nf 20))))))
+      (list (mul (lt e 10) m) p))))
 
 (with-sc3
  (lambda (fd)
-   (async fd (/b_alloc 10 1024 1))
-   (async fd (/b_allocRead 11 "/home/rohan/audio/metal.wav" 0 0))))
+   (async fd (b-alloc 10 1024 1))
+   (async fd (b-alloc-read 11 "/home/rohan/audio/metal.wav" 0 0))))
 
 (let* ((nf 1024)
        (i (play-buf 1 11 (buf-rate-scale kr 11) 1 0 1))
        (c1 (fft* 10 i))
        (c2 (pvcollect c1 nf spectral-delay 0 250 0)))
-  (audition (out 0 (mul 0.1 (Ifft* c2)))))
+  (audition (out 0 (mul 0.1 (ifft* c2)))))

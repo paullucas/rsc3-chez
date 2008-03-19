@@ -37,7 +37,7 @@
 
 (with-sc3
  (lambda (fd)
-   (->< fd (/b_alloc 0 2048 1))))
+   (async fd (b-alloc 0 2048 1))))
 
 (let* ((source (audio-in 1))
        (detect (pv-hainsworth-foote (fft* 0 source) 
@@ -46,7 +46,7 @@
 				   (mouse-x kr 0.01 1.0 1 0.1)
 				   0.04)))
   (audition
-   (out 0 (mul* (sin-osc ar (Mce 440 445) 0)
+   (out 0 (mul3 (sin-osc ar (mce2 440 445) 0)
 		(decay (mul 0.1 detect) 0.1)
 		0.1))))
 
@@ -61,7 +61,7 @@
        (cmp (mul (sin-osc ar 440 0)
 		 (decay (mul 0.1 dtc) 0.1))))
   (audition 
-   (out 0 (mul (Mce src cmp) 0.1))))
+   (out 0 (mul (mce2 src cmp) 0.1))))
 
 ;; Just Foote metric.  Foote never triggers with threshold over 1.0,
 ;; threshold under mouse control.
@@ -75,6 +75,6 @@
        (cmp (mul (sin-osc ar 440 0)
 		 (decay (mul 0.1 dtc) 0.1))))
   (audition 
-   (out 0 (mul (Mce src cmp) 0.1))))
+   (out 0 (mul (mce2 src cmp) 0.1))))
 
   

@@ -5,7 +5,7 @@
 
 (with-sc3
  (lambda (fd)
-   (->< fd (/b_alloc 10 2048 1))))
+   (async fd (b-alloc 10 2048 1))))
 
 (let ((n (mul (white-noise ar) 0.1)))
-  (audition (out 0 (Ifft* (pv-phase-shift270 (fft* 10 n))))))
+  (audition (out 0 (ifft* (pv-phase-shift270 (fft* 10 n))))))

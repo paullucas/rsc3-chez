@@ -33,17 +33,17 @@
 
 (with-sc3
  (lambda (fd)
-   (send fd (/b_alloc 10 512 1))))
+   (send fd (b-alloc 10 512 1))))
 
 (let* ((n 100)
        (n* (enum-from-to 1 n))
        (m1 (map (lambda (_) (range (fsin-osc kr (exp-rand 0.1 1) 0) 0 1)) n*))
        (square (lambda (a) (* a a)))
        (m2 (map mul m1 (map square (iota n 1.0 (- (/ 1.0 n))))))
-       (i (map (lambda (_) (lfpulse kr (Pow 2 (irand -3 5)) 0 0.3)) n*))
+       (i (map (lambda (_) (lfpulse kr (pow 2 (irand -3 5)) 0 0.3)) n*))
        (m3 (map mul m2 i))
        (p (replicate n 0.0))
        (c1 (fft* 10 (fsin-osc ar 440 0)))
-       (c2 (Packfft c1 512 0 (- n 1) 1 (packfft-data m3 p)))
-       (s (Ifft* c2)))
-  (audition (out 0 (Mce s s))))
+       (c2 (pack-fft c1 512 0 (- n 1) 1 (packfft-data m3 p)))
+       (s (ifft* c2)))
+  (audition (out 0 (mce2 s s))))

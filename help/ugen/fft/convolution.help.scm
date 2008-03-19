@@ -9,7 +9,7 @@
 ;; framesize - size of fft frame, must be a power of two
 
 (audition
- (let ((input (audio-in (Mce 1 2)))
+ (let ((input (audio-in (mce2 1 2)))
        (kernel (white-noise ar)))
    (mul (convolution input kernel 2048) 0.1)))
 
@@ -17,13 +17,11 @@
       (b 0))
   (with-sc3
    (lambda (fd)
-     (async fd (/b_alloc b a 1))
-     (send fd (/b_set b 0 1.0))
-     (for-each (lambda (_) 
-		 (send fd (/b_set b (randi 0 a) (rand 0.0 1.0))))
-	       (enum-from-to 1 100))))
-  (audition (mul (convolution 
-		  (audio-in (Mce 1 2)) 
-		  (play-buf 1 b (buf-rate-scale kr b) 1 0 1)
-		  (* 2 a))
-		 0.2)))
+     (async fd (b-alloc b a 1))
+     (send fd (b-set1 b 0 1.0))
+     (replicate-m 100 (send fd (b-set1 b (random-integer a) (random 0.0 1.0))))
+     (play fd (mul (convolution 
+		    (audio-in (mce2 1 2)) 
+		    (play-buf 1 b (buf-rate-scale kr b) 1 0 1)
+		    (* 2 a))
+		   0.2)))))
