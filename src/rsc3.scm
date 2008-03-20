@@ -354,14 +354,6 @@
 	    (integer? s)
 	    (uid? d))))))
 
-;; ugen -> ugen
-(define uniquify
-  (lambda (u)
-    (ugen-transform
-     u
-     (lambda (n r i o s d)
-       (make-ugen n r i o s (unique-uid))))))
-
 ;; int -> (() -> ugen) -> mce
 (define clone*
   (lambda (n f)
