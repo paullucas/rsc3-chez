@@ -583,6 +583,11 @@
   (lambda (u)
     (make-mce (reverse (mce-channels u)))))
 
+;; mce -> mce
+(define mce-transpose
+  (lambda (u)
+    (make-mce (map make-mce (transpose (map mce-channels (mce-channels u)))))))
+
 ;; node -> bool
 (define mce-required?
   (lambda (u)
