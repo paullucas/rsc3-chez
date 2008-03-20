@@ -33,7 +33,27 @@
 	  (list1 n)
 	  (cons n (dx->d (f (head i) n) (tail i)))))))
 
-;; number a => a -> a -> a -> a
+;; ord a => a -> a -> a
+(define s:lt
+  (lambda (p q)
+    (if (< p q) 1 0)))
+
+;; ord a => a -> a -> a
+(define s:le
+  (lambda (p q)
+    (if (<= p q) 1 0)))
+
+;; ord a => a -> a -> a
+(define s:ge
+  (lambda (p q)
+    (if (>= p q) 1 0)))
+
+;; ord a => a -> a -> a
+(define s:gt
+  (lambda (p q)
+    (if (> p q) 1 0)))
+
+;; ord a => a -> a -> a -> a
 (define s:clip
   (lambda (a b n) 
     (cond ((< n a) a)
@@ -826,14 +846,14 @@
 (define-binary-operator first-arg 46 #f)
 (define-binary-operator fold2 44 #f)
 (define-binary-operator u:gcd 18 #f)
-(define-binary-operator ge 11 #f)
-(define-binary-operator gt 9 #f)
+(define-binary-operator ge 11 s:ge)
+(define-binary-operator gt 9 s:gt)
 (define-binary-operator hypot 23 #f)
 (define-binary-operator hypotx 24 #f)
 (define-binary-operator idiv 3 #f)
 (define-binary-operator u:lcm 17 #f)
-(define-binary-operator le 10 #f)
-(define-binary-operator lt 8 #f)
+(define-binary-operator le 10 s:le)
+(define-binary-operator lt 8 s:lt)
 (define-binary-operator u:max 13 max)
 (define-binary-operator u:min 12 min)
 (define-binary-operator u:mod 5 #f)
