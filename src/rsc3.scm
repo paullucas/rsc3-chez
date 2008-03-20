@@ -1633,14 +1633,14 @@
   (lambda (shape skew dur amp)
     (let* ((x1 (mul skew (sub 1.0 shape)))
 	   (bp (list 0
-		     (if (le skew 0.0) 1.0 0.0)
+		     (le skew 0.0)
 		     x1
 		     1.0
 		     (add shape x1)
 		     1.0
 		     1.0
-		     (if (ge skew 1.0) 1.0 0.0))))
-      (env-bp bp dur amp (replicate 4 "linear")))))
+		     (ge skew 1.0))))
+      (env-bp bp dur amp (replicate 3 "linear")))))
 
 (define env-triangle
   (lambda (dur level)
