@@ -37,6 +37,13 @@
 ;; The break-point assistant makes a static envelope from a
 ;; co-ordinate list.  There is a duration and amplitude scalar.
 
-(let* ((d (env/bp (list 0 0 1/2 1 1 0) 1 1 (replicate 3 "linear")))
+(let* ((d (env-bp (list 0 0 3/4 1 1 0) 1 1 (replicate 3 "linear")))
        (e (env-gen kr 1 0.1 0 1 remove-synth d)))
   (audition (out 0 (mul e (sin-osc ar 440 0)))))
+
+;; Trapezoidal
+
+(let* ((d (env-trapezoid 0 0.25 2 0.1))
+       (e (env-gen kr 1 0.1 0 1 remove-synth d)))
+  (audition (out 0 (mul e (sin-osc ar 440 0)))))
+
