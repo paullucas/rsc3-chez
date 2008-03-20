@@ -1,4 +1,4 @@
-;; (inFeedback numChannels bus)
+;; (in-feedback num-channels bus)
 
 ;; Read signal from a bus without erasing it, audio rate.
 
@@ -25,30 +25,32 @@
 
 ;; Audio feedback modulation.
 
-(let ((f (mul-add (inFeedback 1 0) 1300 300)))
+(let ((f (mul-add (in-feedback 1 0) 1300 300)))
   (audition (out 0 (mul (sin-osc ar f 0) 0.4))))
 
 ;; Evaluate these in either order and hear both tones.
 
-(let ((b (add NuminputBuses NumoutputBuses)))
-  (audition (out 0 (inFeedback 1 b))))
+(let ((b (add num-input-buses num-output-buses)))
+  (audition (out 0 (in-feedback 1 b))))
 
-(let ((b (add NuminputBuses NumoutputBuses)))
-  (audition (Mrg (out b (mul (sin-osc ar 440 0) 0.1))
-		 (out 0 (mul (sin-osc ar 660 0) 0.1)))))
+(let ((b (add num-input-buses num-output-buses)))
+  (audition (mrg2 (out b (mul (sin-osc ar 440 0) 0.1))
+		  (out 0 (mul (sin-osc ar 660 0) 0.1)))))
 
 ;; Doubters consult this.
 
-(let ((b (add NuminputBuses NumoutputBuses)))
+(let ((b (add num-input-buses num-output-buses)))
   (audition (out 0 (in 1 ar b))))
 
 ;; Resonator, see localout for variant.
 
-(let* ((b (add NuminputBuses NumoutputBuses))
-       (p (inFeedback 1 b))
+(let* ((b (add num-input-buses num-output-buses))
+       (p (in-feedback 1 b))
        (i (impulse ar 1 0))
-       (d (delay-c (add i (mul p 0.995)) 1 (sub (Recip 440) (Recip control-rate)))))
-  (audition (Mrg (offset-out b d) (Offsetout 0 p))))
+       (d (delay-c (add i (mul p 0.995)) 
+		   1 
+		   (sub (recip 440) (recip control-rate)))))
+  (audition (mrg2 (offset-out b d) (offset-out 0 p))))
 
 ;; Compare with oscillator.
 

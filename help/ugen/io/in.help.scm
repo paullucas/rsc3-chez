@@ -1,4 +1,4 @@
-;; (in numChannels rate bus)
+;; (in num-channels rate bus)
 
 ;; Read signal from an audio or control bus.
  
@@ -13,23 +13,13 @@
 
 ;; Write noise to bus 10, then read it out.  The Mrg is ordered.
 
-(audition (Mrg (out 0 (in 1 ar 10))
-	       (out 10 (mul (pink-noise ar) 0.3))))
+(audition (mrg2 (out 0 (in 1 ar 10))
+		(out 10 (mul (pink-noise ar) 0.3))))
 
 ;; Reading a control bus.
 
 (with-sc3
  (lambda (fd)
-   (send fd (/c_set 0 (rand 200 5000)))))
+   (send fd (c-set1 0 (random 200 5000)))))
 
 (audition (out 0 (mul (sin-osc ar (in 1 kr 0) 0) 0.1)))
-
-(with-sc3 
- (lambda (fd) 
-   (at Q 
-       (utc)
-       (lambda (t f)
-	 (send fd (/c_set 0 (rand 200 5000)))
-	 (f 0.06)))
-   (sleep 4)
-   (schedule-clear Q)))
