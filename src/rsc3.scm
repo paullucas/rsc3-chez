@@ -362,11 +362,14 @@
      (lambda (n r i o s d)
        (make-ugen n r i o s (unique-uid))))))
 
-;; int -> ugen -> mce
-(define clone
-  (lambda (n u)
-    (make-mce
-     (map (lambda (_) (uniquify u)) (enum-from-to 1 n)))))
+;; int -> (() -> ugen) -> mce
+(define clone*
+  (lambda (n f)
+    (make-mce (replicate-m* n f))))
+
+(define-syntax clone
+  (syntax-rules ()
+    ((_ n u) (make-mce (replicate-m n u)))))
 
 ;; control -> [bytevector]
 (define encode-control
