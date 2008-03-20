@@ -31,7 +31,7 @@
 
 (with-sc3
  (lambda (fd)
-   (async fd (/b_allocRead 10 "/home/rohan/audio/metal.wav" 0 0))
+   (async fd (b-alloc-read 10 "/home/rohan/audio/metal.wav" 0 0))
    (let ((g (letc ((gate 1)
 		   (amp 1)
 		   (sndbuf 0)
@@ -39,8 +39,8 @@
 	      (let* ((x (mouse-x kr -1 1 0 0.1))
 		     (y (mouse-y kr 10 45 0 0.1))
 		     (i (impulse kr y 0))
-		     (r (range (lfnoise1 kr 500) 0.5 2))
-		     (p (range (lfnoise2 kr 0.1) 0 1)))
+		     (r (lin-lin (lfnoise1 kr 500) -1 1 0.5 2))
+		     (p (lin-lin (lfnoise2 kr 0.1) -1 1 0 1)))
 		(out 0 (grain-buf 2 i 0.1 sndbuf r p 2 x envbuf))))))
-     (async fd (/d_recv (graphdef->u8l (synthdef "g" g))))
-     (send fd (/s_new "g" -1 add-to-tail 1 "sndbuf" 10 "envbuf" -1)))))
+     (send-synth fd "g" g)
+     (send fd (s-new2 "g" -1 add-to-tail 1 "sndbuf" 10 "envbuf" -1)))))
