@@ -1274,6 +1274,14 @@
 (define pause-synth 1)
 (define remove-synth 2)
 
+;; int
+(define no-loop 0)
+(define loop 1)
+
+;; int
+(define linear 0)
+(define exponential 1)
+
 (define quit
   (message "/quit" nil))
 
