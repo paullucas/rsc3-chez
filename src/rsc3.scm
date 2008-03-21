@@ -148,7 +148,7 @@
   (lambda (degree scale steps)
     (let ((scale-n (length scale)))
       (+ (* steps (div degree scale-n))
-	 (list-ref scale (mod degree scale-n))))))
+	 (list-ref scale (exact (mod degree scale-n)))))))
 
 ;; int -> [any] -> [any]
 (define without
