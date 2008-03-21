@@ -1,4 +1,4 @@
-;; (Tduty rate duration reset doneAction level)
+;; (t-duty rate duration reset doneAction level)
 
 ;; demand results as trigger from demand rate ugens.
 
@@ -15,7 +15,7 @@
 ;; duration   - time values. Can be a demand ugen or any signal.
 ;; 	        The next trigger value is acquired after the
 ;;              duration provided by the last time value.
-		
+
 ;; reset      - trigger or reset time values. Resets the list of ugens
 ;;              and the duration ugen when triggered. The reset input 
 ;;              may also be a demand ugen, providing a stream of reset 
@@ -29,20 +29,20 @@
 ;; Play a little rhythm
 
 (let ((s (dseq dinf (make-mce (list 0.1 0.2 0.4 0.3)))))
-  (audition (out 0 (tduty ar s 0 0 1))))
+  (audition (out 0 (t-duty ar s 0 0 1))))
 
 ;; Amplitude changes
 
-(let ((t (tduty ar 
-		(dseq dinf (make-mce (list 0.1 0.2 0.4 0.3)))
-		0
-		0
-		(dseq dinf (make-mce (list 0.1 0.4 0.01 0.5 1.0))))))
+(let ((t (t-duty ar 
+		 (dseq dinf (make-mce (list 0.1 0.2 0.4 0.3)))
+		 0
+		 0
+		 (dseq dinf (make-mce (list 0.1 0.4 0.01 0.5 1.0))))))
   (audition (out 0 (ringz t 1000 0.1))))
 
-(let ((t (tduty ar
-		(mouse-x kr 0.001 2 1 0.1)
-		0
-		0
-		(dseq dinf (make-mce (list 0.1 0.4 0.01 0.5 1.0))))))
+(let ((t (t-duty ar
+		 (mouse-x kr 0.001 2 1 0.1)
+		 0
+		 0
+		 (dseq dinf (make-mce (list 0.1 0.4 0.01 0.5 1.0))))))
   (audition (out 0 (ringz t 1000 0.1))))

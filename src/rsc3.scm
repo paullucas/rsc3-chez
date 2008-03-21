@@ -1122,7 +1122,7 @@
 (define-oscillator* duty "Duty" (dur reset done-action level) 1)
 (define-oscillator* env-gen "EnvGen" (gate level-scale level-bias time-scale done-action envelope-array) 1)
 (define-oscillator* klang "Klang" (freqscale freqoffset spec-array) 1)
-(define-oscillator* t-duty "TDuty" (dur reset done-action level) 1)
+(define-oscillator* t-duty "TDuty" (dur reset done-action level gap) 1)
 
 (define-oscillator-id brown-noise "BrownNoise" () 1)
 (define-oscillator-id clip-noise "ClipNoise" () 1)
