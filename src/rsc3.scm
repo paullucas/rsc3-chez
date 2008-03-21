@@ -1139,7 +1139,7 @@
 (define-oscillator-id lf-noise2 "LFNoise2" (freq) 1)
 (define-oscillator-id noah-noise "NoahNoise" () 1)
 (define-oscillator-id pink-noise "PinkNoise" () 1)
-(define-oscillator-id rand-id "RandId" (id) 1)
+(define-oscillator-id rand-id "RandID" (id) 1)
 (define-oscillator-id rand-seed "RandSeed" (trig seed) 1)
 (define-oscillator-id white-noise "WhiteNoise" () 1)
 
