@@ -82,17 +82,17 @@ expression to do this is written below.  To evaluate an expression
 move the cursor to the closing parenthesis and type C-cC-e (Scheme
 SuperCollider -> Expression -> Evaluate).
 
-> (with-sc3 (lambda (fd) (send fd (/g_new1 1 addToTail 0))))
+> (with-sc3 (lambda (fd) (send fd (g-new1 1 add-to-tail 0))))
 
 We can then audition a quiet sine oscillator at A440.
 
-> (audition (Out 0 (Mul (SinOsc ar 440 0) 0.1)))
+> (audition (out 0 (mul (sin-osc ar 440 0) 0.1)))
 
 To stop the sound we can delete the group it is a part of, the
 audition function places the synthesis node into the group node with
 ID 1, the expression below deletes that group.
 
-> (with-sc3 (lambda (fd) (send fd (/n_free1 1))))
+> (with-sc3 (lambda (fd) (send fd (n-free1 1))))
 
 In order to audition another graph we need to re-create a group with
 ID 1.  Sound.SC3 includes a function 'reset' that sequences these two
@@ -105,7 +105,7 @@ Using this command is so common there is a keybinding for it, C-cC-k
 (Scheme SuperCollider -> SCSynth -> Reset scsynth).  After a reset we
 can audition a new graph.
 
-> (audition (Out 0 (Mul (SinOsc ar 220 0) 0.1)))
+> (audition (out 0 (mul (sin-osc ar 220 0) 0.1)))
 
 To see the server status type C-cC-w (Scheme SuperCollider -> SCSynth
 -> Display status), which sends:
@@ -130,9 +130,9 @@ window.
 Multiple line expressions are evaluated using the same mechanism as
 single line expressions.  
 
-> (let* ((f1 (XLine kr 1 1000 9 removeSynth))
->        (f2 (MulAdd (SinOsc ar f1 0) 200 800)))
->   (audition (Out 0 (Mul (SinOsc ar f2 0) 0.1))))
+> (let* ((f1 (x-line kr 1 1000 9 remove-synth))
+>        (f2 (mul-add (sin-osc ar f1 0) 200 800)))
+>   (audition (out 0 (mul (sin-osc ar f2 0) 0.1))))
 
 * Help Files
 
@@ -161,11 +161,11 @@ To monitor what OSC messages scsynth is receiving use the 'dumpOSC'
 server command to request that scsynth print text traces of incoming
 messages to its standard output.
 
-> (with-sc3 (lambda (fd) (send fd (/dumpOSC 1))))
+> (with-sc3 (lambda (fd) (send fd (dump-osc 1))))
 
 To end printing send:
 
-> (with-sc3 (lambda (fd) (send fd (/dumpOSC 0))))
+> (with-sc3 (lambda (fd) (send fd (dump-osc 0))))
 
 * References
 
