@@ -238,6 +238,15 @@
 (define-record-type mrg
   (fields left right))
 
+;; [ugen] -> mrg
+(define mrg-n
+  (lambda (xs)
+    (if (null? xs)
+	(undefined)
+	(if (null? (tail xs))
+	    (head xs)
+	    (mrg2 (head xs) (mrg-n (tail xs)))))))
+
 ;; ugen -> ugen -> mrg
 (define mrg2
   make-mrg)
