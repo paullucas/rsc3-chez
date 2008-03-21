@@ -1,4 +1,4 @@
-;; (t-duty rate duration reset doneAction level)
+;; (t-duty rate duration reset doneAction level gap)
 
 ;; demand results as trigger from demand rate ugens.
 
@@ -29,7 +29,7 @@
 ;; Play a little rhythm
 
 (let ((s (dseq dinf (make-mce (list 0.1 0.2 0.4 0.3)))))
-  (audition (out 0 (t-duty ar s 0 0 1))))
+  (audition (out 0 (t-duty ar s 0 0 1 0))))
 
 ;; Amplitude changes
 
@@ -37,12 +37,14 @@
 		 (dseq dinf (make-mce (list 0.1 0.2 0.4 0.3)))
 		 0
 		 0
-		 (dseq dinf (make-mce (list 0.1 0.4 0.01 0.5 1.0))))))
+		 (dseq dinf (make-mce (list 0.1 0.4 0.01 0.5 1.0)))
+		 0)))
   (audition (out 0 (ringz t 1000 0.1))))
 
 (let ((t (t-duty ar
 		 (mouse-x kr 0.001 2 1 0.1)
 		 0
 		 0
-		 (dseq dinf (make-mce (list 0.1 0.4 0.01 0.5 1.0))))))
+		 (dseq dinf (make-mce (list 0.1 0.4 0.01 0.5 1.0)))
+		 0)))
   (audition (out 0 (ringz t 1000 0.1))))

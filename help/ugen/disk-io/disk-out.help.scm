@@ -7,34 +7,39 @@
 
 (let ((bus-size 1024)
       (bufferexpt 15))
-  (= 0 (bitwise-and (expt 2 bufferexpt)
-		    (- (arithmetic-shift bus-size 1) 1))))
+  (= 0 (fxand (expt 2 bufferexpt)
+	      (- (fxarithmetic-shift bus-size 1) 1))))
 
-(let ((b 10)
-      (n 100)
-      (t 10)
-      (g (letc ((bufnum 0))
+(let ((g (letc ((bufnum 0))
 	   (let ((z (clip2
-		     (Rlpf (lf-pulse ar (mul-add (sin-osc kr 0.2 0) 10 21)
-				    (Mce 0 0.1) 0.1) 100 0.1) 0.4)))
-	     (Mrg (disk-out bufnum z)
-		  (out 0 z))))))
+		     (rlpf 
+		      (lf-pulse ar 
+				(mul-add (sin-osc kr 0.2 0) 10 21)
+				(mce2 0 0.1) 
+				0.1) 
+		      100 
+		      0.1) 
+		     0.4)))
+	     (mrg2 (disk-out bufnum z)
+		   (out 0 z))))))
   (with-sc3
    (lambda (fd)
-     (->< fd (/d_recv (graphdef->u8l (synthdef "disk-out-Help" g))))
-     (->< fd (/b_alloc b 32768 2))
-     (->< fd (/b_write b
+     (send-synth fd "disk-out-help" g)
+     (async fd (b-alloc 10 32768 2))
+     (async fd (b-write 10
 		       "/tmp/test.aiff"
 		       "aiff"
 		       "float"
 		       32768
 		       0
 		       1))
-     (-> fd (/s_new "disk-out-Help" n 1 1 "bufnum" b))
-     (sleep t)
-     (-> fd (/n_free n))
-     (->< fd (/b_close b))
-     (->< fd (/b_free b)))))
+     (send fd (s-new1 "disk-out-help" 1001 1 1 "bufnum" 10)))))
+
+(with-sc3
+ (lambda (fd)
+   (send fd (n-free1 1001))
+   (async fd (b-close 10))
+   (async fd (b-free 10))))
 
 (system "sndfile-info /tmp/test.aiff")
 (system "jack.play /tmp/test.aiff")
