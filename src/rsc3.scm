@@ -1570,6 +1570,7 @@
 (define server-sample-rate-actual
   (lambda (s)
     (server-status-field s 9)))
+
 ;; string|number -> number
 (define curve-to-shape
   (lambda (c)
@@ -1578,8 +1579,8 @@
       (cond ((string=? c "step") 0.0)
 	    ((string=? c "linear") 1.0)
 	    ((string=? c "exponential") 2.0)
-	    ((string=? c "sin") 3.0)
-	    ((string=? c "cos") 4.0)
+	    ((string=? c "sine") 3.0)
+	    ((string=? c "welch") 4.0)
 	    ((string=? c "squared") 6.0)
 	    ((string=? c "cubed") 7.0)
 	    (else (error "curve-to-shape" "string" c))))
@@ -1664,7 +1665,7 @@
     (let ((half-dur (mul dur 0.5)))
       (env (list 0.0 level 0.0)
 	   (list half-dur half-dur)
-	   (list "sin" "sin")
+	   (list "sine" "sine")
 	   -1
 	   -1))))
 
@@ -1838,3 +1839,4 @@
 (define choose
   (lambda (xs)
     (list-ref xs (random-integer (length xs)))))
+
