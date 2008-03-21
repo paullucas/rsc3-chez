@@ -239,7 +239,7 @@ The symbol at point is preprocessed by `rsc3-cleanup-symbol'."
 (defun rsc3-mode-keybindings (map)
   "Install rsc3 keybindings into `map'."
   ;; Scheme
-  (define-key map "\\" 'rsc3-insert-lambda)
+  (define-key map "\C-\\" 'rsc3-insert-lambda)
   (define-key map "\C-c\C-s" 'rsc3-start-scheme)
   (define-key map "\C-c\C-g" 'rsc3-see-output)
   (define-key map "\C-c\C-q" 'rsc3-clear-schedule)
