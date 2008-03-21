@@ -6,11 +6,15 @@
 ;; in   - input signal to be processed
 ;; coef - feedback coefficient. Should be between -1 and +1
 
-(one-pole (mul (white-noise ar) 0.5) 0.95)
+(audition
+ (out 0 (one-pole (mul (white-noise ar) 0.5) 0.95)))
 
-(one-pole (mul (white-noise ar) 0.5) -0.95)
+(audition
+ (out 0 (one-pole (mul (white-noise ar) 0.5) -0.95)))
 
-(one-pole (mul (white-noise ar) 0.5) (line kr -0.99 0.99 10 remove-synth))
+(audition
+ (out 0 (one-pole (mul (white-noise ar) 0.5) 
+		  (line kr -0.99 0.99 10 remove-synth))))
 
 
 

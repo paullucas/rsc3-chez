@@ -9,4 +9,4 @@
 
 (let ((n (line kr 24 108 6 remove-synth)))
   (audition
-   (out 0 (mul (saw ar (midicps (u:round n 1))) 0.2))))
+   (out 0 (mul (saw ar (midi-cps (u:round n 1))) 0.2))))

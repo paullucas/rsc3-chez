@@ -7,11 +7,11 @@
 ;; See also mul, Ring1, Ring3, Ring4.
 
 (audition
- (out 0 (mul (ring2 (fsin-osc ar 800 0)
-		    (fsin-osc ar (xline kr 200 500 5 do-nothing) 0))
+ (out 0 (mul (ring2 (f-sin-osc ar 800 0)
+		    (f-sin-osc ar (x-line kr 200 500 5 do-nothing) 0))
 	     0.125)))
 
-(let ((a (fsin-osc ar 800 0))
-      (b (fsin-osc ar (xline kr 200 500 5 do-nothing) 0)))
+(let ((a (f-sin-osc ar 800 0))
+      (b (f-sin-osc ar (x-line kr 200 500 5 do-nothing) 0)))
   (audition
    (out 0 (mul (add3 (mul a b) a b) 0.125))))

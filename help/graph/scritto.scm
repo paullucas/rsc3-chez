@@ -34,16 +34,16 @@
 (define (voice-tr i t fr amr bwr)
   (mix (v-filter 
 	i
-	(mul (in 5 kr 0)  (trand (sub 1 fr) (add 1 fr) t))
-	(mul (in 5 kr 5)  (trand (sub 1 amr) (add 1 amr) t))
-	(mul (in 5 kr 10) (trand (sub 1 bwr) (add 1 bwr) t)))))
+	(mul (in 5 kr 0)  (t-rand (sub 1 fr) (add 1 fr) t))
+	(mul (in 5 kr 5)  (t-rand (sub 1 amr) (add 1 amr) t))
+	(mul (in 5 kr 10) (t-rand (sub 1 bwr) (add 1 bwr) t)))))
 
 (define (scritto rt)
-  (let* ((t (impulse ar (mul-add (lfnoise2 kr 3) 12 12) 0))
-	 (n (tirand 30 52 t))
+  (let* ((t (impulse ar (mul-add (lf-noise2 kr 3) 12 12) 0))
+	 (n (ti-rand 30 52 t))
 	 (i (lambda (d) 
-	      (mul3 (decay2 (pulse-divider t d 0) 0.01 (trand 0.005 rt t))
-		    (blip ar (midicps n) (trand 16 32 t))
+	      (mul3 (decay2 (pulse-divider t d 0) 0.01 (t-rand 0.005 rt t))
+		    (blip ar (midi-cps n) (t-rand 16 32 t))
 		    12.0)))
 	 (x (mouse-x kr 0 1 0 0.1))
 	 (y (mouse-y kr 0 1 0 0.1)))

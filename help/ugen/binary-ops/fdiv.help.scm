@@ -6,4 +6,4 @@
 
 (audition
    (out 0 (fdiv (mul (pink-noise ar) 0.1) 
-		(mul (fsin-osc kr 10 0.5) 0.75))))
+		(mul (f-sin-osc kr 10 0.5) 0.75))))

@@ -18,6 +18,6 @@
 (let* ((block-size 64) ;; no ugen for this?
        (freq (mul (fdiv (mouse-x kr 0.1 40 1 0.1) block-size) sample-rate)))
   (audition
-   (out 0 (mul (mce2 (k2a (lfnoise0 kr freq))
-		     (lfnoise0 ar freq))
+   (out 0 (mul (mce2 (k2a (lf-noise0 kr freq))
+		     (lf-noise0 ar freq))
 	       0.3))))

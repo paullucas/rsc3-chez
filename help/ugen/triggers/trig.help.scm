@@ -2,7 +2,7 @@
 
 ;; When `in' is trigerred output the trigger value for `dur' seconds.
 
-(let ((s (fsin-osc ar 800 0))
+(let ((s (f-sin-osc ar 800 0))
       (g (trig (dust ar 1) 0.2)))
   (audition (out 0 (mul3 s g 0.5))))
 

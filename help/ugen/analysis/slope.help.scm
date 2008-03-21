@@ -11,7 +11,7 @@
 ;; derivative constant segments
 
 (let* ((r 2)
-       (a (lfnoise2 kr r))
+       (a (lf-noise2 kr r))
        (scale (recip r))
        (b (mul (slope a) scale))
        (c (mul (slope b) (squared scale)))

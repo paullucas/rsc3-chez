@@ -45,17 +45,17 @@
 
 ;; trigger playback at each pulse (diminishing intervals).
 
-(let ((t (impulse kr (xline kr 0.1 100 10 remove-synth) 0)))
+(let ((t (impulse kr (x-line kr 0.1 100 10 remove-synth) 0)))
   (audition (out 0 (play-buf 1 10 (buf-rate-scale kr 10) t 0 0))))
 
 ;; Loop playback, accelerating pitch.
 
-(let ((rate (xline kr 0.1 100 60 remove-synth)))
+(let ((rate (x-line kr 0.1 100 60 remove-synth)))
   (audition (out 0 (play-buf 1 10 rate 1 0 1))))
 
 ;; Sine wave control of playback rate, negative rate plays backwards.
 
-(let ((r (mul-add (fsin-osc kr (xline kr 0.2 8 30 remove-synth) 0) 3 0.6)))
+(let ((r (mul-add (f-sin-osc kr (x-line kr 0.2 8 30 remove-synth) 0) 3 0.6)))
   (audition (out 0 (play-buf 1 10 (mul (buf-rate-scale kr 10) r) 1 0 1))))
 
 ;; Release buffer.

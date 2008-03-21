@@ -2,4 +2,5 @@
 
 ;; Two point average filter
 
-(lpz1 (mul (white-noise ar) 0.25))
+(audition
+ (out 0 (lpz1 (mul (white-noise ar) 0.25))))

@@ -28,7 +28,7 @@
 		 (let* ((o (sin-osc kr (mix-fill n (lambda (_) (rand 0.1 0.5))) 0))
 			(a (mul (make-mce (list 1 1.1 1.5 1.78 2.45 6.7)) 220))
 			(f (mul-add o 10 a)))
-		   (mix (mul (lfsaw ar f 0) 0.3)))))
+		   (mix (mul (lf-saw ar f 0) 0.3)))))
        (mapped (lambda (n)
 		 (let* ((c0 (fft* 0 (signal n)))
 			(x (mouse-x kr 0.01 2.0  1.0 0.1))

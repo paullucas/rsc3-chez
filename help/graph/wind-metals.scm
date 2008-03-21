@@ -5,7 +5,7 @@
        (range (rand 500 8000))
        (n0 (clone 2 (brown-noise ar)))
        (r0 (exp-rand 0.125 0.5))
-       (n1 (lfnoise1 kr r0))
+       (n1 (lf-noise1 kr r0))
        (f (replicate-m n (rand base (add base range))))
        (dt (replicate-m n (rand 0.1 2)))
        (exc (mul3 n0 0.007 (u:max 0 (mul-add n1 0.75 0.25))))

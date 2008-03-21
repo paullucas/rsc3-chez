@@ -9,14 +9,14 @@
 ;; Used as an envelope
 
 (audition
- (out 0 (mul (decay2 (impulse ar (xline kr 1 50 20 remove-synth) 0.25)
+ (out 0 (mul (decay2 (impulse ar (x-line kr 1 50 20 remove-synth) 0.25)
 		     0.01
 		     0.2)
-	     (mul (fsin-osc ar 600 0) 0.25))))
+	     (mul (f-sin-osc ar 600 0) 0.25))))
 
 ;; Compare the above with decay used as the envelope.
 
 (audition
- (out 0 (mul (decay (impulse ar (xline kr 1 50 20 remove-synth) 0.25)
+ (out 0 (mul (decay (impulse ar (x-line kr 1 50 20 remove-synth) 0.25)
 		    0.01)
-	     (mul (fsin-osc ar 600 0) 0.25))))
+	     (mul (f-sin-osc ar 600 0) 0.25))))

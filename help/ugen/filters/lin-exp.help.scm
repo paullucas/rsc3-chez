@@ -8,5 +8,6 @@
 ;; dstlo - lower limit of output range - ir
 ;; dsthi - upper limit of output range - ir
 
-(mul (sin-osc ar (lin-exp (mouse-x kr 0 1 0 0.1) 0 1 440 660) 0)
-     (lin-exp (mouse-y kr 0 1 0 0.1) 0 1 0.01 0.25))
+(audition
+ (out 0 (mul (sin-osc ar (lin-exp (mouse-x kr 0 1 0 0.1) 0 1 440 660) 0)
+	     (lin-exp (mouse-y kr 0 1 0 0.1) 0 1 0.01 0.25))))

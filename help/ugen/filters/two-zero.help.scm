@@ -2,6 +2,7 @@
 
 ;; Two zero filter
 
-(two-zero (mul (white-noise ar) 0.125) 
-	 (xline kr 20 20000 8 remove-synth) 
-	 1)
+(audition
+ (out 0 (two-zero (mul (white-noise ar) 0.125) 
+		  (x-line kr 20 20000 8 remove-synth) 
+		  1)))

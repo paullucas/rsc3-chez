@@ -9,10 +9,10 @@
 ;; at +/- 45 degrees and clip the direction to between those.
 
 (let* ((x 10)
-       (y (mul (lfsaw kr 1/6 0) 100))
+       (y (mul (lf-saw kr 1/6 0) 100))
        (distance (hypot x y))
        (amplitude (fdiv 40 (squared distance)))
-       (sound (rlpf (mul (fsin-osc ar 200 0) (lfpulse ar 31.3 0 0.4)) 400 0.3))
+       (sound (rlpf (mul (f-sin-osc ar 200 0) (lf-pulse ar 31.3 0 0.4)) 400 0.3))
        (azimuth (atan2 y x))
        (loc (clip2 (fdiv azimuth (/ pi 2)) 1)))
   (audition

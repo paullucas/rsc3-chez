@@ -11,7 +11,7 @@
 (let ((a (letc ((r 1))
 	   (let* ((r* (mul (buf-rate-scale kr 0) r))
 		  (p (phasor ar 0 r* 0 (buf-frames kr 0) 0))
-		  (f (mul-add (lfnoise1 kr 2) 300 400))
+		  (f (mul-add (lf-noise1 kr 2) 300 400))
 		  (i (mul (sin-osc ar f 0) 0.1)))
 	     (mrg2 (buf-wr 0 p 1 i)
 		   (out 0 0.0)))))

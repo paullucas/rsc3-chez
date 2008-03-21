@@ -11,16 +11,16 @@
 			       400 500) 4) 
 	     0.2)))
 
-;; The above is just meant as example. lfnoise0 is a faster way to
+;; The above is just meant as example. lf-noise0 is a faster way to
 ;; generate random steps :
 
 (audition
- (out 0 (mul (blip ar (mul-add (lfnoise0 kr 9) 400 500) 4) 0.2)))
+ (out 0 (mul (blip ar (mul-add (lf-noise0 kr 9) 400 500) 4) 0.2)))
 
 ;; http://create.ucsb.edu/pipermail/sc-users/2006-December/029991.html
 
-(let* ((n0 (mul-add (lfnoise2 kr 8) 200 300))
-       (n1 (mul-add (lfnoise2 kr 3) 10 20))
+(let* ((n0 (mul-add (lf-noise2 kr 8) 200 300))
+       (n1 (mul-add (lf-noise2 kr 3) 10 20))
        (s  (blip ar n0 n1))
        (x  (mouse-x kr 1000 (mul sample-rate 0.1) 1 0.1)))
   (audition

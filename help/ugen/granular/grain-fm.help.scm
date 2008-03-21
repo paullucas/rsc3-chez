@@ -31,5 +31,5 @@
        (n (white-noise kr))
        (fd (add 440 (mul n y)))
        (t (impulse kr 10 0))
-       (i (lin-lin (lfnoise1 kr 500) -1 1 1 10)))
+       (i (lin-lin (lf-noise1 kr 500) -1 1 1 10)))
   (audition (out 0 (mul (grain-fm 2 t 0.1 fd 200 i x -1) 0.1))))

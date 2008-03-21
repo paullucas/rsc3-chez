@@ -12,7 +12,7 @@
    (async fd (b-alloc-read 12 "/home/rohan/audio/metal.wav" 0 0))))
 
 (let ((dup (lambda (a) (mce2 a a)))
-      (s (sin-osc ar (mul-add (lfnoise1 kr 5.2) 250 400) 0))
+      (s (sin-osc ar (mul-add (lf-noise1 kr 5.2) 250 400) 0))
       (f (sin-osc kr 0.2 0)))
   (audition (out 0 (dup (mul 0.25 (ifft* (pv-mag-freeze (fft* 10 s) f)))))))
 

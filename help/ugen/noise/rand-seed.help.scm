@@ -10,7 +10,7 @@
 ;; Start a noise patch 
 
 (let ((n (add (mul (white-noise ar) (mce2 0.05 0.05)) (dust2 ar (mce2 70 70))))
-      (f (mul-add (lfnoise1 kr 3) 5500 6000)))
+      (f (mul-add (lf-noise1 kr 3) 5500 6000)))
   (audition (out 0 (add (resonz (mul n 5) f 0.5) (mul n 0.5)))))
 
 ;; Reset the seed at a variable rate.

@@ -30,9 +30,9 @@
   (audition (out 0 (dyn-klank i 1 0 1 d))))
 
 (let* ((i (lambda (f) 
-	    (mul (impulse ar (lin-lin (lfnoise0 kr f) -1 1 3 12) 0) 0.1)))
+	    (mul (impulse ar (lin-lin (lf-noise0 kr f) -1 1 3 12) 0) 0.1)))
        (t (lambda (i d l r) 
-	    (map (lambda (e) (mul e (trand l r i))) d)))
+	    (map (lambda (e) (mul e (t-rand l r i))) d)))
        (d (lambda (i f r) 
 	    (klank-data (t i f 0.5 2) 
 			(replicate 4 1)

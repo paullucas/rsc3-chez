@@ -29,7 +29,7 @@
 
 (define noise-phase
   (lambda (m p _)
-    (list m (lin-lin (lfnoise0 kr 3) -1 1 0 3.14))))
+    (list m (lin-lin (lf-noise0 kr 3) -1 1 0 3.14))))
 
 (define combf
   (lambda (m p i)
@@ -37,16 +37,16 @@
 
 (define noise-mag
   (lambda (m p _)
-    (list (mul (gt (lfnoise0 kr 10) 0) m) p)))
+    (list (mul (gt (lf-noise0 kr 10) 0) m) p)))
 
 (define spectral-delay
   (lambda (m p _)
-    (let ((v (lin-lin (lfpar kr 0.5 0) -1 1 0.1 1)))
+    (let ((v (lin-lin (lf-par kr 0.5 0) -1 1 0.1 1)))
       (list (add m (delay-n m 1 v)) p))))
 
 (define (bpf-sweep nf)
   (lambda (m p i)
-    (let ((e (u:abs (sub i (lin-lin (lfpar kr 0.1 0) -1 1 2 (/ nf 20))))))
+    (let ((e (u:abs (sub i (lin-lin (lf-par kr 0.1 0) -1 1 2 (/ nf 20))))))
       (list (mul (lt e 10) m) p))))
 
 (with-sc3

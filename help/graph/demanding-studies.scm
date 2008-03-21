@@ -5,7 +5,7 @@
        (s3 (dseq dinf (mce4 72 75 79 s2)))
        (x (mouse-x kr 5 13 0 0.2))
        (tr (impulse kr x 0))
-       (f (demand tr 0 (mce2 (midicps (sub s1 12)) (midicps s3))))
+       (f (demand tr 0 (mce2 (midi-cps (sub s1 12)) (midi-cps s3))))
        (o1 (sin-osc ar (add f (mce2 0 0.7)) 0))
        (o2 (mul (saw ar (add f (mce2 0 0.7))) 0.3))
        (o3 (cubed (distort (u:log (distort (add o1 o2)))))))

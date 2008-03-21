@@ -65,6 +65,10 @@
       (replace-regexp-in-string "^> " "" s)
     s))
 
+(defun rsc3-insert-lambda ()
+  (interactive)
+  (insert "lambda"))
+
 (defun rsc3-see-output ()
   "Arrange so that the frame has two windows, the current buffer is
 placed in the upper window and the `rsc3-buffer' in the lower window."
@@ -142,7 +146,7 @@ Quit the scheme interpreter and delete the associated buffer."
   "Rewrite and evaluate the s-expression that precedes point."
   (interactive)
   (rsc3-evaluate-expression
-   (concat "(audition " (rsc3-expression-before-point) ")")))
+   (concat "(audition (out 0 " (rsc3-expression-before-point) "))")))
 
 (defun rsc3-draw ()
   "Draw the UGen graph at point using draw*."
@@ -235,6 +239,7 @@ The symbol at point is preprocessed by `rsc3-cleanup-symbol'."
 (defun rsc3-mode-keybindings (map)
   "Install rsc3 keybindings into `map'."
   ;; Scheme
+  (define-key map "\\" 'rsc3-insert-lambda)
   (define-key map "\C-c\C-s" 'rsc3-start-scheme)
   (define-key map "\C-c\C-g" 'rsc3-see-output)
   (define-key map "\C-c\C-q" 'rsc3-clear-schedule)

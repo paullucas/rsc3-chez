@@ -13,9 +13,9 @@
 
 ;; index into the above buffer for frequency values.
 
-(let ((f (mul (index 10 (Mul (lfsaw kr 2 3) 4)) (Mce 1 9))))
+(let ((f (mul (index 10 (mul (lf-saw kr 2 3) 4)) (mce2 1 9))))
   (audition (out 0 (mul (sin-osc ar f 0) 0.1))))
 
 (with-sc3 
  (lambda (fd)
-   (async fd (/b_free 10))))
+   (async fd (b-free 10))))

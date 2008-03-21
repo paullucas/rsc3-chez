@@ -3,7 +3,7 @@
 ;; Convert linear amplitude to decibels.
 
 (audition 
- (out 0 (mul (fsin-osc ar 800 0.0)
+ (out 0 (mul (f-sin-osc ar 800 0.0)
 	     (db-amp (amp-db (line kr 0.5 0.0 5 remove-synth))))))
 
 (let* ((x (mouse-x kr -60 0 0 0.1))

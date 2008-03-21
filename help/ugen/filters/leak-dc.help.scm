@@ -5,5 +5,5 @@
 ;; in   - input signal
 ;; coef - leak coefficient
 
-(let ((a (mul (lfpulse ar 800 0.5 0.5) 0.1)))
-  (audition (out 0 (Mce a (leak-dc a 0.995)))))
+(let ((a (mul (lf-pulse ar 800 0.5 0.5) 0.1)))
+  (audition (out 0 (mce2 a (leak-dc a 0.995)))))

@@ -8,7 +8,7 @@
 
 (audition (out 0 (mul (impulse ar 800 0) 0.1)))
 
-(let ((f (xline kr 800 10 5 remove-synth)))
+(let ((f (x-line kr 800 10 5 remove-synth)))
   (audition (out 0 (mul (impulse ar f 0.0) 0.5))))
 
 (let ((f (mouse-y kr 4 8 0 0.1))

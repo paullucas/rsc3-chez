@@ -43,8 +43,8 @@
 		     (replicate 4 1))))
   (audition (out 0 (klank i 1 0 1 d))))
 
-(let ((i (mul (decay (impulse ar 4 0) 0.03) (Mul (clipNoise ar) 0.01)))
-      (d (klank-data (randl 12 800 4000) 
+(let ((i (mul (decay (impulse ar 4 0) 0.03) (mul (clip-noise ar) 0.01)))
+      (d (klank-data (replicate-m 12 (rand 800 4000))
 		     (replicate 12 1) 
-		     (randl 12 0.1 2))))
+		     (replicate-m 12 (rand 0.1 2)))))
   (audition (out 0 (klank i 1 0 1 d))))

@@ -23,7 +23,7 @@
 
 (let* ((t (impulse ar (mouse-x kr 0.5 10 1 0.1) 0))
        (r (buf-sample-rate ir 0))
-       (i (add (sweep t (neg r)) (mul (buf-frames ir 0) (lfnoise0 kr 15)))))
+       (i (add (sweep t (neg r)) (mul (buf-frames ir 0) (lf-noise0 kr 15)))))
   (audition (out 0 (buf-rd 1 ar 0 i 0 2))))
 
 ;; Raising rate

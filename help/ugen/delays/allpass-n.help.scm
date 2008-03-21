@@ -12,19 +12,19 @@
 
 (define z (mul (white-noise ar) 0.1))
 
-(audition (out 0 (allpass-c z 0.01 (xline kr 0.0001 0.01 20 do-nothing) 0.2)))
+(audition (out 0 (allpass-c z 0.01 (x-line kr 0.0001 0.01 20 do-nothing) 0.2)))
 
 ;; ...these examples add the input to the effected sound so that you
 ;; can hear the effect of the phase comb.
 
 (audition
- (out 0 (add z (allpass-n z 0.01 (xline kr 0.0001 0.01 20 do-nothing) 0.2))))
+ (out 0 (add z (allpass-n z 0.01 (x-line kr 0.0001 0.01 20 do-nothing) 0.2))))
 
 (audition
- (out 0 (add z (allpass-l z 0.01 (xline kr 0.0001 0.01 20 do-nothing) 0.2))))
+ (out 0 (add z (allpass-l z 0.01 (x-line kr 0.0001 0.01 20 do-nothing) 0.2))))
 
 (audition
- (out 0 (add z (allpass-c z 0.01 (xline kr 0.0001 0.01 20 do-nothing) 0.2))))
+ (out 0 (add z (allpass-c z 0.01 (x-line kr 0.0001 0.01 20 do-nothing) 0.2))))
 
 ;; Used as an echo - doesn't really sound different than Comb, but it
 ;; outputs the input signal immediately (inverted) and the echoes are

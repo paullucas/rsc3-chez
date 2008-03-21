@@ -76,7 +76,7 @@
 
 (let* ((x (mouse-x kr 100 1000 1 0.1))
        (g (gendy1 ar 2 3 1 1 20 x 0.5 0.0 40 40)))
-  (pan2 (mul (Rlpf g 500 0.3) 0.2) 0.0 0.25))
+  (pan2 (mul (rlpf g 500 0.3) 0.2) 0.0 0.25))
 
 ;; Scream!
 
@@ -131,7 +131,7 @@
 ;; Use SINUS to track any oscillator and take CP positions from it use
 ;; adparam and ddparam as the inputs to sample.
 
-(let* ((p (lfpulse kr 100 0 0.4))
+(let* ((p (lf-pulse kr 100 0 0.4))
        (s (mul (sin-osc kr 30 0) 0.5))
        (g (gendy1 ar 6 6 p s 440 660 0.5 0.5 12 12)))
   (pan2 g 0.0 0.2))
@@ -140,14 +140,14 @@
 
 (let* ((x (mouse-x kr 0 200 0 0.1))
        (y (mouse-y kr 0 200 0 0.1))
-       (p (lfpulse kr x 0 0.4))
+       (p (lf-pulse kr x 0 0.4))
        (s (mul (sin-osc kr y 0) 0.5))
        (g (gendy1 ar 6 6 p s 440 660 0.5 0.5 12 12)))
   (pan2 g 0.0 0.2))
 
 ;; Texture
 
-(mix/fill 
+(mix-fill 
  10 
  (lambda (_)
    (let* ((f (rand 130.0 160.3))
@@ -170,16 +170,16 @@
 ;; Overkill
 
 (define (overkill i)
-  (mix/fill 
+  (mix-fill 
    i
    (lambda (_)
      (let* ((f (rand 50 560.3))
 	    (n (rand 2 20))
-	    (k (mul-add (sin-osc kr (randx 0.02 0.2) 0) (fdiv n 2) (FDiv n 2)))
+	    (k (mul-add (sin-osc kr (exp-rand 0.02 0.2) 0) (fdiv n 2) (fdiv n 2)))
 	    (g (gendy1 ar 
 		       (rand 0 6) (rand 0 6) (rand 0 1) (rand 0 1) f f 
 		       (rand 0 1) (rand 0 1) n k)))
-       (pan2 g (rand -1 1) (fdiv 0.5 (Sqrt i)))))))
+       (pan2 g (rand -1 1) (fdiv 0.5 (sqrt i)))))))
 
 (overkill 10)
 

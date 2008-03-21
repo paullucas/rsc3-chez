@@ -6,5 +6,5 @@
 
 (let* ((a (line kr 0.2 0 0.1 2))
        (p (rand -1 1))
-       (s (mul (fsin-osc ar (rand 200 1200) 0) a)))
+       (s (mul (f-sin-osc ar (rand 200 1200) 0) a)))
   (audition (out 0 (pan2 s p 1))))

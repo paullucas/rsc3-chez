@@ -46,7 +46,7 @@
 	      (lambda (s) (add (delay-l s 0.1 lfo) s))
 	      ;; Slight bass emphasis
 	      (lambda (s) (one-pole s 0.9))))
-       (init (mix (lfpulse ar (mul freq (mce3 1 3/2 2)) 0 0.3))))
+       (init (mix (lf-pulse ar (mul freq (mce3 1 3/2 2)) 0 0.3))))
   (audition (out 0 (seq init proc))))
 
 ;; Pattern randomizer....
@@ -54,7 +54,7 @@
 (with-sc3
  (lambda (fd)
    (let ((p (map (lambda (e)
-		   (midicps (+ 36 (degree->key e (list 0 3 5 7 10) 12))))
+		   (midi-cps (+ 36 (degree->key e (list 0 3 5 7 10) 12))))
 		 (map floor (replicate-m 16 (random 0 15))))))
      (send fd (b-setn1 10 0 p)))))
 
@@ -76,7 +76,7 @@
 				  0.05
 				  (clone 2 (rand 0 0.05))
 				  (rand 1.5 2.0))))
-       (init (mix (lfpulse ar (mul freq (mce3 1 3/2 2)) 0 0.3)))
+       (init (mix (lf-pulse ar (mul freq (mce3 1 3/2 2)) 0 0.3)))
        (proc (seq* init
 		   s
 		   (mul (rlpf s ffreq 0.3) env)

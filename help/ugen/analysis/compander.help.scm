@@ -41,7 +41,7 @@
 ;; Example signal to process.
 
 (define z
-  (mul (decay2 (mul (impulse ar 8 0) (mul (lfsaw kr 0.3 0) 0.3)) 0.001 0.3)
+  (mul (decay2 (mul (impulse ar 8 0) (mul (lf-saw kr 0.3 0) 0.3)) 0.001 0.3)
        (mix (pulse ar (mce2 80 81) 0.3))))
 
 (audition (out 0 z))

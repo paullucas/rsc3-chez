@@ -5,7 +5,7 @@
 ;; Modulate frequency
 
 (audition
- (let ((f (xline kr 40 4000 6 remove-synth)))
+ (let ((f (x-line kr 40 4000 6 remove-synth)))
    (out 0 (mul (pulse ar f 0.1) 0.2))))
 
 ;; modulate pulse width
@@ -18,5 +18,5 @@
 
 (audition
  (out 0 (rlpf (mul (pulse ar (mce2 100 250) 0.5) 0.1) 
-	      (xline kr 8000 400 5 remove-synth) 
+	      (x-line kr 8000 400 5 remove-synth) 
 	      0.05)))

@@ -52,7 +52,7 @@
 
 ;; Just Hainsworth metric, spot note transitions.
 
-(let* ((src (mul (lfsaw ar (mul-add (lfnoise0 kr 1) 90 400) 0) 0.5))
+(let* ((src (mul (lf-saw ar (mul-add (lf-noise0 kr 1) 90 400) 0) 0.5))
        (dtc (pv-hainsworth-foote (fft* 0 src)
 				1.0
 				0.0

@@ -3,7 +3,7 @@
 ;; Two channel equal power panner.  The pan position is bipolar, -1 is
 ;; left, +1 is right.  The level is a control rate input.
 
-(let ((p (fsin-osc kr 2 0)))
+(let ((p (f-sin-osc kr 2 0)))
   (audition (out 0 (pan2 (pink-noise ar) p 0.3))))
 
 (let ((x (mouse-x kr -1 1 0 0.1))

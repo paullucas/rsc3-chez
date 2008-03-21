@@ -27,7 +27,7 @@
        (y (mouse-y kr 0 1 0 0.1))
        (o (mul (sin-osc ar x 0) 0.1))
        (c (amp-comp x 300 0.333))) 
-  (audition (out 0 (Mce (mul o y) (Mul* o (sub 1 y) c)))))
+  (audition (out 0 (mce2 (mul o y) (mul3 o (sub 1 y) c)))))
 
 ;; different sounds cause quite different loudness perception, and the
 ;; desired musical behavior can vary, so the exponent can be tuned:
@@ -43,5 +43,5 @@
        (y (mouse-y kr 3 200 1 0.1))
        (m (mul x (mul-add (sin-osc ar y 0) 0.5 1)))
        (a (amp-comp m 300 0.333))
-       (c (mul* (sin-osc ar m 0) 0.1 a)))
+       (c (mul3 (sin-osc ar m 0) 0.1 a)))
   (audition (out 0 c)))

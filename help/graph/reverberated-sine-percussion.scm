@@ -12,7 +12,7 @@
        (z (delay-n s 0.048 0.48))
        (y (mix (comb-l z 
 		       0.1 
-		       (mul-add (lfnoise1 kr (clone c (rand 0 0.1))) 
+		       (mul-add (lf-noise1 kr (clone c (rand 0 0.1))) 
 				0.04 
 				0.05) 
 		       15)))

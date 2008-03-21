@@ -16,8 +16,8 @@
     ((_ n f) (mix-fill n (lambda (_) f)))))
 
 (let* ((n 6)
-       (a (n-of n (mul (lfsaw ar (exp-rand 400.0 1000.0) 0.0) 0.1)))
-       (b (n-of n (mul (lfpulse ar (exp-rand 80.0 400.0) 0.0 0.2)
+       (a (n-of n (mul (lf-saw ar (exp-rand 400.0 1000.0) 0.0) 0.1)))
+       (b (n-of n (mul (lf-pulse ar (exp-rand 80.0 400.0) 0.0 0.2)
 		       (u:max (mul (sin-osc kr (rand 0.0 8.0) 0.0) 0.2) 0.0))))
        (f (fft* 10 a))
        (g (fft* 11 b))

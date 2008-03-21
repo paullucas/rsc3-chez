@@ -6,7 +6,7 @@
 	  (pan2 (mul (decay2 d 0.04 0.3) n) 0 1)))
        (pling
 	(lambda (_)
-	  (let ((o (fsin-osc ar (exp-rand 300 2200) 0))
+	  (let ((o (f-sin-osc ar (exp-rand 300 2200) 0))
 		(d (decay2 (dust ar 0.5) 0.1 0.5)))
 	    (pan2 (mul (mul d 0.1) (cubed o)) (rand -1 1) 1))))
        (rallpass

@@ -16,17 +16,17 @@
 
 ;; Modulate frequency
 
-(let ((f (xline kr 1000 8000 10 remove-synth)))
+(let ((f (x-line kr 1000 8000 10 remove-synth)))
   (audition (out 0 (resonz (mul (white-noise ar) 0.5) f 0.05))))
 
 ;; Modulate bandwidth
 
-(let ((rq (xline kr 1 0.001 8 remove-synth)))
+(let ((rq (x-line kr 1 0.001 8 remove-synth)))
   (audition (out 0 (resonz (mul (white-noise ar) 0.5) 2000 rq))))
 
 ;; Modulate bandwidth opposite direction
 
-(let ((rq (xline kr 0.001 1 8 remove-synth)))
+(let ((rq (x-line kr 0.001 1 8 remove-synth)))
   (audition (out 0 (resonz (mul (white-noise ar) 0.5) 2000 rq))))
 
 ;; random resonator at a random location, run as often as you like...

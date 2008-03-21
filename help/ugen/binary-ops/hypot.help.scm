@@ -12,20 +12,20 @@
 ;; from the listener.  The speed of sound is 344 meters/sec.
 
 (let* ((x 10)
-       (y (mul (lfsaw kr 1/6 0) 100))
+       (y (mul (lf-saw kr 1/6 0) 100))
        (distance (hypot x y))
        (velocity (slope distance))
        (pitch-ratio (fdiv (sub 344 velocity) 344)) 
        (amplitude (fdiv 10 (squared distance))))
   (audition
-   (out 0 (mul (fsin-osc ar (mul 1000 pitch-ratio) 0)
+   (out 0 (mul (f-sin-osc ar (mul 1000 pitch-ratio) 0)
 	       amplitude))))
 
 (let* ((x 10)
-       (y (mul (lfsaw kr 1/6 0) 100))
+       (y (mul (lf-saw kr 1/6 0) 100))
        (distance (hypot x y))
        (amplitude (fdiv 40 (squared distance)))
-       (sound (rlpf (mul (fsin-osc ar 200 0) (lfpulse ar 31.3 0 0.4)) 400 0.3)))
+       (sound (rlpf (mul (f-sin-osc ar 200 0) (lf-pulse ar 31.3 0 0.4)) 400 0.3)))
   (audition
    (out 0 (mul (delay-l sound 110/344 (fdiv distance 344))
 	       amplitude))))

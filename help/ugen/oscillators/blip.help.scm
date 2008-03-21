@@ -21,7 +21,7 @@
 
 ;; Modulate frequency
 
-(let ((f (xline kr 20000 200 6 remove-synth)))
+(let ((f (x-line kr 20000 200 6 remove-synth)))
   (audition (out 0 (mul (blip ar f 100) 0.2))))
 
 ;; Modulate number of harmonics.

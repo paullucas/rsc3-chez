@@ -20,7 +20,7 @@
     fd "s"
     (letc ((seed 1910) (id 1))
       (mrg2 (rand-id kr id)
-	    (rand-seed kr (impulse kr (mul-add (fsin-osc kr 0.2 0) 10 11) 0) seed))))))
+	    (rand-seed kr (impulse kr (mul-add (f-sin-osc kr 0.2 0) 10 11) 0) seed))))))
 
 ;; Start two noise synths on left and right channel with a different randgen id
 

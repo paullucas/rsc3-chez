@@ -2,8 +2,8 @@
 
 ;; Flattens dynamics.
 
-(let ((z (mul (decay2 (impulse ar 8 (Mul (lfsaw kr 0.25 -0.6) 0.7))
+(let ((z (mul (decay2 (impulse ar 8 (mul (lf-saw kr 0.25 -0.6) 0.7))
 		      0.001  
 		      0.3)
-	      (fsin-osc ar 500 0))))
-  (Mce z (normalizer z 0.4 0.01)))
+	      (f-sin-osc ar 500 0))))
+  (audition (out 0 (mce2 z (normalizer z 0.4 0.01)))))

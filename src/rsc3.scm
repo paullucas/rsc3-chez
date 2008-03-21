@@ -94,12 +94,12 @@
     (/ (log x) (log 10))))
 
 ;; float -> float
-(define ampdb 
+(define s:amp-db 
   (lambda (x) 
     (* (s:log10 x) 20)))
 
 ;; float -> float
-(define dbamp
+(define s:db-amp
   (lambda (x)
     (expt 10 (* x 0.05))))
 
@@ -114,32 +114,32 @@
     (expt 10 (* x 0.1))))
 
 ;; float -> float
-(define s:midicps
+(define s:midi-cps
   (lambda (note)
     (* 440.0 (expt 2.0 (* (- note 69.0) 0.083333333333)))))
 
 ;; float -> float
-(define s:cpsmidi
+(define s:cps-midi
   (lambda (freq)
     (+ (* (s:log2 (* freq 0.0022727272727)) 12.0) 69.0)))
 
 ;; float -> float
-(define s:midiratio
+(define s:midi-ratio
   (lambda (midi)
     (expt 2.0 (* midi 0.083333333333))))
 
 ;; float -> float
-(define ratiomidi
+(define s:ratio-midi
   (lambda (ratio)
     (* 12.0 (s:log2 ratio))))
 
 ;; float -> float
-(define s:octcps
+(define s:oct-cps
   (lambda (note)
     (* 440.0 (expt 2.0 (- note 4.75)))))
 
 ;; float -> float
-(define s:cpsoct
+(define s:cps-oct
   (lambda (freq)
     (+ (s:log2 (* freq 0.0022727272727)) 4.75)))
 
@@ -774,7 +774,7 @@
 
 ;; ugen -> ugen
 (define-unary-operator u:abs 5 abs)
-(define-unary-operator amp-db 22 ampdb)
+(define-unary-operator amp-db 22 s:amp-db)
 (define-unary-operator arc-cos 32 acos)
 (define-unary-operator arc-sin 31 asin)
 (define-unary-operator arc-tan 33 atan)
@@ -782,14 +782,14 @@
 (define-unary-operator as-int 7 #f)
 (define-unary-operator bi-lin-rand 40 #f)
 (define-unary-operator bit-not 4 #f)
-(define-unary-operator cpsmidi 18 s:cpsmidi)
-(define-unary-operator cpsoct 24 s:cpsoct)
+(define-unary-operator cps-midi 18 s:cps-midi)
+(define-unary-operator cps-oct 24 s:cps-oct)
 (define-unary-operator ceil 8 ceiling)
 (define-unary-operator coin 44 #f)
 (define-unary-operator u:cos 29 cos)
 (define-unary-operator cos-h 35 #f)
 (define-unary-operator cubed 13 s:cubed)
-(define-unary-operator db-amp 21 dbamp)
+(define-unary-operator db-amp 21 s:db-amp)
 (define-unary-operator digit-value 45 #f)
 (define-unary-operator distort 42 #f)
 (define-unary-operator u:exp 15 exp)
@@ -800,14 +800,14 @@
 (define-unary-operator u:log 25 log)
 (define-unary-operator log10 27 s:log10)
 (define-unary-operator log2 26 s:log2)
-(define-unary-operator midicps 17 s:midicps)
-(define-unary-operator midiratio 19 s:midiratio)
+(define-unary-operator midi-cps 17 s:midi-cps)
+(define-unary-operator midi-ratio 19 s:midi-ratio)
 (define-unary-operator neg 0 -)
 (define-unary-operator u:not 1 #f)
 (define-unary-operator not-nil 3 #f)
-(define-unary-operator octcps 23 s:octcps)
+(define-unary-operator oct-cps 23 s:oct-cps)
 (define-unary-operator rand2 38 #f)
-(define-unary-operator ratio-midi 20 ratiomidi)
+(define-unary-operator ratio-midi 20 s:ratio-midi)
 (define-unary-operator recip 16 s:recip)
 (define-unary-operator rect-window 48 #f)
 (define-unary-operator scurve 53 #f)
@@ -951,7 +951,7 @@
 (define-filter lin-exp "LinExp" (in srclo srchi dstlo dsthi) 1)
 (define-filter lin-lin "LinLin" (in srclo srchi dstlo dsthi) 1)
 (define-filter lin-pan2 "LinPan2" (in pos level) 2)
-(define-filter lin-xfade2 "LinXFade2" (in-a in-b pan level) 1)
+(define-filter lin-x-fade2 "LinXFade2" (in-a in-b pan level) 1)
 (define-filter linen "Linen" (gate attack-time sus-level release-time done-action) 1)
 (define-filter mantissa-mask "MantissaMask" (in bits) 1)
 (define-filter median "Median" (length in) 1)
@@ -995,9 +995,9 @@
 (define-filter spring "Spring" (in spring damp) 1)
 (define-filter stepper "Stepper" (trig reset min max step resetval) 1)
 (define-filter sweep "Sweep" (trig rate) 1)
-(define-filter tball "TBall" (in g damp friction) 1)
-(define-filter tdelay "TDelay" (in dur) 1)
-(define-filter tpulse "TPulse" (trig freq width) 1)
+(define-filter t-ball "TBall" (in g damp friction) 1)
+(define-filter t-delay "TDelay" (in dur) 1)
+(define-filter t-pulse "TPulse" (trig freq width) 1)
 (define-filter timer "Timer" (trig) 1)
 (define-filter toggle-ff "ToggleFF" (trig) 1)
 (define-filter trapezoid "Trapezoid" (in a b c d) 1)
@@ -1008,7 +1008,7 @@
 (define-filter vibrato "Vibrato" (freq rate depth delay onset rate-variation depth-variation iphase) 1)
 (define-filter wrap "Wrap" (in lo hi) 1)
 (define-filter wrap-index "WrapIndex" (bufnum in) 1)
-(define-filter xfade2 "XFade2" (in-a in-b pan level) 1)
+(define-filter x-fade2 "XFade2" (in-a in-b pan level) 1)
 (define-filter xy "XY" (xscale yscale xoff yoff rot rate) 1)
 (define-filter zero-crossing "ZeroCrossing" (in) 1)
 
@@ -1016,14 +1016,14 @@
 
 (define-filter-n decode-b2 "DecodeB2" (w x y orientation))
 (define-filter-n silent "Silent" ())
-(define-filter-n tgrains "TGrains" (trigger bufnum rate center-pos dur pan amp interp))
+(define-filter-n t-grains "TGrains" (trigger bufnum rate center-pos dur pan amp interp))
 
 (define-filter* buf-wr "BufWr" (bufnum phase loop input-array) 1)
 (define-filter* klank "Klank" (input freqscale freqoffset decayscale specifications-array-ref) 1)
 (define-filter* poll "Poll" (trig in trig-id label) 0)
 (define-filter* record-buf "RecordBuf" (bufnum offset rec-level pre-level run loop trigger input-array) 1)
 (define-filter* select "Select" (which array) 1)
-(define-filter* twindex "TWindex" (in normalize array) 1)
+(define-filter* tw-index "TWindex" (in normalize array) 1)
 
 (define-filter* disk-out "DiskOut" (bufnum channels-array) 0)
 (define-filter* local-out "LocalOut" (channels-array) 0)
@@ -1031,12 +1031,12 @@
 (define-filter* out "Out" (bus channels-array) 0)
 (define-filter* replace-out "ReplaceOut" (bus channels-array) 0)
 (define-filter* scope-out "ScopeOut" (input-array bufnum) 0)
-(define-filter* xout "XOut" (bus xfade channels-array) 0)
+(define-filter* x-out "XOut" (bus xfade channels-array) 0)
 
 (define-filter-id coin-gate "CoinGate" (prob in) 1)
-(define-filter-id texp-rand "TExpRand" (lo hi trig) 1)
-(define-filter-id tirand "TIRand" (lo hi trig) 1)
-(define-filter-id trand "TRand" (lo hi trig) 1)
+(define-filter-id t-exp-rand "TExpRand" (lo hi trig) 1)
+(define-filter-id ti-rand "TIRand" (lo hi trig) 1)
+(define-filter-id t-rand "TRand" (lo hi trig) 1)
 
 (define-oscillator amplitude "Amplitude" (in attack-time release-time) 1)
 (define-oscillator blip "Blip" (freq numharm) 1)
@@ -1046,15 +1046,15 @@
 (define-oscillator buf-rate-scale "BufRateScale" (buf) 1)
 (define-oscillator buf-sample-rate "BufSampleRate" (buf) 1)
 (define-oscillator buf-samples "BufSamples" (buf) 1)
-(define-oscillator cosc "COsc" (bufnum freq beats) 1)
+(define-oscillator c-osc "COsc" (bufnum freq beats) 1)
 (define-oscillator crackle "Crackle" (chaos-param) 1)
 (define-oscillator cusp-l "CuspL" (freq a b xi) 1)
 (define-oscillator cusp-n "CuspN" (freq a b xi) 1)
 (define-oscillator demand-env-gen "DemandEnvGen" (level dur shape curve gate reset level-scale level-bias time-scale done-action) 1)
-(define-oscillator fbsine-c "FBSineC" (freq im fb a c xi yi) 1)
-(define-oscillator fbsine-l "FBSineL" (freq im fb a c xi yi) 1)
-(define-oscillator fbsine-n "FBSineN" (freq im fb a c xi yi) 1)
-(define-oscillator fsin-osc "FSinOsc" (freq iphase) 1)
+(define-oscillator fb-sine-c "FBSineC" (freq im fb a c xi yi) 1)
+(define-oscillator fb-sine-l "FBSineL" (freq im fb a c xi yi) 1)
+(define-oscillator fb-sine-n "FBSineN" (freq im fb a c xi yi) 1)
+(define-oscillator f-sin-osc "FSinOsc" (freq iphase) 1)
 (define-oscillator formant "Formant" (fundfreq formfreq bwfreq) 1)
 (define-oscillator gbman-c "GbmanC" (freq xi yi) 1)
 (define-oscillator gbman-l "GbmanL" (freq xi yi) 1)
@@ -1067,11 +1067,11 @@
 (define-oscillator henon-n "HenonN" (freq a b x0 x1) 1)
 (define-oscillator impulse "Impulse" (freq phase) 1)
 (define-oscillator key-state "KeyState" (key min max lag) 1)
-(define-oscillator lfcub "LFCub" (freq iphase) 1)
-(define-oscillator lfpar "LFPar" (freq iphase) 1)
-(define-oscillator lfpulse "LFPulse" (freq iphase width) 1)
-(define-oscillator lfsaw "LFSaw" (freq iphase) 1)
-(define-oscillator lftri "LFTri" (freq iphase) 1)
+(define-oscillator lf-cub "LFCub" (freq iphase) 1)
+(define-oscillator lf-par "LFPar" (freq iphase) 1)
+(define-oscillator lf-pulse "LFPulse" (freq iphase width) 1)
+(define-oscillator lf-saw "LFSaw" (freq iphase) 1)
+(define-oscillator lf-tri "LFTri" (freq iphase) 1)
 (define-oscillator latoocarfian-c "LatoocarfianC" (freq a b c d xi yi) 1)
 (define-oscillator latoocarfian-l "LatoocarfianL" (freq a b c d xi yi) 1)
 (define-oscillator latoocarfian-n "LatoocarfianN" (freq a b c d xi yi) 1)
@@ -1086,7 +1086,7 @@
 (define-oscillator mouse-y "MouseY" (min max warp lag) 1)
 (define-oscillator osc "Osc" (bufnum freq phase) 1)
 (define-oscillator osc-n "OscN" (bufnum freq phase) 1)
-(define-oscillator psin-grain "PSinGrain" (freq dur amp) 1)
+(define-oscillator p-sin-grain "PSinGrain" (freq dur amp) 1)
 (define-oscillator phasor "Phasor" (trig rate start end reset-pos) 1)
 (define-oscillator pulse "Pulse" (freq width) 1)
 (define-oscillator quad-c "QuadC" (freq a b c xi) 1)
@@ -1099,10 +1099,10 @@
 (define-oscillator standard-l "StandardL" (freq k xi yi) 1)
 (define-oscillator standard-n "StandardN" (freq k xi yi) 1)
 (define-oscillator sync-saw "SyncSaw" (sync-freq saw-freq) 1)
-(define-oscillator vosc "VOsc" (bufpos freq phase) 1)
-(define-oscillator vosc3 "VOsc3" (bufpos freq1 freq2 freq3) 1)
+(define-oscillator v-osc "VOsc" (bufpos freq phase) 1)
+(define-oscillator v-osc3 "VOsc3" (bufpos freq1 freq2 freq3) 1)
 (define-oscillator var-saw "VarSaw" (freq iphase width) 1)
-(define-oscillator xline "XLine" (start end dur done-action) 1)
+(define-oscillator x-line "XLine" (start end dur done-action) 1)
 
 (define-oscillator-n buf-rd "BufRd" (bufnum phase loop interpolation))
 (define-oscillator-n disk-in "DiskIn" (bufnum))
@@ -1113,21 +1113,21 @@
 (define-oscillator* duty "Duty" (dur reset done-action level) 1)
 (define-oscillator* env-gen "EnvGen" (gate level-scale level-bias time-scale done-action envelope-array) 1)
 (define-oscillator* klang "Klang" (freqscale freqoffset spec-array) 1)
-(define-oscillator* tduty "TDuty" (dur reset done-action level) 1)
+(define-oscillator* t-duty "TDuty" (dur reset done-action level) 1)
 
 (define-oscillator-id brown-noise "BrownNoise" () 1)
 (define-oscillator-id clip-noise "ClipNoise" () 1)
 (define-oscillator-id dust "Dust" (density) 1)
 (define-oscillator-id dust2 "Dust2" (density) 1)
 (define-oscillator-id gray-noise "GrayNoise" () 1)
-(define-oscillator-id lfclip-noise "LFClipNoise" (freq) 1)
-(define-oscillator-id lfdclip-noise "LFDClipNoise" (freq) 1)
-(define-oscillator-id lfdnoise0 "LFDNoise0" (freq) 1)
-(define-oscillator-id lfdnoise1 "LFDNoise1" (freq) 1)
-(define-oscillator-id lfdnoise3 "LFDNoise3" (freq) 1)
-(define-oscillator-id lfnoise0 "LFNoise0" (freq) 1)
-(define-oscillator-id lfnoise1 "LFNoise1" (freq) 1)
-(define-oscillator-id lfnoise2 "LFNoise2" (freq) 1)
+(define-oscillator-id lf-clip-noise "LFClipNoise" (freq) 1)
+(define-oscillator-id lfd-clip-noise "LFDClipNoise" (freq) 1)
+(define-oscillator-id lfd-noise0 "LFDNoise0" (freq) 1)
+(define-oscillator-id lfd-noise1 "LFDNoise1" (freq) 1)
+(define-oscillator-id lfd-noise3 "LFDNoise3" (freq) 1)
+(define-oscillator-id lf-noise0 "LFNoise0" (freq) 1)
+(define-oscillator-id lf-noise1 "LFNoise1" (freq) 1)
+(define-oscillator-id lf-noise2 "LFNoise2" (freq) 1)
 (define-oscillator-id noah-noise "NoahNoise" () 1)
 (define-oscillator-id pink-noise "PinkNoise" () 1)
 (define-oscillator-id rand-id "RandId" (id) 1)
@@ -1206,9 +1206,9 @@
 (define-specialized-id dseries "Dseries" (length start step) 1 dr)
 (define-specialized-id dwhite "Dwhite" (length lo hi) 1 dr)
 (define-specialized-id exp-rand "ExpRand" (lo hi) 1 ir)
-(define-specialized-id irand "IRand" (lo hi) 1 ir)
+(define-specialized-id i-rand "IRand" (lo hi) 1 ir)
 (define-specialized-id lin-rand "LinRand" (lo hi minmax) 1 ir)
-(define-specialized-id nrand "NRand" (lo hi n) 1 ir)
+(define-specialized-id n-rand "NRand" (lo hi n) 1 ir)
 (define-specialized-id rand "Rand" (lo hi) 1 ir)
 
 (define-specialized*-id drand "Drand" (length array) 1 dr)
@@ -1249,13 +1249,13 @@
   (lambda (a b c d)
     (mul (mul (mul a b) c) d)))
 
-(define tchoose
+(define t-choose
   (lambda (trig array)
-    (select (tirand 0 (length (mce-channels array)) trig) array)))
+    (select (ti-rand 0 (length (mce-channels array)) trig) array)))
 
-(define twchoose
+(define tw-choose
   (lambda (trig array weights normalize)
-    (select (twindex trig normalize weights) array)))
+    (select (tw-index trig normalize weights) array)))
 
 ;; int
 (define add-to-head 0)

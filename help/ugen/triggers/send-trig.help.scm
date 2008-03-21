@@ -12,7 +12,7 @@
 ;; value - a UGen or float that will be polled at the time of trigger,
 ;;         and its value passed with the trigger message
 
-(let ((s (lfnoise0 kr 10)))
+(let ((s (lf-noise0 kr 10)))
   (audition (mrg2 (send-trig s 0 s)
 		  (out 0 (mul (sin-osc ar (mul-add s 200 500) 0) 0.1)))))
 

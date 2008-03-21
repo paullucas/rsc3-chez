@@ -15,7 +15,7 @@
       (t 10)
       (g (letc ((bufnum 0))
 	   (let ((z (clip2
-		     (Rlpf (lfpulse ar (mul-add (sin-osc kr 0.2 0) 10 21)
+		     (Rlpf (lf-pulse ar (mul-add (sin-osc kr 0.2 0) 10 21)
 				    (Mce 0 0.1) 0.1) 100 0.1) 0.4)))
 	     (Mrg (disk-out bufnum z)
 		  (out 0 z))))))
