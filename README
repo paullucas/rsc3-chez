@@ -1,18 +1,20 @@
-rsc3 - rsc3 SuperCollider Client
+rsc3 - rsc3 supercollider client
 
-rsc3 [1] is a PLT [2] scheme module for working
-with the SuperCollider [3] synthesis server.  The
-rsc3 interaction environment is written for GNU
-Emacs [4].
+rsc3 [1] is a an r6rs [2] (ikarus [3], plt [4])
+scheme module for working with the supercollider
+[5] synthesis server.  the rsc3 interaction
+environment is written for gnu emacs [6].
 
-  [1] http://slavepianos.org/rd/
-  [2] http://plt-scheme.org/
-  [3] http://audiosynth.com/
-  [4] http://gnu.org/software/emacs/
+  [1] http://slavepianos.org/rd/sw/rsc3/
+  [2] http://r6rs.org/
+  [3] http://www.cs.indiana.edu/~aghuloum/ikarus/
+  [4] http://plt-scheme.org/
+  [5] http://audiosynth.com/
+  [6] http://gnu.org/software/emacs/
 
-rsc3 is by Rohan Drape.  SuperCollider is by James
-McCartney.  PLT is by Matthew Flatt and others.
-Emacs is by Richard Stallman and others.
+rsc3 is by rohan drape.  supercollider is by james
+mccartney.  plt is by matthew flatt and others.
+emacs is by richard stallman and others.
 
 (c) rohan drape, 1998-2008
-    GPL.2, see http://www.gnu.org/copyleft
+    gpl.2, see http://www.gnu.org/copyleft
