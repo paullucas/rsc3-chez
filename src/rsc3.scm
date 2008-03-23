@@ -1150,6 +1150,7 @@
 (define dseq (mk-specialized-mce-id "Dseq" (length array) 1 dr))
 (define dser (mk-specialized-mce-id "Dser" (length array) 1 dr))
 (define dseries (mk-specialized-id "Dseries" (length start step) 1 dr))
+(define dswitch (mk-specialized-mce-id "Dswitch" (length array) 1 dr))
 (define dswitch1 (mk-specialized-mce-id "Dswitch1" (length array) 1 dr))
 (define dwhite (mk-specialized-id "Dwhite" (length lo hi) 1 dr))
 (define dxrand (mk-specialized-mce-id "Dxrand" (length array) 1 dr))
@@ -1783,6 +1784,13 @@
 (define pm-osc
   (lambda (r cf mf pm mp)
     (sin-osc r cf (mul (sin-osc r mf mp) pm))))
+
+;; ugen -> ugen -> ugen
+(define dcons
+  (lambda (x xs)
+    (let ((i (dseq 1 (mce2 0 1)))
+	  (a (dseq 1 (mce2 x xs))))
+      (dswitch i a))))
 
 ;; ugen|mce -> ugen
 (define mix

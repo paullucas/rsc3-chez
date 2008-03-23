@@ -2,8 +2,8 @@
 
 ;; demand rate generator for switching between inputs
 
-;; index	which of the inputs to return
-;; array	array of values or other ugens
+;; index - which of the inputs to return
+;; array - array of values or other ugens
 
 (let* ((x (mouse-x kr 0 4 0 0.1))
        (y (mouse-y kr 1 15 0 0.1))
