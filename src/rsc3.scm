@@ -668,16 +668,16 @@
      (lambda (i ...)
        (construct-ugen m #f (list i ...) #f o 0 (make-uid 0))))))
 
-(define-syntax define-filter-n
+;; string -> [symbol] ~> (int -> ugen ... -> ugen)
+(define-syntax mk-filter-n
   (syntax-rules ()
-    ((_ n m (i ...))
-     (define n
-       (lambda (nc i ...)
-	 (if (not (integer? nc))
-	     (error "define-filter-n" "illegal channel count" 'n nc)
-	     #f)
-	 (let ((l (list i ...)))
-	   (construct-ugen m #f l #f nc 0 (make-uid 0))))))))
+    ((_ m (i ...))
+     (lambda (nc i ...)
+       (if (not (integer? nc))
+	   (error "define-filter-n" "illegal channel count" 'n nc)
+	   #f)
+       (let ((l (list i ...)))
+	 (construct-ugen m #f l #f nc 0 (make-uid 0)))))))
 
 (define-syntax define-filter*
   (syntax-rules ()
@@ -1012,18 +1012,18 @@
 (define trig1 (mk-filter "Trig1" (in dur) 1))
 (define two-pole (mk-filter "TwoPole" (in freq radius) 1))
 (define two-zero (mk-filter "TwoZero" (in freq radius) 1))
-(define vibrato (mk-filter "Vibrato" (freq rate depth delay onset rate-variation depth-variation iphase) 1))
+(define vibrato (mk-filter "Vibrato" (f rt dpth dly onset rvar dvar iphase) 1))
 (define wrap (mk-filter "Wrap" (in lo hi) 1))
 (define wrap-index (mk-filter "WrapIndex" (bufnum in) 1))
 (define x-fade2 (mk-filter "XFade2" (in-a in-b pan level) 1))
 (define xy (mk-filter "XY" (xscale yscale xoff yoff rot rate) 1))
 (define zero-crossing (mk-filter "ZeroCrossing" (in) 1))
 
-(define-filter-k demand "Demand" (trig reset demand-ugens) 1 0)
+(define decode-b2 (mk-filter-n "DecodeB2" (w x y orientation)))
+(define silent (mk-filter-n "Silent" ()))
+(define t-grains (mk-filter-n  "TGrains" (tr b rt c-pos dur pan amp interp)))
 
-(define-filter-n decode-b2 "DecodeB2" (w x y orientation))
-(define-filter-n silent "Silent" ())
-(define-filter-n t-grains "TGrains" (trigger bufnum rate center-pos dur pan amp interp))
+(define-filter-k demand "Demand" (trig reset demand-ugens) 1 0)
 
 (define-filter* buf-wr "BufWr" (bufnum phase loop input-array) 1)
 (define-filter* klank "Klank" (input freqscale freqoffset decayscale specifications-array-ref) 1)
