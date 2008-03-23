@@ -693,14 +693,14 @@
      (lambda (i ...)
        (construct-ugen m #f (list i ...) #f o 0 (unique-uid))))))
 
-;; keyed filter, rate is determined by a known input
-(define-syntax define-filter-k
+;; string -> [symbol] -> int -> int ~> (ugen ... -> ugen)
+(define-syntax mk-filter-k
   (syntax-rules ()
-    ((_ n m (i ...) o k)
-     (define n
-       (lambda (i ...)
-	 (let ((l (list i ...)))
-	   (construct-ugen m (rate-of (list-ref l k)) l #f o 0 (make-uid 0))))))))
+    ;; k = keyed input
+    ((_ m (i ...) o k)
+     (lambda (i ...)
+       (let ((l (list i ...)))
+	 (construct-ugen m (rate-of (list-ref l k)) l #f o 0 (make-uid 0)))))))
 
 (define-syntax define-oscillator
   (syntax-rules ()
@@ -1042,7 +1042,7 @@
 (define ti-rand (mk-filter-id "TIRand" (lo hi trig) 1))
 (define t-rand (mk-filter-id  "TRand" (lo hi trig) 1))
 
-(define-filter-k demand "Demand" (trig reset demand-ugens) 1 0)
+(define demand (mk-filter-k "Demand" (trig reset demand-ugens) 1 0))
 
 (define-oscillator amplitude "Amplitude" (in attack-time release-time) 1)
 (define-oscillator blip "Blip" (freq numharm) 1)
