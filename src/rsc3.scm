@@ -686,12 +686,12 @@
      (lambda (i ... v)
        (construct-ugen m #f (list i ...) v o 0 (make-uid 0))))))
 
-(define-syntax define-filter-id
+;; string -> [symbol] -> int ~> (ugen ... -> ugen)
+(define-syntax mk-filter-id
   (syntax-rules ()
-    ((_ n m (i ...) o)
-     (define n
-       (lambda (i ...)
-	 (construct-ugen m #f (list i ...) #f o 0 (unique-uid)))))))
+    ((_ m (i ...) o)
+     (lambda (i ...)
+       (construct-ugen m #f (list i ...) #f o 0 (unique-uid))))))
 
 ;; keyed filter, rate is determined by a known input
 (define-syntax define-filter-k
@@ -1037,12 +1037,12 @@
 (define tw-index (mk-filter* "TWindex" (in normalize array) 1))
 (define x-out (mk-filter* "XOut" (bus xfade channels-array) 0))
 
-(define-filter-k demand "Demand" (trig reset demand-ugens) 1 0)
+(define coin-gate (mk-filter-id "CoinGate" (prob in) 1))
+(define t-exp-rand (mk-filter-id "TExpRand" (lo hi trig) 1))
+(define ti-rand (mk-filter-id "TIRand" (lo hi trig) 1))
+(define t-rand (mk-filter-id  "TRand" (lo hi trig) 1))
 
-(define-filter-id coin-gate "CoinGate" (prob in) 1)
-(define-filter-id t-exp-rand "TExpRand" (lo hi trig) 1)
-(define-filter-id ti-rand "TIRand" (lo hi trig) 1)
-(define-filter-id t-rand "TRand" (lo hi trig) 1)
+(define-filter-k demand "Demand" (trig reset demand-ugens) 1 0)
 
 (define-oscillator amplitude "Amplitude" (in attack-time release-time) 1)
 (define-oscillator blip "Blip" (freq numharm) 1)
