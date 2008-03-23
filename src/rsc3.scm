@@ -582,10 +582,15 @@
   (lambda (m n)
     (list-ref (mce-channels m) n)))
 
+;; ([ugen] -> [ugen]) -> (mce -> mce)
+(define mce-edit
+  (lambda (f)
+    (lambda (u)
+      (make-mce (f (mce-channels u))))))
+
 ;; mce -> mce
 (define mce-reverse
-  (lambda (u)
-    (make-mce (reverse (mce-channels u)))))
+  (mce-edit reverse))
 
 ;; mce -> mce
 (define mce-transpose
