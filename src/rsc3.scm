@@ -104,12 +104,12 @@
     (expt 10 (* x 0.05))))
 
 ;; float -> float
-(define powdb
+(define pow-db
   (lambda (x) 
     (* (s:log10 x) 10)))
 
 ;; float -> float
-(define dbpow
+(define db-pow
   (lambda (x) 
     (expt 10 (* x 0.1))))
 
@@ -1838,7 +1838,7 @@
     (+ (* (random-real) (- b a)) a)))
 
 ;; float -> float -> float
-(define randomx
+(define exp-random
   (lambda (a b)
     (let ((r (/ b a)))
       (* (expt r (random 0 1)) a))))
