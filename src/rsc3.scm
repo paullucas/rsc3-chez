@@ -28,10 +28,11 @@
 ;; (a -> a -> a) -> (a -> [a] -> [a])
 (define dx->d 
   (lambda (f)
-    (lambda (n i)
-      (if (null? i)
-	  (list1 n)
-	  (cons n (dx->d (f (head i) n) (tail i)))))))
+    (letrec ((g (lambda (n i)
+		  (if (null? i)
+		      (list1 n)
+		      (cons n (g (f (head i) n) (tail i)))))))
+      g)))
 
 ;; ord a => a -> a -> a
 (define s:lt
