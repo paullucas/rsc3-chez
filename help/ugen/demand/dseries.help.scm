@@ -2,9 +2,9 @@
 
 ;; demand rate arithmetic series ugen.
 
-;; length	number of values to create
-;; start	start value
-;; step 	step value
+;; length   - number of values to create
+;; start    - start value
+;; step     - step value
 
 ;; The arguments can be a number or any other ugen
 

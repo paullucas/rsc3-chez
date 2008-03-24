@@ -2,10 +2,10 @@
 
 ;; demand rate geometric series ugen.
 
-;; start	start value
-;; grow 	value by which to grow ( x = x[-1] * grow )
-;; length	number of values to create
-		
+;; start   - start value
+;; grow    - value by which to grow ( x = x[-1] * grow )
+;; length  - number of values to create
+
 ;; The arguments can be a number or any other ugen
 
 (let* ((a (dgeom 15 1 1.2))
