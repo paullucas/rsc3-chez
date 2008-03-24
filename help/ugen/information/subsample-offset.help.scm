@@ -20,11 +20,13 @@
    (send-synth
     fd 
     "s"
-    (letc ((out 0) (addOffset 0))
+    (letc ((out 0) 
+	   (add-offset 0))
       (let* ((i (mul (impulse ar 2000 0) 0.3))
 	     (d sample-dur)
 	     (x 4)
-	     (o (add (sub 1 subsample-offset) (mouse-x kr 0 addOffset 0 0.1)))
+	     (o (add (sub 1 subsample-offset) 
+		     (mouse-x kr 0 add-offset 0 0.1)))
 	     (r (delay-c i (mul d (add 1 x)) (mul d (add o x)))))
 	(offset-out out r))))))
 
@@ -37,5 +39,7 @@
  (lambda (fd)
    (let ((t (utc))
 	 (dt (/ 1 (server-sample-rate-actual fd))))
-     (send fd (bundle (+ t 0.2) (s-new1 "s" -1 1 1 "addOffset" 3)))
-     (send fd (bundle (+ t 0.2 dt) (s-new1 "s" -1 1 1 "addOffset" 0))))))
+     (send fd (bundle (+ t 0.2) 
+		      (list (s-new1 "s" -1 1 1 "addOffset" 3))))
+     (send fd (bundle (+ t 0.2 dt) 
+		      (list (s-new1 "s" -1 1 1 "addOffset" 0)))))))
