@@ -54,6 +54,11 @@
   (lambda (p q)
     (if (> p q) 1 0)))
 
+;; real -> real -> real
+(define s:round
+  (lambda (p q)
+    (* (round (/ p q)) q)))
+
 ;; ord a => a -> a -> a -> a
 (define s:clip
   (lambda (a b n) 
