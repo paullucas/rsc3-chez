@@ -1,4 +1,4 @@
-;; (Round a b)
+;; (round a b)
 
 ;; Rounds a to the nearest multiple of b.
 
