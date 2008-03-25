@@ -1638,6 +1638,10 @@
 	 -1
 	 -1)))
 
+(define env-bp-linear
+  (lambda (bp dur amp)
+    (env-bp bp dur amp (replicate (- (/ (length bp) 2) 1) 1))))
+
 ;; Design a standard trapezoidal envelope. `shape' determines the
 ;; sustain time as a proportion of `dur', zero is a triangular
 ;; envelope, one a rectangular envelope. `skew' determines the
