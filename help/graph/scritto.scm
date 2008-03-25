@@ -27,39 +27,42 @@
     (bO  ((400 750  2400 2600 2900) (0 -11 -21 -20 -40) (40 80  100 120 120)))
     (bU  ((350 600  2400 2675 2950) (0 -20 -32 -28 -36) (40 80  100 120 120)))))
 
-(define (v-filter in freq ampl bw)
-  (mul (resonz in freq (fdiv bw freq))
-       (db-amp ampl)))
+(define v-filter
+  (lambda (in freq ampl bw)
+    (mul (resonz in freq (fdiv bw freq))
+	 (db-amp ampl))))
 
-(define (voice-tr i t fr amr bwr)
-  (mix (v-filter 
-	i
-	(mul (in 5 kr 0)  (t-rand (sub 1 fr) (add 1 fr) t))
-	(mul (in 5 kr 5)  (t-rand (sub 1 amr) (add 1 amr) t))
-	(mul (in 5 kr 10) (t-rand (sub 1 bwr) (add 1 bwr) t)))))
+(define voice-tr
+  (lambda (i t fr amr bwr)
+    (mix (v-filter 
+	  i
+	  (mul (in 5 kr 0)  (t-rand (sub 1 fr) (add 1 fr) t))
+	  (mul (in 5 kr 5)  (t-rand (sub 1 amr) (add 1 amr) t))
+	  (mul (in 5 kr 10) (t-rand (sub 1 bwr) (add 1 bwr) t))))))
 
-(define (scritto rt)
-  (let* ((t (impulse ar (mul-add (lf-noise2 kr 3) 12 12) 0))
-	 (n (ti-rand 30 52 t))
-	 (i (lambda (d) 
-	      (mul3 (decay2 (pulse-divider t d 0) 0.01 (t-rand 0.005 rt t))
-		    (blip ar (midi-cps n) (t-rand 16 32 t))
-		    12.0)))
-	 (x (mouse-x kr 0 1 0 0.1))
-	 (y (mouse-y kr 0 1 0 0.1)))
-    (mrg2 (send-trig t 0 n)
-	  (out 0 (clip2
-		  (mce2 (voice-tr (i 1)
-				  t 
-				  (mul x 1.05)
-				  (mul x 1.25) 
-				  (mul x 0.05))
-			(voice-tr (i 2)
-				  t 
-				  (mul y 0.05)
-				  (mul y 0.75) 
-				  (mul y 1.00)))
-		  1)))))
+(define scritto
+  (lambda (rt)
+    (let* ((t (impulse ar (mul-add (lf-noise2 kr 3) 12 12) 0))
+	   (n (ti-rand 30 52 t))
+	   (i (lambda (d) 
+		(mul3 (decay2 (pulse-divider t d 0) 0.01 (t-rand 0.005 rt t))
+		      (blip ar (midi-cps n) (t-rand 16 32 t))
+		      12.0)))
+	   (x (mouse-x kr 0 1 0 0.1))
+	   (y (mouse-y kr 0 1 0 0.1)))
+      (mrg2 (send-trig t 0 n)
+	    (out 0 (clip2
+		    (mce2 (voice-tr (i 1)
+				    t 
+				    (mul x 1.05)
+				    (mul x 1.25) 
+				    (mul x 0.05))
+			  (voice-tr (i 2)
+				    t 
+				    (mul y 0.05)
+				    (mul y 0.75) 
+				    (mul y 1.00)))
+		    1))))))
 
 (define updater
   (lambda (fd)
