@@ -1,20 +1,15 @@
-;; emacs/rsc3.el - (c) rohan drape, 2000-2007
+;; emacs/rsc3.el - (c) rohan drape, 2000-2008
 
 ;; This mode is implemented as a derivation of `scheme' mode,
 ;; indentation and font locking is courtesy that mode.  The
 ;; inter-process communication is courtesy `comint'.  The symbol at
-;; point acquisition is courtesy `thingatpt'.  The display of
-;; definitions in an info manual is courtesy `info'.  The directory
+;; point acquisition is courtesy `thingatpt'.  The directory
 ;; search facilities are courtesy `find-lisp'.
 
 (require 'scheme)
 (require 'comint)
 (require 'thingatpt)
-(require 'info)
 (require 'find-lisp)
-
-
-;; Common
 
 (defun line-at-point ()
   "Return the line at point as a string."
@@ -26,16 +21,6 @@
       (setq end (point)))
     (buffer-substring-no-properties beg end)))
 
-;; Open info documentation at `manual' and search the indices for
-;; `query'.
-
-(defun lookup-info-manual (manual query)
-  (interactive "fManual: \nsQuery: ")
-  (message "Looking up %s in the manual %s." query manual)
-  (info-other-window manual)
-  (Info-index query))
-
-
 ;; Scheme.
 
 (defvar rsc3-buffer
@@ -46,10 +31,6 @@
   (list "mzscheme" "-f" ".rsc3.scm"))
 
 (defvar rsc3-help-directory
-  nil
-  "*The directory containing the help files (default=nil).")
-
-(defvar rsc3-tags-file
   nil
   "*The directory containing the help files (default=nil).")
 
@@ -98,6 +79,11 @@ evaluating rsc3 expressions.  Input and output is via `rsc3-buffer'."
      nil
      (cdr rsc3-interpreter))
     (rsc3-see-output)))
+
+(defun rsc3-interrupt-scheme ()
+  "Interupt scheme process."
+  (interactive)
+  (interrupt-process rsc3-buffer comint-ptyp))
 
 (defun rsc3-clear-schedule ()
   "Clear the schedule (Q)."
@@ -194,28 +180,6 @@ required to find the Server-Command help files.  Else return
 	(substring input 1)
       input)))
 
-(defun rsc3-find-definition ()
-  "Lookup up the symbol at point in the rsc3 TAGS file.  If the
-search fails any trailing hyphenated words are dropped and the
-search attempted again recursively until the base work is
-searched for.  This finds a record definition when an accessor or
-setter function is searched for."
-  ;; If the string `input' has a trailing hyphenated word drop it,
-  ;; else raise an error.
-  (defun drop-trailing-hyphenated-word (input)
-    (let ((index (string-match "-[^-]*$" input)))
-      (if index
-	  (substring input 0 index)
-	(error "No trailing hyphenated word, search terminated"))))
-  ;; Recursive finder.
-  (defun find-it (s)
-    (condition-case nil
-	(find-tag s)
-      (error (find-it (drop-trailing-hyphenated-word s)))))
-  (interactive)
-  (setq tags-file-name rsc3-tags-file)
-  (find-it (thing-at-point 'symbol)))
-
 (defun rsc3-help ()
   "Lookup up the symbol at point in the set of Help files
 distributed with rsc3.
@@ -242,6 +206,7 @@ The symbol at point is preprocessed by `rsc3-cleanup-symbol'."
   (define-key map "\C-\\" 'rsc3-insert-lambda)
   (define-key map "\C-c\C-s" 'rsc3-start-scheme)
   (define-key map "\C-c\C-g" 'rsc3-see-output)
+  (define-key map "\C-c\C-c" 'rsc3-interrupt-scheme)
   (define-key map "\C-c\C-q" 'rsc3-clear-schedule)
   (define-key map "\C-c\C-x" 'rsc3-quit-scheme)
   ;; scsynth
@@ -254,8 +219,7 @@ The symbol at point is preprocessed by `rsc3-cleanup-symbol'."
   (define-key map "\C-c\C-p" 'rsc3-play)
   (define-key map "\C-c\C-d" 'rsc3-draw)
   ;; Help.
-  (define-key map "\C-c\C-h" 'rsc3-help)
-  (define-key map "\C-c\C-c" 'rsc3-find-definition))
+  (define-key map "\C-c\C-h" 'rsc3-help))
 
 (defun rsc3-mode-menu (map)
   "Install rsc3 menu into `map'."
@@ -269,8 +233,6 @@ The symbol at point is preprocessed by `rsc3-cleanup-symbol'."
     (cons "Help" (make-sparse-keymap "Help")))
   (define-key map [menu-bar rsc3 help rsc3]
     '("Scheme-SuperCollider help" . rsc3-help))
-  (define-key map [menu-bar rsc3 help source]
-    '("Find definition" . rsc3-find-definition))
 
   ;; Expression
   (define-key map [menu-bar rsc3 expression]
@@ -299,6 +261,8 @@ The symbol at point is preprocessed by `rsc3-cleanup-symbol'."
     (cons "Scheme" (make-sparse-keymap "Scheme")))
   (define-key map [menu-bar rsc3 scheme quit-scheme]
     '("Quit scheme" . rsc3-quit-scheme))
+  (define-key map [menu-bar rsc3 scheme interrupt-scheme]
+    '("Interrupt scheme" . rsc3-interrupt-scheme))
   (define-key map [menu-bar rsc3 scheme clear-schedule]
     '("Clear schedule (Q)" . rsc3-clear-schedule))
   (define-key map [menu-bar rsc3 scheme see-output]
