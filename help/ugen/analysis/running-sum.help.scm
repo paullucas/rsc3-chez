@@ -10,5 +10,5 @@
 (let ((n 40))
   (audition
    (out 0 (foldl1 mul (list (sin-osc ar 440 0)
-			    (running-sum (audio-in (mce2 1 2)) n)
+			    (running-sum (sound-in (mce2 0 1)) n)
 			    (recip n))))))

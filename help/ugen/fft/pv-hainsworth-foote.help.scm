@@ -39,7 +39,7 @@
  (lambda (fd)
    (async fd (b-alloc 0 2048 1))))
 
-(let* ((source (audio-in 1))
+(let* ((source (sound-in 0))
        (detect (pv-hainsworth-foote (fft* 0 source) 
 				   1.0 
 				   0.0
@@ -66,7 +66,7 @@
 ;; Just Foote metric.  Foote never triggers with threshold over 1.0,
 ;; threshold under mouse control.
 
-(let* ((src (audio-in 1))
+(let* ((src (sound-in 0))
        (dtc (pv-hainsworth-foote (fft* 0 src)
 				0.0
 				1.0

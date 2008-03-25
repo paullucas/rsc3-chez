@@ -16,13 +16,13 @@
    (async fd (b-alloc 0 2048 1))))
 
 (audition
- (pan2
-  (ifft*
-   (pv-conformal-map
-    (fft* 10 (mul (audio-in 1) 0.5)) (mouse-x kr -1 1 0 0.1)
-    (mouse-y kr -1 1 0 0.1)))
-  0
-  1))
+ (out 0 (pan2
+	 (ifft*
+	  (pv-conformal-map
+	   (fft* 10 (mul (sound-in 0) 0.5)) (mouse-x kr -1 1 0 0.1)
+	   (mouse-y kr -1 1 0 0.1)))
+	 0
+	 1)))
 
 (let* ((signal (lambda (n)
 		 (let* ((o (sin-osc kr (mix-fill n (lambda (_) (rand 0.1 0.5))) 0))

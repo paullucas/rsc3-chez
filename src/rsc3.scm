@@ -1744,15 +1744,14 @@
       (pack-fft c nf from to z? (packfft-data* e)))))
 
 ;; ugen -> ugen
-(define audio-in
+(define sound-in
   (lambda (n)
-    (let ((offset (sub num-output-buses 1)))
-      (if (mce? n)
-	  (let ((l (mce-channels n)))
-	    (if (consecutive? l)
-		(in (length l) ar (add offset (head l)))
-		(in 1 ar (add offset n))))
-	  (in 1 ar (add offset n))))))
+    (if (mce? n)
+	(let ((l (mce-channels n)))
+	  (if (consecutive? l)
+	      (in (length l) ar (add num-output-buses (head l)))
+	      (in 1 ar (add num-output-buses n))))
+	(in 1 ar (add num-output-buses n)))))
 
 ;; [ugen] -> [ugen] -> [ugen] -> ugen
 (define klang-data
