@@ -1842,6 +1842,11 @@
   (lambda (a b) 
     (+ (* (random-real) (- b a)) a)))
 
+;; int -> int -> int
+(define i-random
+  (lambda (l r)
+    (+ l (random-integer (- r l)))))
+
 ;; float -> float -> float
 (define exp-random
   (lambda (a b)
