@@ -6,8 +6,8 @@
 ;; signal values by noninteger exponents.
 
 (audition
-   (out 0 (let ((a (mul (f-sin-osc ar 100 0) 0.1)))
-	    (mce2 a (pow a 10)))))
+ (out 0 (let ((a (mul (f-sin-osc ar 100 0) 0.1)))
+	  (mce2 a (pow a 10)))))
 
 ;; http://create.ucsb.edu/pipermail/sc-users/2006-December/029998.html
 

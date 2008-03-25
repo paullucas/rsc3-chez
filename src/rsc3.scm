@@ -847,7 +847,7 @@
 (define rand* (mk-unary-operator 37 #f))
 
 ;; ugen -> ugen -> ugen
-(define amclip (mk-binary-operator 40 #f))
+(define am-clip (mk-binary-operator 40 #f))
 (define abs-dif (mk-binary-operator 38 #f))
 (define add (mk-binary-operator 0 +))
 (define atan2 (mk-binary-operator 22 #f))
