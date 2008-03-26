@@ -1228,6 +1228,10 @@
   (lambda (a b c)
     (add (add a b) c)))
 
+(define add4
+  (lambda (a b c d)
+    (add (add a b) (add c d))))
+
 (define buf-rd-c
   (lambda (nc r b p l) 
     (buf-rd nc r b p l 4)))
