@@ -1,6 +1,22 @@
 ;; shifting pulses (rd)
 
-(let* ((wrp (lambda (i l r) (lin-lin i -1 1 l r)))
+(let* ((wrp 
+	(lambda (i l r) 
+	  (lin-lin i -1 1 l r)))
+       (prt
+	(lambda (f a)
+	  (let ((f* (mul f (mul (wrp (sin-osc kr (rand 0.2 0.9) 0) 1 1.01)
+				(rand 0.95 1.05)))))
+	    (mul (sin-osc ar (mce2 f f*) 0) 
+		 (mul a (clone 2 (rand 0.95 1.05)))))))
+       (prts
+	(lambda (n f a)
+	  (mix 
+	   (make-mce 
+	    (map 
+	     (lambda (f) 
+	       (prt f a)) 
+	     (enum-from-then-to f (+ f f) (* n f)))))))
        (n1 (clone 2 (brown-noise kr)))
        (n2 (clone 2 (brown-noise kr)))
        (n3 (clone 2 (brown-noise kr)))
@@ -9,4 +25,11 @@
        (p (mul (pulse ar (wrp n1 2 (mce2 11 15)) 0.01) 0.1))
        (f (wrp n2 300 1800))
        (rq (wrp n3 0.01 2)))
-  (audition (out 0 (mul l (rlpf p f rq)))))
+  (audition 
+   (out 0 (add4
+	   (prts 2 900 0.002)
+	   (prts 9 40 0.006)
+	   (mul (formant ar (mce2 20 21) (wrp (lf-noise2 kr 2) 10 100) 200) 
+		0.35)
+	   (mul l 
+		(rlpf p f rq))))))
