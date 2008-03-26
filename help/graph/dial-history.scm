@@ -1,12 +1,18 @@
 ;; dial history (jrhb)
 
 (let* ((mfv (transpose (list (list 697 770 852 941)
-			     (list 1209 1336 1477 1633))))
+                             (list 1209 1336 1477 1633))))
        (numbers (transpose (list (list 3 0 0 0 1 1 1 2 2 2)
-				 (list 1 0 1 2 0 1 2 0 1 2))))
-       (range (lambda (s l r) (lin-lin s 0 1 l r)))
-       (mce-r (lambda (l) (make-mce (map make-mce l))))
-       (mce-mrg (lambda (u) (mrg-n (mce-channels u))))
+                                 (list 1 0 1 2 0 1 2 0 1 2))))
+       (range
+        (lambda (s l r)
+          (lin-lin s 0 1 l r)))
+       (mce-r
+        (lambda (l)
+          (make-mce (map make-mce l))))
+       (mce-mrg
+        (lambda (u)
+          (mrg-n (mce-channels u))))
        (n (dwhite dinf 7 12))
        (w (dwhite 1 2 7))
        (b (dbrown n 0.1 0.2 0.01))

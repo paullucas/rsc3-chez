@@ -1,12 +1,12 @@
 ;; lg-timed (rd)
 
 (let* ((timed 
-	(lambda (r y p)
-	  (let* ((d0 (dser r p))
-		 (d1 (dcons 0 d0))
-		 (d2 (dser r y))
-		 (t (t-duty ar d1 0 remove-synth d2 1)))
-	    (latch t t))))
+        (lambda (r y p)
+          (let* ((d0 (dser r p))
+                 (d1 (dcons 0 d0))
+                 (d2 (dser r y))
+                 (t (t-duty ar d1 0 remove-synth d2 1)))
+            (latch t t))))
        (lg (lambda (u) (lag u 0.03)))
        (n (make-mce (list 52 76 66 67 68 69)))
        (a (make-mce (list 0.35 0.15 0.04 0.05 0.16 0.07)))

@@ -17,7 +17,7 @@
           (let ((le (mkls l d))
                 (re (mkls r d)))
             (wrp (white-noise rt) le re))))
-       (gb 
+       (gb
         (lambda (b d)
           (let* ((gps (pm/n ar
                             (list 0 400 1 0900)
@@ -33,13 +33,13 @@
                             d
                             t))
                  (rate (pm/t (list 0 06 0.5 12 1 06)
-			     (list 0 12 0.5 12 1 12)
-			     d 
-			     t))
+                             (list 0 12 0.5 12 1 12)
+                             d
+                             t))
                  (cpos (pm/t (list 0 0 1 0.95)
-			     (list 0 0 1 1.00)
-			     d
-			     t))
+                             (list 0 0 1 1.00)
+                             d
+                             t))
                  (amp (pm/t (list 0 0.25 0.5 0.55 1.0 0.15)
                             (list 0 0.50 0.5 0.75 1.0 0.25)
                             d

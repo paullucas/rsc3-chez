@@ -1,9 +1,9 @@
 ;; deep sea (jrhb)
 
-(let* ((range 
-	(lambda (s l r)
-	  (let ((m (mul (sub r l) 0.5)))
-	    (mul-add s m (add m l)))))
+(let* ((range
+        (lambda (s l r)
+          (let ((m (mul (sub r l) 0.5)))
+            (mul-add s m (add m l)))))
        (amp 1)
        (pan 0)
        (variation 0.9)
@@ -18,4 +18,4 @@
        (freq2 (mul freq (add (u:mod count (range (lf-noise1 kr 1) 2 20)) 1)))
        (u2 (mul (bpf u1 freq2 1) 0.2)))
   (audition (mrg2 (detect-silence u2 0.0001 0.2 remove-synth)
-		  (out 0 (pan2 u2 pan (mul amp 10))))))
+                  (out 0 (pan2 u2 pan (mul amp 10))))))

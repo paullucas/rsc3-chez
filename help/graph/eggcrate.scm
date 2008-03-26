@@ -1,8 +1,8 @@
 ;; eggcrate (rd)
 
-(let* ((eggcrate 
-	(lambda (u v)
-	  (mul (u:cos (mul u pi)) (u:sin (mul v pi)))))
+(let* ((eggcrate
+        (lambda (u v)
+          (mul (u:cos (mul u pi)) (u:sin (mul v pi)))))
        (p (make-mce (list 64 72 96 128 256 6400 7200 8400 9600)))
        (x (brown-noise kr))
        (y (brown-noise kr))
