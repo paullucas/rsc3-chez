@@ -32,14 +32,14 @@
                             (list 0 -0.5 0.5 +0.5 1 1.0)
                             d
                             t))
-                 (rate(pm/t (list 0 06 0.5 12 1 06)
-                            (list 0 12 0.5 12 1 12)
-                            d 
-                            t))
-                 (cpos(pm/t (list 0 0 1 0.95)
-                            (list 0 0 1 1.00)
-                            d
-                            t))
+                 (rate (pm/t (list 0 06 0.5 12 1 06)
+			     (list 0 12 0.5 12 1 12)
+			     d 
+			     t))
+                 (cpos (pm/t (list 0 0 1 0.95)
+			     (list 0 0 1 1.00)
+			     d
+			     t))
                  (amp (pm/t (list 0 0.25 0.5 0.55 1.0 0.15)
                             (list 0 0.50 0.5 0.75 1.0 0.25)
                             d
