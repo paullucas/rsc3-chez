@@ -1848,12 +1848,12 @@
 ;; float -> float -> float
 (define random
   (lambda (a b) 
-    (+ (* (random-real) (- b a)) a)))
+    (+ (* (srfi:random-real) (- b a)) a)))
 
 ;; int -> int -> int
 (define i-random
   (lambda (l r)
-    (+ l (random-integer (- r l)))))
+    (+ l (srfi:random-integer (- r l)))))
 
 ;; float -> float -> float
 (define exp-random
@@ -1864,4 +1864,4 @@
 ;; [a] -> a
 (define choose
   (lambda (xs)
-    (list-ref xs (random-integer (length xs)))))
+    (list-ref xs (srfi:random-integer (length xs)))))
