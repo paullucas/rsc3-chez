@@ -213,7 +213,7 @@
 
 ;; [ugen] -> mce
 (define-record-type mce 
-  (fields channels))
+  (fields proxies))
 
 ;; ugen -> ugen -> mce
 (define mce2
@@ -235,10 +235,19 @@
   (lambda (a b c d e)
     (make-mce (list5 a b c d e))))
 
+;; node -> [ugen]
+(define mce-channels
+  (lambda (u)
+    (cond
+     ((mce? u) (mce-proxies u))
+     ((mrg? u) (let ((rs (mce-channels (mrg-left u))))
+                 (cons (make-mrg (head rs) (mrg-right u)) rs)))
+     (else (list u)))))
+
 ;; mce -> int -> ugen
 (define mce-channel
   (lambda (u n)
-    (list-ref (mce-channels u) n)))
+    (list-ref (mce-proxies u) n)))
 
 ;; ugen -> ugen -> mrg
 (define-record-type mrg
@@ -248,7 +257,7 @@
 (define mrg-n
   (lambda (xs)
     (if (null? xs)
-	(undefined)
+	(error "mrg-n" "nil input list" xs)
 	(if (null? (tail xs))
 	    (head xs)
 	    (mrg2 (head xs) (mrg-n (tail xs)))))))
@@ -302,8 +311,8 @@
 	  ((control*? o) (control*-rate o))
 	  ((ugen? o) (ugen-rate o))
 	  ((proxy? o) (rate-of (proxy-ugen o)))
-	  ((mce? o) (rate-select (map rate-of (mce-channels o))))
-	  ((mrg? o) (error "rate-of" "mrg?" o))
+	  ((mce? o) (rate-select (map rate-of (mce-proxies o))))
+	  ((mrg? o) (rate-of (mrg-left o)))
 	  (else (error "rate-of" "illegal value" o)))))
 
 ;; rate -> int
@@ -354,7 +363,8 @@
 	(control*? i)
 	(ugen? i)
 	(proxy? i)
-	(mce? i))))
+	(mce? i)
+        (mrg? i))))
 
 ;; ugen -> bool
 (define ugen-valid?
@@ -453,7 +463,7 @@
 (define construct-ugen
   (lambda (name rate? inputs mce? outputs special id)
     (let* ((inputs* (if mce?
-			(append2 inputs (mce-l mce?))
+			(append2 inputs (mce-channels mce?))
 			inputs))
 	   (rate (if rate?
 		     rate?
@@ -465,7 +475,7 @@
 	       (replicate outputs (make-output rate))
 	       special
 	       id)))
-      (proxied (mced u)))))
+      (proxify (mce-expand u)))))
 
 ;; ugen -> [node]
 (define graph-nodes
@@ -475,7 +485,7 @@
      ((proxy? u) (cons u (graph-nodes (proxy-ugen u))))
      ((control*? u) (list u))
      ((number? u) (list u))
-     ((mce? u) (concat (map1 graph-nodes (mce-channels u))))
+     ((mce? u) (concat (map1 graph-nodes (mce-proxies u))))
      ((mrg? u) (append2 (graph-nodes (mrg-left u)) (graph-nodes (mrg-right u))))
      (else (error "graph-nodes" "illegal value" u)))))
 
@@ -508,10 +518,20 @@
 		   (ugen-special u)
 		   (ugen-id u)))))
 
+;; ugen -> ugen
+(define prepare-root
+  (lambda (u)
+    (cond 
+     ((mce? u) (mrg-n (mce-proxies u)))
+     ((mrg? u) (make-mrg (prepare-root (mrg-left u)) 
+                         (prepare-root (mrg-right u))))
+     (else u))))
+
 ;; string -> ugen -> graphdef
 (define synthdef
-  (lambda (name u)
-    (let* ((nn (graph-constants u))
+  (lambda (name pre-u)
+    (let* ((u (prepare-root pre-u))
+           (nn (graph-constants u))
 	   (cc (graph-controls* u))
 	   (uu (graph-ugens u))
 	   (uu* (if (null? cc) uu (cons (implicit-ugen cc) uu))))
@@ -574,25 +594,23 @@
      ((control*? i) (control*-to-input i cc))
      ((ugen? i) (ugen-to-input i uu))
      ((proxy? i) (proxy-to-input i uu))
+     ((mrg? i) (input*-to-input (mrg-left i) nn cc uu))
      ((mce? i) (error "input*-to-input" "mce?" i))
-     ((mrg? i) (error "input*-to-input" "mrg?" i))
      (else (error "input*-to-input" "illegal input" i)))))
 
-;; mce -> int
+;; mce|mrg -> int
 (define mce-degree
   (lambda (m)
-    (length (mce-channels m))))
-
-;; mce -> int -> node
-(define mce-ref
-  (lambda (m n)
-    (list-ref (mce-channels m) n)))
+    (cond 
+     ((mce? m) (length (mce-proxies m)))
+     ((mrg? m) (mce-degree (mrg-left m)))
+     (else (error "mce-degree" "illegal input" m)))))
 
 ;; ([ugen] -> [ugen]) -> (mce -> mce)
 (define mce-edit
   (lambda (f)
     (lambda (u)
-      (make-mce (f (mce-channels u))))))
+      (make-mce (f (mce-proxies u))))))
 
 ;; mce -> mce
 (define mce-reverse
@@ -603,7 +621,7 @@
   (lambda (u)
     (make-mce (map make-mce (transpose (map mce-channels (mce-channels u)))))))
 
-;; node -> bool
+;; ugen -> bool
 (define mce-required?
   (lambda (u)
     (not (null? (filter mce? (ugen-inputs u))))))
@@ -611,9 +629,10 @@
 ;; int -> node -> [node]
 (define mce-extend
   (lambda (n i)
-    (if (mce? i)
-	(extend (mce-channels i) n)
-	(replicate n i))))
+    (cond ((mce? i) (extend (mce-proxies i) n))
+          ((mrg? i) (let ((rs (mce-extend n (mrg-left i))))
+                      (cons (make-mrg (head rs) (mrg-right i)) (tail rs))))
+          (else (replicate n i)))))
 
 ;; ugen -> mce
 (define mce-transform
@@ -628,30 +647,27 @@
 	 (make-mce (map1 f i*)))))))
 
 ;; node -> node|mce
-(define mced
+(define mce-expand
   (lambda (u)
-    (if (mce-required? u)
-	(mce-transform u)
-	u)))
-
-;; node -> [node]
-(define mce-l
-  (lambda (u)
-    (if (mce? u)
-	(mce-channels u)
-	(list u))))
+    (cond ((mce? u) (make-mce (map mce-expand (mce-proxies u))))
+          ((mrg? u) (make-mrg (mce-expand (mrg-left u)) (mrg-right u)))
+          (else (if (mce-required? u)
+                    (mce-transform u)
+                    u)))))
 
 ;; node -> mce
-(define proxied
+(define proxify
   (lambda (u)
     (cond
+     ((mce? u) (make-mce (map1 proxify (mce-proxies u))))
+     ((mrg? u) (make-mrg (proxify (mrg-left u)) (mrg-right u)))
      ((ugen? u) (let* ((o (ugen-outputs u))
 		       (n (length o)))
 		  (if (< n 2)
 		      u
 		      (make-mce (map1 (lambda (i) (make-proxy u i))
 				      (enum-from-to 0 (- n 1)))))))
-     ((mce? u) (make-mce (map1 proxied (mce-channels u)))))))
+     (else (error "proxify" "illegal ugen" u)))))
 
 ;; int -> maybe (float -> float) -> (node -> node)
 (define mk-unary-operator
@@ -938,7 +954,7 @@
 (define delay2 (mk-filter "Delay2" (in) 1))
 (define demand (mk-filter-k "Demand" (trig reset demand-ugens) 1 0))
 (define detect-silence (mk-filter "DetectSilence" (in amp time done-action) 1))
-(define disk-out (mk-filter-mce "DiskOut" (bufnum channels-array) 0))
+(define disk-out (mk-filter-mce "DiskOut" (bufnum array) 0))
 (define done (mk-filter "Done" (src) 1))
 (define fold (mk-filter "Fold" (in lo hi) 1))
 (define formlet (mk-filter "Formlet" (in freq attacktime decay) 1))
@@ -974,7 +990,7 @@
 (define lin-pan2 (mk-filter "LinPan2" (in pos level) 2))
 (define lin-x-fade2 (mk-filter "LinXFade2" (in-a in-b pan level) 1))
 (define linen (mk-filter "Linen" (gate atk-tm sus-lvl rel-tm done-action) 1))
-(define local-out (mk-filter-mce "LocalOut" (channels-array) 0))
+(define local-out (mk-filter-mce "LocalOut" (array) 0))
 (define lpf (mk-filter "LPF" (in freq) 1))
 (define lpz1 (mk-filter "LPZ1" (in) 1))
 (define lpz2 (mk-filter "LPZ2" (in) 1))
@@ -985,10 +1001,10 @@
 (define most-change (mk-filter "MostChange" (a b) 1))
 (define mul-add (mk-filter "MulAdd" (a b c) 1))
 (define normalizer (mk-filter "Normalizer" (in level dur) 1))
-(define offset-out (mk-filter-mce "OffsetOut" (bus channels-array) 0))
+(define offset-out (mk-filter-mce "OffsetOut" (bus inputs) 0))
 (define one-pole (mk-filter "OnePole" (in coef) 1))
 (define one-zero (mk-filter "OneZero" (in coef) 1))
-(define out (mk-filter-mce "Out" (bus channels-array) 0))
+(define out (mk-filter-mce "Out" (bus inputs) 0))
 (define pan-az (mk-filter "PanAz" (nc in pos lvl wdth orientation) 1))
 (define pan-b (mk-filter "PanB" (in azimuth elevation gain) 3))
 (define pan-b2 (mk-filter "PanB2" (in azimuth gain) 3))
@@ -1006,7 +1022,7 @@
 (define pulse-divider (mk-filter "PulseDivider" (trig div start) 1))
 (define ramp (mk-filter "Ramp" (in lag-time) 1))
 (define record-buf (mk-filter-mce "RecordBuf" (b off rl pl r lp tr i) 1))
-(define replace-out (mk-filter-mce "ReplaceOut" (bus channels-array) 0))
+(define replace-out (mk-filter-mce "ReplaceOut" (bus inputs) 0))
 (define resonz (mk-filter "Resonz" (in freq bwr) 1))
 (define rhpf (mk-filter "RHPF" (in freq rq) 1))
 (define ringz (mk-filter "Ringz" (in freq decay) 1))
@@ -1047,7 +1063,7 @@
 (define wrap (mk-filter "Wrap" (in lo hi) 1))
 (define wrap-index (mk-filter "WrapIndex" (bufnum in) 1))
 (define x-fade2 (mk-filter "XFade2" (in-a in-b pan level) 1))
-(define x-out (mk-filter-mce "XOut" (bus xfade channels-array) 0))
+(define x-out (mk-filter-mce "XOut" (bus xfade inputs) 0))
 (define xy (mk-filter "XY" (xscale yscale xoff yoff rot rate) 1))
 (define zero-crossing (mk-filter "ZeroCrossing" (in) 1))
 
@@ -1218,7 +1234,7 @@
 (define rand (mk-specialized-id "Rand" (lo hi) 1 ir))
 (define sample-dur (mk-specialized-c "SampleDur" 1 ir))
 (define sample-rate (mk-specialized-c "SampleRate" 1 ir))
-(define shared-out (mk-specialized "SharedOut" (bus channels-array) 0 kr))
+(define shared-out (mk-specialized "SharedOut" (bus inputs) 0 kr))
 (define subsample-offset (mk-specialized-c "SubsampleOffset" 1 ir))
 (define unpack1-fft (mk-specialized "Unpack1FFT" (c b bi wm) 1 dr))
 (define warp1 (mk-specialized-n "Warp1" (b ptr fs ws envb ov wrr i) ar))
@@ -1755,7 +1771,7 @@
 (define sound-in
   (lambda (n)
     (if (mce? n)
-	(let ((l (mce-channels n)))
+	(let ((l (mce-proxies n)))
 	  (if (consecutive? l)
 	      (in (length l) ar (add num-output-buses (head l)))
 	      (in 1 ar (add num-output-buses n))))
@@ -1809,7 +1825,7 @@
 (define mix
   (lambda (u)
     (cond
-     ((mce? u) (foldl1 add (mce-channels u)))
+     ((mce? u) (foldl1 add (mce-proxies u)))
      (else u))))
 
 ;; int -> (int -> ugen) -> mce
