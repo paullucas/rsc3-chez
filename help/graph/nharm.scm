@@ -1,6 +1,6 @@
 ;; nharm (rd)
 
-(letrec ((nharm 
+(letrec ((nharm
           (lambda (n f)
             (if (<= n 0)
                 (list)
@@ -19,10 +19,10 @@
                     e))))
          (pattern
           (lambda (fd)
-            (play fd (out 0 (klg (random 32 92) 
+            (play fd (out 0 (klg (random 32 92)
                                  (i-random 9 24))))
             (thread-pause (random 0.25 0.75))
             (pattern fd))))
-    (with-sc3
-     (lambda (fd)
-       (pattern fd))))
+  (with-sc3
+   (lambda (fd)
+     (pattern fd))))
