@@ -1,20 +1,20 @@
 ;; diffraction (rd)
 
-(let ((p 
+(let ((p
        (let* ((x (mouse-x kr 0.001 0.02 1 0.1))
               (y (mouse-y kr 120 400 1 0.1))
               (f (mul (lf-noise0 kr 4) (mce2 32 64)))
               (w (mul (lf-noise0 kr 32) x)))
-         (mul (resonz (pulse ar f w) 
+         (mul (resonz (pulse ar f w)
                       (add y (mul (lf-noise0 kr 2) 0.1))
                       (mul-add (lf-noise0 kr 6) 0.4 0.8))
               0.5)))
-      (q 
+      (q
        (let* ((x (mouse-x kr 0.001 0.02 1 0.1))
               (y (mouse-y kr 120 400 1 0.1))
               (f (mul (lf-noise0 kr 4) (mce2 32 64)))
               (w (mul (lf-noise0 kr 32) x)))
-         (comb-n (mul (resonz (pulse ar f w) 
+         (comb-n (mul (resonz (pulse ar f w)
                               (add y (mul (lf-noise0 kr 2) 0.1))
                               (mul-add (lf-noise0 kr 6) 0.4 0.8))
                       0.5)
@@ -23,7 +23,7 @@
                  3)))
       (r (let* ((x (mouse-x kr 0.75 1.25 1 0.1))
                 (y (mouse-y kr 0.25 1 1 0.1))
-                (f (lambda (_) 
+                (f (lambda (_)
                      (mul (sin-osc ar (mul x (rand 50 59)) 0)
                           (mul y (rand 0.04 0.16))))))
            (mce2 (mix-fill 16 f)
