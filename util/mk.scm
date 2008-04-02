@@ -1,5 +1,5 @@
-(import (rhs r6rs rhs))
-(load "/home/rohan/sw/rhs/util/util.scm")
+(import (rnrs)
+        (rhs util util))
 
 (mk-r6rs '(rsc3 r6rs rsc3)
 	 '("/home/rohan/sw/rsc3/src/rsc3.scm"
@@ -19,3 +19,5 @@
            (prefix (xitomatl srfi time) srfi:))
 	 '()
 	 '())
+
+(exit)
