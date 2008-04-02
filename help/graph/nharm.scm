@@ -23,6 +23,4 @@
                                  (i-random 9 24))))
             (thread-sleep (random 0.25 0.75))
             (pattern fd))))
-  (with-sc3
-   (lambda (fd)
-     (pattern fd))))
+  (with-sc3 pattern))
