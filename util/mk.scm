@@ -15,6 +15,7 @@
 	   (prefix (only (xitomatl srfi random) 
                          random-real 
                          random-integer) 
-                   srfi:))
+                   srfi:)
+           (prefix (xitomatl srfi time) srfi:))
 	 '()
 	 '())

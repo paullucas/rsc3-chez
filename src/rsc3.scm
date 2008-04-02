@@ -1881,3 +1881,10 @@
 (define choose
   (lambda (xs)
     (list-ref xs (srfi:random-integer (length xs)))))
+
+;; () -> float
+(define utc
+  (lambda ()
+    (let ((t (srfi:current-time srfi:time-utc)))
+      (+ (srfi:time-second t)
+         (/ (srfi:time-nanosecond t) 1e9)))))
