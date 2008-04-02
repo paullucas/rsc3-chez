@@ -20,8 +20,8 @@
 (let* ((p (pink-noise ar))
        (encoded (pan-b2 p (mouse-x kr -1 1 0 0.1) 0.1))
        (decoded (decode-b2 4
-			  (mce-ref encoded 0)
-			  (mce-ref encoded 1)
-			  (mce-ref encoded 2)
+			  (mce-channel encoded 0)
+			  (mce-channel encoded 1)
+			  (mce-channel encoded 2)
 			  0)))
   (audition (out 0 decoded)))
