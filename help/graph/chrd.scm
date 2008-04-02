@@ -11,4 +11,4 @@
                 (p (x-line kr (rand -1 1) (rand -1 1) d do-nothing))
                 (o (f-sin-osc ar f 0)))
            (mix (pan2 o p e))))))
-  (audition (out 0 (mix-fill 8 chrd))))
+  (audition (out 0 (mix-fill 5 chrd))))
