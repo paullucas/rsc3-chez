@@ -80,6 +80,6 @@
                     0.25)))
      (letrec ((pattern
                (lambda (fd)
-                 (thread-pause (settr fd n))
+                 (thread-sleep (settr fd n))
                  (pattern fd))))
        (pattern fd)))))

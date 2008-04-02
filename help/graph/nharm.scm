@@ -21,7 +21,7 @@
           (lambda (fd)
             (play fd (out 0 (klg (random 32 92)
                                  (i-random 9 24))))
-            (thread-pause (random 0.25 0.75))
+            (thread-sleep (random 0.25 0.75))
             (pattern fd))))
   (with-sc3
    (lambda (fd)

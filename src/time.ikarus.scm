@@ -1,5 +1,5 @@
 ;; double -> bool
-(define thread-pause
+(define thread-sleep
   (lambda (p)
     (let* ((s (exact (floor p)))
 	   (f (- p s))
