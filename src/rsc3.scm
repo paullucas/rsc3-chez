@@ -1510,15 +1510,6 @@
   (lambda (i j)
     (message "/c_getn" (list i j))))
 
-;; port -> string -> osc
-(define wait
-  (lambda (fd s)
-    (let ((p (recv fd)))
-      (cond
-       ((not p) (error "wait" "timed out"))
-       ((not (string=? (head p) s)) (error "wait" "bad return packet" p s))
-       (else p)))))
-
 ;; port -> osc -> ()
 (define async
   (lambda (fd m)
