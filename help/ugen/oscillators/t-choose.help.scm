@@ -1,7 +1,7 @@
 ;; (t-choose trig array)
 
 ;; The output is selected randomly on recieving a trigger from an
-;; array of inputs.  TChoose is a composite of ti-rand and select.
+;; array of inputs.  t-choose is a composite of ti-rand and select.
 
 (audition
  (let* ((t (dust ar (mouse-x kr 1 1000 1 0.1)))
