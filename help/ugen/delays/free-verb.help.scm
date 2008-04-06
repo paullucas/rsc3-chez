@@ -3,13 +3,13 @@
 
 ;; A simple reverb.
 
-;; in, in1, in2 - input signal.
-;; mix - dry/wet balance. range 0..1
-;; room - room size. rage 0..1
-;; damp - Reverb HF damp. range 0..1
+;; in, in1, in2 - input signal
+;;          mix - dry/wet balance (0,1)
+;;         room - room size (0,1)
+;;         damp - reverb high frequency damping (0,1)
 
 (let* ((i (impulse ar 1 0))
-       (c (lfcub ar 1200 0))
+       (c (lf-cub ar 1200 0))
        (s (mul3 (decay i 0.25) c 0.1))
        (x (mouse-x kr 0 1 0 0.1))
        (y (mouse-y kr 0 1 0 0.1))
