@@ -114,9 +114,9 @@
          (vla-get-cps
           (lambda (b)
             (midi-cps (+ (choose b)
-                         (degree->key (choose (list 0 1 2 3 4 5 6 7 8))
-                                      (list 0 2 3 5 7 8 10)
-                                      12)))))
+                         (s:degree-to-key (choose (list 0 1 2 3 4 5 6 7 8))
+                                          (list 0 2 3 5 7 8 10)
+                                          12)))))
          (pattern
           (lambda (fd)
             (send fd (s-new "plyr36" -1 add-to-tail 1

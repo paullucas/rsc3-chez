@@ -54,7 +54,7 @@
 (with-sc3
  (lambda (fd)
    (let ((p (map (lambda (e)
-		   (midi-cps (+ 36 (degree->key e (list 0 3 5 7 10) 12))))
+		   (midi-cps (+ 36 (s:degree-to-key e (list 0 3 5 7 10) 12))))
 		 (map floor (replicate-m 16 (random 0 15))))))
      (send fd (b-setn1 10 0 p)))))
 

@@ -150,7 +150,7 @@
     (+ (s:log2 (* freq 0.0022727272727)) 4.75)))
 
 ;; float -> [float] -> int -> float
-(define degree->key
+(define s:degree-to-key
   (lambda (degree scale steps)
     (let ((scale-n (length scale)))
       (+ (* steps (div degree scale-n))
