@@ -15,24 +15,30 @@
 	      (take-cycle (drop n l) n)))))
 
 ;; (a -> a -> a) -> ([a] -> [a])
-(define d->dx 
+(define differentiate-with
   (lambda (f)
-    (lambda (l)
+    (lambda (xs)
       (unfoldr
        (lambda (x)
 	 (if (null? (tail x))
 	     #f
 	     (tuple2 (f (head (tail x)) (head x)) (tail x))))
-       l))))
+       xs))))
+
+;; num a => [a] -> [a]
+(define differentiate
+  (differentiate-with -))
 
 ;; (a -> a -> a) -> (a -> [a] -> [a])
-(define dx->d 
+(define integrate-with 
   (lambda (f)
-    (letrec ((g (lambda (n i)
-		  (if (null? i)
-		      (list1 n)
-		      (cons n (g (f (head i) n) (tail i)))))))
-      g)))
+    (lambda (n xs)
+      (let ((g (lambda (a x) (let ((y (f a x))) (tuple2 y y)))))
+        (cons n (snd (map-accum-l g n xs)))))))
+
+;; num a => a -> [a] -> [a]
+(define integrate
+  (integrate-with +))
 
 ;; ord a => a -> a -> a
 (define s:lt
@@ -242,7 +248,7 @@
      ((mce? u) (mce-proxies u))
      ((mrg? u) (let ((rs (mce-channels (mrg-left u))))
                  (cons (make-mrg (head rs) (mrg-right u)) rs)))
-     (else (list u)))))
+     (else (list1 u)))))
 
 ;; mce -> int -> ugen
 (define mce-channel
@@ -311,7 +317,7 @@
 	  ((control*? o) (control*-rate o))
 	  ((ugen? o) (ugen-rate o))
 	  ((proxy? o) (rate-of (proxy-ugen o)))
-	  ((mce? o) (rate-select (map rate-of (mce-proxies o))))
+	  ((mce? o) (rate-select (map1 rate-of (mce-proxies o))))
 	  ((mrg? o) (rate-of (mrg-left o)))
 	  (else (error "rate-of" "illegal value" o)))))
 
@@ -391,14 +397,14 @@
 ;; control -> [bytevector]
 (define encode-control
   (lambda (c)
-    (list (encode-pstr (control-name c))
-	  (encode-i16 (control-index c)))))
+    (list2 (encode-pstr (control-name c))
+           (encode-i16 (control-index c)))))
 
 ;; input -> [bytevector]
 (define encode-input
   (lambda (i)
-    (list (encode-i16 (input-ugen i))
-	  (encode-i16 (input-port i)))))
+    (list2 (encode-i16 (input-ugen i))
+           (encode-i16 (input-port i)))))
 
 ;; output -> [bytevector]
 (define encode-output
@@ -407,7 +413,7 @@
 
 ;; [bytevector]
 (define scgf 
-  (map encode-u8 (map char->integer (string->list "SCgf"))))
+  (map1 encode-u8 (map1 char->integer (string->list "SCgf"))))
 
 ;; ugen -> [bytevector]
 (define encode-ugen
@@ -421,8 +427,8 @@
 	(encode-i16 (length i))
 	(encode-i16 (length o))
 	(encode-i16 s)
-	(map encode-input i)
-	(map encode-output o))))))
+	(map1 encode-input i)
+	(map1 encode-output o))))))
 
 ;; graphdef -> bytevector
 (define encode-graphdef
@@ -439,13 +445,13 @@
 	(encode-i16 1)
 	(encode-pstr n)
 	(encode-i16 (length c))
-	(map encode-f32 c)
+	(map1 encode-f32 c)
 	(encode-i16 (length d))
-	(map encode-f32 d)
+	(map1 encode-f32 d)
 	(encode-i16 (length k))
-	(map encode-control k)
+	(map1 encode-control k)
 	(encode-i16 (length u))
-	(map encode-ugen u))))))
+	(map1 encode-ugen u))))))
 
 ;; syntax for binding control values
 (define-syntax letc
@@ -483,8 +489,8 @@
     (cond
      ((ugen? u) (cons u (concat-map graph-nodes (ugen-inputs u))))
      ((proxy? u) (cons u (graph-nodes (proxy-ugen u))))
-     ((control*? u) (list u))
-     ((number? u) (list u))
+     ((control*? u) (list1 u))
+     ((number? u) (list1 u))
      ((mce? u) (concat (map1 graph-nodes (mce-proxies u))))
      ((mrg? u) (append2 (graph-nodes (mrg-left u)) (graph-nodes (mrg-right u))))
      (else (error "graph-nodes" "illegal value" u)))))
@@ -547,7 +553,7 @@
   (lambda (cc)
     (make-ugen "Control"
 	       kr
-	       (list)
+	       nil
 	       (map1 make-output (replicate (length cc) kr))
 	       0
 	       (make-uid 0))))
@@ -619,7 +625,8 @@
 ;; mce -> mce
 (define mce-transpose
   (lambda (u)
-    (make-mce (map make-mce (transpose (map mce-channels (mce-channels u)))))))
+    (make-mce 
+     (map1 make-mce (transpose (map1 mce-channels (mce-channels u)))))))
 
 ;; ugen -> bool
 (define mce-required?
@@ -649,7 +656,7 @@
 ;; node -> node|mce
 (define mce-expand
   (lambda (u)
-    (cond ((mce? u) (make-mce (map mce-expand (mce-proxies u))))
+    (cond ((mce? u) (make-mce (map1 mce-expand (mce-proxies u))))
           ((mrg? u) (make-mrg (mce-expand (mrg-left u)) (mrg-right u)))
           (else (if (mce-required? u)
                     (mce-transform u)
@@ -676,7 +683,7 @@
       (if (and (number? a) 
 	       f)
 	  (f a)
-	  (construct-ugen "UnaryOpUGen" #f (list a) #f 1 s (make-uid 0))))))
+	  (construct-ugen "UnaryOpUGen" #f (list1 a) #f 1 s (make-uid 0))))))
 
 ;; int -> maybe (float -> float -> float) -> (node -> node -> node)
 (define mk-binary-operator
@@ -686,7 +693,7 @@
 	       (number? b)
 	       f)
 	  (f a b)
-	  (construct-ugen "BinaryOpUGen" #f (list a b) #f 1 s (make-uid 0))))))
+	  (construct-ugen "BinaryOpUGen" #f (list2 a b) #f 1 s (make-uid 0))))))
 
 ;; string -> [symbol] -> int ~> (ugen ... -> ugen)
 (define-syntax mk-filter
@@ -772,7 +779,7 @@
 (define-syntax mk-specialized-c
   (syntax-rules ()
     ((_ m o r)
-     (construct-ugen m r (list) #f o 0 (make-uid 0)))))
+     (construct-ugen m r nil #f o 0 (make-uid 0)))))
 
 ;; string -> [symbol] -> int -> rate ~> (ugen ... -> ugen)
 (define-syntax mk-specialized-mce
@@ -1643,8 +1650,14 @@
 ;; [ugen] -> ugen -> ugen -> [ugen] -> ugen
 (define env-bp
   (lambda (bp dur amp curves)
-    (env (map (lambda (e) (mul e amp)) (take-cycle (tail bp) 2))
-	 (map (lambda (e) (mul e dur)) ((d->dx sub) (take-cycle bp 2)))
+    (env (map1 
+          (lambda (e) 
+            (mul e amp)) 
+          (take-cycle (tail bp) 2))
+	 (map1 
+          (lambda (e) 
+            (mul e dur)) 
+          ((differentiate-with sub) (take-cycle bp 2)))
 	 curves
 	 -1
 	 -1)))
@@ -1707,8 +1720,8 @@
 	   peakLevel
 	   curves
 	   bias)
-    (env (map (lambda (e) (mul e bias))
-	      (list 0.0 peakLevel (mul peakLevel sustainLevel) 0.0))
+    (env (map1 (lambda (e) (mul e bias))
+               (list 0.0 peakLevel (mul peakLevel sustainLevel) 0.0))
 	 (list attackTime decayTime releaseTime)
 	 curves
 	 2
@@ -1746,8 +1759,8 @@
 
 (define unpack-fft
   (lambda (c nf from to mp?)
-    (map (lambda (i)
-	   (unpack1-fft c nf i mp?))
+    (map1 (lambda (i)
+            (unpack1-fft c nf i mp?))
 	 (enum-from-to from to))))
 
 (define pvcollect
@@ -1755,7 +1768,7 @@
     (let* ((m (unpack-fft c nf from to 0))
 	   (p (unpack-fft c nf from to 1))
 	   (i (enum-from-to from to))
-	   (e (map f m p i)))
+	   (e (zip-with3 f m p i)))
       (pack-fft c nf from to z? (packfft-data* e)))))
 
 ;; ugen -> ugen
