@@ -2,85 +2,90 @@
 
 * Prerequisites
 
-Scheme SuperCollider requires that SuperCollider [1], PLT Scheme [2]
-and Emacs [3] are all installed and working properly.
+Scheme SuperCollider requires that SuperCollider [1], Ikarus
+Scheme [2] and Emacs [3] are all installed and working
+properly.
 
 * Setting up Scheme SuperCollider
 
-Scheme SuperCollider is currently only available as a set of darcs
-repositories, the basic system is called rsc3 and requires the rhs
-and sosc libraries.
+Scheme SuperCollider is currently only available as a set of
+darcs repositories, the basic system is called rsc3 and
+requires the rhs and sosc libraries.
 
   $ darcs get http://slavepianos.org/rd/sw/rhs
   $ darcs get http://slavepianos.org/rd/sw/sosc
   $ darcs get http://slavepianos.org/rd/sw/rsc3
 
-To build ensure the rsc3 directory is on the PLT path, see
-current-library-collection-paths, and use the standard setup process
-in each repository in sequence.
+To build ensure that the directories are on the scheme
+library path and run the below in each project.
 
-  $ setup-plt -l rsc3
+  $ cd util
+  $ make
 
 * Setting up the Scheme SuperCollider Emacs mode
 
-Add an appropriately modified variant of the following to ~/.emacs
+Add an appropriately modified variant of the following to
+~/.emacs
 
-  (push "~/sw/rsc3/emacs" load-path)
-  (setq rsc3-help-directory "~/sw/rsc3/Help/")
-  (setq rsc3-run-control "~/.rsc3.scm")
-  (setq rsc3-interpreter "mzscheme")
+  (push "/home/rohan/sw/rsc3/emacs" load-path)
+  (setq rsc3-help-directory "/home/rohan/sw/rsc3/help/")
+  (setq rsc3-interpreter (list "ikarus" "/home/rohan/.rsc3.scm"))
   (require 'rsc3)
 
-The rsc3 emacs mode associates itself with files having the extensions
-'.ss', '.lss' and '.scm'.  When the rsc3 emacs mode is active there is
-a 'Scheme SuperCollider' menu available.
+The rsc3 emacs mode associates itself with files having the
+extensions '.ss', '.lss' and '.scm'.  When the rsc3 emacs
+mode is active there is a 'Scheme SuperCollider' menu
+available.
 
 * Documentation
 
-The documentation for Scheme SuperCollider, including this tutorial,
-is written in plain text, either ordinary scheme source files or in
-'Bird' notation, a form of 'literate' scheme where lines starting with
-'>' are scheme code and everything else is commentary.
+The documentation for Scheme SuperCollider, including this
+tutorial, is written in plain text, either ordinary scheme
+source files or in 'Bird' notation, a form of 'literate'
+scheme where lines starting with '>' are scheme code and
+everything else is commentary.
 
-Unlike ordinary programs the Scheme SuperCollider help files cannot be
-compiled to executables.  Each help file contains multiple independant
-examples that can be evaluated using editor commands, either by
-selecting from the 'Scheme SuperCollider' menu or using the associated
-keybinding.
+Unlike ordinary programs the Scheme SuperCollider help files
+cannot be compiled to executables.  Each help file contains
+multiple independant examples that can be evaluated using
+editor commands, either by selecting from the 'Scheme
+SuperCollider' menu or using the associated keybinding.
 
 * Interpreter Interaction
 
-To start mzscheme and load the run-control file at the emacs variable
-'rsc3-run-control' use C-cC-s (Scheme SuperCollider -> Scheme -> Start
-scheme).
+To start the scheme interpreter use C-cC-s (Scheme
+SuperCollider -> Scheme -> Start scheme).
 
-Starting the interpreter splits the current window into two windows.
-If the mzscheme output window becomes obscured during a session you
-can see it again by typing C-cC-g (Scheme SuperCollider -> Scheme ->
-See scheme output).
+Starting the interpreter splits the current window into two
+windows.  If the scheme output window becomes obscured
+during a session you can see it again by typing
+C-cC-g (Scheme SuperCollider -> Scheme -> See scheme
+output).
 
-To stop mzscheme type C-cC-x (Scheme SuperCollider -> Scheme -> Quit
-scheme).
+To stop scheme type C-cC-x (Scheme SuperCollider -> Scheme
+-> Quit scheme).
 
 * Starting the SuperCollider server
 
-The SuperCollider server can be started from the command line.  The
-help files assume that scsynth is listening for UDP connections at the
-standard port on the local machine.
+The SuperCollider server can be started from the command
+line.  The help files assume that scsynth is listening for
+UDP connections at the standard port on the local machine.
 
   $ scsynth -u 57110
 
 * Basic SuperCollider Interaction
 
-The SuperCollider server manages a graph of nodes with integer
-identifiers.  The root node has ID zero.  By convention ordinary graph
-nodes are placed in a group with identifier 1, however this node is
-not created when scsynth starts.
+The SuperCollider server manages a graph of nodes with
+integer identifiers.  The root node has ID zero.  By
+convention ordinary graph nodes are placed in a group with
+identifier 1, however this node is not created when scsynth
+starts.
 
-To create this node we need to send an OSC message to the server, the
-expression to do this is written below.  To evaluate an expression
-move the cursor to the closing parenthesis and type C-cC-e (Scheme
-SuperCollider -> Expression -> Evaluate).
+To create this node we need to send an OSC message to the
+server, the expression to do this is written below.  To
+evaluate an expression move the cursor to the closing
+parenthesis and type C-cC-e (Scheme SuperCollider ->
+Expression -> Evaluate).
 
 > (with-sc3 (lambda (fd) (send fd (g-new1 1 add-to-tail 0))))
 
@@ -88,32 +93,33 @@ We can then audition a quiet sine oscillator at A440.
 
 > (audition (out 0 (mul (sin-osc ar 440 0) 0.1)))
 
-To stop the sound we can delete the group it is a part of, the
-audition function places the synthesis node into the group node with
-ID 1, the expression below deletes that group.
+To stop the sound we can delete the group it is a part of,
+the audition function places the synthesis node into the
+group node with ID 1, the expression below deletes that
+group.
 
 > (with-sc3 (lambda (fd) (send fd (n-free1 1))))
 
-In order to audition another graph we need to re-create a group with
-ID 1.  Sound.SC3 includes a function 'reset' that sequences these two
-actions, first deleting the group node, then re-creating a new empty
-group.
+In order to audition another graph we need to re-create a
+group with ID 1.  Sound.SC3 includes a function 'reset' that
+sequences these two actions, first deleting the group node,
+then re-creating a new empty group.
 
 > (with-sc3 reset)
 
-Using this command is so common there is a keybinding for it, C-cC-k
-(Scheme SuperCollider -> SCSynth -> Reset scsynth).  After a reset we
-can audition a new graph.
+Using this command is so common there is a keybinding for
+it, C-cC-k (Scheme SuperCollider -> SCSynth -> Reset
+scsynth).  After a reset we can audition a new graph.
 
 > (audition (out 0 (mul (sin-osc ar 220 0) 0.1)))
 
-To see the server status type C-cC-w (Scheme SuperCollider -> SCSynth
--> Display status), which sends:
+To see the server status type C-cC-w (Scheme SuperCollider
+-> SCSynth -> Display status), which sends:
 
 > (with-sc3 display-server-status)
 
-This prints a table indicating server activity to the mzscheme output
-window.
+This prints a table indicating server activity to the
+scheme output window.
 
   ***** SuperCollider Server Status *****
   # UGens                     0
@@ -127,8 +133,8 @@ window.
 
 * Multiple line expressions
 
-Multiple line expressions are evaluated using the same mechanism as
-single line expressions.  
+Multiple line expressions are evaluated using the same
+mechanism as single line expressions.
 
 > (let* ((f1 (x-line kr 1 1000 9 remove-synth))
 >        (f2 (mul-add (sin-osc ar f1 0) 200 800)))
@@ -136,30 +142,32 @@ single line expressions.
 
 * Help Files
 
-To find help on a UGen or on a SuperCollider server command place the
-cursor over the identifier and type C-cC-h (Scheme SuperCollider ->
-Help -> Scheme SuperCollider help).  This opens the help file, which
-ought to have working examples in it, the above graph is in the SinOsc
-help file, the /s_new help file explains what arguments are required
-and what they mean.
+To find help on a UGen or on a SuperCollider server command
+place the cursor over the identifier and type C-cC-h (Scheme
+SuperCollider -> Help -> Scheme SuperCollider help).  This
+opens the help file, which ought to have working examples in
+it, the above graph is in the SinOsc help file, the /s_new
+help file explains what arguments are required and what they
+mean.
 
-The Scheme SuperCollider help files are derived from the help files
-distributed with SuperCollider, the text is re-formatted to read well
-as plain text and examples are translated into scheme.
+The Scheme SuperCollider help files are derived from the
+help files distributed with SuperCollider, the text is
+re-formatted to read well as plain text and examples are
+translated into scheme.
 
 * User configuration files
 
-The run-control file allows for user configuration of the context in
-which the rsc3 emacs mode evaluates expressions.
+The run-control file allows for user configuration of the
+context in which the rsc3 emacs mode evaluates expressions.
 
 > (define with-sc3 with-udp-sc3)
 > (define audition (audition-using with-udp-sc3))
 
 * Monitoring incoming server messages
 
-To monitor what OSC messages scsynth is receiving use the 'dumpOSC'
-server command to request that scsynth print text traces of incoming
-messages to its standard output.
+To monitor what OSC messages scsynth is receiving use the
+'dumpOSC' server command to request that scsynth print text
+traces of incoming messages to its standard output.
 
 > (with-sc3 (lambda (fd) (send fd (dump-osc 1))))
 
@@ -170,5 +178,5 @@ To end printing send:
 * References
 
 [1] http://www.audiosynth.com/
-[2] http://www.plt-scheme.org/
+[2] http://www.cs.indiana.edu/~aghuloum/ikarus/
 [3] http://www.gnu.org/software/emacs/
