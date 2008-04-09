@@ -38,5 +38,3 @@
      (async fd (b-alloc 0 7 1))
      (send fd (b-setn1 0 0 (list 0 2 3.2 5 7 9 10)))
      (play fd (out 0 (add4 o1 o2 o3 o4))))))
-
-
