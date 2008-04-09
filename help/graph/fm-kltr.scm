@@ -53,12 +53,12 @@
            (random 0.1 0.6)
            (random 0.2 1.2)
            (random 240 1480))))
-       (low-t (differentiate
+       (low-t (integrate
                0
                (replicate-m
                 36
                 (choose (list 0.25 0.5 0.75 1.0 1.5)))))
-       (high-t (differentiate
+       (high-t (integrate
                 0
                 (replicate-m
                  36
@@ -69,11 +69,11 @@
   (with-sc3
    (lambda (fd)
      (send-synth fd "fm" fm-instr)
-     (map
+     (map1
       (lambda (x)
         ((cadr x) fd)
         (thread-sleep (car x)))
       (sort-by
        cmp-f
-       (append (map (lambda (x) (list x low-f)) low-t)
-               (map (lambda (x) (list x high-f)) high-t)))))))
+       (append2 (map1 (lambda (x) (list x low-f)) low-t)
+                (map1 (lambda (x) (list x high-f)) high-t)))))))
