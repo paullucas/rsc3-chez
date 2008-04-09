@@ -53,12 +53,12 @@
            (random 0.1 0.6)
            (random 0.2 1.2)
            (random 240 1480))))
-       (low-t ((dx->d +)
+       (low-t (differentiate
                0
                (replicate-m
                 36
                 (choose (list 0.25 0.5 0.75 1.0 1.5)))))
-       (high-t ((dx->d +)
+       (high-t (differentiate
                 0
                 (replicate-m
                  36
