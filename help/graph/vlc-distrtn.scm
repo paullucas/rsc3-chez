@@ -116,8 +116,6 @@
                                           12)))))
          (pattern
           (lambda (fd)
-            (send fd (n-set1 1001 "freq" (vlc-get-cps (list 24 36 48 60))))
-            (send fd (n-set1 1001 "iamp" (random 0.5 0.75)))
             (send fd (n-set1 1002 "freq" (vlc-get-cps (list 24 36 48 60))))
             (send fd (n-set1 1002 "iamp" (random 0.5 0.75)))
             (thread-sleep (choose (list 0.5 0.75 1.5 3.0)))
