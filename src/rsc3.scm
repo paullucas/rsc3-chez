@@ -1361,6 +1361,11 @@
   (lambda (i j)
     (message "/n_run" (list i j))))
 
+(define n-set
+  (lambda (i xys)
+    (let ((z (concat-map (lambda (xy) (list (fst xy) (snd xy))) xys)))
+      (message "/n_set" (cons i z)))))
+
 (define n-set1
   (lambda (i s f)
     (message "/n_set" (list i s f))))
