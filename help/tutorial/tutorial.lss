@@ -10,17 +10,20 @@ properly.
 
 Scheme SuperCollider is currently only available as a set of
 darcs repositories, the basic system is called rsc3 and
-requires the rhs and sosc libraries.
+requires the rhs and sosc libraries.  A simple build
+utility is also required.
 
+  $ darcs get http://slavepianos.org/rd/sw/mk-r6rs
   $ darcs get http://slavepianos.org/rd/sw/rhs
   $ darcs get http://slavepianos.org/rd/sw/sosc
   $ darcs get http://slavepianos.org/rd/sw/rsc3
 
-To build ensure that the directories are on the scheme
+To build ensure that the mk-r6rs library is on the scheme
 library path and run the below in each project.
 
-  $ cd util
-  $ make
+  $ (cd mk; make)
+
+This installs the r6rs libraries to ~/lib/r6rs.
 
 * Setting up the Scheme SuperCollider Emacs mode
 
