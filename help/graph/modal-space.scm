@@ -1,7 +1,6 @@
 ;; modal space (jmcc)
 
-(let* ((b 0)
-       (p (list 0 2 3.2 5 7 9 10))
+(let* ((p (list 0 2 3.2 5 7 9 10))
        (x (mouse-x kr 0 15 0 0.1))
        (k (degree-to-key 0 x 12))
        (c (lambda (n r)

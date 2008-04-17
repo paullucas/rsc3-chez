@@ -3,7 +3,7 @@
 (let* ((freq
         (rand 220 880))
        (perc
-        (env-perc 0.1 0.6 1 (mce2 -4 -4)))
+        (env-perc 0.1 0.6 1 (list -4 -4)))
        (flute
         (ringz (mul (env-gen kr 1 1 0 1 0 perc)
                     (mul (white-noise ar) 0.02))
