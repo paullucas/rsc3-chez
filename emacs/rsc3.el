@@ -28,7 +28,7 @@
   "*The name of the rsc3 scheme process buffer.")
 
 (defvar rsc3-interpreter
-  (list "mzscheme" "-f" ".rsc3.scm"))
+  (list "ikarus"))
 
 (defvar rsc3-help-directory
   nil
@@ -166,32 +166,15 @@ Quit the scheme interpreter and delete the associated buffer."
 
 ;; Help
 
-(defun rsc3-cleanup-symbol (input)
-  "Prepare the string `input' for further processing.
-
-If the string `input' has a trailing '.ar' or '.kr' or '.ir' or
-'.dr' or '.xr' or '.gr' drop it, this is required to locate UGen
-helps files.  Else if it has a leading '/' drop it, this is
-required to find the Server-Command help files.  Else return
-`input'."
-  (if (string-match ".*\\.[akidxg]r" input)
-      (substring input 0 (- (length input) 3))
-    (if (string-match "/.*" input)
-	(substring input 1)
-      input)))
-
 (defun rsc3-help ()
   "Lookup up the symbol at point in the set of Help files
-distributed with rsc3.
-
-The symbol at point is preprocessed by `rsc3-cleanup-symbol'."
+distributed with rsc3."
   (interactive)
   (mapc (lambda (filename)
 	  (find-file-other-window filename))
 	(find-lisp-find-files rsc3-help-directory
 			      (concat "^"
-				      (rsc3-cleanup-symbol
-				       (thing-at-point 'symbol))
+                                      (thing-at-point 'symbol)
 				      "\\.help\\.scm"))))
 
 
