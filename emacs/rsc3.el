@@ -189,7 +189,7 @@ distributed with rsc3."
   (define-key map "\C-\\" 'rsc3-insert-lambda)
   (define-key map "\C-c\C-s" 'rsc3-start-scheme)
   (define-key map "\C-c\C-g" 'rsc3-see-output)
-  (define-key map "\C-c\C-c" 'rsc3-interrupt-scheme)
+  (define-key map "\C-c\C-i" 'rsc3-interrupt-scheme)
   (define-key map "\C-c\C-q" 'rsc3-clear-schedule)
   (define-key map "\C-c\C-x" 'rsc3-quit-scheme)
   ;; scsynth
