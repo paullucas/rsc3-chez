@@ -1,4 +1,4 @@
-;; (buf-sample-rate bufnum)
+;; (buf-sample-rate rate bufnum)
 
 ;; Buffer sample rate.
 
