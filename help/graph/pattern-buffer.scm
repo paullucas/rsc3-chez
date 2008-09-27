@@ -15,7 +15,7 @@
 	    (send h (b-set1 10 r0 r1)))))
        (r1 (replicate-m c (random 36 96)))
        (r2 (replicate-m c (random -1 1)))
-       (r3 (random-integer 2))
+       (r3 (i-random 0 2))
        (n1 (t-rand 0.02 0.08 t))
        (e (decay2 t 0.01 n1))
        (f (midi-cps (tseq r1)))
