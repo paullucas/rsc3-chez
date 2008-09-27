@@ -2,8 +2,8 @@
         (mk-r6rs))
 
 (mk-r6rs '(rsc3)
-	 '("/home/rohan/sw/rsc3/src/rsc3.scm"
-	   "/home/rohan/sw/rsc3/src/time.ikarus.scm")
+	 '("../src/rsc3.scm"
+	   "../src/time.ikarus.scm")
 	 (string-append (list-ref (command-line) 1)
                         "/rsc3.ikarus.sls")
 	 '((rnrs)
