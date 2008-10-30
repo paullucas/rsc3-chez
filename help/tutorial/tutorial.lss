@@ -3,8 +3,8 @@
 * Prerequisites
 
 Scheme SuperCollider requires that SuperCollider [1], Ikarus
-Scheme [2] and Emacs [3] are all installed and working
-properly.
+Scheme [2], R6RS implementations of SRFI-19 and SRFI-27 [3] 
+and Emacs [4] are all installed and working properly.
 
 * Setting up Scheme SuperCollider
 
@@ -186,4 +186,5 @@ To end printing send:
 
 [1] http://www.audiosynth.com/
 [2] http://www.cs.indiana.edu/~aghuloum/ikarus/
-[3] http://www.gnu.org/software/emacs/
+[3] https://code.launchpad.net/ikarus-libraries
+[4] http://www.gnu.org/software/emacs/
