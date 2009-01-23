@@ -10,8 +10,8 @@
 	   (rhs)
 	   (sosc)
 	   (prefix (ikarus) ikarus:)
-	   (prefix (xitomatl srfi random) srfi:)
-           (prefix (xitomatl srfi time) srfi:))
+	   (prefix (srfi :27 random-bits) srfi:)
+           (prefix (srfi :19 time) srfi:))
 	 '()
 	 '())
 
