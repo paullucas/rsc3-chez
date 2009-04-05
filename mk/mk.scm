@@ -15,4 +15,18 @@
 	 '()
 	 '())
 
+(mk-r6rs '(rsc3)
+	 '("../src/rsc3.scm"
+	   "../src/time.plt.scm")
+	 (string-append (list-ref (command-line) 1)
+                        "/rsc3.mzscheme.sls")
+	 '((rnrs)
+	   (rhs)
+	   (sosc)
+	   (prefix (scheme) plt:)
+	   (prefix (srfi :27 random-bits) srfi:)
+           (prefix (srfi :19 time) srfi:))
+	 '()
+	 '())
+
 (exit)
