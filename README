@@ -20,4 +20,5 @@ abdulaziz ghuloum.  emacs is by richard stallman and others.
 
 (c) rohan drape, 1998-2009
     gpl.2, see http://www.gnu.org/copyleft
-    contributions by henk@henk.ca (plt support)
+    with contributions by henk@henk.ca (plt support)
+    see darcs history for details
