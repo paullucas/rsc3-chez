@@ -1574,7 +1574,7 @@
 (define server-status
   (lambda (fd)
     (send fd status)
-    (let ((r (wait fd "status.reply")))
+    (let ((r (wait fd "/status.reply")))
       (status-format r))))
 
 ;; port -> ()
@@ -1588,7 +1588,7 @@
 (define server-status-field
   (lambda (fd n)
     (send fd status)
-    (let ((r (wait fd "status.reply")))
+    (let ((r (wait fd "/status.reply")))
       (list-ref r n))))
 
 ;; port -> float
