@@ -30,7 +30,7 @@
   (differentiate-with -))
 
 ;; (a -> a -> a) -> (a -> [a] -> [a])
-(define integrate-with 
+(define integrate-with
   (lambda (f)
     (lambda (n xs)
       (let ((g (lambda (a x) (let ((y (f a x))) (tuple2 y y)))))
@@ -67,28 +67,28 @@
 
 ;; ord a => a -> a -> a -> a
 (define s:clip
-  (lambda (a b n) 
+  (lambda (a b n)
     (cond ((< n a) a)
 	  ((> n b) b)
 	  (else n))))
 
 ;; number a => a -> a
-(define s:squared 
+(define s:squared
   (lambda (n)
     (* n n)))
 
 ;; number a => a -> a
-(define s:cubed 
+(define s:cubed
   (lambda (n)
     (* n n n)))
 
 ;; number a => a -> a
-(define s:recip 
+(define s:recip
   (lambda (n)
     (/ 1 n)))
 
 ;; float
-(define e 
+(define e
   (exp 1.0))
 
 ;; float
@@ -106,8 +106,8 @@
     (/ (log x) (log 10))))
 
 ;; float -> float
-(define s:amp-db 
-  (lambda (x) 
+(define s:amp-db
+  (lambda (x)
     (* (s:log10 x) 20)))
 
 ;; float -> float
@@ -117,12 +117,12 @@
 
 ;; float -> float
 (define pow-db
-  (lambda (x) 
+  (lambda (x)
     (* (s:log10 x) 10)))
 
 ;; float -> float
 (define db-pow
-  (lambda (x) 
+  (lambda (x)
     (expt 10 (* x 0.1))))
 
 ;; float -> float
@@ -176,7 +176,7 @@
 	  (and (= (+ x 1) (head xs))
 	       (consecutive? xs))))))
 ;; int -> uid
-(define-record-type uid 
+(define-record-type uid
   (fields n))
 
 ;; () -> uid
@@ -187,15 +187,15 @@
       (make-uid n))))
 
 ;; string -> int -> control
-(define-record-type control 
+(define-record-type control
   (fields name index))
 
 ;; string -> float -> rate -> float -> control*
-(define-record-type control* 
+(define-record-type control*
   (fields name default rate lag))
 
 ;; string -> [float] -> [float] -> [controls] -> [ugens] -> graphdef
-(define-record-type graphdef 
+(define-record-type graphdef
   (fields name constants defaults controls ugens))
 
 ;; graphdef -> int -> ugen
@@ -214,11 +214,11 @@
     (list-ref (graphdef-constants g) n)))
 
 ;; int -> int -> input
-(define-record-type input 
+(define-record-type input
   (fields ugen port))
 
 ;; [ugen] -> mce
-(define-record-type mce 
+(define-record-type mce
   (fields proxies))
 
 ;; ugen -> ugen -> mce
@@ -338,7 +338,7 @@
       (if (> a* b*) a b))))
 
 ;; [rate] -> rate
-(define rate-select 
+(define rate-select
   (lambda (l)
     (foldl1 rate-select* l)))
 
@@ -412,7 +412,7 @@
     (encode-u8 (rate-value (output-rate o)))))
 
 ;; [bytevector]
-(define scgf 
+(define scgf
   (map1 encode-u8 (map1 char->integer (string->list "SCgf"))))
 
 ;; ugen -> [bytevector]
@@ -527,9 +527,9 @@
 ;; ugen -> ugen
 (define prepare-root
   (lambda (u)
-    (cond 
+    (cond
      ((mce? u) (mrg-n (mce-proxies u)))
-     ((mrg? u) (make-mrg (prepare-root (mrg-left u)) 
+     ((mrg? u) (make-mrg (prepare-root (mrg-left u))
                          (prepare-root (mrg-right u))))
      (else u))))
 
@@ -607,7 +607,7 @@
 ;; mce|mrg -> int
 (define mce-degree
   (lambda (m)
-    (cond 
+    (cond
      ((mce? m) (length (mce-proxies m)))
      ((mrg? m) (mce-degree (mrg-left m)))
      (else (error "mce-degree" "illegal input" m)))))
@@ -625,7 +625,7 @@
 ;; mce -> mce
 (define mce-transpose
   (lambda (u)
-    (make-mce 
+    (make-mce
      (map1 make-mce (transpose (map1 mce-channels (mce-channels u)))))))
 
 ;; ugen -> bool
@@ -680,7 +680,7 @@
 (define mk-unary-operator
   (lambda (s f)
     (lambda (a)
-      (if (and (number? a) 
+      (if (and (number? a)
 	       f)
 	  (f a)
 	  (construct-ugen "UnaryOpUGen" #f (list1 a) #f 1 s (make-uid 0))))))
@@ -1256,22 +1256,22 @@
     (add (add a b) (add c d))))
 
 (define buf-rd-c
-  (lambda (nc r b p l) 
+  (lambda (nc r b p l)
     (buf-rd nc r b p l 4)))
 
 (define buf-rd-l
-  (lambda (nc r b p l) 
+  (lambda (nc r b p l)
     (buf-rd nc r b p l 2)))
 
 (define buf-rd-n
-  (lambda (nc r b p l) 
+  (lambda (nc r b p l)
     (buf-rd nc r b p l 1)))
 
 (define fft*				;
   (lambda (buf in)
     (fft buf in 0.5 0 1)))
 
-(define ifft* 
+(define ifft*
   (lambda (buf)
     (ifft buf 0)))
 
@@ -1567,7 +1567,7 @@
   (lambda (r)
     (cons "***** SuperCollider Server Status *****"
 	  (zip-with string-append
-		    status-fields 
+		    status-fields
 		    (map1 number->string (tail (tail r)))))))
 
 ;; port -> [string]
@@ -1646,8 +1646,8 @@
 		t
 		(curve-to-shape c)
 		(curve-to-value c)))
-	(tail levels) 
-	times 
+	(tail levels)
+	times
 	curves))))))
 
 ;; Co-ordinate based static envelope generator.
@@ -1655,13 +1655,13 @@
 ;; [ugen] -> ugen -> ugen -> [ugen] -> ugen
 (define env-bp
   (lambda (bp dur amp curves)
-    (env (map1 
-          (lambda (e) 
-            (mul e amp)) 
+    (env (map1
+          (lambda (e)
+            (mul e amp))
           (take-cycle (tail bp) 2))
-	 (map1 
-          (lambda (e) 
-            (mul e dur)) 
+	 (map1
+          (lambda (e)
+            (mul e dur))
           ((differentiate-with sub) (take-cycle bp 2)))
 	 curves
 	 -1
@@ -1717,7 +1717,7 @@
 	 -1
 	 -1)))
 
-(define env-adsr 
+(define env-adsr
   (lambda (attackTime
 	   decayTime
 	   sustainLevel
@@ -1752,14 +1752,14 @@
 (define packfft-data
   (lambda (m p)
     (make-mce
-     (cons (* 2 (length m)) 
+     (cons (* 2 (length m))
 	   (concat (zip-with list m p))))))
 
 ;; [[m, p]] -> [#, m, p...]
 (define packfft-data*
   (lambda (mp)
     (make-mce
-     (cons (* 2 (length mp)) 
+     (cons (* 2 (length mp))
 	   (concat mp)))))
 
 (define unpack-fft
@@ -1867,12 +1867,12 @@
 	 (play fd u))))))
 
 ;; float
-(define dinf 
+(define dinf
   9.0e8)
 
 ;; float -> float -> float
 (define random
-  (lambda (a b) 
+  (lambda (a b)
     (+ (* (srfi:random-real) (- b a)) a)))
 
 ;; int -> int -> int
