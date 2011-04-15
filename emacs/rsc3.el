@@ -1,5 +1,3 @@
-;; emacs/rsc3.el - (c) rohan drape, 2000-2008
-
 ;; This mode is implemented as a derivation of `scheme' mode,
 ;; indentation and font locking is courtesy that mode.  The
 ;; inter-process communication is courtesy `comint'.  The symbol at
