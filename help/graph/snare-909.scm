@@ -1,6 +1,6 @@
 ;; snare-909 (jmcc)
 
-(let* ((snr 
+(let* ((snr
 	(lambda (tr n v)
 	  (let* ((mk-e
 		  (lambda (a b)

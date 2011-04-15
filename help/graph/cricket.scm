@@ -1,9 +1,9 @@
 ;; cricket (rd)
 
-(let* ((m-rand 
+(let* ((m-rand
         (lambda (l r)
           (mce2 (rand l r) (rand l r))))
-       (mt-rand 
+       (mt-rand
         (lambda (l r t)
           (mce2 (t-rand l r t) (t-rand l r t))))
        (r1 (m-rand 10 13))

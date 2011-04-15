@@ -10,7 +10,7 @@
                 40.0 59.0 45.0 47.0 52.0))
        (a (map (lambda (b) (b-alloc b 20 1)) (list 0 1)))
        (s (zip-with (lambda (b d) (b-setn1 b 0 d)) (list 0 1) (list n m)))
-       (fwalk 
+       (fwalk
         (lambda (r)
           (let* ((t (dust kr 3))
                  (r1 (ti-rand 0 6 t))

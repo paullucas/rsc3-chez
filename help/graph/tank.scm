@@ -1,6 +1,6 @@
 ;; tank (jmcc)
 
-(let* ((bang 
+(let* ((bang
 	(let ((d (dust ar 0.01))
 	      (n (brown-noise ar)))
 	  (pan2 (mul (decay2 d 0.04 0.3) n) 0 1)))
@@ -26,7 +26,7 @@
 		 (l7 (add l6 i)))
 	    (mrg2 (out 0 l7)
 		  (local-out l7))))))
-  (audition 
-   (tank 
-    (rallpasses 
+  (audition
+   (tank
+    (rallpasses
      (add bang (mix-fill 8 pling))))))

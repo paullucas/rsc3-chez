@@ -1,6 +1,6 @@
 ;; rm-octaver (andrea valle, miller puckette)
 
-(let* ((default-pitch 
+(let* ((default-pitch
 	 (lambda (i)
 	   (pitch i 440 60 4000 100 16 1 0.01 0.5 1)))
        (i (sound-in 0))

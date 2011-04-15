@@ -1,6 +1,6 @@
 ;; red frik (f0)
 
-(let ((red 
+(let ((red
        (lambda (tr n)
 	 (let* ((r1 (t-rand 0.3 3 tr))
 		(r2 (t-rand 0.3 5 tr))

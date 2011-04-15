@@ -2,13 +2,13 @@
 
 (let* ((nf (mul 2 48000))
        (c 24)
-       (tseq 
+       (tseq
 	(lambda (l)
 	  (let ((n (/ (length l) 2)))
 	    (select (mul-add (lf-saw kr 0.5 0) n n) (make-mce l)))))
        (p (phasor ar 0 (buf-rate-scale kr 10) 0 (buf-frames kr 10) 0))
        (t (buf-rd-c 1 ar 10 p 1))
-       (rs 
+       (rs
 	(lambda (h)
 	  (let ((r0 (random 0 nf))
 		(r1 (random 0 1)))
@@ -21,7 +21,7 @@
        (f (midi-cps (tseq r1)))
        (l (tseq r2))
        (o (list-ref (list (sin-osc ar f 0) (saw ar f)) r3)))
-  (with-sc3 
+  (with-sc3
    (lambda (fd)
      (async fd (b-alloc 10 (* nf 2) 1))
      (replicate-m c (rs fd))

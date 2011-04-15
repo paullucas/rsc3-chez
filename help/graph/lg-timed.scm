@@ -1,6 +1,6 @@
 ;; lg-timed (rd)
 
-(let* ((timed 
+(let* ((timed
         (lambda (r y p)
           (let* ((d0 (dser r p))
                  (d1 (dcons 0 d0))

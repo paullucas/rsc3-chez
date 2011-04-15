@@ -3,7 +3,7 @@
 (let* ((p 15)
        (f1 (rand 500 2500))
        (f2 (rand 0 8000))
-       (y 
+       (y
         (lambda ()
           (let ((f (replicate-m p (add f1 (rand 0 f2))))
                 (rt (replicate-m p (rand 1 5)))

@@ -1,6 +1,6 @@
 ;; spe (jmcc)
 
-(let* ((chain-of 
+(let* ((chain-of
 	(lambda (n f)
 	  (foldl1 compose (replicate n f))))
        (rapf

@@ -1,6 +1,6 @@
 ;; slly-walk (rd)
 
-(let ((o1 
+(let ((o1
        (let* ((t (dust kr 2))
               (e (env-bp-linear (list 0 0 (t-rand 0.05 0.5 t) 1 1 0) 1 1))
               (d (t-rand 0.15 0.25 t))
@@ -9,7 +9,7 @@
               (n (t-choose t (mce4 0 2 5 7)))
               (o 72))
          (pan2 (sin-osc ar (midi-cps (add n o)) 0) p a)))
-      (o2 
+      (o2
        (let ((shft
               (lambda ()
                 (let* ((t (impulse kr 12 0))

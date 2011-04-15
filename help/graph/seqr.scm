@@ -10,7 +10,7 @@
        (n (i-random 6 18))
        (f (/ (i-random 9 18) n)))
   (audition
-   (out 0 (mul (blip ar 
+   (out 0 (mul (blip ar
                      (mce2 (seqr f (nfreq n 72 96))
                            (seqr f (nfreq n 72 84)))
                      (mce2 (seqr f (replicate-m n (random 1 3)))

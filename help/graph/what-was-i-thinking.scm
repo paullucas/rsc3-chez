@@ -7,7 +7,7 @@
        (f (u:max (add (sin-osc kr 4 0) 80) d))
        (p (mul (pulse ar f n1) 0.04))
        (z (rlpf p n0 0.2))
-       (c (lambda (x) 
+       (c (lambda (x)
 	    (let* ((r (rand 0 0.3))
 		   (n (mul-add (lf-noise1 kr r) 0.025 0.035)))
 	      (comb-l x 0.06 n 1))))

@@ -34,7 +34,7 @@
 
 (define voice-tr
   (lambda (i t fr amr bwr)
-    (mix (v-filter 
+    (mix (v-filter
 	  i
 	  (mul (in 5 kr 0)  (t-rand (sub 1 fr) (add 1 fr) t))
 	  (mul (in 5 kr 5)  (t-rand (sub 1 amr) (add 1 amr) t))
@@ -44,7 +44,7 @@
   (lambda (rt)
     (let* ((t (impulse ar (mul-add (lf-noise2 kr 3) 12 12) 0))
 	   (n (ti-rand 30 52 t))
-	   (i (lambda (d) 
+	   (i (lambda (d)
 		(mul3 (decay2 (pulse-divider t d 0) 0.01 (t-rand 0.005 rt t))
 		      (blip ar (midi-cps n) (t-rand 16 32 t))
 		      12.0)))
@@ -53,14 +53,14 @@
       (mrg2 (send-trig t 0 n)
 	    (out 0 (clip2
 		    (mce2 (voice-tr (i 1)
-				    t 
+				    t
 				    (mul x 1.05)
-				    (mul x 1.25) 
+				    (mul x 1.25)
 				    (mul x 0.05))
 			  (voice-tr (i 2)
-				    t 
+				    t
 				    (mul y 0.05)
-				    (mul y 0.75) 
+				    (mul y 0.75)
 				    (mul y 1.00)))
 		    1))))))
 

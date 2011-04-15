@@ -8,7 +8,7 @@
        (bdx (add (mouse-button kr 1 0 0.3) dx))
        (bdxr (mul bdx (buf-rate-scale kr b)))
        (scr (play-buf 1 b bdxr 0 0 loop)))
-  (with-sc3 
+  (with-sc3
    (lambda (fd)
      (async fd (b-alloc-read b fn 0 0))
      (play fd (out 0 (dup scr))))))

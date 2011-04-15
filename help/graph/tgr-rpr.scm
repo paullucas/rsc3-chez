@@ -1,6 +1,6 @@
 ;; tgr-rpr (rd)
 
-(letrec ((dust-r 
+(letrec ((dust-r
           (lambda (r lo hi)
             (let ((d (dseq dinf (dwhite 1 lo hi))))
               (t-duty r d 0 0 (u:abs (white-noise r)) 1))))

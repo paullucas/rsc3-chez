@@ -3,7 +3,7 @@
 * Prerequisites
 
 Scheme SuperCollider requires that SuperCollider [1], Ikarus
-Scheme [2], R6RS implementations of SRFI-19 and SRFI-27 [3] 
+Scheme [2], R6RS implementations of SRFI-19 and SRFI-27 [3]
 and Emacs [4] are all installed and working properly.
 
 * Setting up Scheme SuperCollider
@@ -42,9 +42,9 @@ available.
 
 * User configuration files
 
-The ~/.rsc3 run-control file allows for user configuration 
-of the context in which the rsc3 emacs mode evaluates 
-expressions.  The configuration file should at the least 
+The ~/.rsc3 run-control file allows for user configuration
+of the context in which the rsc3 emacs mode evaluates
+expressions.  The configuration file should at the least
 import the required libraries and define the procedures
 'with-sc3' and 'audition'.
 

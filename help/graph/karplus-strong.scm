@@ -1,19 +1,19 @@
 ;; karplus strong (alex mclean)
 
-(let* ((a-a (list "a-a" 
+(let* ((a-a (list "a-a"
                   (list 800 1150 2800 3500 4950)
                   (list 0 -4   -20 -36  -60)
                   (list 80 90  120 130 140)))
-       (a-u (list "a-u" 
+       (a-u (list "a-u"
                   (list 325 700 2530 3500 4950)
                   (list 0 -12  -30 -40 -64)
                   (list 50 60  170 180 200)))
-       (cs 
+       (cs
         (lambda (l)
           (append (list-ref l 1)
                   (list-ref l 2)
                   (list-ref l 3))))
-       (vf 
+       (vf
         (lambda (i s)
           (let ((f (in 5 kr i))
                 (a (in 5 kr (add i 5)))
@@ -42,7 +42,7 @@
                  (a7 (mul a6 1.5)))
             (mrg2 (local-out (mul a5 0.99))
                   (out 0 (mce2 a7 a7)))))))
-  (with-sc3 
+  (with-sc3
    (lambda (fd)
      (send fd (c-setn1 0 (cs a-a)))
      (send fd (c-setn1 15 (cs a-u)))
