@@ -1551,6 +1551,9 @@
       (tcp:close fd)
       r)))
 
+;; (socket -> a) -> a
+(define with-sc3 with-udp-sc3)
+
 ;; [string]
 (define status-fields
   (list "# UGens                     "
@@ -1865,6 +1868,9 @@
       (f
        (lambda (fd)
 	 (play fd u))))))
+
+;; ugen -> ()
+(define audition (audition-using with-udp-sc3))
 
 ;; float
 (define dinf
