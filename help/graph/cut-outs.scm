@@ -1,5 +1,7 @@
 ;; cut-outs (rd)
 
+(import (sosc) (rsc3))
+
 (let* ((t (mul (impulse ar 22 0) (add (sin-osc kr 0.5 0) 1)))
        (x (mouse-x kr 0.005 0.12 1 0.1))
        (y (mouse-y kr 0.01 0.52 1 0.1))
