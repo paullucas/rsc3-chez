@@ -29,14 +29,16 @@
 (define differentiate
   (differentiate-with -))
 
-;; (a -> a -> a) -> (a -> [a] -> [a])
+;; (a -> a -> a) -> ([a] -> [a])
 (define integrate-with
   (lambda (f)
-    (lambda (n xs)
-      (let ((g (lambda (a x) (let ((y (f a x))) (tuple2 y y)))))
-        (cons n (snd (map-accum-l g n xs)))))))
+    (lambda (l)
+      (let ((x (car l))
+            (xs (cdr l))
+            (g (lambda (a x) (let ((y (f a x))) (tuple2 y y)))))
+        (cons x (snd (map-accum-l g x xs)))))))
 
-;; num a => a -> [a] -> [a]
+;; num a => [a] -> [a]
 (define integrate
   (integrate-with +))
 
