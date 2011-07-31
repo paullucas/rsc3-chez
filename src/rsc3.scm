@@ -17,13 +17,8 @@
 ;; (a -> a -> a) -> ([a] -> [a])
 (define differentiate-with
   (lambda (f)
-    (lambda (xs)
-      (unfoldr
-       (lambda (x)
-	 (if (null? (tail x))
-	     #f
-	     (tuple2 (f (head (tail x)) (head x)) (tail x))))
-       xs))))
+    (lambda (l)
+      (zip-with f l (cons 0 l)))))
 
 ;; num a => [a] -> [a]
 (define differentiate
