@@ -1900,3 +1900,12 @@
     (let ((t (srfi:current-time srfi:time-utc)))
       (+ (srfi:time-second t)
          (/ (srfi:time-nanosecond t) 1e9)))))
+
+;; Rate -> UGen -> UGen -> Warp -> UGen -> UGen
+(define mouse-r
+  (lambda (rt l r ty tm)
+    (let ((f (if (= ty 0) lin-lin lin-exp)))
+      (lag (f (lf-noise1 rt 1) -1 1 l r) tm))))
+
+(define mouse-x* mouse-r)
+(define mouse-y* mouse-r)
