@@ -1,5 +1,7 @@
 ;; lin-sosc (rd)
 
+(import (sosc) (rsc3) (rhs))
+
 (letrec
     ((n 1024)
      (two-pi (* 2.0 pi))
@@ -31,7 +33,7 @@
           (f (g n)))))
      (tbl-m
       (lambda (b)
-        (play-buf 1 b (mul (mouse-x kr 0.001 1.0 0 0.1)
+        (play-buf 1 b (mul (mouse-x* kr 0.001 1.0 0 0.1)
                            (buf-rate-scale kr b)) 0 0 1)))
      (tbl-c
       (lambda (b c)

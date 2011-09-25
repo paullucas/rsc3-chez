@@ -1,5 +1,7 @@
 ;; e-lamell (rd)
 
+(import (sosc) (rsc3))
+
 (letrec
     ((e-lamell
       (letc ((f 440) (n 12) (d 0.1) (p 0) (a 1.0))

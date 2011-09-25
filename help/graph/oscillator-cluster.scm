@@ -1,5 +1,7 @@
 ;; oscillator cluster (rd)
 
+(import (rsc3) (rhs))
+
 (let* ((ln (lambda (a b d)
 	     (line kr a b d remove-synth)))
        (xln (lambda (a b d)

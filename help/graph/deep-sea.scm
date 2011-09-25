@@ -1,5 +1,7 @@
 ;; deep sea (jrhb)
 
+(import (rsc3))
+
 (let* ((range
         (lambda (s l r)
           (let ((m (mul (sub r l) 0.5)))

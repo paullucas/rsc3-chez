@@ -1,5 +1,7 @@
 ;; drummer (thor magnusson)
 
+(import (rsc3))
+
 (let* ((tempo 4)
        (n (white-noise ar))
        (tr (impulse ar tempo 0))

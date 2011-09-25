@@ -1,5 +1,7 @@
 ;; karplus strong (alex mclean)
 
+(import (sosc) (rsc3))
+
 (let* ((a-a (list "a-a"
                   (list 800 1150 2800 3500 4950)
                   (list 0 -4   -20 -36  -60)
@@ -21,8 +23,8 @@
             (mix (mul (resonz s f (fdiv b f)) (db-amp a))))))
        (ks
         (lambda (n d)
-          (let* ((x (mouse-x kr 0 0.01 linear 0.1)) ;; {- delay -}
-                 (y (mouse-y kr 0.85 1 linear 0.1)) ;; {- blend / gain -}
+          (let* ((x (mouse-x* kr 0 0.01 linear 0.1)) ;; {- delay -}
+                 (y (mouse-y* kr 0.85 1 linear 0.1)) ;; {- blend / gain -}
                  (ugen-if
                   (lambda (a b c)
                     (add (mul a b) (mul (sub 1 a) c))))

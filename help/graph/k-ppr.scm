@@ -1,9 +1,11 @@
 ;; k-ppr (rd)
 
+(import (rsc3))
+
 (let* ((wrp (lambda (i l r)
               (lin-lin i -1 1 l r)))
-       (x (mouse-x kr 0.05 0.35 0 0.1))
-       (y (mouse-y kr 0.15 0.75 0 0.1))
+       (x (mouse-x* kr 0.05 0.35 0 0.1))
+       (y (mouse-y* kr 0.15 0.75 0 0.1))
        (ti (lf-tri kr x 0))
        (tf (wrp ti 100 200))
        (t (impulse ar tf 0))

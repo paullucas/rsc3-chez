@@ -1,5 +1,7 @@
 ;; strtchd-scrmbld (rd)
 
+(import (sosc) (rsc3))
+
 (letrec ((dust-r
           (lambda (r lo hi)
             (let ((d (dseq dinf (dwhite 1 lo hi))))
@@ -24,8 +26,8 @@
           (lambda (u b t)
             (let* ((f (fft* b u))
                    (g (pv-bin-scramble f
-                                       (mouse-x kr 0.5 1.0 0 0.1)
-                                       (mouse-y kr 0.5 1.0 0 0.1)
+                                       (mouse-x* kr 0.5 1.0 0 0.1)
+                                       (mouse-y* kr 0.5 1.0 0 0.1)
                                        t)))
               (ifft* g))))
          (strtchd-scrmbld
@@ -48,7 +50,7 @@
             (send fd (c-setn1 0 (mk-r-set)))
             (thread-sleep (choose (list 0.05 0.15 0.25 0.5 0.75 1.25)))
             (pattern fd)))
-         (sf "/home/rohan/audio/text.snd"))
+         (sf "/home/rohan/data/audio/pf-c5.snd"))
   (with-sc3
    (lambda (fd)
      (async fd (b-alloc-read 10 sf 0 0))

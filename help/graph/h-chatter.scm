@@ -1,5 +1,7 @@
 ;; h-chatter (rd)
 
+(import (rsc3))
+
 (let* ((wrp (lambda (i l r)
               (let ((m (fdiv (sub r l) 2)))
                 (mul-add i m (add l m)))))
@@ -11,8 +13,8 @@
              (mul (saw ar (mul-add h 3200 1600)) 0.35)))
        (h1 (let* ((n0 (lf-noise0 ar 32))
                   (n1 (lf-noise0 ar 2))
-                  (a (mouse-x kr 1.2 1.4 0 0.1))
-                  (b (mouse-y kr 0.2 0.3 0 0.1))
+                  (a (mouse-x* kr 1.2 1.4 0 0.1))
+                  (b (mouse-y* kr 0.2 0.3 0 0.1))
                   (h (wrp n0 1 32))
                   (p (wrp n1 2400 3200))
                   (l (wrp n1 -0.75 0.75))

@@ -1,5 +1,7 @@
 ;; adso (rd)
 
+(import (sosc) (rsc3) (rhs))
+
 (let* ((n 24)
        (rand-l
         (lambda (n l r)

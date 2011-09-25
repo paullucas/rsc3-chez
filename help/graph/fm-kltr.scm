@@ -1,5 +1,7 @@
 ;; fm-kltr (rd)
 
+(import (sosc) (rsc3) (rhs))
+
 (let* ((fm-instr
         (letc ((bus 0)
                (trig 0)
@@ -53,16 +55,15 @@
            (random 0.1 0.6)
            (random 0.2 1.2)
            (random 240 1480))))
-       (low-t (integrate
-               0
-               (replicate-m
-                36
-                (choose (list 0.25 0.5 0.75 1.0 1.5)))))
-       (high-t (integrate
-                0
-                (replicate-m
-                 36
-                 (choose (list 0.05 0.15 0.25 0.5 0.75)))))
+       (low-t (cons 0
+                    (integrate
+                     (replicate-m
+                      36
+                      (choose (list 0.25 0.5 0.75 1.0 1.5))))))
+       (high-t (cons 0 (integrate
+                        (replicate-m
+                         36
+                         (choose (list 0.05 0.15 0.25 0.5 0.75))))))
        (cmp-f
         (lambda (a b)
           (compare (car a) (car b)))))

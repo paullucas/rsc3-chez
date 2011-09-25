@@ -1,5 +1,7 @@
 ;; nharm (rd)
 
+(import (rsc3) (rhs))
+
 (letrec ((nharm
           (lambda (n f)
             (if (<= n 0)

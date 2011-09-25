@@ -1,5 +1,7 @@
 ;; harmonic swimming (jmcc)
 
+(import (rsc3))
+
 (let* ((a 0.02)
        (f 50)
        (p 20)

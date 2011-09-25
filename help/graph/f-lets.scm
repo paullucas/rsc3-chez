@@ -1,5 +1,7 @@
 ;; f-lets (rd)
 
+(import (rsc3) (rhs))
+
 (let* ((f
         (lambda (t g j n f)
           (let ((pd (pulse-divider t j 0)))

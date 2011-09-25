@@ -1,6 +1,8 @@
 ;; feedr (rd)
 ;; warning: input/output feedback loop
 
+(import (sosc) (rsc3) (rhs))
+
 (with-sc3
  (lambda (fd)
    (let* ((delay-wr
@@ -22,7 +24,7 @@
                  (lambda (t g)
                    (mul (tap nc 10 t) g))
                  t g))
-             (x (mouse-x kr 0.02 1.0 1 0.1)))
+             (x (mouse-x* kr 0.02 1.0 1 0.1)))
         (make-mrg
          (out 0 (clip2 (leak-dc (hpf (foldl1 add d) 20) 0.995) 1))
          (delay-wr 10 (foldl add

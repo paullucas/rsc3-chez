@@ -1,5 +1,7 @@
 ;; bowed string (jmcc)
 
+(import (rsc3) (rhs))
+
 (letrec ((series
           (lambda (f n x i)
             (if (= n 0)

@@ -1,5 +1,7 @@
 ;; dial history (jrhb)
 
+(import (rsc3) (rhs))
+
 (let* ((mfv (transpose (list (list 697 770 852 941)
                              (list 1209 1336 1477 1633))))
        (numbers (transpose (list (list 3 0 0 0 1 1 1 2 2 2)
@@ -23,7 +25,7 @@
        (d (lfd-noise3 kr 0.5))
        (tr (trig (t-duty kr rt 0 do-nothing q 1) 0.09))
        (pat (latch tr tr))
-       (x (mouse-x kr 0 1 linear 0.2))
+       (x (mouse-x* kr 0 1 linear 0.2))
        (h (hasher (mul pat x)))
        (which (trunc (range h 0 (length numbers)) 1))
        (both (select which (mce-r numbers)))

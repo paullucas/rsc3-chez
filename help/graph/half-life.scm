@@ -1,5 +1,7 @@
 ;; half-life (jrhb)
 
+(import (rsc3))
+
 (let* ((t-half 3.92)
        (n-atoms 1e+5)
        (n (u:max 0 (sub n-atoms (pulse-count (local-in 2 ar) 0))))

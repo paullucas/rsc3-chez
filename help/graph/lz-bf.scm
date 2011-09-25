@@ -1,6 +1,8 @@
 ;; lz-bf (rd)
 
-(let* ((x (mouse-x kr 1 12 0 0.1))
+(import (rsc3))
+
+(let* ((x (mouse-x* kr 1 12 0 0.1))
        (l (lorenz-l ar
                     sample-rate
                     (mul-add (lf-noise0 kr x) 2 12)
@@ -13,7 +15,7 @@
                   (mul3 l 24 (buf-rate-scale kr 0))
                   0
                   (buf-frames kr 0) 0))
-       (fn "/home/rohan/audio/metal.wav"))
+       (fn "/home/rohan/data/audio/pf-c5.aif"))
   (with-sc3
    (lambda (fd)
      (async fd (b-alloc-read 0 fn 0 0))

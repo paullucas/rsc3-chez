@@ -1,5 +1,7 @@
 ;; bottle (sc)
 
+(import (rsc3) (rhs))
+
 (let* ((freq
         (rand 220 880))
        (perc

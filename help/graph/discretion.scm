@@ -1,5 +1,7 @@
 ;; discretion (rd)
 
+(import (rsc3) (rhs))
+
 (let* ((mkls (lambda (bp t)
                (let ((c (replicate (/ (length bp) 2) 1)))
                  (env-gen kr 1 1 0 1 remove-synth (env-bp bp t 1 c)))))

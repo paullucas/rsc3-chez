@@ -1,5 +1,7 @@
 ;; forest sounds (paul jones)
 
+(import (rsc3))
+
 (let ((insects
        (lambda (_)
          (let* ((n1 (brown-noise ar))

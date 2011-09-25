@@ -1,5 +1,7 @@
 ;; cymbalism (jmcc)
 
+(import (rsc3) (rhs))
+
 (let* ((p 15)
        (f1 (rand 500 2500))
        (f2 (rand 0 8000))

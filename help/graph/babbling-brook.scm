@@ -1,5 +1,7 @@
 ;; babbling brook (jmcc)
 
+(import (rsc3))
+
 (let* ((b (lambda (f m a g)
             (let* ((n1 (brown-noise ar))
                    (n2 (brown-noise ar))

@@ -1,5 +1,7 @@
 ;; hh-808 (ryan at wabdo.com)
 
+(import (rsc3))
+
 (let* ((time 250)
        (freqs (list 205.35 304.41 369.64 522.71 540.54 812.21))
        (pulse-env

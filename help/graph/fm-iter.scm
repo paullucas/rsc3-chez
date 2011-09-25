@@ -1,5 +1,7 @@
 ;; fm-iter (rd)
 
+(import (rsc3))
+
 (let* ((t0 (impulse ar (recip 0.30) 0))
        (t1 (t-delay t0 0.15))
        (t (mce2 t0 t1))

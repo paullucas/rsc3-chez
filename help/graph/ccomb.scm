@@ -1,5 +1,7 @@
 ;; ccomb (rd)
 
+(import (rsc3))
+
 (let* ((rng (lambda (u l r) (lin-lin u -1 1 l r)))
        (lwr 48)
        (flwr (midi-cps 48))

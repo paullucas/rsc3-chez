@@ -1,7 +1,9 @@
 ;; modal space (jmcc)
 
+(import (sosc) (rsc3))
+
 (let* ((p (list 0 2 3.2 5 7 9 10))
-       (x (mouse-x kr 0 15 0 0.1))
+       (x (mouse-x* kr 0 15 0 0.1))
        (k (degree-to-key 0 x 12))
        (c (lambda (n r)
             (let* ((o (mul (sin-osc ar (midi-cps (add3 r k n)) 0) 0.1))

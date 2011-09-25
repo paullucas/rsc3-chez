@@ -194,11 +194,11 @@ distributed with rsc3."
   ;; scsynth
   (define-key map "\C-c\C-o" 'rsc3-quit-scsynth)
   (define-key map "\C-c\C-k" 'rsc3-reset-scsynth)
-  (define-key map "\C-c\C-w" 'rsc3-status-scsynth)
+  (define-key map "\C-c\C-p" 'rsc3-status-scsynth)
   (define-key map "\C-c\C-b" 'rsc3-boot-scsynth)
   ;; Expression.
   (define-key map "\C-c\C-e" 'rsc3-evaluate)
-  (define-key map "\C-c\C-p" 'rsc3-play)
+  (define-key map "\C-cP" 'rsc3-play)
   (define-key map "\C-c\C-d" 'rsc3-draw)
   ;; Help.
   (define-key map "\C-c\C-h" 'rsc3-help))

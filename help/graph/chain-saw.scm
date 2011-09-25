@@ -1,5 +1,7 @@
 ;; chain saw (jrhb)
 
+(import (rsc3) (rhs))
+
 (let* ((coin
         (lambda (n a b)
           (if (> (random 0.0 1.0) n) a b)))

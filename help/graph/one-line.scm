@@ -1,5 +1,7 @@
 ;; one-line (lance putnam)
 
+(import (rsc3))
+
 (let* ((lfs (mul-add (lf-saw ar (mce2 1 0.99) (mce2 0 0.6)) 2000 2000))
        (lfs-t (mul (trunc lfs (mce2 400 600)) (mce2 1 -1)))
        (f (one-pole (mix lfs-t) 0.98)))

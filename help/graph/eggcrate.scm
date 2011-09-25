@@ -1,5 +1,7 @@
 ;; eggcrate (rd)
 
+(import (rsc3))
+
 (let* ((eggcrate
         (lambda (u v)
           (mul (u:cos (mul u pi)) (u:sin (mul v pi)))))

@@ -1,5 +1,7 @@
 ;; cricket (rd)
 
+(import (rsc3))
+
 (let* ((m-rand
         (lambda (l r)
           (mce2 (rand l r) (rand l r))))
