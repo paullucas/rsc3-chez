@@ -28,22 +28,26 @@
 ;;              the env is finished playing. This can be used to free
 ;;              the enclosing synth, etc.
 
-;; Percussive envelope
+(import (rhs) (rsc3))
 
+;; Percussive envelope
 (let* ((d (env-perc 0.01 1 1 (list -4 -4)))
        (e (env-gen kr 1 0.1 0 1 remove-synth d)))
   (audition (out 0 (mul e (sin-osc ar 440 0)))))
 
 ;; The break-point assistant makes a static envelope from a
 ;; co-ordinate list.  There is a duration and amplitude scalar.
-
-(let* ((d (env-bp (list 0 0 3/4 1 1 0) 1 1 (replicate 3 "linear")))
+(let* ((d (env-coord (list (cons 0 0)
+                           (cons 0.75 1)
+                           (cons 1 0))
+                     1 1 (replicate 3 "linear")))
        (e (env-gen kr 1 0.1 0 1 remove-synth d)))
   (audition (out 0 (mul e (sin-osc ar 440 0)))))
 
 ;; Trapezoidal
-
 (let* ((d (env-trapezoid 0 0.25 2 0.1))
        (e (env-gen kr 1 0.1 0 1 remove-synth d)))
   (audition (out 0 (mul e (sin-osc ar 440 0)))))
 
+;; 0.0 3 -1 -1 0.1 0.5 1.0 0.0 0.1 0.0 1.0 0.0 0.0 1.5 1.0 0.0
+(env-trapezoid 0 0.25 2 0.1)

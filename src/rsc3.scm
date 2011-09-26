@@ -1650,46 +1650,55 @@
 	times
 	curves))))))
 
-;; Co-ordinate based static envelope generator.
+(define d->dx
+  (lambda (l)
+    (zip-with sub (drop 1 l) l)))
 
-;; [ugen] -> ugen -> ugen -> [ugen] -> ugen
+;; Co-ordinate based static envelope generator.
+;; [(ugen . ugen)] -> ugen -> ugen -> [ugen] -> ugen
+(define env-coord
+  (lambda (d dur amp curves)
+    (env (map1 (lambda (e) (mul (cdr e) amp)) d)
+         (map1 (lambda (e) (mul e dur)) (d->dx (map car d)))
+         curves
+         -1
+         -1)))
+
+(define env-coord-linear
+  (lambda (d dur amp)
+    (env-coord d dur amp (replicate (- (length d) 1) 1))))
+
+;; (equal? (mk-coord (list 1 2 3 4)) (list (cons 1 2) (cons 3 4)))
+(define mk-coord
+  (lambda (l)
+    (if (null? l)
+        (list)
+        (let ((x (car l))
+              (y (cadr l))
+              (r (cddr l)))
+          (cons (cons x y) (mk-coord r))))))
+
 (define env-bp
-  (lambda (bp dur amp curves)
-    (env (map1
-          (lambda (e)
-            (mul e amp))
-          (take-cycle (tail bp) 2))
-	 (map1
-          (lambda (e)
-            (mul e dur))
-          ((differentiate-with sub) (take-cycle bp 2)))
-	 curves
-	 -1
-	 -1)))
+  (lambda (bp d a c) (env-coord (mk-coord bp) d a c)))
 
 (define env-bp-linear
-  (lambda (bp dur amp)
-    (env-bp bp dur amp (replicate (- (/ (length bp) 2) 1) 1))))
+  (lambda (bp d a)
+    (env-coord-linear (mk-coord bp) d a)))
 
 ;; Design a standard trapezoidal envelope. `shape' determines the
 ;; sustain time as a proportion of `dur', zero is a triangular
 ;; envelope, one a rectangular envelope. `skew' determines the
 ;; attack/decay ratio, zero is an immediate attack and a slow decay,
 ;; one a slow attack and an immediate decay. This implementation
-;; builds a zero one breakpoint data set and calls env-bp.
-
+;; builds a zero one breakpoint data set and calls env-coord.
 (define env-trapezoid
   (lambda (shape skew dur amp)
     (let* ((x1 (mul skew (sub 1.0 shape)))
-	   (bp (list 0
-		     (le skew 0.0)
-		     x1
-		     1.0
-		     (add shape x1)
-		     1.0
-		     1.0
-		     (ge skew 1.0))))
-      (env-bp bp dur amp (replicate 3 "linear")))))
+	   (bp (list (cons 0 (le skew 0.0))
+		     (cons x1 1.0)
+		     (cons (add shape x1) 1.0)
+		     (cons 1.0 (ge skew 1.0)))))
+      (env-coord bp dur amp (replicate 3 "linear")))))
 
 (define env-triangle
   (lambda (dur level)
