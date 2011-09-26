@@ -1,12 +1,11 @@
 ;; implosion (rd)
 
-(import (rsc3) (rhs))
+(import (rnrs) (rsc3) (rhs))
 
 (define implosion
   (let* ((mkls
           (lambda (bp t)
-            (let ((c (replicate (/ (length bp) 2) 1)))
-              (env-gen kr 1 1 0 1 remove-synth (env-bp bp t 1 c)))))
+            (env-gen kr 1 1 0 1 remove-synth (env-bp-linear bp t 1))))
          (mkrmp
           (lambda (l r t)
             (mkls (list 0 l 1 r) t)))
