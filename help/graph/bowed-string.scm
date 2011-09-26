@@ -1,12 +1,14 @@
 ;; bowed string (jmcc)
 
-(import (rsc3) (rhs))
+(import (rnrs) (rsc3) (rhs))
 
-(letrec ((series
-          (lambda (f n x i)
-            (if (= n 0)
-                nil
-                (cons x (series f (- n 1) (f x i) i))))))
+(define series
+  (lambda (f n x i)
+    (if (= n 0)
+        nil
+        (cons x (series f (- n 1) (f x i) i)))))
+
+(define bowed-string
   (let* ((root 5)
          (scale (map (lambda (n) (+ n root)) (list 0 2 4 5 7 9 11)))
          (oct (list 24 36 48 60 72 84))
@@ -20,4 +22,6 @@
          (x (mul3 n0 0.007 (u:max 0 (mul-add n1 0.6 0.4))))
          (d (klank-data (series add 12 f f) (series mul 12 1 r1) r2))
          (k (klank x 1 0 1 d)))
-    (audition (out 0 (soft-clip (mul k 0.1))))))
+    (soft-clip (mul k 0.1))))
+
+(audition (out 0 bowed-string))

@@ -1,6 +1,6 @@
 ;; chrd (rd)
 
-(import (rsc3))
+(import (rnrs) (rsc3))
 
 (define chrd
   (lambda (_)
