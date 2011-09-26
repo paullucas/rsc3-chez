@@ -1181,13 +1181,13 @@
 (define dwhite (mk-specialized-id "Dwhite" (length lo hi) 1 dr))
 (define dxrand (mk-specialized-mce-id "Dxrand" (length array) 1 dr))
 (define exp-rand (mk-specialized-id "ExpRand" (lo hi) 1 ir))
-(define fft (mk-specialized "FFT" (buf in hop wintype active) 1 kr))
+(define fft (mk-specialized "FFT" (buf in hop wintype active winsize) 1 kr))
 (define grain-buf (mk-specialized-n "GrainBuf" (tr dur sndb rt ps i pan envb) ar))
 (define grain-fm (mk-specialized-n "GrainFM" (tr dur cf mf indx pan envb) ar))
 (define grain-in (mk-specialized-n "GrainIn" (tr dur in pan envbuf) ar))
 (define grain-sin (mk-specialized-n "GrainSin" (tr dur freq pan envbuf) ar))
 (define i-rand (mk-specialized-id "IRand" (lo hi) 1 ir))
-(define ifft (mk-specialized "IFFT" (buf wintype) 1 ar))
+(define ifft (mk-specialized "IFFT" (buf wintype winsize) 1 ar))
 (define in-feedback (mk-specialized-n "InFeedback" (bus) ar))
 (define in-trig (mk-specialized-n "InTrig" (bus) kr))
 (define k2a (mk-specialized "K2A" (in) 1 ar))
@@ -1264,13 +1264,13 @@
   (lambda (nc r b p l)
     (buf-rd nc r b p l 1)))
 
-(define fft*				;
+(define fft*
   (lambda (buf in)
-    (fft buf in 0.5 0 1)))
+    (fft buf in 0.5 0 1 0)))
 
 (define ifft*
   (lambda (buf)
-    (ifft buf 0)))
+    (ifft buf 0 0)))
 
 (define mul3
   (lambda (a b c)
