@@ -1,12 +1,4 @@
-;; (c-osc bufnum freq beats)
-
-;; Chorusing wavetable lookup oscillator. Produces sum of two signals
-;; at (freq +/- (beats / 2)). Due to summing, the peak amplitude is
-;; twice that of the wavetable.
-
-;; bufnum - the number of a buffer filled in wavetable format
-;; freq   - frequency in Hertz
-;; beats  - beat frequency in Hertz
+(import (rsc3))
 
 (with-sc3
  (lambda (fd)
@@ -15,8 +7,7 @@
 
 (audition (out 0 (mul (c-osc ar 10 200 0.7) 0.25)))
 
-(audition (out 0 (mul (c-osc ar 10 200 (mouse-x kr 0 4 0 0.1)) 0.25)))
+(audition (out 0 (mul (c-osc ar 10 200 (mouse-x* kr 0 4 0 0.1)) 0.25)))
 
 ;; Compare with:
-
 (audition (out 0 (mul (osc ar 10 200 0.0) 0.25)))

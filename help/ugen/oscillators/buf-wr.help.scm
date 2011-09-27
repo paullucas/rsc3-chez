@@ -1,12 +1,4 @@
-;; (buf-wr rate bufnum phase loop inputs)
-
-;; Buffer writing oscillator.  Write to a buffer at an index. See also
-;; buf-rd.
-
-;; bufnum - the index of the buffer to use
-;; phase  - modulateable index into the buffer (has to be audio rate).
-;; loop   - 1 means true, 0 means false.  this is modulateable.
-;; input  - input ugens (channelArray)
+(import (sosc) (rsc3))
 
 (let ((a (letc ((r 1))
 	   (let* ((r* (mul (buf-rate-scale kr 0) r))
@@ -19,7 +11,7 @@
 	   (let* ((r* (mul (buf-rate-scale kr 0) r))
 		  (p (phasor ar 0 r* 0 (buf-frames kr 0) 0)))
 	     (out 0 (buf-rd 1 ar 0 p 1 2))))))
-  (with-sc3 
+  (with-sc3
    (lambda (fd)
      (async fd (b-alloc 0 (* 44100 2) 1))
      (send-synth fd "a" a)
