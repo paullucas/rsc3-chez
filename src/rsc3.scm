@@ -1918,3 +1918,8 @@
 
 (define mouse-x* mouse-r)
 (define mouse-y* mouse-r)
+
+(define mouse-button*
+  (lambda (rt l r tm)
+    (let ((o (lf-clip-noise rt 1)))
+      (lag (lin-lin o -1 1 l r) tm))))
