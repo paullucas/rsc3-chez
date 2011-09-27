@@ -34,6 +34,7 @@
         (cons x (snd (map-accum-l g x xs)))))))
 
 ;; num a => [a] -> [a]
+;; (equal? (integrate (list 3 4 1 1)) (list 3 7 8 9))
 (define integrate
   (integrate-with +))
 
