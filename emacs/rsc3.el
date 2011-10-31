@@ -45,15 +45,35 @@
       (replace-regexp-in-string "^> " "" s)
     s))
 
+(defun rsc3-uncomment (s)
+  "Remove initial comment and Bird-literate markers if present"
+   (replace-regexp-in-string "^[; ]*>*" "" s))
+
 (defun rsc3-insert-lambda ()
   (interactive)
   (insert "lambda"))
 
-(defun rsc3-see-output ()
+(defun rsc3-send-string (s)
+  (if (comint-check-proc rsc3-buffer)
+      (let ((cs (chunk-string 64 (concat s "\n"))))
+        (mapcar
+         (lambda (c) (comint-send-string rsc3-buffer c))
+         cs))
+    (error "no rsc3 process running?")))
+
+(defun rsc3-load-buffer ()
+  "Load the current buffer."
+  (interactive)
+  (save-buffer)
+  (rsc3-see-scheme)
+  (rsc3-send-string (format "(load \"%s\")" buffer-file-name)))
+
+(defun rsc3-see-scheme ()
   "Arrange so that the frame has two windows, the current buffer is
 placed in the upper window and the `rsc3-buffer' in the lower window."
   (interactive)
-  (when (comint-check-proc rsc3-buffer)
+  (if (not (comint-check-proc rsc3-buffer))
+      (rsc3-start-scheme)
     (delete-other-windows)
     (split-window-vertically)
     (with-current-buffer rsc3-buffer
@@ -70,14 +90,14 @@ started and a new window is created to display the results of
 evaluating rsc3 expressions.  Input and output is via `rsc3-buffer'."
   (interactive)
   (if (comint-check-proc rsc3-buffer)
-      (error "An rsc3 scheme process is already running")
+      (rsc3-see-scheme)
     (apply
      'make-comint
      "rsc3"
      (car rsc3-interpreter)
      nil
      (cdr rsc3-interpreter))
-    (rsc3-see-output)))
+    (rsc3-see-scheme)))
 
 (defun rsc3-interrupt-scheme ()
   "Interupt scheme process."
@@ -119,8 +139,18 @@ Quit the scheme interpreter and delete the associated buffer."
   (interactive "sString to evaluate: ")
   (if (not (comint-check-proc rsc3-buffer))
       (rsc3-start-scheme))
-  (comint-send-string rsc3-buffer expression)
-  (comint-send-string rsc3-buffer "\n"))
+  (rsc3-send-string expression)
+  (rsc3-send-string "\n"))
+
+(defun rsc3-run-line ()
+  "Send the current line to the interpreter."
+  (interactive)
+  (let* ((s (buffer-substring (line-beginning-position)
+			      (line-end-position)))
+	 (s* (if rsc3-literate-p
+		 (rsc3-unlit s)
+	       (rsc3-uncomment s))))
+    (rsc3-send-string s*)))
 
 (defun rsc3-evaluate ()
   "Evaluate the complete s-expression that precedes point."
@@ -185,12 +215,13 @@ distributed with rsc3."
 (defun rsc3-mode-keybindings (map)
   "Install rsc3 keybindings into `map'."
   ;; Scheme
+  (define-key map [?\C-c ?\C-l] 'rsc3-load-buffer)
+  (define-key map [?\C-c ?<] 'rsc3-load-buffer)
+  (define-key map [?\C-c ?>] 'rsc3-see-scheme)
+  (define-key map [?\C-c ?\C-c] 'rsc3-run-line)
+  (define-key map [?\C-c ?\C-q] 'rsc3-quit-scheme)
   (define-key map "\C-\\" 'rsc3-insert-lambda)
-  (define-key map "\C-c\C-s" 'rsc3-start-scheme)
-  (define-key map "\C-c\C-g" 'rsc3-see-output)
   (define-key map "\C-c\C-i" 'rsc3-interrupt-scheme)
-  (define-key map "\C-c\C-q" 'rsc3-clear-schedule)
-  (define-key map "\C-c\C-x" 'rsc3-quit-scheme)
   ;; scsynth
   (define-key map "\C-c\C-o" 'rsc3-quit-scsynth)
   (define-key map "\C-c\C-k" 'rsc3-reset-scsynth)
