@@ -991,7 +991,6 @@
 (define least-change (mk-filter "LeastChange" (a b) 1))
 (define limiter (mk-filter "Limiter" (in level dur) 1))
 (define lin-exp (mk-filter "LinExp" (in srclo srchi dstlo dsthi) 1))
-(define lin-lin (mk-filter "LinLin" (in srclo srchi dstlo dsthi) 1))
 (define lin-pan2 (mk-filter "LinPan2" (in pos level) 2))
 (define lin-x-fade2 (mk-filter "LinXFade2" (in-a in-b pan level) 1))
 (define linen (mk-filter "Linen" (gate atk-tm sus-lvl rel-tm done-action) 1))
@@ -1272,6 +1271,12 @@
 (define ifft*
   (lambda (buf)
     (ifft buf 0 0)))
+
+(define lin-lin
+  (lambda (in srclo srchi dstlo dsthi)
+    (let ((scale (fdiv (sub dsthi dstlo) (sub srchi srclo)))
+          (offset (sub dstlo (mul scale srclo))))
+      (mul-add in scale offset))))
 
 (define mul3
   (lambda (a b c)
@@ -1924,3 +1929,7 @@
   (lambda (rt l r tm)
     (let ((o (lf-clip-noise rt 1)))
       (lag (lin-lin o -1 1 l r) tm))))
+
+;; Local Variables:
+;; truncate-lines:t
+;; End:

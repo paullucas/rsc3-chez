@@ -4,7 +4,7 @@
 
 (define aleatoric-quartet
   (let* ((amp 0.4)
-         (density (mouse-x* kr 0.01 1 0 0.1))
+         (density (mouse-x kr 0.01 1 0 0.1))
          (dmul (mul (recip density) (mul 0.5 amp)))
          (dadd (add (neg dmul) amp))
          (rapf (lambda (i)

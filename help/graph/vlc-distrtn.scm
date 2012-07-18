@@ -107,7 +107,7 @@
            (fall 0.5)
            (loc 0.0)
            (detune 0.001))
-      (let* ((i (mul (sound-in 0) iamp))
+      (let* ((i (mul (sound-in 4) iamp))
              (s (foldl1 add
                         (map (vlc-partial i freq detune fall)
                              (enum-from-to 0 (- n 1))))))

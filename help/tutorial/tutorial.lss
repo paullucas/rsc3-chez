@@ -15,10 +15,10 @@ Scheme SuperCollider is currently only available as a set of
 requires the rhs and sosc libraries.  A simple build utility is also
 required.
 
-    $ darcs get http://slavepianos.org/rd/sw/mk-r6rs
-    $ darcs get http://slavepianos.org/rd/sw/rhs
-    $ darcs get http://slavepianos.org/rd/sw/sosc
-    $ darcs get http://slavepianos.org/rd/sw/rsc3
+    $ darcs get http://rd.slavepianos.org/sw/mk-r6rs
+    $ darcs get http://rd.slavepianos.org/sw/rhs
+    $ darcs get http://rd.slavepianos.org/sw/sosc
+    $ darcs get http://rd.slavepianos.org/sw/rsc3
 
 To build ensure that the `mk-r6rs` library is on the scheme library
 path and run the below in each project.
@@ -171,6 +171,6 @@ To end printing send:
 [srfi]: http://srfi.schemers.org/
 [r6rs-srfi]: https://launchpad.net/scheme-libraries/
 [emacs]: http://www.gnu.org/software/emacs/
-[rsc3]: http://slavepianos.org/rd/?t=rsc3
+[rsc3]: http://rd.slavepianos.org/?t=rsc3
 [darcs]: http://darcs.net/
 [r6rs]: http://www.r6rs.org/
