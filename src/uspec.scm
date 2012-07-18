@@ -1,4 +1,5 @@
-(import (prefix (srfi :1 lists) srfi:))
+(import (prefix (srfi :1 lists) srfi:)
+        (prefix (srfi :13 strings) srfi:))
 
 ;; A <list> that maps symbolic binary operator names to integer
 ;; indexes.  The names and ordering are (and *must* remain) those used
@@ -9,14 +10,16 @@
 ;; `name', or to '#f' if `name' is not a binary operator.
 ;;
 ;; (= (binaryop-index 'Mul) 2)
-(define (binaryop-index name)
-  (srfi:list-index (lambda (e) (eq? e name)) binaryop-names))
+(define binaryop-index
+  (lambda (name)
+    (srfi:list-index (lambda (e) (eq? e name)) binaryop-names)))
 
 ;; Evaluate to the name of the binary operation defined by `index'.
 ;;
 ;; (eq? (binaryop-name 2) 'Mul)
-(define (binaryop-name index)
-  (srfi:list-ref binaryop-names index))
+(define binaryop-name
+  (lambda (index)
+    (srfi:list-ref binaryop-names index)))
 
 ;; A <list> that maps symbolic unary operation names to integer indexes.
 (define unaryop-names '(Neg Not IsNil NotNil BitNot Abs AsFloat AsInt Ceil Floor Frac Sign Squared Cubed Sqrt Exp Recip MIDICPS CPSMIDI MIDIRatio RatioMIDI DbAmp AmpDb OctCPS CPSOct Log Log2 Log10 Sin Cos Tan ArcSin ArcCos ArcTan SinH CosH TanH _Rand Rand2 _LinRand BiLinRand Sum3Rand Distort SoftClip Coin DigitValue Silence Thru RectWindow HanWindow WelchWindow TriWindow _Ramp SCurve))
@@ -26,15 +29,17 @@
 ;; are those used as enueration constants in the SC3 source.
 ;;
 ;; (= (unaryop-index 'Exp) 15)
-(define (unaryop-index name)
-  (srfi:list-index (lambda (e) (eq? e name)) unaryop-names))
+(define unaryop-index
+  (lambda (name)
+    (srfi:list-index (lambda (e) (eq? e name)) unaryop-names)))
 
 ;; Evaluate to the symbolic name of the binary operation defined by
 ;; `index'.
 ;;
 ;; (eq? (unaryop-name 15) 'Exp)
-(define (unaryop-name index)
-  (srfi:list-ref unaryop-names index))
+(define unaryop-name
+  (lambda (index)
+    (srfi:list-ref unaryop-names index)))
 
 ;; A UGen user-name is usually just the UGen name with a rate suffix,
 ;; but for Binary and Unary OpUGens it is the name of the operation
@@ -42,11 +47,12 @@
 ;;
 ;; (eq? (user-name 'BinaryOpUGen 2) 'Mul)
 ;; (eq? (user-name 'UnaryOpUGen 15) 'Exp)
-(define (user-name name special)
-  (cond
-   ((eq? name 'BinaryOpUGen) (binaryop-name special))
-   ((eq? name 'UnaryOpUGen)  (unaryop-name special))
-   (else                     name)))
+(define user-name
+  (lambda (name special)
+    (cond
+     ((eq? name 'BinaryOpUGen) (binaryop-name special))
+     ((eq? name 'UnaryOpUGen)  (unaryop-name special))
+     (else                     name))))
 
 ;; USpecs describe UGens.
 (define-record-type uspec
@@ -85,58 +91,124 @@
 ;;
 ;; (eq? (uspec-name/ugen Mul.uspec) 'BinaryOpUGen)
 ;; (eq? (uspec-name/ugen SinOsc.uspec) 'SinOsc)
-(define (uspec-name/ugen s)
-  (let ((n (uspec-name s)))
-    (if (list? n) (cadr n) n)))
+(define uspec-name/ugen
+  (lambda (s)
+    (let ((n (uspec-name s)))
+      (if (list? n) (cadr n) n))))
 
 ;; (eq? (uspec-name/constructor Mul.uspec) 'Mul)
 ;; (eq? (uspec-name/constructor SinOsc.uspec) 'SinOsc)
-(define (uspec-name/constructor s)
-  (let ((n (uspec-name s)))
-    (if (list? n) (car n) n)))
+(define uspec-name/constructor
+  (lambda (s)
+    (let ((n (uspec-name s)))
+      (if (list? n) (car n) n))))
 
 ;; Input accessors.
-(define (uspec-input-name i) (car i))
-(define (uspec-input-default i) (cadr i))
+(define uspec-input-name (lambda (i) (car i)))
+(define uspec-input-default (lambda (i) (cadr i)))
 
 ;; Variadic predicates.
 ;;
 ;; (eq? (uspec-has-variable-inputs? SinOsc.uspec) #f)
 ;; (eq? (uspec-has-variable-inputs? Out.uspec) #t)
-(define (uspec-has-variable-inputs? s)
-  (list? (uspec-input-default (srfi:last (uspec-inputs s)))))
+(define uspec-has-variable-inputs?
+  (lambda (s)
+    (list? (uspec-input-default (srfi:last (uspec-inputs s))))))
 
 ;; (eq? (uspec-has-variable-outputs? SinOsc.uspec) #f)
 ;; (eq? (uspec-has-variable-outputs? In.uspec) #t)
-(define (uspec-has-variable-outputs? s)
-  (not (list? (uspec-outputs s))))
+(define uspec-has-variable-outputs?
+  (lambda (s)
+    (not (list? (uspec-outputs s)))))
 
 ;; Construct a usage list for the USpec `s'.
 ;;
 ;; (equal? (uspec-usage SinOsc.uspec #f) '(SinOsc freq phase))
 ;; (equal? (uspec-usage SinOsc.uspec #t) '(SinOsc (freq 440.0) (phase 0.0)))
-(define (uspec-usage s with-defaults)
-  (cons (uspec-name/constructor s)
-	(if with-defaults
-	    (uspec-inputs s)
-            (map uspec-input-name (uspec-inputs s)))))
+(define uspec-usage
+  (lambda (s with-defaults)
+    (cons (uspec-name/constructor s)
+          (if with-defaults
+              (uspec-inputs s)
+              (map uspec-input-name (uspec-inputs s))))))
+
+(define uspec-sclang-plain
+  (lambda (s c r)
+    (list
+     " *" c "r { arg "
+     (map
+      (lambda (i)
+        (list " " (uspec-input-name i) " = " (uspec-input-default i) ","))
+      (uspec-inputs s))
+     " mul = 1.0, add = 0.0;\n"
+     "  ^this.multiNew('" r "'"
+     (map
+      (lambda (i)
+        ", " (uspec-input-name i))
+      (uspec-inputs s))
+     ").madd(mul, add);\n}\n")))
+
+(define uspec-sclang-variadic
+  (lambda (s c r)
+    (list
+     " *" c "r { arg "
+     (map
+      (lambda (i)
+        (list " " (uspec-input-name i) " = " (uspec-input-default i) ","))
+      (srfi:drop-right (uspec-inputs s) 1))
+     " " (uspec-input-name (last (uspec-inputs s))) ";\n"
+     "  ^this.multiNewList(['" r "'"
+     (map
+      (lambda (i) (list ", " (uspec-input-name i)))
+      (srfi:drop-right (uspec-inputs s) 1))
+     "] ++ " (uspec-input-name (last (uspec-inputs s))) ");\n}\n")))
+
+(define expr->string
+  (lambda (e)
+    (call-with-string-output-port (lambda (p) (display e p)))))
+
+(define tree->string
+  (lambda (e)
+    (cond ((list? e) (srfi:string-concatenate (map tree->string e)))
+          (else (expr->string e)))))
+
+;; Construct a tree describing the SC3 class implementation of the
+;; USpec 's'.  Does not support variable output USpecs, however it
+;; does raise an error...
+;;
+;; (display (tree->string (uspec-sclang SinOsc.uspec)))
+;; (display (tree->string (uspec-sclang Out.uspec)))
+(define uspec-sclang
+  (lambda (s)
+    (if (uspec-has-variable-outputs? s)
+        (error "uspec-sclang: variable outputs"))
+    (let ((constructor (if (uspec-has-variable-inputs? s)
+                           uspec-sclang-variadic
+                           uspec-sclang-plain)))
+      (list (uspec-name/constructor s) " : UGen {\n"
+            (constructor s 'a 'audio)
+            (constructor s 'k 'control)
+            "}\n"))))
 
 ;; (eq? (symbol-append 'p 'q) 'pq)
-(define (symbol-append p q)
-  (string->symbol (string-append (symbol->string p) (symbol->string q))))
+(define symbol-append
+  (lambda (p q)
+    (string->symbol (string-append (symbol->string p) (symbol->string q)))))
 
 ;; (eq? (symbol-append-string 'p "q") 'pq)
-(define (symbol-append-string p q)
-  (string->symbol (string-append (symbol->string p) q)))
+(define symbol-append-string
+  (lambda (p q)
+    (string->symbol (string-append (symbol->string p) q))))
 
 ;; Unary USpecs are generated.
-(define (gen-unaryop-uspec)
-  (map
-   (lambda (name index)
-     `(define-uspec ,(symbol-append-string name ".uspec")
-        (,name UnaryOpUGen) ((input 0.0)) (u) ,index (0 1 2 3)))
-   unaryop-names
-   (srfi:iota (length unaryop-names))))
+(define gen-unaryop-uspec
+  (lambda ()
+    (map
+     (lambda (name index)
+       `(define-uspec ,(symbol-append-string name ".uspec")
+          (,name UnaryOpUGen) ((input 0.0)) (u) ,index (0 1 2 3)))
+     unaryop-names
+     (srfi:iota (length unaryop-names)))))
 
 (define-uspec Neg.uspec (Neg UnaryOpUGen) ((input 0.0)) (u) 0 (0 1 2 3))
 (define-uspec Not.uspec (Not UnaryOpUGen) ((input 0.0)) (u) 1 (0 1 2 3))
@@ -194,13 +266,14 @@
 (define-uspec SCurve.uspec (SCurve UnaryOpUGen) ((input 0.0)) (u) 53 (0 1 2 3))
 
 ;; Binary USpecs are generated.
-(define (gen-binop-uspec)
-  (map
-   (lambda (name index)
-     `(define-uspec ,(symbol-append-string name ".uspec")
-        (,name BinaryOpUGen) ((left 0.0) (right 0.0)) (u) ,index (0 1 2 3)))
-   binaryop-names
-   (srfi:iota (length binaryop-names))))
+(define gen-binop-uspec
+  (lambda ()
+    (map
+     (lambda (name index)
+       `(define-uspec ,(symbol-append-string name ".uspec")
+          (,name BinaryOpUGen) ((left 0.0) (right 0.0)) (u) ,index (0 1 2 3)))
+     binaryop-names
+     (srfi:iota (length binaryop-names)))))
 
 (define-uspec Add.uspec (Add BinaryOpUGen) ((left 0.0) (right 0.0)) (u) 0 (0 1 2 3))
 (define-uspec Sub.uspec (Sub BinaryOpUGen) ((left 0.0) (right 0.0)) (u) 1 (0 1 2 3))
