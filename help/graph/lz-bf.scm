@@ -3,7 +3,7 @@
 (import (rnrs) (rsc3))
 
 (define lz-bf-i
-  (let* ((x (mouse-x* kr 1 12 0 0.1))
+  (let* ((x (mouse-x kr 1 12 0 0.1))
          (l (lorenz-l ar
                       sample-rate
                       (mul-add (lf-noise0 kr x) 2 12)

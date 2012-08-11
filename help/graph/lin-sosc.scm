@@ -38,7 +38,7 @@
 
 (define tbl-m
   (lambda (b)
-    (play-buf 1 b (mul (mouse-x* kr 0.001 1.0 0 0.1)
+    (play-buf 1 b (mul (mouse-x kr 0.001 1.0 0 0.1)
                        (buf-rate-scale kr b)) 0 0 1)))
 
 (define tbl-c

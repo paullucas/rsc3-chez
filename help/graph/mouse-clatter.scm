@@ -3,8 +3,8 @@
 (import (rnrs) (rsc3))
 
 (define mouse-clatter
-  (let* ((x (mouse-x* kr 100 12000 0 0.1))
-         (y (mouse-y* kr 0.01 0.15 0 0.1))
+  (let* ((x (mouse-x kr 100 12000 0 0.1))
+         (y (mouse-y kr 0.01 0.15 0 0.1))
          (n1 (lf-noise0 kr (mce2 3 3.25)))
          (t (impulse kr (mul-add n1 16 18) 0))
          (n2 (t-rand 0.005 y t))

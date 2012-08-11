@@ -3,8 +3,8 @@
 (import (rnrs) (sosc) (rsc3))
 
 (define s-chirp
-  (let* ((x (mouse-x* kr 15 0 0 0.1))
-         (y (mouse-y* kr 15 27 0 0.1))
+  (let* ((x (mouse-x kr 15 0 0 0.1))
+         (y (mouse-y kr 15 27 0 0.1))
          (t (dust kr 9))
          (b (t-choose t (make-mce (list 36 48 60 72))))
          (n (mul (lf-noise1 kr (mce2 3 3.05)) 0.04))

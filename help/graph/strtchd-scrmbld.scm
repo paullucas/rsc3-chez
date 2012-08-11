@@ -29,8 +29,8 @@
   (lambda (u b t)
     (let* ((f (fft* b u))
            (g (pv-bin-scramble f
-                               (mouse-x* kr 0.5 1.0 0 0.1)
-                               (mouse-y* kr 0.5 1.0 0 0.1)
+                               (mouse-x kr 0.5 1.0 0 0.1)
+                               (mouse-y kr 0.5 1.0 0 0.1)
                                t)))
       (ifft* g))))
 

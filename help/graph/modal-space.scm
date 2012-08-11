@@ -3,7 +3,7 @@
 (import (rnrs) (sosc) (rsc3))
 
 (define modal-space-i
-  (let* ((x (mouse-x* kr 0 15 0 0.1))
+  (let* ((x (mouse-x kr 0 15 0 0.1))
          (k (degree-to-key 0 x 12))
          (c (lambda (n r)
               (let* ((o (mul (sin-osc ar (midi-cps (add3 r k n)) 0) 0.1))

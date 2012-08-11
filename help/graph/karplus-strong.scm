@@ -37,8 +37,8 @@
 
 (define ks
   (lambda (n d)
-    (let* ((x (mouse-x* kr 0 0.01 linear 0.1)) ;; {- delay -}
-           (y (mouse-y* kr 0.85 1 linear 0.1)) ;; {- blend / gain -}
+    (let* ((x (mouse-x kr 0 0.01 linear 0.1)) ;; {- delay -}
+           (y (mouse-y kr 0.85 1 linear 0.1)) ;; {- blend / gain -}
            (n0 (add (fdiv n 2) 0.5))
            (lagged-delay (lag x 0.01))
            (o (sin-osc ar 200 0))

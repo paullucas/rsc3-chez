@@ -50,8 +50,8 @@
 		(mul3 (decay2 (pulse-divider t d 0) 0.01 (t-rand 0.005 rt t))
 		      (blip ar (midi-cps n) (t-rand 16 32 t))
 		      12.0)))
-	   (x (mouse-x* kr 0 1 0 0.1))
-	   (y (mouse-y* kr 0 1 0 0.1)))
+	   (x (mouse-x kr 0 1 0 0.1))
+	   (y (mouse-y kr 0 1 0 0.1)))
       (mrg2 (send-trig t 0 n)
 	    (out 0 (clip2
 		    (mce2 (voice-tr (i 1)
@@ -77,6 +77,6 @@
       (send fd (c-setn1 5 ampl))
       (send fd (c-setn1 10 bw)))))
 
-(audition (scritto (mouse-x* kr 0.0125 0.35 0 0.1)))
+(audition (scritto (mouse-x kr 0.0125 0.35 0 0.1)))
 
 (with-sc3 updater)

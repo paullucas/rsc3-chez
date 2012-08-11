@@ -16,8 +16,8 @@
         (mul (ringz (decay2 t* 0.01 0.5) r2 (mul r3 y)) g)))))
 
 (define k-ppr
-  (let* ((x (mouse-x* kr 0.05 0.35 0 0.1))
-         (y (mouse-y* kr 0.15 0.75 0 0.1))
+  (let* ((x (mouse-x kr 0.05 0.35 0 0.1))
+         (y (mouse-y kr 0.15 0.75 0 0.1))
          (ti (lf-tri kr x 0))
          (tf (wrp ti 100 200))
          (t (impulse ar tf 0))

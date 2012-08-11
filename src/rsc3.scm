@@ -1934,6 +1934,20 @@
     (let ((o (lf-clip-noise rt 1)))
       (lag (lin-lin o -1 1 l r) tm))))
 
+;; * Timing
+
+;; double -> void
+(define pause-thread
+  (lambda (n)
+    (if (> n 1e-4)
+        (thread-sleep n))))
+
+;; double -> void
+(define pause-thread-until
+  (lambda (t)
+    (let ((c (utcr)))
+      (pause-thread (- t c)))))
+
 ;; Local Variables:
 ;; truncate-lines:t
 ;; End:

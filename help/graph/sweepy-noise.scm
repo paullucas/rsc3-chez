@@ -4,8 +4,8 @@
 
 (define sn
   (let* ((n (clone 2 (white-noise ar)))
-         (lfo-depth (mouse-y* kr 200 8000 1 0.2))
-         (lfo-rate (mouse-x* kr 4 60 1 0.2))
+         (lfo-depth (mouse-y kr 200 8000 1 0.2))
+         (lfo-rate (mouse-x kr 4 60 1 0.2))
          (freq (mul-add (lf-saw kr lfo-rate 0)
                         lfo-depth
                         (mul lfo-depth 1.2)))

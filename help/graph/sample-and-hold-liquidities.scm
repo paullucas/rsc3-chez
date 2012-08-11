@@ -3,10 +3,10 @@
 (import (rnrs) (rsc3))
 
 (define sahl
-  (let* ((r (mouse-x* kr 1 200 1 0.1))
+  (let* ((r (mouse-x kr 1 200 1 0.1))
          (t (recip r))
          (c (impulse kr r 0.4))
-         (cf (mouse-y* kr 100 8000 1 0.1))
+         (cf (mouse-y kr 100 8000 1 0.1))
          (f (latch (mul-add (white-noise kr) (mul cf 0.5) cf) c))
          (p (latch (white-noise kr) c))
          (e (decay2 c (mul 0.1 t) (mul 0.9 t)))
