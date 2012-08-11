@@ -8,8 +8,8 @@ scheme module for working with the [supercollider][sc3] synthesis
 server.  the rsc3 interaction environment is written for gnu
 [emacs][emacs].
 
-for installation and configuration please consult the tutorial file at
-help/tutorial.
+for installation and configuration please consult the
+[tutorial][rsc3-t] at [rsc3-texts][rsc3-texts].
 
 [rsc3]: http://rd.slavepianos.org/?t=rsc3
 [r6rs]: http://r6rs.org/
@@ -17,6 +17,8 @@ help/tutorial.
 [plt]: http://plt-scheme.org/
 [sc3]: http://audiosynth.com/
 [emacs]: http://gnu.org/software/emacs/
+[rsc3-texts]: http://rd.slavepianos.org?t=rsc3-texts
+[rsc3-t]: http://rd.slavepianos.org/ut/rsc3-texts/lss/rsc3-tutorial.html
 
 rsc3 is by [rohan drape][rd] and others.  supercollider is by james
 mccartney.  plt is by matthew flatt and others.  ikarus is by
