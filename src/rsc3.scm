@@ -21,6 +21,8 @@
       (zip-with f l (cons 0 l)))))
 
 ;; num a => [a] -> [a]
+;;
+;; (equal? (differentiate '(1 2 4 7 11)) '(1 1 2 3 4))
 (define differentiate
   (differentiate-with -))
 
@@ -34,7 +36,9 @@
         (cons x (snd (map-accum-l g x xs)))))))
 
 ;; num a => [a] -> [a]
+;;
 ;; (equal? (integrate (list 3 4 1 1)) (list 3 7 8 9))
+;; (equal? (integrate '(1 1 2 3 4)) '(1 2 4 7 11))
 (define integrate
   (integrate-with +))
 
@@ -1274,8 +1278,8 @@
 
 (define lin-lin
   (lambda (in srclo srchi dstlo dsthi)
-    (let ((scale (fdiv (sub dsthi dstlo) (sub srchi srclo)))
-          (offset (sub dstlo (mul scale srclo))))
+    (let* ((scale (fdiv (sub dsthi dstlo) (sub srchi srclo)))
+           (offset (sub dstlo (mul scale srclo))))
       (mul-add in scale offset))))
 
 (define mul3
