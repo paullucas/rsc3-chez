@@ -1,24 +1,34 @@
-rsc3 - rsc3 supercollider client
+rsc3
+----
 
-rsc3 [1] is a an r6rs [2] (ikarus [3], plt [4]) scheme module for
-working with the supercollider [5] synthesis server.  the rsc3
-interaction environment is written for gnu emacs [6].
+rsc3 supercollider client
+
+[rsc3][rsc3] is a an [r6rs][r6rs] ([ikarus][ikarus], [plt][plt])
+scheme module for working with the [supercollider][sc3] synthesis
+server.  the rsc3 interaction environment is written for gnu
+[emacs][emacs].
 
 for installation and configuration please consult the tutorial file at
 help/tutorial.
 
-  [1] http://rd.slavepianos.org/?t=rsc3
-  [2] http://r6rs.org/
-  [3] http://www.cs.indiana.edu/~aghuloum/ikarus/
-  [4] http://plt-scheme.org/
-  [5] http://audiosynth.com/
-  [6] http://gnu.org/software/emacs/
+[rsc3]: http://rd.slavepianos.org/?t=rsc3
+[r6rs]: http://r6rs.org/
+[ikarus]: https://launchpad.net/ikarus/
+[plt]: http://plt-scheme.org/
+[sc3]: http://audiosynth.com/
+[emacs]: http://gnu.org/software/emacs/
 
-rsc3 is by rohan drape and others.  supercollider is by james
+rsc3 is by [rohan drape][rd] and others.  supercollider is by james
 mccartney.  plt is by matthew flatt and others.  ikarus is by
 abdulaziz ghuloum.  emacs is by richard stallman and others.
 
-(c) rohan drape, 1998-2012
-    gpl, see http://www.gnu.org/copyleft
-    with contributions by henk@henk.ca (plt support)
-    see darcs history for details
+© [rohan drape][rd] and others, 1998-2012, [gpl][gpl].
+with contributions by:
+
+- henk@henk.ca (plt support)
+
+see [darcs][darcs] history for details
+
+[rd]:  http://rd.slavepianos.org/
+[gpl]: http://gnu.org/copyleft/
+[darcs]: http://darcs.net/
