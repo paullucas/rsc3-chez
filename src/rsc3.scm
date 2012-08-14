@@ -1643,7 +1643,6 @@
 ;; 'release' stage of the envelope, `loop-node' is the index of the
 ;; 'loop' stage of the envelope. These indices are set as invalid, by
 ;; convention -1, to indicate there is no such node.
-
 (define env
   (lambda (levels times curves release-node loop-node)
     (make-mce
