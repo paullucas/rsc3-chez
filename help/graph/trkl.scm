@@ -14,7 +14,7 @@
       (pan2 (add (mix (ringz (decay2 t 0.01 dy) (mce2 f (mul f fh)) fy))
                  (mix (mul3 (saw ar (mce2 f (mul f fh)))
                             (decay2 t 0.1 (t-rand 0.05 1.0 t))
-                            (t-exp-rand 0.0 0.25 st))))
+                            (t-exp-rand 0.001 0.25 st))))
             p a))))
 
 (audition
