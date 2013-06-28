@@ -104,6 +104,13 @@ evaluating rsc3 expressions.  Input and output is via `rsc3-buffer'."
   (interactive)
   (interrupt-process rsc3-buffer comint-ptyp))
 
+(defun rsc3-stop ()
+  "Interrup scheme interpreter & reset scsynth"
+  (interactive)
+  (progn
+    (rsc3-interrupt-scheme)
+    (rsc3-reset-scsynth)))
+
 (defun rsc3-clear-schedule ()
   "Clear the schedule (Q)."
   (interactive)
@@ -225,6 +232,7 @@ distributed with rsc3."
   ;; scsynth
   (define-key map "\C-c\C-o" 'rsc3-quit-scsynth)
   (define-key map "\C-c\C-k" 'rsc3-reset-scsynth)
+  (define-key map "\C-c\C-s" 'rsc3-stop)
   (define-key map "\C-c\C-p" 'rsc3-status-scsynth)
   (define-key map "\C-c\C-b" 'rsc3-boot-scsynth)
   ;; Expression.
