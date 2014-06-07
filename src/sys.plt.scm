@@ -3,3 +3,6 @@
 
 ;; () -> float
 (define utcr utc)
+
+;; string -> io ()
+(define system plt:system)

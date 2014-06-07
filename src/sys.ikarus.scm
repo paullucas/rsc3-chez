@@ -13,3 +13,6 @@
            (s (ikarus:time-second t))
            (n (ikarus:time-nanosecond t)))
       (+ s (/ n 1e9)))))
+
+;; string -> io ()
+(define system ikarus:system)

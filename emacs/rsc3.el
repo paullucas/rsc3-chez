@@ -174,7 +174,7 @@ Quit the scheme interpreter and delete the associated buffer."
   "Draw the UGen graph at point using draw*."
   (interactive)
   (rsc3-evaluate-expression
-   (concat "(draw* " (rsc3-expression-before-point) ")")))
+   (concat "(import (rsc3 dot)) (show-graph " (rsc3-expression-before-point) ")")))
 
 
 ;; scsynth
