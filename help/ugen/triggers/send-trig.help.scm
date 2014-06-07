@@ -19,7 +19,7 @@
 (with-sc3
  (lambda (fd)
    (async fd (notify 1))
-   (sleep 2.0)
+   (thread-sleep 2.0)
    (let ((r (wait fd "/tr")))
-     (async fd (notify 0))
+     (send fd (notify 0)) ;; async here will recv a '/tr' not a '/done' message
      r)))

@@ -1,4 +1,4 @@
-;; (decay2 in attackTime decayTime)			
+;; (decay2 in attackTime decayTime)
 
 ;; Exponential decay.  decay has a very sharp attack and can produce
 ;; clicks. decay2 rounds off the attack by subtracting one decay from

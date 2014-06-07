@@ -3,7 +3,9 @@
 ;; stepper pulse counter.  Each trigger increments a counter which is
 ;; output as a signal. The counter wraps between min and max.
 
-(with-sc3 
+(import (rhs) (rsc3))
+
+(with-sc3
  (lambda (fd)
    (let ((a (list 97.999 195.998 523.251 466.164 195.998
 		  233.082 87.307 391.995 87.307 261.626
@@ -33,7 +35,7 @@
 				  0.05
 				  (clone 2 (rand 0 0.05))
 				  (rand 1.5 2.0))))
-       (proc (list 
+       (proc (list
 	      (lambda (s) (mul (rlpf s ffreq 0.3) env))
 	      (lambda (s) (mul (rlpf s ffreq 0.3) env))
 	      (lambda (s) (mul s 0.2))

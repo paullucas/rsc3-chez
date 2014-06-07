@@ -2,11 +2,13 @@
 
 (import (rnrs) (sosc) (rsc3))
 
+;; (audition (out 0 (dust-r ar 0.1 1)))
 (define dust-r
   (lambda (r lo hi)
     (let ((d (dseq dinf (make-mce (list (dwhite 1 lo hi))))))
       (t-duty r d 0 0 (u:abs (white-noise r)) 1))))
 
+;; (audition (out 0 sosc-lp))
 (define sosc-lp
   (let* ((clk (dust-r kr 0.2 0.9))
          (env (decay2 clk 0.002 2.5))
@@ -17,8 +19,8 @@
          (o1 (mul (sin-osc ar f1 0) env))
          (o2 (mul (sin-osc ar f2 0) env)))
     (mrg2
-     (send-trig clk 0 clk)
-     (mul (add o1 o2) 0.2))))
+     (mul (add o1 o2) 0.2)
+     (send-trig clk 0 clk))))
 
 (with-sc3
  (lambda (fd)

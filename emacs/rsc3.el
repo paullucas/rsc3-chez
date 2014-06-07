@@ -109,6 +109,7 @@ evaluating rsc3 expressions.  Input and output is via `rsc3-buffer'."
   (interactive)
   (progn
     (rsc3-interrupt-scheme)
+    (sleep-for 0 100)
     (rsc3-reset-scsynth)))
 
 (defun rsc3-clear-schedule ()
