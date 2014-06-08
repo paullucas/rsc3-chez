@@ -1,4 +1,4 @@
-;; alien meadow (jmcc)
+;; alien meadow (jmcc) #6
 
 (import (rsc3) (rsc3 lang))
 

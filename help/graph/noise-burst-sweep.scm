@@ -1,4 +1,4 @@
-;; noise burst sweep (jmcc)
+;; noise burst sweep (jmcc) #6
 
 (import (rnrs) (rsc3))
 

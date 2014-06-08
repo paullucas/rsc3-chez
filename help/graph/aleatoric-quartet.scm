@@ -1,4 +1,4 @@
-;; aleatoric quartet (jmcc)
+;; aleatoric quartet (jmcc) #7
 
 (import (rnrs) (rsc3) (rhs))
 

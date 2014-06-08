@@ -1,4 +1,4 @@
-;; synthetic piano (jmcc)
+;; synthetic piano (jmcc) #3
 
 (import (rnrs) (rsc3))
 

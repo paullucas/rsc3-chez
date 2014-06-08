@@ -1,4 +1,4 @@
-;; strummable guitar (jmcc)
+;; strummable guitar (jmcc) #11
 
 (import (rnrs) (rsc3))
 

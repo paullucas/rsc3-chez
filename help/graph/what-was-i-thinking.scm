@@ -1,4 +1,4 @@
-;; what was i thinking? (jmcc)
+;; what was i thinking? (jmcc) #2
 
 (import (rnrs) (rsc3))
 

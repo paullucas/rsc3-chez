@@ -1,4 +1,4 @@
-;; reverberated sine percussion (jmcc)
+;; reverberated sine percussion (jmcc) #3
 
 (import (rnrs) (rsc3) (rhs))
 

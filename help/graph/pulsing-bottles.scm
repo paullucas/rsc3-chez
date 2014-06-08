@@ -1,4 +1,4 @@
-;; pulsing bottles (jmcc)
+;; pulsing bottles (jmcc) #2
 
 (import (rnrs) (rsc3))
 

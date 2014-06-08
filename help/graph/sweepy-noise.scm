@@ -1,4 +1,4 @@
-;; sweepy noise (jmcc)
+;; sweepy noise (jmcc) #6
 
 (import (rnrs) (rsc3))
 

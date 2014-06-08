@@ -1,4 +1,4 @@
-;; sample and hold liquidities (jmcc)
+;; sample and hold liquidities (jmcc) #2
 
 (import (rnrs) (rsc3))
 

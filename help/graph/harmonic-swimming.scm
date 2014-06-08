@@ -1,4 +1,4 @@
-;; harmonic swimming (jmcc)
+;; harmonic swimming (jmcc) #1
 
 (import (rnrs) (rsc3))
 

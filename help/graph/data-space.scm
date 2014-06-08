@@ -1,4 +1,4 @@
-;; data space (jmcc)
+;; data space (jmcc) #2
 
 (import (rsc3) (rsc3 lang))
 
