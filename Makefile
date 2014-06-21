@@ -1,5 +1,5 @@
 all:
-	(cd mk; make install)
+	(cd mk; make all)
 
 clean:
 	(cd mk; make clean)

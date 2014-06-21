@@ -23,4 +23,4 @@
                     (mce2 z z)))))
     (close ((foldl1 compose (replicate 2 rapf)) flute))))
 
-(audition (out 0 bottle))
+(with-sc3 (overlap-texture-u (list 2 0 2 +inf.0) bottle))

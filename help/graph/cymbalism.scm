@@ -1,6 +1,6 @@
 ;; cymbalism (jmcc) #2
 
-(import (rnrs) (rsc3) (rhs))
+(import (rnrs) (rsc3) (rsc3 lang) (rhs))
 
 (define cymbalism
   (let* ((p 15)
@@ -18,4 +18,4 @@
          (s (mul (decay t 0.004) n)))
     (klank s 1 0 1 (mce-transpose z))))
 
-(audition (out 0 cymbalism))
+(with-sc3 (xfade-texture-u (list 4 4 +inf.0) cymbalism))

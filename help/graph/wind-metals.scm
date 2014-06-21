@@ -1,6 +1,6 @@
 ;; wind-metals (jmcc)
 
-(import (rnrs) (rhs) (rsc3))
+(import (rnrs) (rhs) (rsc3) (rsc3 lang))
 
 (define wind-metals
   (let* ((n 6)
@@ -16,4 +16,4 @@
          (s (klank exc 1 0 1 k)))
     (soft-clip (mul s 0.1))))
 
-(audition (out 0 wind-metals))
+(with-sc3 (overlap-texture-u (list 5 2 12 +inf.0) wind-metals))

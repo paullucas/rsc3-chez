@@ -24,4 +24,4 @@
          (k (klank x 1 0 1 d)))
     (soft-clip (mul k 0.1))))
 
-(audition (out 0 bowed-string))
+(with-sc3 (overlap-texture-u (list 5 2 12 +inf.0) bowed-string))

@@ -1,4 +1,4 @@
-;; babbling brook (jmcc)
+;; babbling brook (jmcc) #SC3
 
 (import (rnrs) (rsc3))
 
