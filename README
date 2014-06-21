@@ -11,6 +11,8 @@ server.  the rsc3 interaction environment is written for gnu
 for installation and configuration please consult the
 [tutorial][rsc3-t] at [rsc3-texts][rsc3-texts].
 
+there is a small set of example [graphs](?t=rsc3&m=md/graphs.md).
+
 [rsc3]: http://rd.slavepianos.org/?t=rsc3
 [r6rs]: http://r6rs.org/
 [ikarus]: https://launchpad.net/ikarus/

@@ -9,3 +9,6 @@ push-sp:
 
 pull-sp:
 	darcs pull -a http://rd.slavepianos.org/sw/rsc3
+
+ix:
+	sh sh/mk-graphs.sh
