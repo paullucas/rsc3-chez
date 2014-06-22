@@ -3,6 +3,7 @@
 
 (mk-r6rs '(rsc3)
 	 '("../src/rsc3.scm"
+           "../src/external.scm"
 	   "../src/sys.ikarus.scm")
 	 (string-append (list-ref (command-line) 1)
                         "/rsc3.ikarus.sls")
@@ -17,7 +18,8 @@
 
 (mk-r6rs '(rsc3)
 	 '("../src/rsc3.scm"
-	   "../src/sys.plt.scm")
+	   "../src/external.scm"
+           "../src/sys.plt.scm")
 	 (string-append (list-ref (command-line) 1)
                         "/rsc3.mzscheme.sls")
 	 '((rnrs)

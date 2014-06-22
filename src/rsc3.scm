@@ -808,6 +808,16 @@
      (lambda (i ...)
        (construct-ugen m r (list i ...) #f o 0 (unique-uid))))))
 
+(define-syntax mk-specialized-n-id
+  (syntax-rules ()
+    ((_ m (i ...) r)
+     (lambda (nc i ...)
+       (if (not (integer? nc))
+	   (error "mk-specialized-n" "illegal channel count:" 'n nc)
+	   #f)
+       (let ((l (list i ...)))
+	 (construct-ugen m r l #f nc 0 (unique-uid)))))))
+
 ;; string -> [symbol] -> int -> rate ~> (ugen ... -> ugen)
 (define-syntax mk-specialized-mce-id
   (syntax-rules ()
@@ -1561,6 +1571,10 @@
 ;; (socket -> a) -> a
 (define with-sc3 with-udp-sc3)
 
+(define with-sc3*
+  (lambda l
+    (with-sc3 (lambda (fd) (map (lambda (f) (f fd)) l)))))
+
 ;; [string]
 (define status-fields
   (list "# UGens                     "
@@ -1870,11 +1884,15 @@
   (lambda (fd n u)
     (async fd (d-recv (encode-graphdef (synthdef n u))))))
 
+(define play-at
+  (lambda (fd u nid act grp)
+    (send-synth fd "anonymous" u)
+    (send fd (s-new0 "anonymous" nid act grp))))
+
 ;; port -> ugen -> ()
 (define play
   (lambda (fd u)
-    (send-synth fd "anonymous" u)
-    (send fd (s-new0 "anonymous" -1 1 1))))
+    (play-at fd u -1 add-to-tail 1)))
 
 ;; ((socket -> a) -> a) -> (ugen -> ())
 (define audition-using
