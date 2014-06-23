@@ -1830,6 +1830,11 @@
 ;; [ugen] -> [ugen] -> [ugen] -> ugen
 (define klank-data klang-data)
 
+;; ugen -> ugen -> ugen -> ugen
+(define klank-data-mce
+  (lambda (f a p)
+    (klank-data (mce-proxies f) (mce-proxies a) (mce-proxies p))))
+
 ;; ugen -> ugen -> ugen -> ugen -> ugen -> ugen
 (define dyn-klank
   (lambda (i fs fo ds s)
