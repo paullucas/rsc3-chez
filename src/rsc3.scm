@@ -223,6 +223,10 @@
 (define-record-type mce
   (fields proxies))
 
+(define mce*
+  (lambda l
+    (make-mce l)))
+
 ;; ugen -> ugen -> mce
 (define mce2
   (lambda (a b)
@@ -1039,7 +1043,6 @@
 (define pulse-count (mk-filter "PulseCount" (trig reset) 1))
 (define pulse-divider (mk-filter "PulseDivider" (trig div start) 1))
 (define ramp (mk-filter "Ramp" (in lag-time) 1))
-(define record-buf (mk-filter-mce "RecordBuf" (b off rl pl r lp tr i) 1))
 (define replace-out (mk-filter-mce "ReplaceOut" (bus inputs) 0))
 (define resonz (mk-filter "Resonz" (in freq bwr) 1))
 (define rhpf (mk-filter "RHPF" (in freq rq) 1))
@@ -1157,12 +1160,14 @@
 (define p-sin-grain (mk-oscillator "PSinGrain" (freq dur amp) 1))
 (define phasor (mk-oscillator "Phasor" (trig rate start end reset-pos) 1))
 (define pink-noise (mk-oscillator-id "PinkNoise" () 1))
+(define play-buf (mk-oscillator-n "PlayBuf" (bufnum rate trigger startPos loop doneAction)))
 (define pulse (mk-oscillator "Pulse" (freq width) 1))
 (define quad-c (mk-oscillator "QuadC" (freq a b c xi) 1))
 (define quad-l (mk-oscillator "QuadL" (freq a b c xi) 1))
 (define quad-n (mk-oscillator "QuadN" (freq a b c xi) 1))
 (define rand-id (mk-oscillator-id "RandID" (id) 1))
 (define rand-seed (mk-oscillator-id "RandSeed" (trig seed) 1))
+(define record-buf (mk-oscillator-mce "RecordBuf" (bufnum offset recLevel preLevel run loop trigger doneAction inputs) 0))
 (define saw (mk-oscillator "Saw" (freq) 1))
 (define shared-in (mk-oscillator "SharedIn" () 1))
 (define sin-osc (mk-oscillator "SinOsc" (freq phase) 1))
@@ -1216,7 +1221,6 @@
 (define num-running-synths (mk-specialized-c "NumRunningSynths" 1 ir))
 (define pack-fft (mk-specialized-mce "PackFFT" (b sz fr to z mp) 1 kr))
 (define pitch (mk-specialized "Pitch" (in if mnf mxf ef mxb m at pt ds) 2 kr))
-(define play-buf (mk-specialized-n "PlayBuf" (b rt tr start loop) ar))
 (define pv-add (mk-specialized "PV_Add" (buf-a buf-b) 1 kr))
 (define pv-bin-scramble (mk-specialized "PV_BinScramble" (b wipe width trig) 1 kr))
 (define pv-bin-shift (mk-specialized "PV_BinShift" (b stretch shift) 1 kr))

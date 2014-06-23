@@ -238,8 +238,8 @@ distributed with rsc3."
   (define-key map "\C-c\C-b" 'rsc3-boot-scsynth)
   ;; Expression.
   (define-key map "\C-c\C-e" 'rsc3-evaluate)
-  (define-key map "\C-cP" 'rsc3-play)
-  (define-key map "\C-c\C-d" 'rsc3-draw)
+  (define-key map "\C-c\C-a" 'rsc3-play)
+  (define-key map "\C-c\C-g" 'rsc3-draw)
   ;; Help.
   (define-key map "\C-c\C-h" 'rsc3-help))
 

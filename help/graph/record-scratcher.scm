@@ -6,11 +6,11 @@
 
 (define record-scratcher
   (lambda (b)
-    (let* ((x (mouse-x* kr -10 10 linear 0.2))
+    (let* ((x (mouse-x kr -10 10 linear 0.2))
            (dx (sub x (delay-n x 0.1 0.1)))
-           (bdx (add (mouse-button* kr 1 0 0.3) dx))
+           (bdx (add (mouse-button kr 1 0 0.3) dx))
            (bdxr (mul bdx (buf-rate-scale kr b))))
-      (dup (play-buf 1 b bdxr 0 0 loop)))))
+      (dup (play-buf 1 ar b bdxr 0 0 loop do-nothing)))))
 
 (with-sc3
  (lambda (fd)

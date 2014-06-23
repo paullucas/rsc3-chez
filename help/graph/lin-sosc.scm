@@ -38,12 +38,12 @@
 
 (define tbl-m
   (lambda (b)
-    (play-buf 1 b (mul (mouse-x kr 0.001 1.0 0 0.1)
-                       (buf-rate-scale kr b)) 0 0 1)))
+    (play-buf 1 ar b (mul (mouse-x kr 0.001 1.0 0 0.1)
+                          (buf-rate-scale kr b)) 0 0 1 do-nothing)))
 
 (define tbl-c
   (lambda (b c)
-    (play-buf 1 b (mul (in 1 kr c) (buf-rate-scale kr b)) 0 0 1)))
+    (play-buf 1 ar b (mul (in 1 kr c) (buf-rate-scale kr b)) 0 0 1 do-nothing)))
 
 (define settr
   (lambda (fd n)

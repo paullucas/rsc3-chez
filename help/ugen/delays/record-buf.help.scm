@@ -1,57 +1,55 @@
-;; (record-buf bufnum offset reclevel prelevel run loop trigger inputs)
+;; (record-buf bufnum offset reclevel prelevel run loop trigger doneAction inputs)
 
-;; Records input into a Buffer.
+(import (rnrs) (sosc) (rsc3))
 
-;; If recLevel is 1.0 and preLevel is 0.0 then the new input
-;; overwrites the old data.  If they are both 1.0 then the new data is
-;; added to the existing data. (Any other settings are also valid.)
+;; Allocate a buffer (assume SR of 48k)
+(with-sc3 (lambda (fd) (async fd (b-alloc 0 (* 48000 4) 1))))
 
-;; bufnum     - the index of the buffer to use
-;; offset     - an offset into the buffer in samples, default 0
-;; recLevel   - value to multiply by input before mixing with
-;;              existing data. Default is 1.0.
-;; preLevel   - value to multiply to existing data in buffer before
-;;              mixing with input. Default is 0.0.
-;; run        - If zero, then recording stops, otherwise recording
-;;              proceeds. Default is 1.
-;; loop       - If zero then don't loop, otherwise do.  This is
-;;              modulate-able. Default is 1.
-;; trigger    - a trigger causes a jump to the start of the Buffer.
-;;              A trigger occurs when a signal changes from <=0 to >0.
-;; inputArray - an Array of input channels
+;; Record for four seconds (until end of buffer)
+(let ((o (mul (formant ar (x-line kr 400 1000 4 do-nothing) 2000 800) 0.125)))
+  (audition (mrg2 (out 0 o)
+                  (record-buf ar 0 0 1 0 1 no-loop 1 remove-synth o))))
+
+;; Play it back
+(let ((p (play-buf 1 ar 0 1 1 0 no-loop remove-synth)))
+  (audition (out 0 p)))
+
+;; ...
+
+(with-sc3 (lambda (fd) (async fd (b-alloc 0 (* 48000 4) 1))))
+
+(define recorder
+  (letc ((bus 0)
+         (bufnum 0)
+         (offset 1)
+         (recLevel 1)
+         (preLevel 0)
+         (run 1)
+         (loop 1)
+         (trigger 1))
+    (let ((i (in 2 ar (add num-output-buses bus))))
+      (record-buf ar bufnum offset recLevel preLevel run loop trigger do-nothing i))))
+
+(define player
+  (letc ((bufnum 0)
+         (rate 1)
+         (trigger 1)
+         (startPos 0)
+         (loop 1)
+         (gain 1))
+    (out 0 (mul (play-buf 2 ar bufnum rate trigger startPos loop do-nothing) gain))))
 
 (with-sc3
  (lambda (fd)
-   (send-synth 
-    fd 
-    "recorder"
-    (letc ((in 0) 
-	   (bufnum 0)
-	   (offset 1) 
-	   (recLevel 1) 
-	   (preLevel 0)
-	   (run 1) 
-	   (loop 1) 
-	   (trigger 1))
-      (let ((i (in 2 ar in)))
-	(out 0 (record-buf bufnum offset recLevel preLevel run loop trigger i)))))
+   (send-synth fd "recorder" recorder)
    (let ((b 10)
 	 (y 1001)
 	 (z 1002))
-     (async fd (/b_alloc b 44100 2))
-     (send fd (/s_new "recorder" y add-to-tail 1 "bufnum" b "in" 8))
-     (send fd (/n_trace y))
-     (send-synth 
-      fd
-      "player"
-      (letc ((bufnum 0) 
-	     (rate 1)
-	     (trigger 1) 
-	     (startPos 0) 
-	     (loop 1) 
-	     (gain 1))
-	(out 0 (mul (play-buf 2 bufnum rate trigger startPos loop) gain))))
-     (send fd (/s_new "player" z add-to-tail 1 "bufnum" b)))))
+     (async fd (b-alloc b 44100 2))
+     (send fd (s-new2 "recorder" y add-to-tail 1 "bufnum" b "bus" 0))
+     (send fd (n-trace y))
+     (send-synth fd "player" player)
+     (send fd (s-new1 "player" z add-to-tail 1 "bufnum" b)))))
 
 (define do-send
   (lambda (m)
@@ -59,15 +57,15 @@
      (lambda (fd)
        (send fd m)))))
 
-(do-send (/n_set 1001 "run" 1))
+(do-send (n-set1 1001 "run" 1))
 
-(do-send (/n_set 1002 "loop" 1))
-(do-send (/n_set 1002 "gain" 2))
-(do-send (/n_set 1002 "trigger" 1))
+(do-send (n-set1 1002 "loop" 1))
+(do-send (n-set1 1002 "gain" 2))
+(do-send (n-set1 1002 "trigger" 1))
 
-(do-send (/n_free 1001))
-(do-send (/n_free 1002))
+(do-send (n-free1 1001))
+(do-send (n-free1 1002))
 
 (with-sc3
  (lambda (fd)
-   (async fd (/b_free 10))))
+   (async fd (b-free 10))))
