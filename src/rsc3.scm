@@ -554,6 +554,12 @@
        (map1 (lambda (c) (control*-to-control c cc)) cc)
        (map1 (lambda (u) (ugen-close u nn cc uu*)) uu*)))))
 
+(define synthdef-write
+  (lambda (sy fn)
+    (let ((fd (open-file-output-port fn)))
+      (put-bytevector fd (encode-graphdef sy))
+      (close-port fd))))
+
 ;; [control] -> ugen
 (define implicit-ugen
   (lambda (cc)
@@ -1064,6 +1070,8 @@
 (define sos (mk-filter "SOS" (in a0 a1 a2 b1 b2) 1))
 (define spring (mk-filter "Spring" (in spring damp) 1))
 (define stepper (mk-filter "Stepper" (trig reset min max step resetval) 1))
+(define sum3 (mk-filter "Sum3" (a b c) 1))
+(define sum4 (mk-filter "Sum4" (a b c d) 1))
 (define sweep (mk-filter "Sweep" (trig rate) 1))
 (define t-ball (mk-filter "TBall" (in g damp friction) 1))
 (define t-delay (mk-filter "TDelay" (in dur) 1))
@@ -1261,14 +1269,8 @@
 (define unpack1-fft (mk-specialized "Unpack1FFT" (c b bi wm) 1 dr))
 (define warp1 (mk-specialized-n "Warp1" (b ptr fs ws envb ov wrr i) ar))
 
-;; ugen -> ugen -> ugen -> ugen
-(define add3
-  (lambda (a b c)
-    (add (add a b) c)))
-
-(define add4
-  (lambda (a b c d)
-    (add (add a b) (add c d))))
+(define add3 sum3)
+(define add4 sum4)
 
 (define buf-rd-c
   (lambda (nc r b p l)
