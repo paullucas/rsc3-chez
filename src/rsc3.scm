@@ -1475,6 +1475,10 @@
   (lambda (id path frame n)
     (message "/b_allocRead" (list id path frame n))))
 
+(define b-alloc-read-channel
+  (lambda (nid p f n cs)
+    (message "/b_allocReadChannel" (append (list nid p f n) cs))))
+
 (define b-read
   (lambda (id path frame n bframe flag)
     (message "/b_read" (list id path frame n bframe flag))))
