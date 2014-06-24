@@ -112,11 +112,6 @@ evaluating rsc3 expressions.  Input and output is via `rsc3-buffer'."
     (sleep-for 0 100)
     (rsc3-reset-scsynth)))
 
-(defun rsc3-clear-schedule ()
-  "Clear the schedule (Q)."
-  (interactive)
-  (rsc3-evaluate-expression "(schedule-clear Q)"))
-
 (defun rsc3-quit-scheme ()
   "Quit scheme.
 
