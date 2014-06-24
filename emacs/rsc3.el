@@ -117,6 +117,9 @@ evaluating rsc3 expressions.  Input and output is via `rsc3-buffer'."
 
 Quit the scheme interpreter and delete the associated buffer."
   (interactive)
+  (rsc3-stop)
+  (rsc3-evaluate-expression "(exit)")
+  (sleep-for 0 100)
   (kill-buffer rsc3-buffer)
   (delete-other-windows))
 
@@ -280,8 +283,6 @@ distributed with rsc3."
     '("Quit scheme" . rsc3-quit-scheme))
   (define-key map [menu-bar rsc3 scheme interrupt-scheme]
     '("Interrupt scheme" . rsc3-interrupt-scheme))
-  (define-key map [menu-bar rsc3 scheme clear-schedule]
-    '("Clear schedule (Q)" . rsc3-clear-schedule))
   (define-key map [menu-bar rsc3 scheme see-output]
     '("See scheme output" . rsc3-see-output))
   (define-key map [menu-bar rsc3 scheme start-scheme]
