@@ -316,6 +316,18 @@
 (define dr
   (make-rate 3))
 
+;; rate -> symbol
+;;
+;; (map rate->symbol (list ir kr ar dr))
+(define rate->symbol
+  (lambda (r)
+    (case (rate-value r)
+      ((0) 'ir)
+      ((1) 'kr)
+      ((2) 'ar)
+      ((3) 'dr)
+      (else (error "rate->symbol" "unknown rate")))))
+
 ;; any -> rate
 (define rate-of
   (lambda (o)
