@@ -11,8 +11,9 @@
 	   (rhs)
 	   (sosc)
 	   (prefix (ikarus) ikarus:)
-	   (prefix (srfi :27 random-bits) srfi:)
-           (prefix (srfi :19 time) srfi:))
+           (prefix (srfi :9 records) srfi:)
+           (prefix (srfi :19 time) srfi:)
+	   (prefix (srfi :27 random-bits) srfi:))
 	 '()
 	 '())
 
@@ -26,8 +27,9 @@
 	   (rhs)
 	   (sosc)
 	   (prefix (scheme) plt:)
-	   (prefix (srfi :27 random-bits) srfi:)
-           (prefix (srfi :19 time) srfi:))
+           (prefix (srfi :9 records) srfi:)
+           (prefix (srfi :19 time) srfi:)
+	   (prefix (srfi :27 random-bits) srfi:))
 	 '()
 	 '())
 

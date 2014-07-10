@@ -181,6 +181,9 @@
 (define-record-type uid
   (fields n))
 
+;; (srfi:define-record-type uid
+;;   (make-uid n) uid? (n uid-n))
+
 ;; () -> uid
 (define unique-uid
   (let ((n 0))
