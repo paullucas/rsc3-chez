@@ -26,7 +26,7 @@
   "*The name of the rsc3 scheme process buffer.")
 
 (defvar rsc3-interpreter
-  (list "mred")
+  (list "ikarus")
   "*The name of the scheme interpreter to run (default=\"ikarus\").")
 
 (defvar rsc3-help-directory

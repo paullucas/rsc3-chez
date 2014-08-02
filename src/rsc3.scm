@@ -4,7 +4,7 @@
     (let ((z (length l)))
       (cond ((= z n) l)
 	    ((> z n) (take n l))
-	    (else (extend (append2 l l) n))))))
+	    (else (extend (append l l) n))))))
 
 ;; [a] -> int -> [a]
 (define take-cycle
@@ -32,8 +32,8 @@
     (lambda (l)
       (let ((x (car l))
             (xs (cdr l))
-            (g (lambda (a x) (let ((y (f a x))) (tuple2 y y)))))
-        (cons x (snd (map-accum-l g x xs)))))))
+            (g (lambda (a x) (let ((y (f a x))) (cons y y)))))
+        (cons x (cdr (map-accum-l g x xs)))))))
 
 ;; num a => [a] -> [a]
 ;;
@@ -167,7 +167,7 @@
 ;; int -> [any] -> [any]
 (define without
   (lambda (n l)
-    (append2 (take n l) (drop (+ n 1) l))))
+    (append (take n l) (drop (+ n 1) l))))
 
 ;; [int] -> bool
 (define consecutive?
@@ -338,7 +338,7 @@
 	  ((control*? o) (control*-rate o))
 	  ((ugen? o) (ugen-rate o))
 	  ((proxy? o) (rate-of (proxy-ugen o)))
-	  ((mce? o) (rate-select (map1 rate-of (mce-proxies o))))
+	  ((mce? o) (rate-select (map rate-of (mce-proxies o))))
 	  ((mrg? o) (rate-of (mrg-left o)))
 	  (else (error "rate-of" "illegal value" o)))))
 
@@ -434,7 +434,7 @@
 
 ;; [bytevector]
 (define scgf
-  (map1 encode-u8 (map1 char->integer (string->list "SCgf"))))
+  (map encode-u8 (map char->integer (string->list "SCgf"))))
 
 ;; ugen -> [bytevector]
 (define encode-ugen
@@ -448,8 +448,8 @@
 	(encode-i16 (length i))
 	(encode-i16 (length o))
 	(encode-i16 s)
-	(map1 encode-input i)
-	(map1 encode-output o))))))
+	(map encode-input i)
+	(map encode-output o))))))
 
 ;; graphdef -> bytevector
 (define encode-graphdef
@@ -466,13 +466,13 @@
 	(encode-i16 1)
 	(encode-pstr n)
 	(encode-i16 (length c))
-	(map1 encode-f32 c)
+	(map encode-f32 c)
 	(encode-i16 (length d))
-	(map1 encode-f32 d)
+	(map encode-f32 d)
 	(encode-i16 (length k))
-	(map1 encode-control k)
+	(map encode-control k)
 	(encode-i16 (length u))
-	(map1 encode-ugen u))))))
+	(map encode-ugen u))))))
 
 ;; syntax for binding control values
 (define-syntax letc
@@ -490,11 +490,11 @@
 (define construct-ugen
   (lambda (name rate? inputs mce? outputs special id)
     (let* ((inputs* (if mce?
-			(append2 inputs (mce-channels mce?))
+			(append inputs (mce-channels mce?))
 			inputs))
 	   (rate (if rate?
 		     rate?
-		     (rate-select (map1 rate-of inputs*))))
+		     (rate-select (map rate-of inputs*))))
 	   (u (make-ugen
 	       name
 	       rate
@@ -512,8 +512,8 @@
      ((proxy? u) (cons u (graph-nodes (proxy-ugen u))))
      ((control*? u) (list1 u))
      ((number? u) (list1 u))
-     ((mce? u) (concat (map1 graph-nodes (mce-proxies u))))
-     ((mrg? u) (append2 (graph-nodes (mrg-left u)) (graph-nodes (mrg-right u))))
+     ((mce? u) (concat (map graph-nodes (mce-proxies u))))
+     ((mrg? u) (append (graph-nodes (mrg-left u)) (graph-nodes (mrg-right u))))
      (else (error "graph-nodes" "illegal value" u)))))
 
 ;; ugen -> [float]
@@ -538,7 +538,7 @@
 	(error "ugen-close" "invalid ugen" u)
 	(make-ugen (ugen-name u)
 		   (ugen-rate u)
-		   (map1 (lambda (i)
+		   (map (lambda (i)
 			   (input*-to-input i nn cc uu))
 			 (ugen-inputs u))
 		   (ugen-outputs u)
@@ -565,9 +565,9 @@
       (make-graphdef
        name
        nn
-       (map1 control*-default cc)
-       (map1 (lambda (c) (control*-to-control c cc)) cc)
-       (map1 (lambda (u) (ugen-close u nn cc uu*)) uu*)))))
+       (map control*-default cc)
+       (map (lambda (c) (control*-to-control c cc)) cc)
+       (map (lambda (u) (ugen-close u nn cc uu*)) uu*)))))
 
 (define synthdef-write
   (lambda (sy fn)
@@ -581,7 +581,7 @@
     (make-ugen "Control"
 	       kr
 	       nil
-	       (map1 make-output (replicate (length cc) kr))
+	       (map make-output (replicate (length cc) kr))
 	       0
 	       (make-uid 0))))
 
@@ -653,7 +653,7 @@
 (define mce-transpose
   (lambda (u)
     (make-mce
-     (map1 make-mce (transpose (map1 mce-channels (mce-channels u)))))))
+     (map make-mce (transpose (map mce-channels (mce-channels u)))))))
 
 ;; ugen -> bool
 (define mce-required?
@@ -675,15 +675,15 @@
      u
      (lambda (n r i o s d)
        (let* ((f (lambda (i*) (make-ugen n r i* o s d)))
-	      (m (maximum (map1 mce-degree (filter mce? i))))
+	      (m (maximum (map mce-degree (filter mce? i))))
 	      (e (lambda (i) (mce-extend m i)))
-	      (i* (transpose (map1 e i))))
-	 (make-mce (map1 f i*)))))))
+	      (i* (transpose (map e i))))
+	 (make-mce (map f i*)))))))
 
 ;; node -> node|mce
 (define mce-expand
   (lambda (u)
-    (cond ((mce? u) (make-mce (map1 mce-expand (mce-proxies u))))
+    (cond ((mce? u) (make-mce (map mce-expand (mce-proxies u))))
           ((mrg? u) (make-mrg (mce-expand (mrg-left u)) (mrg-right u)))
           (else (if (mce-required? u)
                     (mce-transform u)
@@ -693,13 +693,13 @@
 (define proxify
   (lambda (u)
     (cond
-     ((mce? u) (make-mce (map1 proxify (mce-proxies u))))
+     ((mce? u) (make-mce (map proxify (mce-proxies u))))
      ((mrg? u) (make-mrg (proxify (mrg-left u)) (mrg-right u)))
      ((ugen? u) (let* ((o (ugen-outputs u))
 		       (n (length o)))
 		  (if (< n 2)
 		      u
-		      (make-mce (map1 (lambda (i) (make-proxy u i))
+		      (make-mce (map (lambda (i) (make-proxy u i))
 				      (enum-from-to 0 (- n 1)))))))
      (else (error "proxify" "illegal ugen" u)))))
 
@@ -1224,7 +1224,7 @@
 (define dxrand (mk-specialized-mce-id "Dxrand" (length array) 1 dr))
 (define exp-rand (mk-specialized-id "ExpRand" (lo hi) 1 ir))
 (define fft (mk-specialized "FFT" (buf in hop wintype active winsize) 1 kr))
-(define grain-buf (mk-specialized-n "GrainBuf" (tr dur sndb rt ps i pan envb) ar))
+(define grain-buf (mk-specialized-n "GrainBuf" (tr dur cdrb rt ps i pan envb) ar))
 (define grain-fm (mk-specialized-n "GrainFM" (tr dur cf mf indx pan envb) ar))
 (define grain-in (mk-specialized-n "GrainIn" (tr dur in pan envbuf) ar))
 (define grain-sin (mk-specialized-n "GrainSin" (tr dur freq pan envbuf) ar))
@@ -1345,6 +1345,7 @@
 (define do-nothing 0)
 (define pause-synth 1)
 (define remove-synth 2)
+(define remove-group 14)
 
 ;; int
 (define no-loop 0)
@@ -1401,7 +1402,7 @@
 
 (define n-set
   (lambda (i xys)
-    (let ((z (concat-map (lambda (xy) (list (fst xy) (snd xy))) xys)))
+    (let ((z (concat-map (lambda (xy) (list (car xy) (cdr xy))) xys)))
       (message "/n_set" (cons i z)))))
 
 (define n-set1
@@ -1416,7 +1417,7 @@
   (lambda (i s j f)
     (message "/n_fill" (list i s j f))))
 
-(define n-map1
+(define n-map
   (lambda (i s j)
     (message "/n_map" (list i s j))))
 
@@ -1450,7 +1451,7 @@
 
 (define s-new
   (lambda (s i j k cs)
-    (message "/s_new" (append2 (list s i j k) cs))))
+    (message "/s_new" (append (list s i j k) cs))))
 
 (define s-get1
   (lambda (i j)
@@ -1617,7 +1618,7 @@
     (cons "***** SuperCollider Server Status *****"
 	  (zip-with string-append
 		    status-fields
-		    (map1 number->string (tail (tail r)))))))
+		    (map number->string (tail (tail r)))))))
 
 ;; port -> [string]
 (define server-status
@@ -1685,7 +1686,7 @@
 (define env
   (lambda (levels times curves release-node loop-node)
     (make-mce
-     (append2
+     (append
       (list (head levels) (length times) release-node loop-node)
       (concat
        (zip-with3
@@ -1706,8 +1707,8 @@
 ;; [(ugen . ugen)] -> ugen -> ugen -> [ugen] -> ugen
 (define env-coord
   (lambda (d dur amp curves)
-    (env (map1 (lambda (e) (mul (cdr e) amp)) d)
-         (map1 (lambda (e) (mul e dur)) (d->dx (map car d)))
+    (env (map (lambda (e) (mul (cdr e) amp)) d)
+         (map (lambda (e) (mul e dur)) (d->dx (map car d)))
          curves
          -1
          -1)))
@@ -1782,7 +1783,7 @@
 	   peakLevel
 	   curves
 	   bias)
-    (env (map1 (lambda (e) (mul e bias))
+    (env (map (lambda (e) (mul e bias))
                (list 0.0 peakLevel (mul peakLevel sustainLevel) 0.0))
 	 (list attackTime decayTime releaseTime)
 	 curves
@@ -1821,7 +1822,7 @@
 
 (define unpack-fft
   (lambda (c nf from to mp?)
-    (map1 (lambda (i)
+    (map (lambda (i)
             (unpack1-fft c nf i mp?))
 	 (enum-from-to from to))))
 
@@ -1902,7 +1903,7 @@
 ;; int -> (int -> ugen) -> mce
 (define mce-fill
   (lambda (n f)
-    (make-mce (map1 f (enum-from-to 0 (- n 1))))))
+    (make-mce (map f (enum-from-to 0 (- n 1))))))
 
 ;; int -> (int -> ugen) -> ugen
 (define mix-fill
