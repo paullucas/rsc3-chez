@@ -1721,7 +1721,7 @@
 (define mk-coord
   (lambda (l)
     (if (null? l)
-        (list)
+        '()
         (let ((x (car l))
               (y (cadr l))
               (r (cddr l)))
