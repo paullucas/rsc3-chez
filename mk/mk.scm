@@ -1,10 +1,18 @@
 (import (rnrs)
         (mk-r6rs))
 
+(define rsc3-src
+  '("../src/command.scm"
+    "../src/composite.scm"
+    "../src/enum.scm"
+    "../src/env.scm"
+    "../src/external.scm"
+    "../src/list.scm"
+    "../src/rsc3.scm"
+    "../src/ugen.scm"))
+
 (mk-r6rs '(rsc3)
-	 '("../src/rsc3.scm"
-           "../src/external.scm"
-	   "../src/sys.ikarus.scm")
+	 (cons "../src/sys.ikarus.scm" rsc3-src)
 	 (string-append (list-ref (command-line) 1)
                         "/rsc3.ikarus.sls")
 	 '((rnrs)
@@ -18,9 +26,7 @@
 	 '())
 
 (mk-r6rs '(rsc3)
-	 '("../src/rsc3.scm"
-	   "../src/external.scm"
-           "../src/sys.plt.scm")
+	 (cons "../src/sys.plt.scm" rsc3-src)
 	 (string-append (list-ref (command-line) 1)
                         "/rsc3.mzscheme.sls")
 	 '((rnrs)
