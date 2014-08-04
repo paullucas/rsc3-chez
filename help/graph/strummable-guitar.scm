@@ -2,7 +2,7 @@
 
 (import (rnrs) (rsc3))
 
-(define sg
+(define strummable-guitar
   (let* ((scale (list 52 57 62 67 71 76))
          (str (lambda (i)
                 (let* ((x (mouse-x kr 0 1 0 0.2))
@@ -15,4 +15,4 @@
          (strs (mix-fill (length scale) str)))
     (leak-dc (lpf strs 12000) 0.995)))
 
-(audition (out 0 sg))
+(audition (out 0 strummable-guitar))

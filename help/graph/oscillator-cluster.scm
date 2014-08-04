@@ -32,7 +32,7 @@
 
 (define oscillator-cluster
   (let* ((np 12)
-         (fp (replicate-m np (rand 220 660)))
+         (fp (replicate-m* np (lambda () (rand 220 660))))
          (d (rand 4 7))
          (a (rand 0.01 0.05)))
     (foldl add 0 (map (prt d a) fp))))

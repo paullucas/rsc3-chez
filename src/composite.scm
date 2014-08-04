@@ -46,6 +46,26 @@
 (define mce4 (lambda (a b c d) (make-mce (list a b c d))))
 (define mce5 (lambda (a b c d e) (make-mce (list5 a b c d e))))
 
+;; mce -> int -> ugen
+(define mce-channel
+  (lambda (u n)
+    (list-ref (mce-channels u) n)))
+
+;; int -> (int -> ugen) -> mce
+(define mce-fill
+  (lambda (n f)
+    (make-mce (map f (enum-from-to 0 (- n 1))))))
+
+;; ugen|mce -> ugen
+(define mix
+  (lambda (u)
+    (foldl add 0 (mce-channels u))))
+
+;; int -> (int -> ugen) -> ugen
+(define mix-fill
+  (lambda (n f)
+    (mix (mce-fill n f))))
+
 ;; Rate -> UGen -> UGen -> Warp -> UGen -> UGen
 (define mouse-r
   (lambda (rt l r ty tm)

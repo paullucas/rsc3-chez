@@ -18,7 +18,7 @@
              d
              (lambda (_)
                (resonz (mul (dust ar (/ 2 d)) 50)
-                       (+ 200 (random 0 3000))
+                       (+ 200 (rand 0 3000))
                        0.003))))
          (z (delay-n s 0.048 0.48))
          (y (mix (comb-l z

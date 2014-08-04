@@ -182,11 +182,6 @@
                  (cons (make-mrg (head rs) (mrg-right u)) rs)))
      (else (list1 u)))))
 
-;; mce -> int -> ugen
-(define mce-channel
-  (lambda (u n)
-    (list-ref (mce-proxies u) n)))
-
 ;; ugen -> ugen -> mrg
 (define-record-type mrg
   (fields left right))
@@ -756,23 +751,6 @@
 			  (add (mul (ringz i (mul-add f fs fo) (mul d ds)) a)
 			       (gen (drop 3 l))))))))
       (gen (mce-channels s)))))
-
-;; ugen|mce -> ugen
-(define mix
-  (lambda (u)
-    (cond
-     ((mce? u) (foldl1 add (mce-proxies u)))
-     (else u))))
-
-;; int -> (int -> ugen) -> mce
-(define mce-fill
-  (lambda (n f)
-    (make-mce (map f (enum-from-to 0 (- n 1))))))
-
-;; int -> (int -> ugen) -> ugen
-(define mix-fill
-  (lambda (n f)
-    (mix (mce-fill n f))))
 
 ;; port -> string -> ugen -> ()
 (define send-synth

@@ -289,7 +289,7 @@ distributed with rsc3."
   (define-key map [menu-bar rsc3 scheme start-scheme]
     '("Start scheme" . rsc3-start-scheme)))
 
-;; If there is no exitsing map create one and install the keybindings
+;; If there is no existing map create one and install the keybindings
 ;; and menu.
 (if rsc3-mode-map
     ()

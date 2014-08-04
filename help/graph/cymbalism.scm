@@ -8,8 +8,8 @@
          (f2 (rand 0 8000))
          (y
           (lambda ()
-            (let ((f (replicate-m p (add f1 (rand 0 f2))))
-                  (rt (replicate-m p (rand 1 5)))
+            (let ((f (replicate-m* p (lambda () (add f1 (rand 0 f2)))))
+                  (rt (replicate-m* p (lambda () (rand 1 5))))
                   (a (replicate p 1)))
               (klank-data f a rt))))
          (z (mce2 (y) (y)))
