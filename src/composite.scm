@@ -1,17 +1,9 @@
 (define add3 sum3)
 (define add4 sum4)
 
-(define buf-rd-c
-  (lambda (nc r b p l)
-    (buf-rd nc r b p l 4)))
-
-(define buf-rd-l
-  (lambda (nc r b p l)
-    (buf-rd nc r b p l 2)))
-
-(define buf-rd-n
-  (lambda (nc r b p l)
-    (buf-rd nc r b p l 1)))
+(define buf-rd-c (lambda (nc r b p l) (buf-rd nc r b p l 4)))
+(define buf-rd-l (lambda (nc r b p l) (buf-rd nc r b p l 2)))
+(define buf-rd-n (lambda (nc r b p l) (buf-rd nc r b p l 1)))
 
 ;; ugen -> ugen -> ugen
 (define dcons
@@ -27,13 +19,28 @@
 	  (h (hilbert i)))
       (mix (mul h o)))))
 
-(define fft*
-  (lambda (buf in)
-    (fft buf in 0.5 0 1 0)))
+(define fft* (lambda (buf in) (fft buf in 0.5 0 1 0)))
 
-(define ifft*
-  (lambda (buf)
-    (ifft buf 0 0)))
+(define hear (lambda (u) (audition (out 0 u))))
+
+(define ifft* (lambda (buf) (ifft buf 0 0)))
+
+;; [ugen] -> [ugen] -> [ugen] -> ugen
+(define klang-data
+  (lambda (freqs amps phases)
+    (make-mce
+     (concat
+      (zip-with3
+       list3
+       freqs amps phases)))))
+
+;; [ugen] -> [ugen] -> [ugen] -> ugen
+(define klank-data klang-data)
+
+;; ugen -> ugen -> ugen -> ugen
+(define klank-data-mce
+  (lambda (f a p)
+    (klank-data (mce-channels f) (mce-channels a) (mce-channels p))))
 
 (define lin-lin
   (lambda (in srclo srchi dstlo dsthi)
@@ -51,20 +58,31 @@
   (lambda (u n)
     (list-ref (mce-channels u) n)))
 
+;; ([ugen] -> [ugen]) -> (mce -> mce)
+(define mce-edit
+  (lambda (f)
+    (lambda (u)
+      (make-mce (f (mce-channels u))))))
+
 ;; int -> (int -> ugen) -> mce
 (define mce-fill
   (lambda (n f)
     (make-mce (map f (enum-from-to 0 (- n 1))))))
 
-;; ugen|mce -> ugen
-(define mix
+;; mce -> mce
+(define mce-reverse (mce-edit reverse))
+
+;; mce -> mce
+(define mce-transpose
   (lambda (u)
-    (foldl add 0 (mce-channels u))))
+    (make-mce
+     (map make-mce (transpose (map mce-channels (mce-channels u)))))))
+
+;; ugen|mce -> ugen
+(define mix (lambda (u) (foldl add 0 (mce-channels u))))
 
 ;; int -> (int -> ugen) -> ugen
-(define mix-fill
-  (lambda (n f)
-    (mix (mce-fill n f))))
+(define mix-fill (lambda (n f) (mix (mce-fill n f))))
 
 ;; Rate -> UGen -> UGen -> Warp -> UGen -> UGen
 (define mouse-r
@@ -100,6 +118,16 @@
 (define pm-osc
   (lambda (r cf mf pm mp)
     (sin-osc r cf (mul (sin-osc r mf mp) pm))))
+
+;; ugen -> ugen
+(define sound-in
+  (lambda (n)
+    (if (mce? n)
+	(let ((l (mce-channels n)))
+	  (if (consecutive? l)
+	      (in (length l) ar (add num-output-buses (head l)))
+	      (in 1 ar (add num-output-buses n))))
+	(in 1 ar (add num-output-buses n)))))
 
 (define t-choose
   (lambda (trig array)

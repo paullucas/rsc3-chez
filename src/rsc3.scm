@@ -534,22 +534,6 @@
      ((mrg? m) (mce-degree (mrg-left m)))
      (else (error "mce-degree" "illegal input" m)))))
 
-;; ([ugen] -> [ugen]) -> (mce -> mce)
-(define mce-edit
-  (lambda (f)
-    (lambda (u)
-      (make-mce (f (mce-proxies u))))))
-
-;; mce -> mce
-(define mce-reverse
-  (mce-edit reverse))
-
-;; mce -> mce
-(define mce-transpose
-  (lambda (u)
-    (make-mce
-     (map make-mce (transpose (map mce-channels (mce-channels u)))))))
-
 ;; ugen -> bool
 (define mce-required?
   (lambda (u)
@@ -712,45 +696,20 @@
 	   (e (zip-with3 f m p i)))
       (pack-fft c nf from to z? (packfft-data* e)))))
 
-;; ugen -> ugen
-(define sound-in
-  (lambda (n)
-    (if (mce? n)
-	(let ((l (mce-proxies n)))
-	  (if (consecutive? l)
-	      (in (length l) ar (add num-output-buses (head l)))
-	      (in 1 ar (add num-output-buses n))))
-	(in 1 ar (add num-output-buses n)))))
-
-;; [ugen] -> [ugen] -> [ugen] -> ugen
-(define klang-data
-  (lambda (freqs amps phases)
-    (make-mce
-     (concat
-      (zip-with3
-       list3
-       freqs amps phases)))))
-
-;; [ugen] -> [ugen] -> [ugen] -> ugen
-(define klank-data klang-data)
-
-;; ugen -> ugen -> ugen -> ugen
-(define klank-data-mce
-  (lambda (f a p)
-    (klank-data (mce-proxies f) (mce-proxies a) (mce-proxies p))))
-
 ;; ugen -> ugen -> ugen -> ugen -> ugen -> ugen
+(define dyn-klank*
+  (lambda (i fs fo ds l)
+    (if (null? l)
+        0
+        (let ((f (list-ref l 0))
+              (a (list-ref l 1))
+              (d (list-ref l 2)))
+          (add (mul (ringz i (mul-add f fs fo) (mul d ds)) a)
+               (dyn-klank* i fs fo ds (drop 3 l)))))))
+
 (define dyn-klank
   (lambda (i fs fo ds s)
-    (letrec ((gen (lambda (l)
-		    (if (null? l)
-			0
-			(let ((f (list-ref l 0))
-			      (a (list-ref l 1))
-			      (d (list-ref l 2)))
-			  (add (mul (ringz i (mul-add f fs fo) (mul d ds)) a)
-			       (gen (drop 3 l))))))))
-      (gen (mce-channels s)))))
+    (dyn-klank* i fs fo ds (mce-channels s))))
 
 ;; port -> string -> ugen -> ()
 (define send-synth
