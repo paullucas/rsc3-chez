@@ -1,12 +1,3 @@
-;; (shaper bufnum in)
-
-;; Wave shaper.  Performs waveshaping on the input signal by indexing
-;; into the table.
-
-;; bufnum - the number of a buffer filled in wavetable format
-;;          containing the transfer function.
-;; in     - the input signal.
-
 (with-sc3
  (lambda (fd)
    (async fd (b-alloc 10 512 1))

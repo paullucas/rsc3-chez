@@ -1,24 +1,3 @@
-;; (pluck in tr maxdelaytime delaytime decaytime coef)   
-
-;; Karplus-Strong synthesis.
-
-;; in - an excitation signal
-
-;; tr - upon a negative to positive transition, the excitation signal
-;;      will be fed into the delay line
-
-;; maxdelaytime - the max delay time in seconds (initializes the
-;;                internal delay buffer).
-
-;; delaytime - delay time in seconds.
-
-;; decaytime - time for the echoes to decay by 60 decibels. Negative
-;;             times emphasize odd partials.
-
-;; coef - the coef of the internal one-pole filter. Values should be
-;;        between -1 and +1 (larger values will be unstable... so be
-;;        careful!).
-
 ;; Excitation signal is white-noise, triggered twice a second with
 ;; varying one-pole coef.
 

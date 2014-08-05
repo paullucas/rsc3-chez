@@ -1,11 +1,3 @@
-;; (sin-osc rate freq phase)
-
-;; interpolating sine wavetable oscillator.  This is the same as osc
-;; except that the table is a sine table of 8192 entries.
-
-;; freq - frequency in Hertz
-;; phase - phase offset or modulator in radians
-
 (audition (out 0 (mul (sin-osc ar 440 0) (mce2 0.15 0.25))))
 
 ;; Modulate freq

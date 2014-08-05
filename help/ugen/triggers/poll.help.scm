@@ -1,23 +1,5 @@
-;; (poll trig in trigid label)
-
-;; Print/query the current output value of a UGen.
-
-;; trig - a non-positive to positive transition telling poll to return
-;;        a value
-
-;; in - the signal you want to poll
-
-;; trigid - if greater then 0, a '/tr' message is sent back to the
-;;          client (similar to send-trig)
-
-;; label - a string or symbol to be printed with the polled value
-
-;; poll returns its in signal (and is therefore transparent).
-;; WARNING: Printing values from the Server in intensive for the
-;; CPU. poll should be used for debugging purposes.
-
 (define (string->ugen s)
-  (make-mce 
+  (make-mce
    (cons (string-length s)
 	 (map char->integer (string->list s)))))
 

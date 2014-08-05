@@ -1,15 +1,3 @@
-;; (buf-rd numChannels rate bufnum phase loop interpolation)
-
-;; Plays the content of a buffer.
-
-;; The number of channels must be a fixed integer. The architechture
-;; of the SynthDef cannot change after it is compiled. NOTE: if you
-;; supply a bufnum of a buffer that has a different numChannels then
-;; you have specified to the buf-rd, it will fail silently.
-
-;; The interpolation type is an integer: 1 no interpolation, 2 linear
-;; interpolation, 4 cubic interpolation.
-
 (with-sc3
  (lambda (fd)
    (async fd (b-alloc-read 0 "/home/rohan/data/audio/pf-c5.aif" 0 0))))

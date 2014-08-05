@@ -17,11 +17,11 @@
 ;;              duration provided by the last time value.
 
 ;; reset      - trigger or reset time values. Resets the list of ugens
-;;              and the duration ugen when triggered. The reset input 
-;;              may also be a demand ugen, providing a stream of reset 
+;;              and the duration ugen when triggered. The reset input
+;;              may also be a demand ugen, providing a stream of reset
 ;;              times.
 
-;; doneAction - a doneAction that is evaluated when the duration 
+;; doneAction - a doneAction that is evaluated when the duration
 ;;              stream ends.
 
 ;; level      - demand ugen providing the output values.
@@ -33,7 +33,7 @@
 
 ;; Amplitude changes
 
-(let ((t (t-duty ar 
+(let ((t (t-duty ar
 		 (dseq dinf (make-mce (list 0.1 0.2 0.4 0.3)))
 		 0
 		 0

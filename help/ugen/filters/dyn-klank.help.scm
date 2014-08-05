@@ -8,13 +8,13 @@
 ;; changed after it has been started.
 
 (let ((i (mul (impulse ar 2 0) 0.1))
-      (d (klank-data '(800 1071 1153 1723) 
+      (d (klank-data (list 800 1071 1153 1723)
 		     (replicate 4 1)
 		     (replicate 4 1))))
   (audition (out 0 (dyn-klank i 1 0 1 d))))
 
 (let ((i (mul (dust ar 8) 0.1))
-      (d (klank-data '(800 1071 1353 1723) 
+      (d (klank-data (list 800 1071 1353 1723)
 		     (replicate 4 1)
 		     (replicate 4 1))))
   (audition (out 0 (dyn-klank i 1 0 1 d))))
@@ -29,12 +29,12 @@
 		      (map (lambda (e) (mul e y)) r))))
   (audition (out 0 (dyn-klank i 1 0 1 d))))
 
-(let* ((i (lambda (f) 
+(let* ((i (lambda (f)
 	    (mul (impulse ar (lin-lin (lf-noise0 kr f) -1 1 3 12) 0) 0.1)))
-       (t (lambda (i d l r) 
+       (t (lambda (i d l r)
 	    (map (lambda (e) (mul e (t-rand l r i))) d)))
-       (d (lambda (i f r) 
-	    (klank-data (t i f 0.5 2) 
+       (d (lambda (i f r)
+	    (klank-data (t i f 0.5 2)
 			(replicate 4 1)
 			(t i r 0.1 10))))
        (f1 (list 800 1071 1153 1723))

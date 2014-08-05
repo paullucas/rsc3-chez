@@ -1,20 +1,3 @@
-;; (osc rate bufnum freq phase)
-
-;; linear interpolating wavetable lookup oscillator with frequency and
-;; phase modulation inputs.
-
-;; This oscillator requires a buffer to be filled with a wavetable
-;; format signal.  This preprocesses the Signal into a form which can
-;; be used efficiently by the oscillator.  The buffer size must be a
-;; power of 2.
-
-;; This can be acheived by creating a Buffer object and sending it one
-;; of the "b_gen" messages ( sine1, sine2, sine3 ) with the wavetable
-;; flag set to true.
-
-;; Note about wavetables: oscN requires the b_gen sine1 wavetable flag
-;; to be OFF.  osc requires the b_gen sine1 wavetable flag to be ON.
-
 (with-sc3
  (lambda (fd)
    (async fd (b-alloc 10 512 1))

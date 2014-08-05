@@ -5,7 +5,7 @@
 (define sample-and-hold-liquidities
   (let* ((r (mouse-x kr 1 200 1 0.1))
          (t (recip r))
-         (c (impulse kr r 0.4))
+         (c (mul (impulse kr r 0) 0.4))
          (cf (mouse-y kr 100 8000 1 0.1))
          (f (latch (mul-add (white-noise kr) (mul cf 0.5) cf) c))
          (p (latch (white-noise kr) c))

@@ -12,7 +12,7 @@
 ;; duration: time values. Can be a demand ugen or any signal.  The
 ;; next value is acquired after the duration provided by the last time
 ;; value.
-		
+
 ;; reset: trigger or reset time values. Resets the list of ugens and
 ;; the duration ugen when triggered.  The reset input may also be a
 ;; demand ugen, providing a stream of reset times.

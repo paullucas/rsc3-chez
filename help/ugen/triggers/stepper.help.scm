@@ -1,8 +1,3 @@
-;; (stepper trig reset min max step resetval)
-
-;; stepper pulse counter.  Each trigger increments a counter which is
-;; output as a signal. The counter wraps between min and max.
-
 (import (rhs) (rsc3))
 
 (with-sc3

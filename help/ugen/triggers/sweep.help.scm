@@ -1,8 +1,3 @@
-;; (sweep trig rate)
-
-;; triggered linear ramp.  Starts a linear raise by rate/sec from zero
-;; when trig input crosses from non-positive to positive.
-	
 ;; Using sweep to modulate sine frequency
 
 (let* ((t (impulse kr (mouse-x kr 0.5 20 1 0.1) 0))
