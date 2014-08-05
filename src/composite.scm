@@ -21,8 +21,6 @@
 
 (define fft* (lambda (buf in) (fft buf in 0.5 0 1 0)))
 
-(define hear (lambda (u) (audition (out 0 u))))
-
 (define ifft* (lambda (buf) (ifft buf 0 0)))
 
 ;; [ugen] -> [ugen] -> [ugen] -> ugen

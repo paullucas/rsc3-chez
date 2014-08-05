@@ -9,6 +9,7 @@
     "../src/external.scm"
     "../src/list.scm"
     "../src/rsc3.scm"
+    "../src/time.scm"
     "../src/ugen.scm"))
 
 (mk-r6rs '(rsc3)

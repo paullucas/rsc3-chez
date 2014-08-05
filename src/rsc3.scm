@@ -721,11 +721,6 @@
     (send-synth fd "anonymous" u)
     (send fd (s-new0 "anonymous" nid act grp))))
 
-;; port -> ugen -> ()
-(define play
-  (lambda (fd u)
-    (play-at fd u -1 add-to-tail 1)))
-
 ;; ((socket -> a) -> a) -> (ugen -> ())
 (define audition-using
   (lambda (f)
@@ -768,20 +763,6 @@
     (let ((t (srfi:current-time srfi:time-utc)))
       (+ (srfi:time-second t)
          (/ (srfi:time-nanosecond t) 1e9)))))
-
-;; * Timing
-
-;; double -> void
-(define pause-thread
-  (lambda (n)
-    (if (> n 1e-4)
-        (thread-sleep n))))
-
-;; double -> void
-(define pause-thread-until
-  (lambda (t)
-    (let ((c (utcr)))
-      (pause-thread (- t c)))))
 
 ;; Local Variables:
 ;; truncate-lines:t
