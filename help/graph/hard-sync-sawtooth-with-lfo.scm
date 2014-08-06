@@ -11,6 +11,8 @@
   (lambda (z)
     (add (comb-n z 0.3 0.3 4) (mce-reverse z))))
 
-(with-sc3*
- (post-process-u 2 hsswl-pp)
- (overlap-texture-u (list 4 4 4 +inf.0) hsswl))
+(with-sc3
+ (lambda (fd)
+   (begin
+     ((post-process-u 2 hsswl-pp) fd)
+     ((overlap-texture-u (list 4 4 4 +inf.0) hsswl) fd))))

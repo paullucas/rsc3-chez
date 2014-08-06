@@ -696,21 +696,6 @@
 	   (e (zip-with3 f m p i)))
       (pack-fft c nf from to z? (packfft-data* e)))))
 
-;; ugen -> ugen -> ugen -> ugen -> ugen -> ugen
-(define dyn-klank*
-  (lambda (i fs fo ds l)
-    (if (null? l)
-        0
-        (let ((f (list-ref l 0))
-              (a (list-ref l 1))
-              (d (list-ref l 2)))
-          (add (mul (ringz i (mul-add f fs fo) (mul d ds)) a)
-               (dyn-klank* i fs fo ds (drop 3 l)))))))
-
-(define dyn-klank
-  (lambda (i fs fo ds s)
-    (dyn-klank* i fs fo ds (mce-channels s))))
-
 ;; port -> string -> ugen -> ()
 (define send-synth
   (lambda (fd n u)

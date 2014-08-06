@@ -43,7 +43,7 @@
            (lagged-delay (lag x 0.01))
            (o (sin-osc ar 200 0))
            (a0 (mul (decay d 0.025) o))
-           (a1 (add (local-in 1 ar) (mul a0 (sub y 0.25))))
+           (a1 (add (local-in 1 ar 0) (mul a0 (sub y 0.25))))
            (a2 (delay-n a1 0.01 lagged-delay))
            (a3 (delay1 a2))
            (a4 (fdiv (add a2 a3) 2.0))

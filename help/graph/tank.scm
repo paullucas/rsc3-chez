@@ -22,7 +22,7 @@
 
 (define tank
   (lambda (i)
-    (let* ((l0 (mul (local-in 2 ar) 0.98))
+    (let* ((l0 (mul (local-in 2 ar (mce2 0 0)) 0.98))
            (l1 (one-pole l0 0.33))
            (l2 (rotate2 (mce-channel l1 0) (mce-channel l1 1) 0.23))
            (l3 (allpass-n l2 0.05 (clone 2 (rand 0.01 0.05)) 2))

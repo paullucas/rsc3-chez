@@ -466,7 +466,6 @@
 (define lin-cong-l (mk-oscillator "LinCongL" (freq a c m xi) 1))
 (define lin-cong-n (mk-oscillator "LinCongN" (freq a c m xi) 1))
 (define line (mk-oscillator "Line" (start end dur done-action) 1))
-(define local-in (mk-oscillator-n "LocalIn" ()))
 (define logistic (mk-oscillator "Logistic" (chaos-param freq) 1))
 (define lorenz-l (mk-oscillator "LorenzL" (freq s r b h xi yi zi) 1))
 (define mouse-button (mk-oscillator "MouseButton" (minval maxval lag) 1))
@@ -578,3 +577,9 @@
 (define subsample-offset (mk-specialized-c "SubsampleOffset" 1 ir))
 (define unpack1-fft (mk-specialized "Unpack1FFT" (c b bi wm) 1 dr))
 (define warp1 (mk-specialized-n "Warp1" (b ptr fs ws envb ov wrr i) ar))
+
+;; other/subtler...
+
+(define local-in
+  (lambda (nc rt def)
+    (construct-ugen "LocalIn" rt '() def nc 0 (make-uid 0))))

@@ -18,8 +18,8 @@
 (define h1
   (let* ((n0 (lf-noise0 ar 32))
          (n1 (lf-noise0 ar 2))
-         (a (mouse-x* kr 1.2 1.4 0 0.1))
-         (b (mouse-y* kr 0.2 0.3 0 0.1))
+         (a (mouse-x kr 1.2 1.4 0 0.1))
+         (b (mouse-y kr 0.2 0.3 0 0.1))
          (h (wrp n0 1 32))
          (p (wrp n1 2400 3200))
          (l (wrp n1 -0.75 0.75))
