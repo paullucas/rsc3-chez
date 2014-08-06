@@ -12,4 +12,4 @@
                  (mul a b)))))
     (mix-fill 3 nd)))
 
-(audition (out 0 xy-interference))
+(audition (out 0 (mul xy-interference 0.1)))

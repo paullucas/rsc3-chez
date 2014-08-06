@@ -1,13 +1,3 @@
-;; (dbufrd bufnum phase loop)
-
-;; Buffer demand ugen.
-
-;; bufnum - buffer number to read from
-;; phase  - index into the buffer (demand ugen or any other ugen)
-;; loop   - loop when phase exceeds number of frames in buffer
-
-;; Example
-
 (with-sc3
  (lambda (fd)
    (async fd (b-alloc 10 24 1))
