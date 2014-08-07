@@ -15,3 +15,10 @@
     (play-at fd u -1 add-to-tail 1)))
 
 (define hear (lambda (u) (audition (out 0 u))))
+
+(define with-sc3*
+  (lambda (l)
+    (with-sc3 (lambda (fd) (map (lambda (f) (f fd)) l)))))
+
+;; float
+(define dinf 9e8)

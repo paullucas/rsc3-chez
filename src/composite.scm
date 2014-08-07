@@ -112,8 +112,9 @@
       (lag (lin-lin o -1 1 l r) tm))))
 
 (define mrg2 make-mrg)
-(define mrg3 (lambda (a b c) (make-mrg a (make-mrg b c))))
-(define mrg4 (lambda (a b c d) (make-mrg a (make-mrg b (make-mrg c d)))))
+(define mrg3 (lambda (a b c) (mrg2 a (mrg2 b c))))
+(define mrg4 (lambda (a b c d) (mrg2 a (mrg3 b c d))))
+(define mrg5 (lambda (a b c d e) (mrg2 a (mrg4 b c d e))))
 
 ;; [ugen] -> mrg
 (define mrg-n

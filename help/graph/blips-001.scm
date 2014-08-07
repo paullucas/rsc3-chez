@@ -15,8 +15,7 @@
     (let ((f (lambda (x) (allpass-n x 0.05 (mce2 (rand 0 0.05) (rand 0 0.05)) 4))))
       (iterate 6 f (distort z)))))
 
-(with-sc3
- (lambda (fd)
-   (begin
-     ((post-process-u 2 blips-pp) fd)
-     ((overlap-texture-u (list 2 1 12 +inf.0) blips-001)) fd)))
+(with-sc3*
+ (list
+  (post-process-u 2 blips-pp)
+  (overlap-texture-u (list 2 1 12 +inf.0) blips-001)) fd)

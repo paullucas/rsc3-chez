@@ -614,10 +614,6 @@
 ;; (socket -> a) -> a
 (define with-sc3 with-udp-sc3)
 
-(define with-sc3*
-  (lambda l
-    (with-sc3 (lambda (fd) (map (lambda (f) (f fd)) l)))))
-
 ;; [string]
 (define status-fields
   (list "# UGens                     "
@@ -716,10 +712,6 @@
 
 ;; ugen -> ()
 (define audition (audition-using with-udp-sc3))
-
-;; float
-(define dinf
-  9.0e8)
 
 ;; float -> float -> float
 (define random
