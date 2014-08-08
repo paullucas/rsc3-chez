@@ -1,16 +1,19 @@
-;; string|number -> number
+;; ENVELOPES
+
+;; symbol|number -> number
 (define curve-to-shape
   (lambda (c)
     (cond
-     ((string? c)
-      (cond ((string=? c "step") 0.0)
-	    ((string=? c "linear") 1.0)
-	    ((string=? c "exponential") 2.0)
-	    ((string=? c "sine") 3.0)
-	    ((string=? c "welch") 4.0)
-	    ((string=? c "squared") 6.0)
-	    ((string=? c "cubed") 7.0)
-	    (else (error "curve-to-shape" "string" c))))
+     ((symbol? c)
+      (cond ((equal? c 'step) 0.0)
+	    ((equal? c 'linear) 1.0)
+	    ((equal? c 'exponential) 2.0)
+	    ((equal? c 'sine) 3.0)
+	    ((equal? c 'welch) 4.0)
+	    ((equal? c 'squared) 6.0)
+	    ((equal? c 'cubed) 7.0)
+	    (else (error "curve-to-shape" "symbol" c))))
+     ((string? c) (curve-to-shape (string->symbol c)))
      ((number? c)
       5.0)
      (else
@@ -90,14 +93,14 @@
 		     (cons x1 1.0)
 		     (cons (add shape x1) 1.0)
 		     (cons 1.0 (ge skew 1.0)))))
-      (env-coord bp dur amp (replicate 3 "linear")))))
+      (env-coord bp dur amp (replicate 3 'linear)))))
 
 (define env-triangle
   (lambda (dur level)
     (let ((half-dur (mul dur 0.5)))
       (env (list 0.0 level 0.0)
 	   (list half-dur half-dur)
-	   (list "linear" "linear")
+	   (list 'linear 'linear)
 	   -1
 	   -1))))
 
@@ -106,7 +109,7 @@
     (let ((half-dur (mul dur 0.5)))
       (env (list 0.0 level 0.0)
 	   (list half-dur half-dur)
-	   (list "sine" "sine")
+	   (list 'sine 'sine)
 	   -1
 	   -1))))
 

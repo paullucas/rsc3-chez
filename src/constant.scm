@@ -1,3 +1,11 @@
+;; MATH
+
+(define e (exp 1.0))
+(define pi (* 4 (atan 1)))
+(define dinf 9e8)
+
+;; ENUMERATION
+
 (define add-to-head 0)
 (define add-to-tail 1)
 (define add-before 2)

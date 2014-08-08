@@ -36,6 +36,8 @@
 
 (define fft* (lambda (buf in) (fft buf in 0.5 0 1 0)))
 
+(define hear (lambda (u) (audition (out 0 u))))
+
 (define ifft* (lambda (buf) (ifft buf 0 0)))
 
 ;; [ugen] -> [ugen] -> [ugen] -> ugen
@@ -128,10 +130,46 @@
 (define mul3 (lambda (a b c) (mul (mul a b) c)))
 (define mul4 (lambda (a b c d) (mul (mul (mul a b) c) d)))
 
+;; [m] -> [p] -> [#, m, p...]
+(define packfft-data
+  (lambda (m p)
+    (make-mce
+     (cons (* 2 (length m))
+	   (concat (zip-with list m p))))))
+
+;; [[m, p]] -> [#, m, p...]
+(define packfft-data*
+  (lambda (mp)
+    (make-mce
+     (cons (* 2 (length mp))
+	   (concat mp)))))
+
+;; double -> void
+(define pause-thread thread-sleep)
+
+;; double -> void
+(define pause-thread-until
+  (lambda (t)
+    (let ((c (utcr)))
+      (pause-thread (- t c)))))
+
+;; port -> ugen -> ()
+(define play
+  (lambda (fd u)
+    (play-at fd u -1 add-to-tail 1)))
+
 ;; rate -> ugen -> ugen -> ugen -> ugen -> ugen
 (define pm-osc
   (lambda (r cf mf pm mp)
     (sin-osc r cf (mul (sin-osc r mf mp) pm))))
+
+(define pvcollect
+  (lambda (c nf f from to z?)
+    (let* ((m (unpack-fft c nf from to 0))
+	   (p (unpack-fft c nf from to 1))
+	   (i (enum-from-to from to))
+	   (e (zip-with3 f m p i)))
+      (pack-fft c nf from to z? (packfft-data* e)))))
 
 ;; ugen -> ugen
 (define sound-in
@@ -150,3 +188,13 @@
 (define tw-choose
   (lambda (trig array weights normalize)
     (select (tw-index trig normalize weights) array)))
+
+(define unpack-fft
+  (lambda (c nf from to mp?)
+    (map (lambda (i)
+            (unpack1-fft c nf i mp?))
+	 (enum-from-to from to))))
+
+(define with-sc3*
+  (lambda (l)
+    (with-sc3 (lambda (fd) (map (lambda (f) (f fd)) l)))))

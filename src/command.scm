@@ -1,3 +1,5 @@
+;; scsynth commands
+
 (define quit
   (message "/quit" nil))
 

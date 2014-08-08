@@ -1,124 +1,4 @@
-;; ord a => a -> a -> a
-(define s:lt
-  (lambda (p q)
-    (if (< p q) 1 0)))
-
-;; ord a => a -> a -> a
-(define s:le
-  (lambda (p q)
-    (if (<= p q) 1 0)))
-
-;; ord a => a -> a -> a
-(define s:ge
-  (lambda (p q)
-    (if (>= p q) 1 0)))
-
-;; ord a => a -> a -> a
-(define s:gt
-  (lambda (p q)
-    (if (> p q) 1 0)))
-
-;; real -> real -> real
-(define s:round
-  (lambda (p q)
-    (* (round (/ p q)) q)))
-
-;; ord a => a -> a -> a -> a
-(define s:clip
-  (lambda (a b n)
-    (cond ((< n a) a)
-	  ((> n b) b)
-	  (else n))))
-
-;; number a => a -> a
-(define s:squared
-  (lambda (n)
-    (* n n)))
-
-;; number a => a -> a
-(define s:cubed
-  (lambda (n)
-    (* n n n)))
-
-;; number a => a -> a
-(define s:recip
-  (lambda (n)
-    (/ 1 n)))
-
-;; float
-(define e
-  (exp 1.0))
-
-;; float
-(define pi
-  (* 4 (atan 1)))
-
-;; float -> float
-(define s:log2
-  (lambda (x)
-    (/ (log (abs x)) (log 2))))
-
-;; float -> float
-(define s:log10
-  (lambda (x)
-    (/ (log x) (log 10))))
-
-;; float -> float
-(define s:amp-db
-  (lambda (x)
-    (* (s:log10 x) 20)))
-
-;; float -> float
-(define s:db-amp
-  (lambda (x)
-    (expt 10 (* x 0.05))))
-
-;; float -> float
-(define pow-db
-  (lambda (x)
-    (* (s:log10 x) 10)))
-
-;; float -> float
-(define db-pow
-  (lambda (x)
-    (expt 10 (* x 0.1))))
-
-;; float -> float
-(define s:midi-cps
-  (lambda (note)
-    (* 440.0 (expt 2.0 (* (- note 69.0) 0.083333333333)))))
-
-;; float -> float
-(define s:cps-midi
-  (lambda (freq)
-    (+ (* (s:log2 (* freq 0.0022727272727)) 12.0) 69.0)))
-
-;; float -> float
-(define s:midi-ratio
-  (lambda (midi)
-    (expt 2.0 (* midi 0.083333333333))))
-
-;; float -> float
-(define s:ratio-midi
-  (lambda (ratio)
-    (* 12.0 (s:log2 ratio))))
-
-;; float -> float
-(define s:oct-cps
-  (lambda (note)
-    (* 440.0 (expt 2.0 (- note 4.75)))))
-
-;; float -> float
-(define s:cps-oct
-  (lambda (freq)
-    (+ (s:log2 (* freq 0.0022727272727)) 4.75)))
-
-;; float -> [float] -> int -> float
-(define s:degree-to-key
-  (lambda (degree scale steps)
-    (let ((scale-n (length scale)))
-      (+ (* steps (div degree scale-n))
-	 (list-ref scale (exact (mod degree scale-n)))))))
+;; UID
 
 ;; int -> uid
 (define-record-type uid
@@ -134,6 +14,8 @@
       (set! n (+ n 1))
       (make-uid n))))
 
+;; CONTROL
+
 ;; string -> int -> control
 (define-record-type control
   (fields name index))
@@ -141,6 +23,18 @@
 ;; string -> float -> rate -> float -> control*
 (define-record-type control*
   (fields name default rate lag))
+
+;; syntax for binding control values
+(define-syntax letc
+  (syntax-rules ()
+    ((_ () expr)
+     expr)
+    ((_ ((name default) ...) expr)
+     (let ((name (make-control* (symbol->string (quote name)) default kr 0))
+	   ...)
+       expr))))
+
+;; GRAPHDEF
 
 ;; string -> [float] -> [float] -> [controls] -> [ugens] -> graphdef
 (define-record-type graphdef
@@ -161,6 +55,8 @@
   (lambda (g n)
     (list-ref (graphdef-constants g) n)))
 
+;; UGEN
+
 ;; int -> int -> input
 (define-record-type input
   (fields ugen port))
@@ -168,19 +64,6 @@
 ;; [ugen] -> mce
 (define-record-type mce
   (fields proxies))
-
-(define mce*
-  (lambda l
-    (make-mce l)))
-
-;; node -> [ugen]
-(define mce-channels
-  (lambda (u)
-    (cond
-     ((mce? u) (mce-proxies u))
-     ((mrg? u) (let ((rs (mce-channels (mrg-left u))))
-                 (cons (make-mrg (head rs) (mrg-right u)) rs)))
-     (else (list1 u)))))
 
 ;; ugen -> ugen -> mrg
 (define-record-type mrg
@@ -199,20 +82,10 @@
   (fields value))
 
 ;; rate
-(define ir
-  (make-rate 0))
-
-;; rate
-(define kr
-  (make-rate 1))
-
-;; rate
-(define ar
-  (make-rate 2))
-
-;; rate
-(define dr
-  (make-rate 3))
+(define ir (make-rate 0))
+(define kr (make-rate 1))
+(define ar (make-rate 2))
+(define dr (make-rate 3))
 
 ;; rate -> symbol
 ;;
@@ -369,17 +242,21 @@
 	(encode-i16 (length u))
 	(map encode-ugen u))))))
 
-;; syntax for binding control values
-(define-syntax letc
-  (syntax-rules ()
-    ((_ () expr)
-     expr)
-    ((_ ((name default) ...) expr)
-     (let ((name (make-control* (symbol->string (quote name)) default kr 0))
-	   ...)
-       expr))))
-
 ;; node = ugen | proxy | control* | float
+
+;; node -> mce
+(define proxify
+  (lambda (u)
+    (cond
+     ((mce? u) (make-mce (map proxify (mce-proxies u))))
+     ((mrg? u) (make-mrg (proxify (mrg-left u)) (mrg-right u)))
+     ((ugen? u) (let* ((o (ugen-outputs u))
+		       (n (length o)))
+		  (if (< n 2)
+		      u
+		      (make-mce (map (lambda (i) (make-proxy u i))
+				      (enum-from-to 0 (- n 1)))))))
+     (else (error "proxify" "illegal ugen" u)))))
 
 ;; string -> maybe rate -> [node] -> maybe node -> int -> int -> uid -> ugen
 (define construct-ugen
@@ -448,6 +325,8 @@
      ((mrg? u) (make-mrg (prepare-root (mrg-left u))
                          (prepare-root (mrg-right u))))
      (else u))))
+
+;; SYNTHDEF
 
 ;; string -> ugen -> graphdef
 (define synthdef
@@ -526,6 +405,21 @@
      ((mce? i) (error "input*-to-input" "mce?" i))
      (else (error "input*-to-input" "illegal input" i)))))
 
+;; MCE
+
+(define mce*
+  (lambda l
+    (make-mce l)))
+
+;; node -> [ugen]
+(define mce-channels
+  (lambda (u)
+    (cond
+     ((mce? u) (mce-proxies u))
+     ((mrg? u) (let ((rs (mce-channels (mrg-left u))))
+                 (cons (make-mrg (head rs) (mrg-right u)) rs)))
+     (else (list1 u)))))
+
 ;; mce|mrg -> int
 (define mce-degree
   (lambda (m)
@@ -568,19 +462,7 @@
                     (mce-transform u)
                     u)))))
 
-;; node -> mce
-(define proxify
-  (lambda (u)
-    (cond
-     ((mce? u) (make-mce (map proxify (mce-proxies u))))
-     ((mrg? u) (make-mrg (proxify (mrg-left u)) (mrg-right u)))
-     ((ugen? u) (let* ((o (ugen-outputs u))
-		       (n (length o)))
-		  (if (< n 2)
-		      u
-		      (make-mce (map (lambda (i) (make-proxy u i))
-				      (enum-from-to 0 (- n 1)))))))
-     (else (error "proxify" "illegal ugen" u)))))
+;; TRANSPORT
 
 ;; port -> osc -> ()
 (define async
@@ -613,6 +495,8 @@
 
 ;; (socket -> a) -> a
 (define with-sc3 with-udp-sc3)
+
+;; STATUS
 
 ;; [string]
 (define status-fields
@@ -664,34 +548,6 @@
   (lambda (s)
     (server-status-field s 9)))
 
-;; [m] -> [p] -> [#, m, p...]
-(define packfft-data
-  (lambda (m p)
-    (make-mce
-     (cons (* 2 (length m))
-	   (concat (zip-with list m p))))))
-
-;; [[m, p]] -> [#, m, p...]
-(define packfft-data*
-  (lambda (mp)
-    (make-mce
-     (cons (* 2 (length mp))
-	   (concat mp)))))
-
-(define unpack-fft
-  (lambda (c nf from to mp?)
-    (map (lambda (i)
-            (unpack1-fft c nf i mp?))
-	 (enum-from-to from to))))
-
-(define pvcollect
-  (lambda (c nf f from to z?)
-    (let* ((m (unpack-fft c nf from to 0))
-	   (p (unpack-fft c nf from to 1))
-	   (i (enum-from-to from to))
-	   (e (zip-with3 f m p i)))
-      (pack-fft c nf from to z? (packfft-data* e)))))
-
 ;; port -> string -> ugen -> ()
 (define send-synth
   (lambda (fd n u)
@@ -713,6 +569,8 @@
 ;; ugen -> ()
 (define audition (audition-using with-udp-sc3))
 
+;; RANDOM
+
 ;; float -> float -> float
 (define random
   (lambda (a b)
@@ -733,6 +591,8 @@
 (define choose
   (lambda (xs)
     (list-ref xs (srfi:random-integer (length xs)))))
+
+;; TIME
 
 ;; () -> float
 (define utc
