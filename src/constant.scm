@@ -1,8 +1,9 @@
 ;; MATH
 
-(define e (exp 1.0))
-(define pi (* 4 (atan 1)))
 (define dinf 9e8)
+(define e 2.718281828459045) ;; (exp 1.0)
+(define pi 3.141592653589793) ;; (* 4.0 (atan 1.0))
+(define two-pi (* 2 pi))
 
 ;; ENUMERATION
 

@@ -148,6 +148,6 @@
   (lambda (attackTime sustainTime releaseTime level curves)
     (env (list 0.0 level level 0.0)
 	 (list attackTime sustainTime releaseTime)
-	 curves
+	 (if (null? curves) (list 'linear 'linear 'linear) curves)
 	 -1
 	 -1)))
