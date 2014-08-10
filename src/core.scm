@@ -8,11 +8,15 @@
 ;;   (make-uid n) uid? (n uid-n))
 
 ;; () -> uid
-(define unique-uid
+(define incr-uid
   (let ((n 0))
-    (lambda ()
-      (set! n (+ n 1))
+    (lambda (i)
+      (set! n (+ n i))
       (make-uid n))))
+
+(define unique-uid
+  (lambda ()
+    (incr-uid 1)))
 
 ;; CONTROL
 
@@ -258,23 +262,29 @@
 				      (enum-from-to 0 (- n 1)))))))
      (else (error "proxify" "illegal ugen" u)))))
 
-;; string -> maybe rate -> [node] -> maybe node -> int -> int -> uid -> ugen
+;; string -> rate|list -> [node] -> node|nil -> int -> int -> uid -> ugen
 (define construct-ugen
-  (lambda (name rate? inputs mce? outputs special id)
-    (let* ((inputs* (if mce?
-			(append inputs (mce-channels mce?))
-			inputs))
-	   (rate (if rate?
-		     rate?
-		     (rate-select (map rate-of inputs*))))
+  (lambda (name rate inputs mce outputs special id)
+    (let* ((inputs* (if (null? mce)
+                        inputs
+			(append inputs (mce-channels mce))))
+	   (rate* (if (rate? rate)
+                      rate
+                      (rate-select (map (lambda (ix) (rate-of (list-ref inputs* ix))) rate))))
+           (special* (if (null? special) 0 special))
+           (id* (if (null? id) (make-uid 0) id))
 	   (u (make-ugen
 	       name
-	       rate
+	       rate*
 	       inputs*
-	       (replicate outputs (make-output rate))
-	       special
-	       id)))
+	       (replicate outputs (make-output rate*))
+	       special*
+	       id*)))
       (proxify (mce-expand u)))))
+
+(define mk-ugen
+  (lambda (param)
+    (apply construct-ugen param)))
 
 ;; ugen -> [node]
 (define graph-nodes
@@ -328,6 +338,17 @@
 
 ;; SYNTHDEF
 
+;; [ugen] -> int
+(define count-local-buf
+  (lambda (uu)
+    (length (filter (lambda (u) (equal? (ugen-name u) "LocalBuf")) uu))))
+
+;; ugen|#f
+(define implicit-max-local-bufs
+  (lambda (uu)
+    (let ((n (count-local-buf uu)))
+      (if (> n 0) (max-local-bufs n) #f))))
+
 ;; string -> ugen -> graphdef
 (define synthdef
   (lambda (name pre-u)
@@ -335,13 +356,15 @@
            (nn (graph-constants u))
 	   (cc (graph-controls* u))
 	   (uu (graph-ugens u))
-	   (uu* (if (null? cc) uu (cons (implicit-ugen cc) uu))))
+	   (uu* (if (null? cc) uu (cons (implicit-ugen cc) uu)))
+           (mx (implicit-max-local-bufs uu))
+           (uu** (if mx (cons mx uu*) uu*)))
       (make-graphdef
        name
        nn
        (map control*-default cc)
        (map (lambda (c) (control*-to-control c cc)) cc)
-       (map (lambda (u) (ugen-close u nn cc uu*)) uu*)))))
+       (map (lambda (u) (ugen-close u nn cc uu**)) uu**)))))
 
 (define synthdef-write
   (lambda (sy fn)

@@ -8,6 +8,8 @@
     "../src/derived.scm"
     "../src/envelope.scm"
     "../src/external.scm"
+    "../src/hw.scm"
+    "../src/hw/syntax.scm"
     "../src/list.scm"
     "../src/sc3.scm"
     "../src/ugen.scm"))

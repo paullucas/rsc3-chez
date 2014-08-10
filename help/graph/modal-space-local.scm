@@ -1,5 +1,7 @@
 ;; modal space (jmcc) #8
 
+(import (rsc3) (rsc3 dot))
+
 (define modal-space
   (let* ((b (as-local-buf (list 0 2 3.2 5 7 9 10)))
          (x (mouse-x kr 0 15 0 0.1))

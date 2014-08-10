@@ -1,9 +1,17 @@
 (define add3 sum3)
 (define add4 sum4)
 
+(define as-local-buf
+  (lambda (l)
+    (let* ((b (local-buf (length l) 1))
+           (s (set-buf* b 0 l)))
+      (mrg2 b s))))
+
 (define buf-rd-c (lambda (nc r b p l) (buf-rd nc r b p l 4)))
 (define buf-rd-l (lambda (nc r b p l) (buf-rd nc r b p l 2)))
 (define buf-rd-n (lambda (nc r b p l) (buf-rd nc r b p l 1)))
+
+(define cps-midi cpsmidi)
 
 ;; ugen -> ugen -> ugen
 (define dcons
@@ -27,14 +35,16 @@
   (lambda (i fs fo ds s)
     (dyn-klank* i fs fo ds (mce-channels s))))
 
+(define fdiv f-div)
+
+(define fft* (lambda (buf in) (fft buf in 0.5 0 1 0)))
+
 ;; ugen -> ugen -> ugen -> ugen
-(define freq-shift
+(define freq-shift*
   (lambda (i f p)
     (let ((o (sin-osc ar f (mce2 (add p (* 0.5 pi)) p)))
 	  (h (hilbert i)))
       (mix (mul h o)))))
-
-(define fft* (lambda (buf in) (fft buf in 0.5 0 1 0)))
 
 (define hear (lambda (u) (audition (out 0 u))))
 
@@ -92,6 +102,8 @@
   (lambda (u)
     (make-mce
      (map make-mce (transpose (map mce-channels (mce-channels u)))))))
+
+(define midi-cps midicps)
 
 ;; ugen|mce -> ugen
 (define mix (lambda (u) (foldl add 0 (mce-channels u))))
@@ -171,6 +183,13 @@
 	   (e (zip-with3 f m p i)))
       (pack-fft c nf from to z? (packfft-data* e)))))
 
+(define rand* rand-)
+
+; the cardinality input is derived from the values input...
+(define set-buf*
+  (lambda (buf offset values)
+    (set-buf buf offset (length values) (make-mce values))))
+
 ;; ugen -> ugen
 (define sound-in
   (lambda (n)
@@ -188,6 +207,8 @@
 (define tw-choose
   (lambda (trig array weights normalize)
     (select (tw-index trig normalize weights) array)))
+
+(define tw-index t-windex)
 
 (define unpack-fft
   (lambda (c nf from to mp?)
