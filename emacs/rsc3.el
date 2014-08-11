@@ -169,12 +169,11 @@ Quit the scheme interpreter and delete the associated buffer."
   (rsc3-evaluate-expression
    (concat "(audition (out 0 " (rsc3-expression-before-point) "))")))
 
-;; (import (rsc3 dot))
 (defun rsc3-draw ()
   "Draw the UGen graph at point using draw*."
   (interactive)
   (rsc3-evaluate-expression
-   (concat "(show-graph " (rsc3-expression-before-point) ")")))
+   (concat "(import (rsc3 dot)) (show-graph " (rsc3-expression-before-point) ")")))
 
 
 ;; scsynth

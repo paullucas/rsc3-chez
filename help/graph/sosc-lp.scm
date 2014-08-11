@@ -3,14 +3,17 @@
 (import (rnrs) (sosc) (rsc3))
 
 ;; (audition (out 0 (dust-r ar 0.1 1)))
-(define dust-r
+(define dust-r*
   (lambda (r lo hi)
     (let ((d (dseq dinf (make-mce (list (dwhite 1 lo hi))))))
       (t-duty r d 0 0 (u:abs (white-noise r)) 1))))
 
-;; (audition (out 0 sosc-lp))
+;; (b0 (as-local-buf (list 60 71 89 65 36 57 92 97 92 97)))
+;; (b1 (as-local-buf (list 71 89 60 57 65 36 95 92 93 97)))
+
+;; controls image synthesiser, ie. send-trig...
 (define sosc-lp
-  (let* ((clk (dust-r kr 0.2 0.9))
+  (let* ((clk (dust-r* kr 0.2 0.9))
          (env (decay2 clk 0.002 2.5))
          (idx (stepper clk 0 0 15 1 0))
          (f1 (midi-cps (mce2 (sub (buf-rd 1 kr 10 idx 1 1) 24)

@@ -347,7 +347,7 @@
 (define implicit-max-local-bufs
   (lambda (uu)
     (let ((n (count-local-buf uu)))
-      (if (> n 0) (max-local-bufs n) #f))))
+      (if (> n 0) (cons n (max-local-bufs n)) #f))))
 
 ;; string -> ugen -> graphdef
 (define synthdef
@@ -358,13 +358,14 @@
 	   (uu (graph-ugens u))
 	   (uu* (if (null? cc) uu (cons (implicit-ugen cc) uu)))
            (mx (implicit-max-local-bufs uu))
-           (uu** (if mx (cons mx uu*) uu*)))
+           (nn* (if mx (cons (car mx) nn) nn))
+           (uu** (if mx (cons (cdr mx) uu*) uu*)))
       (make-graphdef
        name
-       nn
+       nn*
        (map control*-default cc)
        (map (lambda (c) (control*-to-control c cc)) cc)
-       (map (lambda (u) (ugen-close u nn cc uu**)) uu**)))))
+       (map (lambda (u) (ugen-close u nn* cc uu**)) uu**)))))
 
 (define synthdef-write
   (lambda (sy fn)
@@ -440,7 +441,7 @@
     (cond
      ((mce? u) (mce-proxies u))
      ((mrg? u) (let ((rs (mce-channels (mrg-left u))))
-                 (cons (make-mrg (head rs) (mrg-right u)) rs)))
+                 (cons (make-mrg (head rs) (mrg-right u)) (tail rs))))
      (else (list1 u)))))
 
 ;; mce|mrg -> int
