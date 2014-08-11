@@ -163,7 +163,7 @@
 (define pause-thread-until
   (lambda (t)
     (let ((c (utcr)))
-      (if (> t c) (pause-thread (- t c))))))
+      (when (> t c) (pause-thread (- t c))))))
 
 ;; port -> ugen -> ()
 (define play

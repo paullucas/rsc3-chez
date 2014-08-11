@@ -12,7 +12,7 @@
          (flt-rtm (clone 4 (rand 0.01 0.11)))
          (flt (klank exc 1 0 1 (klank-data-mce flt-frq flt-amp flt-rtm)))
          (loc (pan2 flt (rand -1 1) 1))
-         (e (env '(1 1 0) '(3 0.001) (replicate 2 "linear") -1 -1)))
+         (e (env '(1 1 0) '(3 0.001) (replicate 2 'linear) -1 -1)))
     (mul loc (env-gen kr 1 1 0 1 remove-synth e))))
 
 (with-sc3

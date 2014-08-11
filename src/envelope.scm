@@ -13,7 +13,6 @@
 	    ((equal? c 'squared) 6.0)
 	    ((equal? c 'cubed) 7.0)
 	    (else (error "curve-to-shape" "symbol" c))))
-     ((string? c) (curve-to-shape (string->symbol c)))
      ((number? c)
       5.0)
      (else
