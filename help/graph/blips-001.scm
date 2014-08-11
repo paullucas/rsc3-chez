@@ -18,4 +18,4 @@
 (with-sc3*
  (list
   (post-process-u 2 blips-pp)
-  (overlap-texture-u (list 2 1 12 +inf.0) blips-001)) fd)
+  (overlap-texture-u (list 2 1 12 +inf.0) blips-001)))

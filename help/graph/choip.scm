@@ -1,5 +1,7 @@
 ;; choip (jmcc) #10
 
+(import (rhs) (rsc3) (rsc3 lang))
+
 (define xl (lambda (l r t) (x-line kr (exp-rand l r) (exp-rand l r) t do-nothing)))
 
 (define r2 (lambda (n) (rand (neg n) n)))
@@ -19,4 +21,4 @@
 (with-sc3*
  (list
   (post-process-u 2 choip-pp)
-  (overlap-texture-u (list 10 1 8 +inf.0) choip)) fd)
+  (overlap-texture-u (list 10 1 8 +inf.0) choip)))
