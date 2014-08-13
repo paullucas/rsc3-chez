@@ -59,3 +59,5 @@
       (play fd (out 0 (gb 10 7))))))
 
 (with-sc3 (tgb "/home/rohan/data/audio/pf-c5.snd"))
+
+; (hear (out 0 (gb 10 90)))
