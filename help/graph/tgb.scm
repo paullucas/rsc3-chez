@@ -55,9 +55,10 @@
 (define tgb
   (lambda (fn)
     (lambda (fd)
-      (async fd (b-alloc-read 10 fn 0 0))
-      (play fd (out 0 (gb 10 7))))))
+      (begin
+        (async fd (b-alloc-read 10 fn 0 0))
+        (play fd (out 0 (gb 10 7)))))))
 
 (with-sc3 (tgb "/home/rohan/data/audio/pf-c5.snd"))
 
-; (hear (out 0 (gb 10 90)))
+; longer, (hear (out 0 (gb 10 60)))

@@ -49,9 +49,8 @@
   "Remove initial comment and Bird-literate markers if present"
    (replace-regexp-in-string "^[; ]*>*" "" s))
 
-(defun rsc3-insert-lambda ()
-  (interactive)
-  (insert "lambda"))
+(defun rsc3-insert-lambda () (interactive) (insert "lambda"))
+(defun rsc3-insert-lambda* () (interactive) (insert "λ"))
 
 (defun rsc3-send-string (s)
   (if (comint-check-proc rsc3-buffer)
@@ -227,6 +226,7 @@ distributed with rsc3."
   (define-key map [?\C-c ?\C-c] 'rsc3-run-line)
   (define-key map [?\C-c ?\C-q] 'rsc3-quit-scheme)
   (define-key map "\C-\\" 'rsc3-insert-lambda)
+  (define-key map "\M-\\" 'rsc3-insert-lambda*)
   (define-key map "\C-c\C-i" 'rsc3-interrupt-scheme)
   ;; scsynth
   (define-key map "\C-c\C-o" 'rsc3-quit-scsynth)
