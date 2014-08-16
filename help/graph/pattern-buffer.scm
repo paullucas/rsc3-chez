@@ -31,6 +31,7 @@
  (lambda (fd)
    (let ((nf (mul 2 48000))
          (c 24))
-     (async fd (b-alloc 10 (* nf 2) 1))
-     (replicate-m c (rs nf fd))
-     (play fd (out 0 (pattern-buffer nf c))))))
+     (begin
+       (async fd (b-alloc 10 (* nf 2) 1))
+       (replicate-m c (rs nf fd))
+       (play fd (out 0 (pattern-buffer nf c)))))))

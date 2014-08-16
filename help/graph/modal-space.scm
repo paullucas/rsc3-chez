@@ -17,8 +17,9 @@
 
 (define modal-space
   (lambda (fd)
-    (async fd (b-alloc 0 7 1))
-    (send fd (b-setn1 0 0 (list 0 2 3.2 5 7 9 10)))
-    (play fd (out 0 modal-space-i))))
+    (begin
+      (async fd (b-alloc 0 7 1))
+      (send fd (b-setn1 0 0 (list 0 2 3.2 5 7 9 10)))
+      (play fd (out 0 modal-space-i)))))
 
 (with-sc3 modal-space)

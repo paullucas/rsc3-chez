@@ -219,3 +219,16 @@
 (define with-sc3*
   (lambda (l)
     (with-sc3 (lambda (fd) (map (lambda (f) (f fd)) l)))))
+
+; RANDOM
+
+;; float -> float -> float
+(define exp-random
+  (lambda (a b)
+    (let ((r (/ b a)))
+      (* (expt r (random 0 1)) a))))
+
+;; [a] -> a
+(define choose
+  (lambda (xs)
+    (list-ref xs (i-random 0 (length xs)))))

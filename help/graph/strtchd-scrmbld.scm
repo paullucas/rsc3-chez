@@ -53,14 +53,16 @@
 
 (define pattern
   (lambda (fd)
-    (send fd (c-setn1 0 (mk-r-set)))
-    (thread-sleep (choose (list 0.05 0.15 0.25 0.5 0.75 1.25)))
-    (pattern fd)))
+    (begin
+      (send fd (c-setn1 0 (mk-r-set)))
+      (thread-sleep (choose (list 0.05 0.15 0.25 0.5 0.75 1.25)))
+      (pattern fd))))
 
 (with-sc3
  (lambda (fd)
-   (async fd (b-alloc-read 10 "/home/rohan/data/audio/pf-c5.snd" 0 0))
-   (async fd (b-alloc 20 2048 1))
-   (async fd (b-alloc 30 2048 1))
-   (play fd strtchd-scrmbld)
-   (pattern fd)))
+   (begin
+     (async fd (b-alloc-read 10 "/home/rohan/data/audio/pf-c5.snd" 0 0))
+     (async fd (b-alloc 20 2048 1))
+     (async fd (b-alloc 30 2048 1))
+     (play fd strtchd-scrmbld)
+     (pattern fd))))

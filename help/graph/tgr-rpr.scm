@@ -40,12 +40,14 @@
 
 (define pattern
   (lambda (fd)
-    (send fd (c-setn1 0 (r-set (random 0 1))))
-    (thread-sleep (choose (list 0.25 0.75 1.5)))
-    (pattern fd)))
+    (begin
+      (send fd (c-setn1 0 (r-set (random 0 1))))
+      (thread-sleep (choose (list 0.25 0.75 1.5)))
+      (pattern fd))))
 
 (with-sc3
  (lambda (fd)
-   (async fd (b-alloc-read 10 "/home/rohan/data/audio/pf-c5.snd" 0 0))
-   (play fd (out 0 (tgr-rpr 10)))
-   (pattern fd)))
+   (begin
+     (async fd (b-alloc-read 10 "/home/rohan/data/audio/pf-c5.snd" 0 0))
+     (play fd (out 0 (tgr-rpr 10)))
+     (pattern fd))))

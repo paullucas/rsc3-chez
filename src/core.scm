@@ -605,17 +605,6 @@
   (lambda (l r)
     (+ l (srfi:random-integer (- r l)))))
 
-;; float -> float -> float
-(define exp-random
-  (lambda (a b)
-    (let ((r (/ b a)))
-      (* (expt r (random 0 1)) a))))
-
-;; [a] -> a
-(define choose
-  (lambda (xs)
-    (list-ref xs (srfi:random-integer (length xs)))))
-
 ;; TIME
 
 ;; () -> float

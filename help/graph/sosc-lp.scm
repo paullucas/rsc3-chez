@@ -2,7 +2,7 @@
 
 (import (rnrs) (sosc) (rsc3))
 
-;; (audition (out 0 (dust-r ar 0.1 1)))
+;; (audition (out 0 (dust-r* ar 0.1 1)))
 (define dust-r*
   (lambda (r lo hi)
     (let ((d (dseq dinf (make-mce (list (dwhite 1 lo hi))))))
@@ -29,16 +29,20 @@
  (lambda (fd)
    (let ((a (list 60 71 89 65 36 57 92 97 92 97))
          (b (list 71 89 60 57 65 36 95 92 93 97)))
-     (async fd (b-alloc 10 9 1))
-     (async fd (b-alloc 11 9 1))
-     (send fd (b-setn1 10 0 a))
-     (send fd (b-setn1 11 0 b))
-     (play fd (out 0 sosc-lp)))))
-
-(define alternate
-  (with-sc3
-   (lambda (fd)
-     (let ((a (list 71 60 65 89 36 57 95 97 92 97))
-           (b (list 89 71 60 65 57 36 92 95 93 97)))
+     (begin
+       (async fd (b-alloc 10 9 1))
+       (async fd (b-alloc 11 9 1))
        (send fd (b-setn1 10 0 a))
-       (send fd (b-setn1 11 0 b))))))
+       (send fd (b-setn1 11 0 b))
+       (play fd (out 0 sosc-lp))))))
+
+;; (alternate nil)
+(define alternate
+  (lambda ()
+    (with-sc3
+     (lambda (fd)
+       (let ((a (list 71 60 65 89 36 57 95 97 92 97))
+             (b (list 89 71 60 65 57 36 92 95 93 97)))
+         (begin
+           (send fd (b-setn1 10 0 a))
+           (send fd (b-setn1 11 0 b))))))))

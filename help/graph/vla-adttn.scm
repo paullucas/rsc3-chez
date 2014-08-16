@@ -126,20 +126,22 @@
 
 (define pattern
   (lambda (fd)
-    (send fd (s-new "plyr36" -1 add-to-tail 1
-                    (list "buf" 0
-                          "loc" (random -1 1)
-                          "ampl" (random 0.05 0.1)
-                          "freq" (vla-get-cps (list 24 36))
-                          "detune" (random 0.001 0.005)
-                          "rise" (random 1 2)
-                          "fall" (random 4 7))))
-    (thread-sleep 5)
-    (pattern fd)))
+    (begin
+      (send fd (s-new "plyr36" -1 add-to-tail 1
+                      (list "buf" 0
+                            "loc" (random -1 1)
+                            "ampl" (random 0.05 0.1)
+                            "freq" (vla-get-cps (list 24 36))
+                            "detune" (random 0.001 0.005)
+                            "rise" (random 1 2)
+                            "fall" (random 4 7))))
+      (thread-sleep 5)
+      (pattern fd))))
 
 (with-sc3
  (lambda (fd)
-   (async fd (b-alloc 0 (* (length vla) 2) 1))
-   (send fd (b-setn1 0 0 (flatten (map prep vla))))
-   (send-synth fd "plyr36" (vla-plyr 36))
-   (pattern fd)))
+   (begin
+     (async fd (b-alloc 0 (* (length vla) 2) 1))
+     (send fd (b-setn1 0 0 (flatten (map prep vla))))
+     (send-synth fd "plyr36" (vla-plyr 36))
+     (pattern fd))))

@@ -41,8 +41,9 @@
 
 (with-sc3
  (lambda (fd)
-   (async fd (b-alloc 1 1024 1))
-   (async fd (b-alloc 2 1024 1))
-   (send fd (b-setn1 1 0 freq-table))
-   (send fd (b-setn1 2 0 amp-table))
-   (audition (out 0 shepard-tones))))
+   (begin
+     (async fd (b-alloc 1 1024 1))
+     (async fd (b-alloc 2 1024 1))
+     (send fd (b-setn1 1 0 freq-table))
+     (send fd (b-setn1 2 0 amp-table))
+     (audition (out 0 shepard-tones)))))
