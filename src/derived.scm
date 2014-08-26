@@ -67,6 +67,10 @@
   (lambda (f a p)
     (klank-data (mce-channels f) (mce-channels a) (mce-channels p))))
 
+(define l-choose
+  (lambda (l)
+    (select (i-rand 0 (length l)) (make-mce l))))
+
 (define lin-lin
   (lambda (in srclo srchi dstlo dsthi)
     (let* ((scale (fdiv (sub dsthi dstlo) (sub srchi srclo)))
