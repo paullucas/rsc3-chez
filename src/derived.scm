@@ -98,6 +98,9 @@
   (lambda (n f)
     (make-mce (map f (enum-from-to 0 (- n 1))))))
 
+;; (ugen -> ugen) -> mce -> mce
+(define mce-map (lambda (f u) (make-mce (map f (mce-channels u)))))
+
 ;; mce -> mce
 (define mce-reverse (mce-edit reverse))
 
