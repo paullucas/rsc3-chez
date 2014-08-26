@@ -2,7 +2,8 @@
         (mk-r6rs))
 
 (define rsc3-src
-  '("../src/command.scm"
+  '(;;"../src/alias.scm"
+    "../src/command.scm"
     "../src/constant.scm"
     "../src/core.scm"
     "../src/derived.scm"
