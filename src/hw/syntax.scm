@@ -5,7 +5,7 @@
       (if (and (number? a)
 	       f)
 	  (f a)
-	  (construct-ugen "UnaryOpUGen" #f (list1 a) #f 1 s (make-uid 0))))))
+	  (construct-ugen "UnaryOpUGen" '() (list1 a) '() 1 s (make-uid 0))))))
 
 ;; int -> maybe (float -> float -> float) -> (node -> node -> node)
 (define mk-binary-operator
@@ -15,14 +15,14 @@
 	       (number? b)
 	       f)
 	  (f a b)
-	  (construct-ugen "BinaryOpUGen" #f (list2 a b) #f 1 s (make-uid 0))))))
+	  (construct-ugen "BinaryOpUGen" '() (list2 a b) '() 1 s (make-uid 0))))))
 
 ;; string -> [symbol] -> int ~> (ugen ... -> ugen)
 (define-syntax mk-filter
   (syntax-rules ()
     ((_ m (i ...) o)
      (lambda (i ...)
-       (construct-ugen m #f (list i ...) #f o 0 (make-uid 0))))))
+       (construct-ugen m '() (list i ...) '() o 0 (make-uid 0))))))
 
 ;; string -> [symbol] ~> (int -> ugen ... -> ugen)
 (define-syntax mk-filter-n
@@ -31,23 +31,23 @@
      (lambda (nc i ...)
        (if (not (integer? nc))
 	   (error "mk-filter-n" "illegal channel count" 'n nc)
-	   #f)
+	   '())
        (let ((l (list i ...)))
-	 (construct-ugen m #f l #f nc 0 (make-uid 0)))))))
+	 (construct-ugen m '() l '() nc 0 (make-uid 0)))))))
 
 ;; string -> [symbol] -> int ~> (ugen ... -> ugen)
 (define-syntax mk-filter-mce
   (syntax-rules ()
     ((_ m (i ... v) o)
      (lambda (i ... v)
-       (construct-ugen m #f (list i ...) v o 0 (make-uid 0))))))
+       (construct-ugen m '() (list i ...) v o 0 (make-uid 0))))))
 
 ;; string -> [symbol] -> int ~> (ugen ... -> ugen)
 (define-syntax mk-filter-id
   (syntax-rules ()
     ((_ m (i ...) o)
      (lambda (i ...)
-       (construct-ugen m #f (list i ...) #f o 0 (unique-uid))))))
+       (construct-ugen m '() (list i ...) '() o 0 (unique-uid))))))
 
 ;; string -> [symbol] -> int -> int ~> (ugen ... -> ugen)
 (define-syntax mk-filter-k
@@ -56,14 +56,14 @@
     ((_ m (i ...) o k)
      (lambda (i ...)
        (let ((l (list i ...)))
-	 (construct-ugen m (rate-of (list-ref l k)) l #f o 0 (make-uid 0)))))))
+	 (construct-ugen m (rate-of (list-ref l k)) l '() o 0 (make-uid 0)))))))
 
 ;; string -> [symbol] -> int ~> (rate -> ugen ... -> ugen)
 (define-syntax mk-oscillator
   (syntax-rules ()
     ((_ m (i ...) o)
      (lambda (r i ...)
-       (construct-ugen m r (list i ...) #f o 0 (make-uid 0))))))
+       (construct-ugen m r (list i ...) '() o 0 (make-uid 0))))))
 
 ;; string -> [symbol] ~> (int -> rate -> ugen ... -> ugen)
 (define-syntax mk-oscillator-n
@@ -72,9 +72,9 @@
      (lambda (nc r i ...)
        (if (not (integer? nc))
 	   (error "mk-oscillator-n" "illegal channel count:" 'n nc)
-	   #f)
+	   '())
        (let ((l (list i ...)))
-	 (construct-ugen m r l #f nc 0 (make-uid 0)))))))
+	 (construct-ugen m r l '() nc 0 (make-uid 0)))))))
 
 ;; string -> [symbol] -> int ~> (rate -> ugen ... -> ugen)
 (define-syntax mk-oscillator-mce
@@ -88,20 +88,20 @@
   (syntax-rules ()
     ((_ m (i ...) o)
      (lambda (r i ...)
-       (construct-ugen m r (list i ...) #f o 0 (unique-uid))))))
+       (construct-ugen m r (list i ...) '() o 0 (unique-uid))))))
 
 ;; string -> [symbol] -> int -> rate ~> (ugen ... -> ugen)
 (define-syntax mk-specialized
   (syntax-rules ()
     ((_ m (i ...) o r)
      (lambda (i ...)
-       (construct-ugen m r (list i ...) #f o 0 (make-uid 0))))))
+       (construct-ugen m r (list i ...) '() o 0 (make-uid 0))))))
 
 ;; string -> int -> rate ~> ugen
 (define-syntax mk-specialized-c
   (syntax-rules ()
     ((_ m o r)
-     (construct-ugen m r nil #f o 0 (make-uid 0)))))
+     (construct-ugen m r nil '() o 0 (make-uid 0)))))
 
 ;; string -> [symbol] -> int -> rate ~> (ugen ... -> ugen)
 (define-syntax mk-specialized-mce
@@ -117,16 +117,16 @@
      (lambda (nc i ...)
        (if (not (integer? nc))
 	   (error "mk-specialized-n" "illegal channel count:" 'n nc)
-	   #f)
+	   '())
        (let ((l (list i ...)))
-	 (construct-ugen m r l #f nc 0 (make-uid 0)))))))
+	 (construct-ugen m r l '() nc 0 (make-uid 0)))))))
 
 ;; string -> [symbol] -> int -> rate ~> (ugen ... -> ugen)
 (define-syntax mk-specialized-id
   (syntax-rules ()
     ((_ m (i ...) o r)
      (lambda (i ...)
-       (construct-ugen m r (list i ...) #f o 0 (unique-uid))))))
+       (construct-ugen m r (list i ...) '() o 0 (unique-uid))))))
 
 (define-syntax mk-specialized-n-id
   (syntax-rules ()
@@ -134,9 +134,9 @@
      (lambda (nc i ...)
        (if (not (integer? nc))
 	   (error "mk-specialized-n" "illegal channel count:" 'n nc)
-	   #f)
+	   '())
        (let ((l (list i ...)))
-	 (construct-ugen m r l #f nc 0 (unique-uid)))))))
+	 (construct-ugen m r l '() nc 0 (unique-uid)))))))
 
 ;; string -> [symbol] -> int -> rate ~> (ugen ... -> ugen)
 (define-syntax mk-specialized-mce-id

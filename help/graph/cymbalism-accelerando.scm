@@ -1,8 +1,8 @@
-;; cymbalism (jmcc) #2
+;; cymbalism accelerando (jmcc) #2
 
 (import (rnrs) (rsc3) (rsc3 lang) (rhs))
 
-(define cymbalism
+(define cymbalism-accelerando
   (let* ((p 15)
          (f1 (rand 500 2500))
          (f2 (rand 0 8000))
@@ -11,9 +11,10 @@
                   (a (replicate p 1)))
               (klank-data f a rt)))
          (z (clone 2 y))
-         (t (impulse ar (rand 0.5 3.5) 0))
-         (n (mul (white-noise ar) 0.03))
+         (tf (x-line kr (lin-rand 0.5 4.5 0) (rand 0.5 35.5) 12 do-nothing))
+         (t (impulse ar tf 0))
+         (n (mul (white-noise ar) 0.02))
          (s (mul (decay t 0.004) n)))
     (klank s 1 0 1 (mce-transpose z))))
 
-(with-sc3 (xfade-texture-u (list 4 4 +inf.0) cymbalism))
+(with-sc3 (overlap-texture-u (list 4 4 4 +inf.0) cymbalism-accelerando))
