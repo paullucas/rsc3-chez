@@ -1,7 +1,5 @@
 ;; what was i thinking? (jmcc) #2
 
-(import (rnrs) (rsc3))
-
 (define what-was-i-thinking
   (let* ((n0 (mul-add (lf-noise1 kr 0.2) 2000 2400))
          (n1 (mul-add (lf-noise1 kr 0.157) 0.4 0.5))
@@ -18,4 +16,4 @@
     (add z (mce2 (add (c y) (c y))
                  (add (c y) (c y))))))
 
-(audition (out 0 what-was-i-thinking))
+(hear what-was-i-thinking)

@@ -1,9 +1,5 @@
 ;; narrow band filtered crackle noise (jmcc) #2
 
-(import (rsc3) (rsc3 lang))
-
-(define rand2 (lambda (n) (rand (neg n) n)))
-
 (define nbfcn
   (let* ((e (env-linen 2 5 2 1 (list)))
          (rf1 (add (rand 0 2000) 80))

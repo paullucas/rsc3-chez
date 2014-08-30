@@ -1,7 +1,5 @@
 ;; bouncing objects (jmcc) #2
 
-(import (rhs) (rsc3) (rsc3 lang))
-
 (define bouncing-objects
   (let* ((imp-frq (x-line kr (add 5 (rand -2 2)) 600 4 do-nothing))
          (imp-amp (x-line kr 0.09 0.000009 4 do-nothing))

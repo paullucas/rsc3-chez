@@ -4,6 +4,7 @@
 (define e 2.718281828459045) ;; (exp 1.0)
 (define pi 3.141592653589793) ;; (* 4.0 (atan 1.0))
 (define two-pi (* 2 pi))
+(define half-pi (* 0.5 pi))
 
 ;; ENUMERATION
 

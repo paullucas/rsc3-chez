@@ -1,7 +1,5 @@
 ;; harmonic tumbling (jmcc) #1
 
-(import (rnrs) (rsc3))
-
 (define harmonic-tumbling
   (let* ((f 80)
          (p 10)
@@ -13,4 +11,4 @@
                 (mul (f-sin-osc ar (* f (+ h 1)) 0) e)))))
     (mix-fill p o)))
 
-(audition (out 0 harmonic-tumbling))
+(hear harmonic-tumbling)

@@ -1,7 +1,5 @@
 ;; ring modulated klank (jmcc) #2
 
-(import (rsc3) (rsc3 lang))
-
 (define rmk
   (let* ((p 8)
          (z (klank-data-mce (rand-n p 100 10000)
@@ -12,4 +10,3 @@
     (pan2 (mul (sin-osc ar f 0) k) (rand -1 1) 1)))
 
 (with-sc3 (overlap-texture-u (list 4 4 4 +inf.0) rmk))
-

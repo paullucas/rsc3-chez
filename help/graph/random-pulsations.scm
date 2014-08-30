@@ -1,7 +1,5 @@
 ;; random pulsations (jmcc) #1
 
-(import (rsc3) (rsc3 lang))
-
 (define random-pulsations
   (let* ((e (env-linen 2 5 2 0.02 (list)))
          (o1 (mul (f-sin-osc ar (rand 0 2000) 0) (env-gen kr 1 1 0 1 do-nothing e)))

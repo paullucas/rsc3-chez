@@ -1,7 +1,5 @@
 ;; aleatoric quartet (jmcc) #7
 
-(import (rnrs) (rsc3) (rhs))
-
 (define aleatoric-quartet
   (let* ((amp 0.4)
          (density (mouse-x kr 0.01 1 0 0.1))
@@ -29,4 +27,4 @@
          (g (mix-fill 4 mk-s)))
     (leak-dc (rapfn 4 g) 0.995)))
 
-(audition (out 0 aleatoric-quartet))
+(hear aleatoric-quartet)

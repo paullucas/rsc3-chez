@@ -1,7 +1,5 @@
 ;; reverberated noise bursts (jmcc) #3
 
-(import (rnrs) (rhs) (rsc3))
-
 (define useq (lambda (n f) (foldl1 compose (replicate n f))))
 
 (define rnb

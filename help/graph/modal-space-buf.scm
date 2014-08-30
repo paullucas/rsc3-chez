@@ -1,11 +1,10 @@
 ;; modal space (jmcc) #8
 
-(import (rsc3) (rsc3 dot))
+(import (rnrs) (sosc) (rsc3))
 
-(define modal-space
-  (let* ((b (as-local-buf (list 0 2 3.2 5 7 9 10)))
-         (x (mouse-x kr 0 15 0 0.1))
-         (k (degree-to-key b x 12))
+(define modal-space-i
+  (let* ((x (mouse-x kr 0 15 0 0.1))
+         (k (degree-to-key 0 x 12))
          (c (lambda (n r)
               (let* ((o (mul (sin-osc ar (midi-cps (add3 r k n)) 0) 0.1))
                      (t (lf-pulse ar (midi-cps (mce2 48 55)) 0.15 0.5))
@@ -16,4 +15,11 @@
          (n (mul (lf-noise1 kr (mce2 3 3.05)) 0.04)))
     (mul (add (c n 48) (c n 72)) 0.25)))
 
-(audition (out 0 modal-space))
+(define modal-space
+  (lambda (fd)
+    (begin
+      (async fd (b-alloc 0 7 1))
+      (send fd (b-setn1 0 0 (list 0 2 3.2 5 7 9 10)))
+      (play fd (out 0 modal-space-i)))))
+
+(with-sc3 modal-space)

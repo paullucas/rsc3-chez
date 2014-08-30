@@ -1,7 +1,5 @@
 ;; lots-o-sines (jmcc) #2
 
-(import (rhs) (rsc3) (rsc3 lang))
-
 (define lots-o-sines
   (let* ((n 60)
          (z (klang-data (replicate-m n (lin-rand 40 10040 0))

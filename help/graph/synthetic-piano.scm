@@ -1,7 +1,5 @@
 ;; synthetic piano (jmcc) #3
 
-(import (rnrs) (rsc3))
-
 (define sp
   (lambda (_)
     (let* ((n (i-rand 36 90))
@@ -18,4 +16,4 @@
            (l (sub (fdiv (sub n 36) 27) 1)))
       (pan2 (mix-fill 3 c) l 1))))
 
-(audition (out 0 (mix-fill 6 sp)))
+(hear (mix-fill 6 sp))

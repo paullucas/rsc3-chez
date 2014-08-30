@@ -1,9 +1,5 @@
 ;; reso-pulse (jmcc) #1
 
-(import (rsc3) (rsc3 lang))
-
-(define rand2 (lambda (n) (rand (neg n) n)))
-
 (define reso-pulse
   (let* ((f (midi-cps (l-choose (list 25 30 34 37 41 42 46 49 53 54 58 61 63 66))))
          (f* (mul-add 2 f (rand2 0.5))))

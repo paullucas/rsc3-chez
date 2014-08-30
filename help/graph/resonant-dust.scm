@@ -1,7 +1,5 @@
 ;; resonant dust (jmcc) #2
 
-(import (rsc3) (rsc3 lang))
-
 (define resonant-dust
   (let* ((rf (let* ((st (rand 80 2080))
                     (en (add st (mul (rand -0.5 0.5) st))))

@@ -1,7 +1,5 @@
 ;; pond life (jmcc) #1
 
-(import (rsc3) (rsc3 lang))
-
 (define pond-life
   (let* ((f0 (add 20 (rand 0 30)))
          (f1 (mul-add (f-sin-osc kr f0 0) (rand 100 400) (lin-rand 500 2500 0)))

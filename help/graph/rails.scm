@@ -1,9 +1,5 @@
 ;; rails (jmcc) #2
 
-(import (rhs) (rsc3) (rsc3 lang))
-
-(define rand2 (lambda (n) (rand (neg n) n)))
-
 (define rails
   (let* ((n 20) ; resonant modes
          (e (mul (dust ar 100) 0.04)) ; excitation

@@ -1,7 +1,5 @@
 ;; clustered sines (jmcc) #2
 
-(import (rhs) (rsc3) (rsc3 lang))
-
 (define clustered-sines
   (let* ((n 80)
          (f1 (rand 100 1100))

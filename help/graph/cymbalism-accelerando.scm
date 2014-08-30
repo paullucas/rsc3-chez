@@ -1,7 +1,5 @@
 ;; cymbalism accelerando (jmcc) #2
 
-(import (rnrs) (rsc3) (rsc3 lang) (rhs))
-
 (define cymbalism-accelerando
   (let* ((p 15)
          (f1 (rand 500 2500))

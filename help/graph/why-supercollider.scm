@@ -10,4 +10,4 @@
         (x ((foldl1 compose (replicate 4 f)) y)))
     (add s (mul x 0.2))))
 
-(audition (out 0 why-supercollider?))
+(hear why-supercollider?)

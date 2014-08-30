@@ -1,11 +1,7 @@
 ;; uplink (jmcc) #2
 
-(import (rsc3) (rsc3 lang))
-
-(define randz (lambda (n) (rand 0 n)))
-
 (define uplink
-  (let* ((r randz)
+  (let* ((r (lambda (n) (rand 0 n)))
          (p0 (lf-pulse kr (r 20) 0 (r 1)))
          (p1 (mul-add (lf-pulse kr (r 4) 0 (r 1)) (r 8000) (r 2000)))
          (f (mix (clone 2 (mul p0 p1)))))

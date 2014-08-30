@@ -1,7 +1,5 @@
 ;; analog bubbles {mouse} (jmcc) #1
 
-(import (rnrs) (rsc3))
-
 (define analog-bubbles
   (let* ((y (mouse-y kr 0.1 10 exponential 0.2))
          (x (mouse-x kr 2 40 exponential 0.2))
@@ -10,4 +8,4 @@
          (s (mul (sin-osc ar (midi-cps f) 0) 0.04)))
     (comb-n s 0.2 0.2 4)))
 
-(audition (out 0 analog-bubbles))
+(hear analog-bubbles)

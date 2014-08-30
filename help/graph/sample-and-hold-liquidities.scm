@@ -1,7 +1,5 @@
 ;; sample and hold liquidities (jmcc) #2
 
-(import (rnrs) (rsc3))
-
 (define sample-and-hold-liquidities
   (let* ((r (mouse-x kr 1 200 1 0.1))
          (t (recip r))
@@ -13,4 +11,4 @@
          (i (pan2 (mul (sin-osc ar f 0) e) p 1)))
     (comb-n i 0.3 0.3 2)))
 
-(audition (out 0 sample-and-hold-liquidities))
+(hear sample-and-hold-liquidities)

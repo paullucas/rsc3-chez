@@ -1,7 +1,5 @@
 ;; alien meadow (jmcc) #6
 
-(import (rsc3) (rsc3 lang))
-
 (define alien-meadow
   (let* ((a (rand 0 20))
          (b (rand 0 5000))

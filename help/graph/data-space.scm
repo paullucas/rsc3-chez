@@ -1,7 +1,5 @@
 ;; data space (jmcc) #2
 
-(import (rsc3) (rsc3 lang))
-
 (define data-space
   (let* ((r (lambda (n) (rand 0 n)))
          (lp (lambda (f m a) (mul-add (lf-pulse kr (r f) 0 (r 1)) m a)))

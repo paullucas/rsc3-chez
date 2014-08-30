@@ -1,7 +1,5 @@
 ;; tremulate (jmcc) #1
 
-(import (rsc3) (rsc3 lang))
-
 (define tremulate
   (let* ((f (rand 500 900))
          (o (f-sin-osc ar (mul f (make-mce '(1 1.2 1.5 1.8))) 0))

@@ -1,7 +1,5 @@
 ;; police state (jmcc) #2
 
-(import (rnrs) (rsc3))
-
 (define node
   (lambda (_)
     (let* ((r0 (rand 0.02 0.1))
@@ -21,4 +19,4 @@
          (e (mul n1 (mul-add n2 0.15 0.18))))
     (comb-l (add (mix-fill 4 node) e) 0.3 0.3 3)))
 
-(audition (out 0 police-state))
+(hear police-state)

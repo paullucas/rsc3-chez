@@ -1,7 +1,5 @@
 ;; random sine waves (jmcc) #1
 
-(import (rsc3) (rsc3 lang))
-
 (define random-sine-waves
   (pan2 (f-sin-osc ar (rand 0 2000) 0) (rand -1 1) 0.02))
 

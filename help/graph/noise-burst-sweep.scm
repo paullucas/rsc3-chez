@@ -1,7 +1,5 @@
 ;; noise burst sweep (jmcc) #6
 
-(import (rnrs) (rsc3))
-
 (define noise-burst-sweep
   (let* ((n (clone 2 (white-noise ar)))
          (lfo-rate (mouse-x kr 10 60 1 0.2))
@@ -10,4 +8,4 @@
          (freq (mul-add (sin-osc kr 0.2 0) cfreq (mul 1.05 cfreq))))
     (resonz (mul n amp) freq 0.1)))
 
-(audition (out 0 noise-burst-sweep))
+(hear noise-burst-sweep)

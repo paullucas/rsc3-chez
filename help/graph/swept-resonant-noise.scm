@@ -1,7 +1,5 @@
 ;; swept resonant noise (jmcc) #2
 
-(import (rsc3) (rsc3 lang) (rhs))
-
 (define srn
   (let* ((p 10)
          (n (mul (white-noise ar) 0.007))

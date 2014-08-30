@@ -1,7 +1,5 @@
 ;; hell is busy (jmcc) #1
 
-(import (rsc3) (rsc3 lang))
-
 (define hell-is-busy
   (let ((o (f-sin-osc ar (add 400 (rand 0 2000)) 0))
         (a (mul (lf-pulse kr (add 1 (rand 0 10.0)) 0 (rand 0 0.7)) 0.04)))

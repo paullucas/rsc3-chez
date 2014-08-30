@@ -1,9 +1,5 @@
 ;; resonators harmonic series (jmcc) #2
 
-(import (rhs) (rsc3) (rsc3 lang))
-
-(define rand2 (lambda (n) (rand (neg n) n)))
-
 (define resonators-harmonic-series
   (let* ((p 12)
          (noise (mul (brown-noise ar) 0.001))

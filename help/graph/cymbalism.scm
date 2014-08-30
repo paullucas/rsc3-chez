@@ -1,7 +1,5 @@
 ;; cymbalism (jmcc) #2
 
-(import (rnrs) (rsc3) (rsc3 lang) (rhs))
-
 (define cymbalism
   (let* ((p 15)
          (f1 (rand 500 2500))

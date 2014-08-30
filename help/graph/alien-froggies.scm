@@ -1,7 +1,5 @@
 ;; alien froggies (jmcc) #1
 
-(import (rsc3) (rsc3 lang))
-
 (define alien-froggies
   (lambda (r)
     (let* ((r* (fold (mul r (u:exp (lin-rand -0.2 0.2 0))) 1 30))

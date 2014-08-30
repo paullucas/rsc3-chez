@@ -1,7 +1,5 @@
 ;; pulsing bottles (jmcc) #2
 
-(import (rnrs) (rsc3))
-
 (define u
   (lambda (_)
     (let* ((n (white-noise ar))
@@ -14,7 +12,6 @@
            (s (sin-osc kr f p)))
       (pan2 r s 1))))
 
-(define pulsing-bottles
-  (mix-fill 6 u))
+(define pulsing-bottles (mix-fill 6 u))
 
-(audition (out 0 pulsing-bottles))
+(hear pulsing-bottles)

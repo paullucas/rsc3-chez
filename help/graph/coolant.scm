@@ -1,7 +1,5 @@
 ;; coolant (jmcc) #2
 
-(import (rnrs) (rsc3) (rsc3 lang) (rhs))
-
 (define coolant
   (let* ((p 10)
          (n (replicate p 1))

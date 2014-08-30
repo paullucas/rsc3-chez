@@ -1,7 +1,5 @@
 ;; reverberated sine percussion (jmcc) #3
 
-(import (rnrs) (rsc3) (rhs))
-
 (define rallpass
   (lambda (i)
     (allpass-n i 0.050 (clone 3 (rand 0 0.05)) 1)))
@@ -30,4 +28,4 @@
          (x ((chain-of a rallpass) y)))
     (add s (mul 0.2 x))))
 
-(audition (out 0 reverberated-sine-percussion))
+(hear reverberated-sine-percussion)

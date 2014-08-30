@@ -1,7 +1,5 @@
 ;; harmonic swimming (jmcc) #1
 
-(import (rnrs) (rsc3))
-
 (define harmonic-swimming
   (let* ((a 0.02)
          (f 50)
@@ -15,5 +13,4 @@
                 (mul (f-sin-osc ar (* f (+ h 1)) 0) e)))))
     (mix-fill p o)))
 
-(audition (out 0 harmonic-swimming))
-
+(hear harmonic-swimming)

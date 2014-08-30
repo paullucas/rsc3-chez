@@ -1,7 +1,5 @@
 ;; strummable guitar (jmcc) #11
 
-(import (rnrs) (rsc3))
-
 (define strummable-guitar
   (let* ((scale (list 52 57 62 67 71 76))
          (str (lambda (i)
@@ -15,4 +13,4 @@
          (strs (mix-fill (length scale) str)))
     (leak-dc (lpf strs 12000) 0.995)))
 
-(audition (out 0 strummable-guitar))
+(hear strummable-guitar)

@@ -1,7 +1,5 @@
 ;; blips 001 (jmcc) #SC3d1.5
 
-(import (rhs) (rsc3) (rsc3 lang))
-
 (define blips-001
   (let* ((c (coin 0.8))
          (b (lambda ()

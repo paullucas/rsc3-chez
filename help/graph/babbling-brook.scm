@@ -1,7 +1,5 @@
 ;; babbling brook (jmcc) #SC3
 
-(import (rnrs) (rsc3))
-
 (define babbling-brook
   (let* ((b (lambda (f m a g)
               (let* ((n1 (brown-noise ar))
@@ -12,4 +10,4 @@
          (y (clone 2 (b 20 800 1000 0.040))))
     (add x y)))
 
-(audition (out 0 babbling-brook))
+(hear babbling-brook)
