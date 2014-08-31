@@ -4,7 +4,7 @@
   (lambda (_)
     (let* ((n (i-rand 36 90))
            (f (rand 0.1 0.5))
-           (ph (rand 0 (mul pi 2)))
+           (ph (rand 0 1))
            (s (mul (impulse ar f ph) 0.1))
            (e (decay2 s 0.008 0.04))
            (c
