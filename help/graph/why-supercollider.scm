@@ -1,4 +1,4 @@
-; why supercollider (jmcc)
+; why supercollider (jmcc) #0
 
 (define why-supercollider?
   (let ((r (resonz (mul (dust ar 0.2) 50) (rand 200 3200) 0.003))
