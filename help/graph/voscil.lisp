@@ -1,7 +1,5 @@
 ;; voscil (rd)
 
-(import (rnrs) (rhs) (sosc) (rsc3))
-
 (define voscil
   (lambda (b)
     (let* ((hb (/ (- b 1) 2))
@@ -23,11 +21,13 @@
       (b 32))
   (with-sc3
    (lambda (fd)
-     (for-each
-      (lambda (i)
-        (async fd (b-alloc i n 1))
-        (replicate-m
-         (i-random 2 512)
-         (send fd (b-set1 i (i-random 0 n) (random -1 1)))))
-      (enum-from-to 0 (- b 1)))
-     (play fd (out 0 (voscil b))))))
+     (begin
+       (for-each
+        (lambda (i)
+          (begin
+            (async fd (b-alloc i n 1))
+            (replicate-m
+             (i-random 2 512)
+             (send fd (b-set1 i (i-random 0 n) (random -1 1))))))
+        (enum-from-to 0 (- b 1)))
+       (play fd (out 0 (voscil b)))))))

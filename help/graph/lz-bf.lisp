@@ -1,7 +1,5 @@
 ;; lz-bf (rd)
 
-(import (rnrs) (rsc3))
-
 (define lz-bf-i
   (let* ((x (mouse-x kr 1 12 0 0.1))
          (l (lorenz-l ar
@@ -21,7 +19,8 @@
 (define lz-bf
    (lambda (fn)
      (lambda (fd)
-       (async fd (b-alloc-read 0 fn 0 0))
-       (play fd (out 0 lz-bf-i)))))
+       (begin
+         (async fd (b-alloc-read 0 fn 0 0))
+         (play fd (out 0 lz-bf-i))))))
 
 (with-sc3 (lz-bf "/home/rohan/data/audio/pf-c5.aif"))

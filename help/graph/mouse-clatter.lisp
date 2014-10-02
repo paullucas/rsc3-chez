@@ -1,7 +1,5 @@
 ;; mouse clatter (rd)
 
-(import (rnrs) (rsc3))
-
 (define mouse-clatter
   (let* ((x (mouse-x kr 100 12000 0 0.1))
          (y (mouse-y kr 0.01 0.15 0 0.1))
@@ -19,5 +17,6 @@
 
 (with-sc3
  (lambda (fd)
-   (async fd (b-alloc 10 2048 1))
-   (play fd (out 0 mouse-clatter))))
+   (begin
+     (async fd (b-alloc 10 2048 1))
+     (play fd (out 0 mouse-clatter)))))

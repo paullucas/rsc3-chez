@@ -1,7 +1,5 @@
 ;; fwalk (rd)
 
-(import (rnrs) (sosc) (rsc3) (rhs))
-
 (define fwalk-i
   (lambda (r)
     (let* ((t (dust kr 3))
@@ -24,9 +22,9 @@
          (a (map (lambda (b) (b-alloc b 20 1)) (list 0 1)))
          (s (zip-with (lambda (b d) (b-setn1 b 0 d)) (list 0 1) (list n m))))
     (lambda (fd)
-      (for-each (lambda (m) (async fd m)) a)
-      (for-each (lambda (m) (send fd m)) s)
-      (play fd (out 0 (add (fwalk-i 24) (fwalk-i 36)))))))
+      (begin
+        (for-each (lambda (m) (async fd m)) a)
+        (for-each (lambda (m) (send fd m)) s)
+        (play fd (out 0 (add (fwalk-i 24) (fwalk-i 36))))))))
 
 (with-sc3 fwalk)
-

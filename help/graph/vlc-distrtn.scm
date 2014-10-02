@@ -123,21 +123,23 @@
 
 (define pattern
   (lambda (fd)
-    (send fd (n-set1 1002 "freq" (vlc-get-cps (list 24 36 48 60))))
-    (send fd (n-set1 1002 "iamp" (random 0.5 0.75)))
-    (thread-sleep (choose (list 0.5 0.75 1.5 3.0)))
-    (pattern fd)))
+    (begin
+      (send fd (n-set1 1002 "freq" (vlc-get-cps (list 24 36 48 60))))
+      (send fd (n-set1 1002 "iamp" (random 0.5 0.75)))
+      (thread-sleep (choose (list 0.5 0.75 1.5 3.0)))
+      (pattern fd))))
 
 (with-sc3
  (lambda (fd)
-   (async fd (b-alloc 0 (* (length vlc) 2) 1))
-   (send fd (b-setn1 0 0 (flatten (map prep vlc))))
-   (send-synth fd "vlc-plyr48" (vlc-plyr 48))
-   (send fd (s-new "vlc-plyr48" 1002 add-to-tail 1
-                   (list "buf" 0
-                         "loc" (random -1 1)
-                         "ampl" (random 0.05 0.1)
-                         "freq" (vlc-get-cps (list 48 55 60))
-                         "detune" (random 0.001 0.005)
-                         "fall" (random 1 7))))
-   (pattern fd)))
+   (begin
+     (async fd (b-alloc 0 (* (length vlc) 2) 1))
+     (send fd (b-setn1 0 0 (flatten (map prep vlc))))
+     (send-synth fd "vlc-plyr48" (vlc-plyr 48))
+     (send fd (s-new "vlc-plyr48" 1002 add-to-tail 1
+                     (list "buf" 0
+                           "loc" (random -1 1)
+                           "ampl" (random 0.05 0.1)
+                           "freq" (vlc-get-cps (list 48 55 60))
+                           "detune" (random 0.001 0.005)
+                           "fall" (random 1 7))))
+     (pattern fd))))

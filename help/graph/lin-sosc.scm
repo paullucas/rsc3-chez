@@ -45,6 +45,8 @@
   (lambda (b c)
     (play-buf 1 ar b (mul (in 1 kr c) (buf-rate-scale kr b)) 0 0 1 do-nothing)))
 
+
+;; (with-sc3 (lambda (fd) (settr fd 1024)))
 (define settr
   (lambda (fd n)
     (let* ((freq
@@ -70,12 +72,13 @@
                   (map tan (mk-line n 0.0 two-pi)))))
            (f (choose freq))
            (a (choose ampl)))
-      (send fd (b-setn1 0 0 f))
-      (send fd (b-setn1 1 0 a))
-      (send fd (c-set1 0 (choose (list 0.005 0.0075 0.01 0.025 0.05 0.075
-                                       0.1 0.25 0.5 0.75
-                                       0.8 0.85 1.0 1.005))))
-      (choose (list 0.01 0.05 0.1 0.15 0.25 0.5 0.75)))))
+      (begin
+        (send fd (b-setn1 0 0 f))
+        (send fd (b-setn1 1 0 a))
+        (send fd (c-set1 0 (choose (list 0.005 0.0075 0.01 0.025 0.05 0.075
+                                         0.1 0.25 0.5 0.75
+                                         0.8 0.85 1.0 1.005))))
+        (choose (list 0.01 0.05 0.1 0.15 0.25 0.5 0.75))))))
 
 (define lsi
   (clip2 (pan2 (mul (sin-osc ar (tbl-m 0) 0)
@@ -84,16 +87,20 @@
                0.025)
          0.25))
 
+(define pattern
+  (lambda (fd n)
+    (begin
+      (thread-sleep (settr fd n))
+      (pattern fd n))))
+
 (define lin-sosc
   (lambda (n)
     (lambda (fd)
-      (async fd (b-alloc 0 n 1))
-      (async fd (b-alloc 1 n 1))
-      (play fd (out 0 lsi))
-      (letrec ((pattern
-                (lambda (fd)
-                  (thread-sleep (settr fd n))
-                  (pattern fd))))
-        (pattern fd)))))
+      (begin
+        (async fd (b-alloc 0 n 1))
+        (async fd (b-alloc 1 n 1))
+        (play fd (out 0 lsi))
+        (settr fd n)
+        (pattern fd n)))))
 
 (with-sc3 (lin-sosc 1024))

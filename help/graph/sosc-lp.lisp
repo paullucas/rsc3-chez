@@ -1,6 +1,6 @@
 ;; sosc-lp (rd)
 
-;; (audition (out 0 (dust-r* ar 0.1 1)))
+;; (hear (dust-r* ar 0.1 1))
 (define dust-r*
   (lambda (r lo hi)
     (let ((d (dseq dinf (make-mce (list (dwhite 1 lo hi))))))
@@ -36,7 +36,7 @@
 
 ;; (alternate nil)
 (define alternate
-  (lambda ()
+  (lambda (_)
     (with-sc3
      (lambda (fd)
        (let ((a (list 71 60 65 89 36 57 95 97 92 97))

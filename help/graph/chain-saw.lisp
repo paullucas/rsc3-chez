@@ -1,7 +1,5 @@
 ;; chain saw (jrhb)
 
-(import (rnrs) (rsc3) (rhs))
-
 ;; SimpleNumber.coin (not UGen/Coin)
 (define coin*
   (lambda (n a b)
@@ -45,4 +43,4 @@
          (b-saw (dup (mix (bpf c-saw b-freq 0.2)))))
     (mul b-saw 0.3)))
 
-(audition (out 0 chain-saw))
+(hear chain-saw)

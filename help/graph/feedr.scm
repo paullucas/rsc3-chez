@@ -37,8 +37,9 @@
     (let* ((dl 6)
            (ff (* dl (server-sample-rate-actual fd)))
            (nc 2))
-      (send fd (b-alloc 10 ff nc))
-      (audition (feedr dl nc (mce* 0 1))))))
+      (begin
+        (send fd (b-alloc 10 ff nc))
+        (audition (feedr dl nc (mce* 0 1)))))))
 
 (with-sc3 run)
 

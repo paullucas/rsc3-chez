@@ -1,7 +1,5 @@
 ;; ccomb (rd)
 
-(import (rnrs) (rsc3))
-
 (define ccomb
   (let* ((rng (lambda (u l r) (lin-lin u -1 1 l r)))
          (lwr 48)
@@ -16,5 +14,5 @@
          (t (dust ar (mce2 0.9 0.8))))
     (mix-fill 7 (lambda (_) (mul (spart t) 0.1)))))
 
-(audition (out 0 ccomb))
+(hear ccomb)
 

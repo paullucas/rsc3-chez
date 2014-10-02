@@ -11,8 +11,8 @@
       (mul (sin-osc ar (mce2 f f*) 0)
            (mul a (clone 2 (rand 0.95 1.05)))))))
 
-;; (audition (out 0 (prts 2 900 0.002)))
-;; (audition (out 0 (prts 9 40 0.006)))
+;; (hear (prts 2 900 0.002))
+;; (hear (prts 9 40 0.006))
 (define prts
   (lambda (n f a)
     (mix

@@ -1,7 +1,5 @@
 ;; bottle (sc)
 
-(import (rnrs) (rsc3) (rhs))
-
 (define bottle
   (let* ((freq (rand 220 880))
          (perc (env-perc 0.1 0.6 1 (list -4 -4)))

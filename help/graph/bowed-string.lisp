@@ -1,7 +1,5 @@
 ;; bowed string (jmcc)
 
-(import (rnrs) (rsc3) (rhs))
-
 (define series
   (lambda (f n x i)
     (if (= n 0)

@@ -1,7 +1,5 @@
 ;; nharm (rd)
 
-(import (rnrs) (rsc3) (rhs))
-
 (define nharm
   (lambda (n f)
     (if (<= n 0)
@@ -23,9 +21,10 @@
 
 (define pattern
   (lambda (fd)
-    (play fd (out 0 (klg (random 32 92)
-                         (i-random 9 24))))
-    (thread-sleep (random 0.25 0.75))
-    (pattern fd)))
+    (begin
+      (play fd (out 0 (klg (random 32 92)
+                           (i-random 9 24))))
+      (thread-sleep (random 0.25 0.75))
+      (pattern fd))))
 
 (with-sc3 pattern)

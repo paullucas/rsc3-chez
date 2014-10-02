@@ -1,7 +1,5 @@
 ;; scritto (rd)
 
-(import (rnrs) (sosc) (rsc3))
-
 (define putnam
   '((sA  ((800 1150 2900 3900 4950) (0 -6  -32 -20 -50) (80 90  120 130 140)))
     (sE  ((350 2000 2800 3600 4950) (0 -20 -15 -40 -56) (60 100 120 150 200)))
@@ -52,19 +50,19 @@
 		      12.0)))
 	   (x (mouse-x kr 0 1 0 0.1))
 	   (y (mouse-y kr 0 1 0 0.1)))
-      (mrg2 (send-trig t 0 n)
-	    (out 0 (clip2
-		    (mce2 (voice-tr (i 1)
-				    t
-				    (mul x 1.05)
-				    (mul x 1.25)
-				    (mul x 0.05))
-			  (voice-tr (i 2)
-				    t
-				    (mul y 0.05)
-				    (mul y 0.75)
-				    (mul y 1.00)))
-		    1))))))
+      (mrg2 (clip2
+             (mce2 (voice-tr (i 1)
+                             t
+                             (mul x 1.05)
+                             (mul x 1.25)
+                             (mul x 0.05))
+                   (voice-tr (i 2)
+                             t
+                             (mul y 0.05)
+                             (mul y 0.75)
+                             (mul y 1.00)))
+             1)
+            (send-trig t 0 n)))))
 
 (define updater
   (lambda (fd)
@@ -73,10 +71,11 @@
 	   (freq (list-ref data 0))
 	   (ampl (list-ref data 1))
 	   (bw (list-ref data 2)))
-      (send fd (c-setn1 0 freq))
-      (send fd (c-setn1 5 ampl))
-      (send fd (c-setn1 10 bw)))))
+      (begin
+        (send fd (c-setn1 0 freq))
+        (send fd (c-setn1 5 ampl))
+        (send fd (c-setn1 10 bw))))))
 
-(audition (scritto (mouse-x kr 0.0125 0.35 0 0.1)))
+(hear (scritto (mouse-x kr 0.0125 0.35 0 0.1)))
 
-(with-sc3 updater)
+;; (with-sc3 updater)

@@ -1,7 +1,5 @@
 ;; karplus strong (alex mclean)
 
-(import (rnrs) (sosc) (rsc3))
-
 (define a-a
   (list "a-a"
         (list 800 1150 2800 3500 4950)
@@ -16,9 +14,10 @@
 
 (define cs
   (lambda (l)
-    (append (list-ref l 1)
-            (list-ref l 2)
-            (list-ref l 3))))
+    (concat
+     (list (list-ref l 1)
+           (list-ref l 2)
+           (list-ref l 3)))))
 
 (define vf
   (lambda (i s)
@@ -55,10 +54,11 @@
 
 (define karplus-strong
   (lambda (fd)
-    (send fd (c-setn1 0 (cs a-a)))
-    (send fd (c-setn1 15 (cs a-u)))
-    (let ((n (white-noise ar))
-          (d (dust kr 4)))
-      (play fd (ks n d)))))
+    (begin
+      (send fd (c-setn1 0 (cs a-a)))
+      (send fd (c-setn1 15 (cs a-u)))
+      (let ((n (white-noise ar))
+            (d (dust kr 4)))
+        (play fd (ks n d))))))
 
 (with-sc3 karplus-strong)
