@@ -4,8 +4,8 @@
 
 (define drone-1
   (let ((f0 (midi-cps (+ (l-choose (list 24 36)) (rand2 8.0e-2))))
-        (f1 (* (* (lf-saw ar (mce2 f0 (+ f0 0.2)) 0) (lf-noise2 kr (* f0 (mce2 0.05 0.04)))) 0.06)))
-    (lpf f1 (rand 1000 3000))))
+        (f1 (* (lf-saw ar (mce2 f0 (+ f0 0.2)) 0) (lf-noise2 kr (* f0 (mce2 0.05 0.04))))))
+    (lpf (*  0.06 f1) (rand 1000 3000))))
 
 (define drone-1-txt (overlap-texture-u (list 4 4 8 inf) drone-1))
 
@@ -28,7 +28,7 @@
 
 (define rhy-txt (overlap-texture-u (list 6 6 6 inf) rhy))
 
-; HSC3-LISP DOES NOT YET FORK
-;(with-sc3 drone-1-txt)
-;(with-sc3 drone-2-txt)
-(with-sc3* (list (post-process-u 2 pp) rhy-txt))
+(begin
+  (fork (with-sc3 drone-1-txt))
+  (fork (with-sc3 drone-2-txt))
+  (fork (with-sc3* (list (post-process-u 2 pp) rhy-txt))))
