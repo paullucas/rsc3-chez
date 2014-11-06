@@ -5,11 +5,21 @@ rsc3 supercollider client
 
 [rsc3][rsc3] is a an [r6rs][r6rs] ([ikarus][ikarus], [plt][plt])
 scheme module for working with the [supercollider][sc3] synthesis
-server.  the rsc3 interaction environment is written for gnu
+server.  the rsc3 interaction environment
+([rsc3.el](?t=rsc3&e=emacs/rsc3.el)) is written for gnu
 [emacs][emacs].
 
 for installation and configuration please consult the
 [tutorial][rsc3-t] at [rsc3-texts][rsc3-texts].
+
+there are a number of related projects:
+
+- [rsc3-arf](?t=rsc3-arf): alternate rate flow for ugen graphs
+- [rsc3-dot](?t=rsc3-dot): ugen graph drawing
+- [rsc3-disassembler](?t=rsc3-disassembler): synth graph disassembler
+- [rsc3-lang](?t=rsc3-lang): supercollider language variants
+- [rsc3-midi](?t=rsc3-midi): musical instrument digital interface
+- [rsc3-sdif](?t=rsc3-sdif): sound description interchange format
 
 there is a small set of example [graphs](?t=rsc3&e=md/graphs.md).
 
