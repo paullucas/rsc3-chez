@@ -192,8 +192,6 @@
 
 (define rand* rand-)
 
-(define rand2 (lambda (n) (rand (neg n) n)))
-
 ; the cardinality input is derived from the values input...
 (define set-buf*
   (lambda (buf offset values)
