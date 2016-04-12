@@ -1,17 +1,17 @@
 (define drum
   (lambda (a)
-    (let ((n (* (white-noise ar) 70))
+    (let ((n (mul (white-noise ar) 70))
           (e (decay2 a 0.002 0.1)))
-      (* (distort (* (resonz (* n e) (midi-cps 60) 0.02) 4)) 0.4))))
+      (mul (distort (mul (resonz (mul n e) (midi-cps 60) 0.02) 4)) 0.4))))
 
 (define drone
   (let ((s1 (saw ar (midi-cps (mce2 60 60.04))))
         (s2 (saw ar (midi-cps (mce2 67 67.04)))))
-    (* (lpf (+ s1 s2) (midi-cps 108)) 0.007)))
+    (mul (lpf (add s1 s2) (midi-cps 108)) 0.007)))
 
-(define lseq (lambda (l n) (dseq n (mce l))))
+(define lseq (lambda (l n) (dseq n (make-mce l))))
 
-(define lrand (lambda (l n) (drand n (mce (map (flip lseq 1) l)))))
+(define lrand (lambda (l n) (drand n (make-mce (map (lambda (x) (lseq x 1)) l)))))
 
 (define a-solo
   (lrand
@@ -43,6 +43,8 @@
    (lseq (list 2.0 0.0 0.2 0.5 0.0 0.2 0.9 1.5 0.0 0.2 0.5 0.0 0.2 0.9 1.5 0.0 0.2 0.5 0.0 0.2) 3)
    (lseq (list 5.0) 1)))
 
-(define mridangam (+ (drum (t-duty ar (/ 1 8) 0 do-nothing (dseq 1 (mce a-seq)) 0)) drone))
+(define mridangam
+  (add (drum (t-duty ar (fdiv 1 8) 0 do-nothing (dseq 1 (make-mce a-seq)) 0))
+       drone))
 
 (audition (out 0 mridangam))

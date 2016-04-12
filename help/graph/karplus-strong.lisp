@@ -32,7 +32,7 @@
 
 (define prob-switch
   (lambda (n0 i prob)
-    (ugen-if (gt n0 prob) i (neg i))))
+    (ugen-if (u:gt n0 prob) i (neg i))))
 
 (define ks
   (lambda (n d)

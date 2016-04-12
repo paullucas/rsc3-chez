@@ -4,7 +4,7 @@
 
 (let* ((default-pitch
 	 (lambda (i)
-	   (pitch i 440 60 4000 100 16 1 0.01 0.5 1)))
+	   (pitch i 440 60 4000 100 16 1 0.01 0.5 1 0)))
        (i (sound-in 4))
        (p (default-pitch i))
        (f (mce-channel p 0)))

@@ -27,7 +27,7 @@
 
 (with-sc3
  (lambda (fd)
-   (let ((nf (mul 2 48000))
+   (let ((nf (* 2 48000))
          (c 24))
      (begin
        (async fd (b-alloc 10 (* nf 2) 1))

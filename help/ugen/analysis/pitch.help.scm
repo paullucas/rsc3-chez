@@ -1,5 +1,5 @@
 ;; (pitch in initFreq minFreq maxFreq execFreq maxBinsPerOctave
-;;        median ampThreshold peakThreshold downSample)
+;;        median ampThreshold peakThreshold downSample clar)
 
 ;; Autocorrelation pitch follower
 
@@ -19,9 +19,9 @@
 ;; peakThreshold = 0.5, downSample = 1.
 
 (define (pitch* in median ampThreshold)
-  (pitch in 444.0 60.0 4000.0 100.0 16 median ampThreshold 0.5 1))
+  (pitch in 444.0 60.0 4000.0 100.0 16 median ampThreshold 0.5 1 0))
 
-(let* ((in (mul (sin-osc ar (mouse-x kr 220 660 0 0.1) 0) 
+(let* ((in (mul (sin-osc ar (mouse-x kr 220 660 0 0.1) 0)
 		(mouse-y kr 0.05 0.25 0 0.1)))
        (amp (amplitude kr in 0.05 0.05))
        (freq+ (pitch* in 7 0.02))

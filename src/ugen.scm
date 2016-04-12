@@ -1786,7 +1786,7 @@
   (lambda (a b)
     (mk-ugen (list "BinaryOpUGen" (list 0 1) (list a b) nil 1 5 nil))))
 
-(define eq-
+(define u:eq
   (lambda (a b)
     (mk-ugen (list "BinaryOpUGen" (list 0 1) (list a b) nil 1 6 nil))))
 
@@ -1794,11 +1794,11 @@
   (lambda (a b)
     (mk-ugen (list "BinaryOpUGen" (list 0 1) (list a b) nil 1 7 nil))))
 
-(define lt-
+(define u:lt
   (lambda (a b)
     (mk-ugen (list "BinaryOpUGen" (list 0 1) (list a b) nil 1 8 nil))))
 
-(define gt-
+(define u:gt
   (lambda (a b)
     (mk-ugen (list "BinaryOpUGen" (list 0 1) (list a b) nil 1 9 nil))))
 

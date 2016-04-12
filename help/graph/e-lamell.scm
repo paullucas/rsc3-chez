@@ -1,7 +1,5 @@
 ;; e-lamell (rd)
 
-(import (rnrs) (sosc) (rsc3))
-
 (define e-lamell
   (letc ((f 440) (n 12) (d 0.1) (p 0) (a 1.0))
     (let* ((h (line ar n (t-choose 1 (mce2 1 32)) d do-nothing))
@@ -32,13 +30,13 @@
      (bundle
       -1
       (list (s-new "blip" -1 add-to-tail 1
-                   (list "f" (midi-cps (l-sel))
+                   (list "f" (s:midi-cps (l-sel))
                          "n" (i-random 2 36)
                          "d" (exp-random 0.01 0.4)
                          "a" (random 0 0.75)
                          "p" (random -1 1)))
             (s-new "blip" -1 add-to-tail 1
-                   (list "f" (midi-cps (h-sel))
+                   (list "f" (s:midi-cps (h-sel))
                          "n" (i-random 2 36)
                          "d" (exp-random 0.01 0.4)
                          "a" (choose (list 0 0.25 0.5 1.0))

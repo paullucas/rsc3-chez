@@ -10,9 +10,9 @@
               (mix (lf-pulse ar f 0 0.5))))
          (f (list
              (lambda (a)
-               (add3 (mul (eq a 6.0) 0.6)
-                     (mul (eq a 2.0) 0.2)
-                     (mul (eq a 1.0) 0.9)))
+               (add3 (mul (u:eq a 6.0) 0.6)
+                     (mul (u:eq a 2.0) 0.2)
+                     (mul (u:eq a 1.0) 0.9)))
              (lambda (a)
                (add (mul a pulse-env)
                     (mul (mix (lf-pulse ar (make-mce freqs) 0 0.55)) 0.9)))

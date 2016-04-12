@@ -27,8 +27,8 @@
     (send
      fd
      (s-new "fm" -1 1 1
-            (list "freq" (midi-cps f)
-                  "freq2" (+ (midi-cps ff) (random -1 1))
+            (list "freq" (s:midi-cps f)
+                  "freq2" (+ (s:midi-cps ff) (random -1 1))
                   "amp" a
                   "dur" d
                   "index" i)))))
@@ -81,13 +81,13 @@
 (define fm-kltr
   (lambda (fd)
     (send-synth fd "fm" fm-instr)
-    (map1
+    (map
      (lambda (x)
        ((cadr x) fd)
        (thread-sleep (car x)))
      (sort-by
       cmp-f
-      (append2 (map1 (lambda (x) (list x low-f)) low-t)
-               (map1 (lambda (x) (list x high-f)) high-t))))))
+      (append (map (lambda (x) (list x low-f)) low-t)
+	      (map (lambda (x) (list x high-f)) high-t))))))
 
 (with-sc3 fm-kltr)

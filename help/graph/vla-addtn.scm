@@ -119,10 +119,10 @@
 
 (define vla-get-cps
   (lambda (b)
-    (midi-cps (+ (choose b)
-                 (s:degree-to-key (choose (list 0 1 2 3 4 5 6 7 8))
-                                  (list 0 2 3 5 7 8 10)
-                                  12)))))
+    (s:midi-cps (+ (choose b)
+		   (s:degree-to-key (choose (list 0 1 2 3 4 5 6 7 8))
+				    (list 0 2 3 5 7 8 10)
+				    12)))))
 
 (define pattern
   (lambda (fd)

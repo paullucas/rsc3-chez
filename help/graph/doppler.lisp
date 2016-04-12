@@ -12,7 +12,7 @@
 (define ellipse
   (lambda (a b dt)
     (let ((t (line kr (neg two-pi) (mul pi 1.5) dt remove-synth)))
-      (cons (mul a (cos t)) (mul b (sin t))))))
+      (cons (mul a (u:cos t)) (mul b (u:sin t))))))
 
 (define src (rlpf (mul (f-sin-osc ar 200 0) (lf-pulse ar 31.3 0 0.4)) 400 0.3))
 

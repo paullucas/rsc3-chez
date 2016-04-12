@@ -114,3 +114,7 @@
       (+ (* steps (div degree scale-n))
 	 (list-ref scale (exact (mod degree scale-n)))))))
 
+;; (s:l-choose (list 1 3 5 7 9))
+(define s:l-choose
+  (lambda (l)
+    (list-ref l (i-random 0 (length l)))))
