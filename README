@@ -20,8 +20,15 @@ there are a number of related projects:
 - [rsc3-lang](?t=rsc3-lang): supercollider language variants
 - [rsc3-midi](?t=rsc3-midi): musical instrument digital interface
 - [rsc3-sdif](?t=rsc3-sdif): sound description interchange format
+- [hsc3-lisp](?t=hsc3-lisp): a lisp interpeter, sc3 ugens are the only type
 
 there is a small set of example [graphs](?t=rsc3&e=md/graphs.md).
+these mostly are written to also work with `hsc3-lisp`,
+& assume that `~/.rsc3` has:
+
+~~~~
+(import (rhs) (sosc) (rsc3) (rsc3 lang))
+~~~~
 
 [rsc3]: http://rd.slavepianos.org/?t=rsc3
 [r6rs]: http://r6rs.org/
@@ -36,7 +43,7 @@ rsc3 is by [rohan drape][rd] and others.  supercollider is by james
 mccartney.  plt is by matthew flatt and others.  ikarus is by
 abdulaziz ghuloum.  emacs is by richard stallman and others.
 
-© [rohan drape][rd] and others, 1998-2015, [gpl][gpl].
+© [rohan drape][rd] and others, 1998-2016, [gpl][gpl].
 with contributions by:
 
 - henk@henk.ca (plt support)

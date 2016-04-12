@@ -16,8 +16,8 @@
            (f (mul (midi-cps (b-get 0 n))
                    (mul-add m (b-get 4 n) 1))))
       (mix (pan2 (sin-osc ar f 0)
-                        (b-get 2 n)
-                        (b-get 1 n))))))
+		 (b-get 2 n)
+		 (b-get 1 n))))))
 
 (define pattern
   (lambda (fd n)
