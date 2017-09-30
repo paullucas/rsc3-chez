@@ -3,14 +3,16 @@ rsc3
 
 rsc3 supercollider client
 
-[rsc3][rsc3] is a an [r6rs][r6rs] ([ikarus][ikarus], [plt][plt])
-scheme module for working with the [supercollider][sc3] synthesis
-server.  the rsc3 interaction environment
+[rsc3](http://rd.slavepianos.org/?t=rsc3) is a an [r6rs](http://r6rs.org/)
+([ikarus](https://launchpad.net/ikarus/), [plt](http://plt-scheme.org/))
+scheme module for working with the [supercollider](http://audiosynth.com/)
+synthesiser.  the rsc3 interaction environment
 ([rsc3.el](?t=rsc3&e=emacs/rsc3.el)) is written for gnu
-[emacs][emacs].
+[emacs](http://gnu.org/software/emacs/).
 
 for installation and configuration please consult the
-[tutorial][rsc3-t] at [rsc3-texts][rsc3-texts].
+[tutorial](?t=rsc3-texts&e=lss/rsc3-tutorial.lss)
+at [rsc3-texts](?t=rsc3-texts).
 
 there are a number of related projects:
 
@@ -30,25 +32,19 @@ these mostly are written to also work with `hsc3-lisp`,
 (import (rhs) (sosc) (rsc3) (rsc3 lang))
 ~~~~
 
-[rsc3]: http://rd.slavepianos.org/?t=rsc3
-[r6rs]: http://r6rs.org/
-[ikarus]: https://launchpad.net/ikarus/
-[plt]: http://plt-scheme.org/
-[sc3]: http://audiosynth.com/
-[emacs]: http://gnu.org/software/emacs/
-[rsc3-texts]: http://rd.slavepianos.org?t=rsc3-texts
-[rsc3-t]: http://rd.slavepianos.org/ut/rsc3-texts/lss/rsc3-tutorial.html
+rsc3 is by rohan drape and others.
+supercollider is by james mccartney.
+plt is by matthew flatt and others.
+ikarus is by abdulaziz ghuloum.
+emacs is by richard stallman and others.
 
-rsc3 is by [rohan drape][rd] and others.  supercollider is by james
-mccartney.  plt is by matthew flatt and others.  ikarus is by
-abdulaziz ghuloum.  emacs is by richard stallman and others.
-
-© [rohan drape][rd] and others, 1998-2016, [gpl][gpl].
+© [rohan drape](http://rd.slavepianos.org/) and others, 1998-2017,
+[gpl](http://gnu.org/copyleft/).
 with contributions by:
 
 - henk@henk.ca (plt support)
 
-see [darcs][darcs] history for details
+see [darcs](http://darcs.net/) history for details
 
 initial announcement:
 [2004-12-15/sc-users](?t=rsc3&e=md/announce.text)
@@ -57,7 +53,3 @@ initial announcement:
 [[gmane](http://article.gmane.org/gmane.comp.audio.supercollider.user/7336),
  [bham](https://www.listarc.bham.ac.uk/lists/sc-users-2004/msg07890.html)]
 -->
-
-[rd]:  http://rd.slavepianos.org/
-[gpl]: http://gnu.org/copyleft/
-[darcs]: http://darcs.net/
