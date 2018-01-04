@@ -52,9 +52,18 @@
 (defun rsc3-insert-lambda () (interactive) (insert "lambda"))
 (defun rsc3-insert-lambda* () (interactive) (insert "λ"))
 
+(defun rsc3-chunk-string (n s)
+  "Split a string into chunks of 'n' characters."
+  (let* ((l (length s))
+         (m (min l n))
+         (c (substring s 0 m)))
+    (if (<= l n)
+        (list c)
+      (cons c (rsc3-chunk-string n (substring s n))))))
+
 (defun rsc3-send-string (s)
   (if (comint-check-proc rsc3-buffer)
-      (let ((cs (chunk-string 64 (concat s "\n"))))
+      (let ((cs (rsc3-chunk-string 64 (concat s "\n"))))
         (mapcar
          (lambda (c) (comint-send-string rsc3-buffer c))
          cs))

@@ -1191,8 +1191,8 @@
     (mk-ugen (list "QuadN" rt (list freq a b c xi) nil 1 nil nil))))
 
 (define r-delay-map
-  (lambda (rt bufnum input dynamic spec)
-    (mk-ugen (list "RDelayMap" rt (list bufnum input dynamic spec) nil 1 nil nil))))
+  (lambda (bufnum input dynamic spec)
+    (mk-ugen (list "RDelayMap" (list 1) (list bufnum input dynamic) spec 1 nil nil))))
 
 (define r-delay-set
   (lambda (rt input spec)
