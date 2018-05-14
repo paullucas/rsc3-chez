@@ -49,7 +49,20 @@
           u:cos u:tan arc-sin arc-cos arc-tan sin-h cos-h tan-h rand- rand2 lin-rand- bi-lin-rand sum3rand distort soft-clip coin digit-value silence thru rect-window han-window
           welch-window tri-window ramp- s-curve add sub mul i-div f-div u:mod u:eq ne u:lt u:gt le ge u:min u:max bit-and bit-or bit-xor u:lcm u:gcd u:round round-up trunc atan2
           hypot hypotx pow shift-left shift-right unsigned-shift fill ring1 ring2 ring3 ring4 dif-sqr sum-sqr sqr-sum sqr-dif abs-dif thresh am-clip scale-neg clip2 excess fold2
-          wrap2 first-arg rand-range exp-rand-range)
+          wrap2 first-arg rand-range exp-rand-range
+
+          ;; rsc3-lang
+
+          series* series shuffle w-index w-choose normalize-sum p-choose vector-choose pi2 pi32 twopi rtwopi
+          log001 log01 log1 rlog2 sqrt2 rsqrt2 extend-all dt-rescheduler mk-env with-env overlap-texture-iot
+          from-maybe-closure generalised-texture spawn-u overlap-texture overlap-texture-u xfade-texture-iot
+          xfade-texture xfade-texture-u post-process-u random-linear random-inverse-linear random-triangular
+          random-exponential random-bilinear-exponential random-gaussian random-cauchy random-beta random-weibull
+          random-poisson unipolar? range exp-range recv* encode-score au-magic au-unspecified au-mulaw8 au-linear8
+          au-linear16 au-linear24 au-linear32 au-float au-double au-size-of au-mk-hdr au-f32 au-f64 write-snd-file
+          spec make-spec spec? spec-minima spec-maxima spec-warp spec-range spec-ratio make-spec* r:clip spec-map
+          spec-unmap symbol->spec splice warp-fwd? warp-linear warp-linear-integer warp-exponential warp-make-warp-curve
+          warp-cosine warp-sine warp-fader warp-db-fader symbol->warp number->warp segment wavetable->signal signal->wavetable)
 
   (import (rnrs)
           (rhs)
@@ -5601,4 +5614,381 @@
 
   ;; (s:l-choose (list 1 3 5 7 9))
   (define (s:l-choose l)
-    (list-ref l (i-random 0 (length l)))))
+    (list-ref l (i-random 0 (length l))))
+
+
+  ;; 
+  ;; rsc3-lang
+  ;;
+
+  (define (series* plus)
+    (letrec ((f (lambda (n i j)
+                  (if (equal? n 0) (list)
+                      (cons i (f (- n 1) (plus i j) j))))))
+      f))
+
+  (define series (series* +))
+  
+  (define (shuffle l)
+    (let ((q (map (lambda (e) (cons (random 0 1) e)) l))
+          (c (lambda (a b) (compare (car a) (car b)))))
+      (map cdr (sort-by c q))))
+  
+  (define (w-index w n)
+    (find-index (lambda (e) (< n e))
+                (integrate w)))
+  
+  (define (w-choose l w)
+    (list-ref l (w-index w (random 0 1))))
+  
+  (define (normalize-sum l)
+    (let ((n (foldl1 + l))) (map (lambda (e) (/ e n)) l)))
+  
+  (define (p-choose l p)
+    (w-choose l (normalize-sum p)))
+  
+  (define (vector-choose v)
+    (vector-ref v (i-random 0 (vector-length v))))
+  
+  (define pi2 (/ pi 2))
+  (define pi32 (* pi 1.5))
+  (define twopi (* pi 2))
+  (define rtwopi (/ 1 twopi))
+  (define log001 (log 0.001))
+  (define log01 (log 0.01))
+  (define log1 (log 0.1))
+  (define rlog2 (/ 1.0 (log 2.0)))
+  (define sqrt2 (sqrt 2.0))
+  (define rsqrt2 (/ 1.0 sqrt2))
+  
+  (define (extend-all l)
+    (let* ((f (lambda (x) (length x)))
+           (n (maximum (map f l))))
+      (map (lambda (e) (extend e n)) l)))
+
+  (define (dt-rescheduler f t)
+    (begin (pause-thread-until t)
+           (let ((r (f t)))
+             (when (number? r)
+               (dt-rescheduler f (+ t r))))))
+  
+  (define (mk-env s t)
+    (let* ((c 4) (p (env-linen t s t 1 (list c c c))))
+      (env-gen kr 1 1 0 1 remove-synth p)))
+  
+  (define (with-env g s t)
+    (out 0 (mul g (mk-env s t))))
+  
+  (define (overlap-texture-iot s t o)
+    (/ (+ (* t 2) s) o))
+  
+  (define (from-maybe-closure x)
+    (if (procedure? x) (x) x))
+
+  (define (generalised-texture s t iot n u)
+    (lambda (fd)
+      (let ((f (lambda (_)
+                 (if (> n 0)
+                     (begin (set! n (- n 1))
+                            (let* ((u* (from-maybe-closure u))
+                                   (u** (if (not s)
+                                            (out 0 u*)
+                                            (with-env u* s t))))
+                              (play-at fd u** -1 add-to-head 1))
+                            (from-maybe-closure iot)) #f))))
+        (dt-rescheduler f (utcr)))))
+  
+  (define (spawn-u k u)
+    (let* ((iot (list-ref k 0)) (n (list-ref k 1))) (generalised-texture #f #f iot n u)))
+
+  (define (overlap-texture k u)
+    (let* ((s (list-ref k 0))
+           (t (list-ref k 1))
+           (o (list-ref k 2))
+           (n (list-ref k 3))
+           (iot (overlap-texture-iot s t o)))
+      (generalised-texture s t iot n u)))
+
+  (define (overlap-texture-u k u)
+    (overlap-texture k (lambda () u)))
+  
+  (define (xfade-texture-iot s t o)
+    (/ (+ (* t 2) s) o))
+  
+  (define (xfade-texture k u)
+    (let* ((s (list-ref k 0))
+           (t (list-ref k 1))
+           (n (list-ref k 2))
+           (iot (+ s t)))
+      (generalised-texture s t (lambda () iot) n u)))
+
+  (define (xfade-texture-u k u)
+    (xfade-texture k (lambda () u)))
+  
+  (define (post-process-u nc f)
+    (lambda (fd)
+      (let ((u (replace-out 0 (f (in nc ar 0)))))
+        (play-at fd u -1 add-to-tail 1))))
+  
+  (define (random-linear)
+    (min (random 0 1) (random 0 1)))
+  
+  (define (random-inverse-linear)
+    (max (random 0 1) (random 0 1)))
+  
+  (define (random-triangular)
+    (* 0.5 (+ (random 0 1)
+              (random 0 1))))
+  
+  (define (random-exponential l)
+    (let ((u (random 0 1)))
+      (if (zero? u)
+          (random-exponential l)
+          (/ (- (log u)) l))))
+
+  (define (random-bilinear-exponential l)
+    (let ((u (* 2 (random 0 1))))
+      (if (zero? u)
+          (random-bilinear-exponential l)
+          (* (if (> u 1) -1 1)
+             (log (if (> u 1) (- 2 u) u))))))
+
+  (define (random-gaussian sigma mu)
+    (+ mu (* (sqrt (* -2 (log (random 0 1))))
+             (sin (* 2 pi (random 0 1)))
+             sigma)))
+
+  (define (random-cauchy alpha)
+    (let ((u (random 0 1)))
+      (if (= u 0.5)
+          (random-cauchy alpha)
+          (* alpha (tan (* u pi))))))
+
+  (define (random-beta a b)
+    (let ((u1 (random 0 1)))
+      (if (zero? u1)
+          (random-beta a b)
+          (let ((u2 (random 0 1)))
+            (if (zero? u2)
+                (random-beta a b)
+                (let* ((y1 (expt u1 (/ 1 a)))
+                       (y2 (expt u2 (/ 1 b)))
+                       (sum (+ y1 y2)))
+                  (if (> sum 1)
+                      (random-beta a b)
+                      (/ y1 sum))))))))
+
+  (define (random-weibull s t)
+    (let ((u (random 0 1)))
+      (if (or (zero? u) (= u 1))
+          (random-weibull s t)
+          (let ((a (/ 1 (- 1 u))))
+            (* s (expt (log a) (/ 1 t)))))))
+
+  (define (random-poisson l)
+    (let loop ((v (exp (- l)))
+               (u (random 0 1))
+               (n 0))
+      (if (>= u v)
+          (loop v
+                (* u (random 0 1))
+                (+ n 1))
+          n)))
+
+  (define (unipolar? u)
+    (if (mce? u)
+        (all unipolar? (mce-channels u))
+        (member (ugen-name u) (list "Dust" "Impulse" "LFPulse" "TPulse" "Trig1"))))
+
+  (define (range u l r)
+    (if (unipolar? u)
+        (lin-lin u 0 1 l r)
+        (lin-lin u -1 1 l r)))
+  
+  (define (exp-range u l r)
+    (if (unipolar? u)
+        (lin-exp u 0 1 l r)
+        (lin-exp u -1 1 l r)))
+
+  (define (recv* fd t)
+    (let loop ((r (list)))
+      (let ((p (recv fd t)))
+        (if p
+            (loop (cons p r))
+            (reverse r)))))
+
+  (define (encode-score l)
+    (flatten-bytevectors
+     (map (lambda (b)
+            (let ((v (flatten-bytevectors (encode-bundle-ntp b))))
+              (list (encode-i32 (bytevector-length v)) v)))
+          l)))
+
+  (define au-magic 779316836)
+  (define au-unspecified 0)
+  (define au-mulaw8 1)
+  (define au-linear8 2)
+  (define au-linear16 3)
+  (define au-linear24 4)
+  (define au-linear32 5)
+  (define au-float 6)
+  (define au-double 7)
+
+  (define (au-size-of e)
+    (cond ((= e au-unspecified) (error (quote au-size-of) "unspecified encoding"))
+          ((= e au-mulaw8) 1)
+          ((= e au-linear8) 1)
+          ((= e au-linear16) 2)
+          ((= e au-linear24) 3)
+          ((= e au-linear32) 4)
+          ((= e au-float) 4)
+          ((= e au-double) 8)
+          (else (error "au-size-of: illegal encoding"))))
+
+  (define (au-mk-hdr nf enc sr nc)
+    (let ((nb (* nf nc (au-size-of enc))))
+      (concat-map encode-i32 (list au-magic 28 nb enc sr nc 0))))
+
+  (define au-f32 (list au-float encode-f32))
+
+  (define au-f64 (list au-double encode-f64))
+
+  (define (write-snd-file e sr nc fn d)
+    (let ((enc (car e))
+          (encdr (cadr e))
+          (nf (/ (length d) nc)))
+      (with-output-to-file fn (lambda ()
+                                (for-each write (au-mk-hdr nf enc sr nc))
+                                (for-each write (concat-map encdr d))))))
+
+  (define-record-type spec (fields minima maxima warp range ratio))
+
+  (define (make-spec* minima maxima warp)
+    (let ((w (if (symbol? warp)
+                 (symbol->warp warp)
+                 warp)))
+      (make-spec minima maxima
+                 (w minima maxima)
+                 (- maxima minima)
+                 (/ maxima minima))))
+
+  (define (r:clip l r n)
+    (if (> n r)
+        r
+        (if (< n l) l n)))
+
+  (define (spec-map s value)
+    ((spec-warp s) (quote map) (r:clip 0.0 1.0 value)))
+
+  (define (spec-unmap s value)
+    (r:clip 0.0 1.0 ((spec-warp s) (quote unmap) value)))
+
+  (define (symbol->spec s)
+    (case s
+      ((unipolar) (make-spec 0.0 1.0 (quote linear)))
+      ((bipolar pan) (make-spec -1.0 1.0 (quote linear)))
+      ((freq frequency) (make-spec 20.0 20000.0 (quote linear)))
+      ((phase) (make-spec 0.0 (* 2 pi) (quote linear)))
+      (else (error (quote symbol->spec) "illegal value" s))))
+
+  (define (splice l)
+    (let ((f (lambda (a b)
+               (if (list? a)
+                   (append a b)
+                   (cons a b)))))
+      (foldr f nil l)))
+
+  (define (warp-fwd? s)
+    (eq? s (quote map)))
+
+  (define (warp-linear minima maxima)
+    (let ((range (- maxima minima)))
+      (lambda (direction value)
+        (if (warp-fwd? direction)
+            (+ (* value range) minima)
+            (/ (- value minima) range)))))
+
+  (define (warp-linear-integer minima maxima)
+    (let ((w (warp-linear minima maxima)))
+      (lambda (direction value)
+        (round (w direction value)))))
+
+  (define (warp-exponential minima maxima)
+    (let ((ratio (/ maxima minima)))
+      (lambda (direction value)
+        (if (warp-fwd? direction)
+            (* (expt ratio value) minima)
+            (/ (log (/ value minima)) (log ratio))))))
+
+  (define (warp-make-warp-curve curve)
+    (lambda (minima maxima)
+      (let ((range (- maxima minima)))
+        (if (< (abs curve) 0.001)
+            (warp-linear minima range)
+            (let* ((grow (exp curve))
+                   (a (/ range (- 1.0 grow)))
+                   (b (+ minima a)))
+              (lambda (direction value)
+                (if (warp-fwd? direction)
+                    (- b (* a (expt grow value)))
+                    (/ (log (/ (- b value) a)) curve))))))))
+
+  (define (warp-cosine minima maxima)
+    (let* ((range (- maxima minima)) (linear (warp-linear minima range)))
+      (lambda (direction value)
+        (if (warp-fwd? direction)
+            (linear (quote map) (- 0.5 (* (cos (* pi value)) 0.5)))
+            (/ (acos (- 1.0 (* (linear (quote unmap) value) 2))) pi)))))
+
+  (define (warp-sine minima maxima)
+    (let* ((range (- maxima minima))
+           (linear (warp-linear minima range)))
+      (lambda (direction value)
+        (if (warp-fwd? direction)
+            (linear (quote map)
+                    (sin (* (/ pi 2) value)))
+            (/ (asin (linear (quote unmap) value))
+               (/ pi 2))))))
+
+  (define (warp-fader minima maxima)
+    (lambda (direction value)
+      (if (warp-fwd? direction)
+          (* value value)
+          (sqrt value))))
+
+  (define (warp-db-fader minima maxima)
+    (lambda (direction value)
+      (if (warp-fwd? direction)
+          (if (zero? value)
+              -180
+              (amp-db (* value value)))
+          (sqrt (db-amp value)))))
+
+  (define (symbol->warp s)
+    (case s
+      ((lin linear) warp-linear)
+      ((exp exponential) warp-exponential)
+      ((sin) warp-sine)
+      ((cos) warp-cosine)
+      ((amp) warp-fader)
+      ((db) warp-db-fader)
+      (else (error (quote symbol->warp) "unknown symbol" s))))
+
+  (define (number->warp n)
+    (warp-make-warp-curve n))
+
+  (define (segment n k l)
+    (let ((s (take n l)))
+      (if (null? s)
+          s
+          (cons s (segment n k (drop k l))))))
+
+  (define (wavetable->signal l)
+    (concat-map sum (segment 2 2 l)))
+
+  (define (signal->wavetable l)
+    (let ((f (lambda (e0 e1)
+               (list (- (* 2.0 e0) e1)
+                     (- e1 e0)))))
+      (concat-map f (segment 1 2 (append l (list1 (head l)))))))
+  )
