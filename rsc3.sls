@@ -5616,7 +5616,6 @@
   (define (s:l-choose l)
     (list-ref l (i-random 0 (length l))))
 
-
   ;; 
   ;; rsc3-lang
   ;;
@@ -5626,65 +5625,111 @@
                   (if (equal? n 0) (list)
                       (cons i (f (- n 1) (plus i j) j))))))
       f))
-
-  (define series (series* +))
   
+  ;; (equal? (series 5 10 2) (list 10 12 14 16 18))
+  (define series (series* +))
+
+  ;; [a] -> [a]
+  ;;
+  ;; (replicate-m 3 (shuffle '(1 2 3 4 5)))
   (define (shuffle l)
     (let ((q (map (lambda (e) (cons (random 0 1) e)) l))
           (c (lambda (a b) (compare (car a) (car b)))))
       (map cdr (sort-by c q))))
-  
+
+  ;; [float] -> float -> int
   (define (w-index w n)
     (find-index (lambda (e) (< n e))
                 (integrate w)))
-  
+
+  ;; [a] -> [float] -> a
+  ;;
+  ;; (replicate-m 20 (w-choose '(1 2 3 4 5) '(0.4 0.2 0.2 0.1 0.1)))
   (define (w-choose l w)
     (list-ref l (w-index w (random 0 1))))
-  
+
+  ;; [float] -> [float]
   (define (normalize-sum l)
     (let ((n (foldl1 + l))) (map (lambda (e) (/ e n)) l)))
-  
+
+  ;; [a] -> [float] -> a
   (define (p-choose l p)
     (w-choose l (normalize-sum p)))
-  
+
+  ;; #[a] -> a
   (define (vector-choose v)
     (vector-ref v (i-random 0 (vector-length v))))
   
-  (define pi2 (/ pi 2))
-  (define pi32 (* pi 1.5))
-  (define twopi (* pi 2))
-  (define rtwopi (/ 1 twopi))
-  (define log001 (log 0.001))
-  (define log01 (log 0.01))
-  (define log1 (log 0.1))
-  (define rlog2 (/ 1.0 (log 2.0)))
-  (define sqrt2 (sqrt 2.0))
-  (define rsqrt2 (/ 1.0 sqrt2))
+  (define pi2
+    (/ pi 2))
+
+  (define pi32
+    (* pi 1.5))
   
+  (define twopi
+    (* pi 2))
+  
+  (define rtwopi
+    (/ 1 twopi))
+  
+  (define log001
+    (log 0.001))
+  
+  (define log01
+    (log 0.01))
+  
+  (define log1
+    (log 0.1))
+  
+  (define rlog2
+    (/ 1.0 (log 2.0)))
+  
+  (define sqrt2
+    (sqrt 2.0))
+  
+  (define rsqrt2
+    (/ 1.0 sqrt2))
+
+  ;; [[a]] -> [[a]]
+  ;;
+  ;; (equal? (extend-all '((1 2) (1 2 3) (1 2 3 4) (1 2 3 4 5)))
+  ;;         '((1 2 1 2 1) (1 2 3 1 2) (1 2 3 4 1) (1 2 3 4 5)))
   (define (extend-all l)
     (let* ((f (lambda (x) (length x)))
            (n (maximum (map f l))))
       (map (lambda (e) (extend e n)) l)))
 
+  ;; (time -> delta-time) -> time -> ()
   (define (dt-rescheduler f t)
     (begin (pause-thread-until t)
            (let ((r (f t)))
              (when (number? r)
                (dt-rescheduler f (+ t r))))))
-  
+
+  ;; ugen -> ugen -> ugen
+  ;;
+  ;; (hear (mul (sin-osc ar 440 0) (mul (mk-env 5 1) 0.1)))
   (define (mk-env s t)
     (let* ((c 4) (p (env-linen t s t 1 (list c c c))))
       (env-gen kr 1 1 0 1 remove-synth p)))
-  
+
+  ;; ugen -> ugen -> ugen -> ugen
+  ;;
+  ;; (audition (with-env (mul (sin-osc ar 440 0) 0.1) 1 0.5))
   (define (with-env g s t)
     (out 0 (mul g (mk-env s t))))
-  
+
+  ;; overlap-texture-t -> float
   (define (overlap-texture-iot s t o)
     (/ (+ (* t 2) s) o))
-  
+
+  ;; x|()->x -> x
+  ;;
+  ;; (from-maybe-closure (lambda () 1))
   (define (from-maybe-closure x)
     (if (procedure? x) (x) x))
-
+  
+  ;; real|#f -> real|#f -> real|()->real -> int -> ugen|()->ugen
   (define (generalised-texture s t iot n u)
     (lambda (fd)
       (let ((f (lambda (_)
@@ -5697,10 +5742,15 @@
                               (play-at fd u** -1 add-to-head 1))
                             (from-maybe-closure iot)) #f))))
         (dt-rescheduler f (utcr)))))
-  
+
+  ;; [real|()->real,int] -> ugen|()->ugen -> fd->()
   (define (spawn-u k u)
     (let* ((iot (list-ref k 0)) (n (list-ref k 1))) (generalised-texture #f #f iot n u)))
 
+  ;; overlap-texture-t -> (() -> ugen) -> (fd -> ())
+  ;;
+  ;; (let ((u (pan2 (sin-osc ar (rand 400 600) 0) (rand -1 1) 0.02)))
+  ;;   (with-sc3 (overlap-texture (list 6 3 9 24) u)))
   (define (overlap-texture k u)
     (let* ((s (list-ref k 0))
            (t (list-ref k 1))
@@ -5709,12 +5759,15 @@
            (iot (overlap-texture-iot s t o)))
       (generalised-texture s t iot n u)))
 
+  ;; overlap-texture-t -> ugen -> (fd -> ())
   (define (overlap-texture-u k u)
     (overlap-texture k (lambda () u)))
-  
+
+  ;; xfade-texture-t -> float
   (define (xfade-texture-iot s t o)
     (/ (+ (* t 2) s) o))
-  
+
+  ;; xfade-texture-t -> (() -> ugen) -> (fd -> ())
   (define (xfade-texture k u)
     (let* ((s (list-ref k 0))
            (t (list-ref k 1))
@@ -5722,6 +5775,7 @@
            (iot (+ s t)))
       (generalised-texture s t (lambda () iot) n u)))
 
+  ;; xfade-texture-t -> ugen -> (fd -> ())
   (define (xfade-texture-u k u)
     (xfade-texture k (lambda () u)))
   
@@ -5729,41 +5783,51 @@
     (lambda (fd)
       (let ((u (replace-out 0 (f (in nc ar 0)))))
         (play-at fd u -1 add-to-tail 1))))
-  
+
+  ;; () -> float
   (define (random-linear)
     (min (random 0 1) (random 0 1)))
-  
+
+  ;; () -> float
   (define (random-inverse-linear)
     (max (random 0 1) (random 0 1)))
-  
+
+  ;; () -> float
   (define (random-triangular)
     (* 0.5 (+ (random 0 1)
               (random 0 1))))
-  
+
+  ;; float -> float
   (define (random-exponential l)
     (let ((u (random 0 1)))
       (if (zero? u)
           (random-exponential l)
           (/ (- (log u)) l))))
 
+  ;; float -> float
   (define (random-bilinear-exponential l)
     (let ((u (* 2 (random 0 1))))
       (if (zero? u)
           (random-bilinear-exponential l)
           (* (if (> u 1) -1 1)
              (log (if (> u 1) (- 2 u) u))))))
-
+  
+  ;; float -> float -> float
+  ;;
+  ;; (replicate-m 3 (random-gaussian 1 0))
   (define (random-gaussian sigma mu)
     (+ mu (* (sqrt (* -2 (log (random 0 1))))
              (sin (* 2 pi (random 0 1)))
              sigma)))
 
+  ;; float -> float
   (define (random-cauchy alpha)
     (let ((u (random 0 1)))
       (if (= u 0.5)
           (random-cauchy alpha)
           (* alpha (tan (* u pi))))))
 
+  ;; float -> float -> float
   (define (random-beta a b)
     (let ((u1 (random 0 1)))
       (if (zero? u1)
@@ -5778,6 +5842,7 @@
                       (random-beta a b)
                       (/ y1 sum))))))))
 
+  ;; float -> float -> float
   (define (random-weibull s t)
     (let ((u (random 0 1)))
       (if (or (zero? u) (= u 1))
@@ -5785,6 +5850,7 @@
           (let ((a (/ 1 (- 1 u))))
             (* s (expt (log a) (/ 1 t)))))))
 
+  ;; float -> float
   (define (random-poisson l)
     (let loop ((v (exp (- l)))
                (u (random 0 1))
@@ -5795,21 +5861,30 @@
                 (+ n 1))
           n)))
 
+  ;; ugen -> bool
   (define (unipolar? u)
     (if (mce? u)
         (all unipolar? (mce-channels u))
-        (member (ugen-name u) (list "Dust" "Impulse" "LFPulse" "TPulse" "Trig1"))))
+        (member (ugen-name u)
+                (list "Dust"
+                      "Impulse"
+                      "LFPulse"
+                      "TPulse"
+                      "Trig1"))))
 
+  ;; ugen -> ugen -> ugen -> ugen
   (define (range u l r)
     (if (unipolar? u)
         (lin-lin u 0 1 l r)
         (lin-lin u -1 1 l r)))
-  
+
+  ;; ugen -> ugen -> ugen -> ugen
   (define (exp-range u l r)
     (if (unipolar? u)
         (lin-exp u 0 1 l r)
         (lin-exp u -1 1 l r)))
 
+  ;; port -> float -> [osc]
   (define (recv* fd t)
     (let loop ((r (list)))
       (let ((p (recv fd t)))
@@ -5817,6 +5892,12 @@
             (loop (cons p r))
             (reverse r)))))
 
+  ;; A score is a list of osc bundles. The timestamps are given in
+  ;; seconds where zero is the start of the score. An OSC file is a
+  ;; binary file format understood by the SC3 synthesis server, and
+  ;; consists of a sequence of length prefixed OSC bundles.
+  
+  ;; [osc] -> bytevector
   (define (encode-score l)
     (flatten-bytevectors
      (map (lambda (b)
@@ -5824,7 +5905,8 @@
               (list (encode-i32 (bytevector-length v)) v)))
           l)))
 
-  (define au-magic 779316836)
+  (define au-magic 779316836)           ; (define au-magic #x2e736e64)
+  
   (define au-unspecified 0)
   (define au-mulaw8 1)
   (define au-linear8 2)
@@ -5850,16 +5932,16 @@
       (concat-map encode-i32 (list au-magic 28 nb enc sr nc 0))))
 
   (define au-f32 (list au-float encode-f32))
-
   (define au-f64 (list au-double encode-f64))
 
   (define (write-snd-file e sr nc fn d)
     (let ((enc (car e))
           (encdr (cadr e))
           (nf (/ (length d) nc)))
-      (with-output-to-file fn (lambda ()
-                                (for-each write (au-mk-hdr nf enc sr nc))
-                                (for-each write (concat-map encdr d))))))
+      (with-output-to-file fn
+        (lambda ()
+          (for-each write (au-mk-hdr nf enc sr nc))
+          (for-each write (concat-map encdr d))))))
 
   (define-record-type spec (fields minima maxima warp range ratio))
 
@@ -5891,6 +5973,11 @@
       ((phase) (make-spec 0.0 (* 2 pi) (quote linear)))
       (else (error (quote symbol->spec) "illegal value" s))))
 
+  ;; Tree a -> Tree a
+  ;;
+  ;; (splice '(1 (2 3) 4 (5 (6 7))))
+  ;;
+  ;; (flatten '(1 (2 3) 4 (5 (6 7))))
   (define (splice l)
     (let ((f (lambda (a b)
                (if (list? a)
@@ -5898,9 +5985,20 @@
                    (cons a b)))))
       (foldr f nil l)))
 
+  ;; A warp is a procedure of two arguments. The first is the <symbol>
+  ;; direction of the warp, which should be either 'map' or 'unmap'.
+  ;; The second is a <real> number. Warps map from the space [0,1] to a
+  ;; user defined space [minima,maxima]. A warp generator takes the
+  ;; arguments `minima' and `maxima', even if it then ignores these
+  ;; values.
+
+  ;; Returns true iff the <symbol> `s' is 'map'.
+  
   (define (warp-fwd? s)
     (eq? s (quote map)))
 
+  ;; A linear real value map.
+  
   (define (warp-linear minima maxima)
     (let ((range (- maxima minima)))
       (lambda (direction value)
@@ -5908,11 +6006,15 @@
             (+ (* value range) minima)
             (/ (- value minima) range)))))
 
+  ;; A linear integer value map.
+  
   (define (warp-linear-integer minima maxima)
     (let ((w (warp-linear minima maxima)))
       (lambda (direction value)
         (round (w direction value)))))
 
+  ;; The minima and maxima must both be non zero and have the same sign.
+  
   (define (warp-exponential minima maxima)
     (let ((ratio (/ maxima minima)))
       (lambda (direction value)
@@ -5920,6 +6022,9 @@
             (* (expt ratio value) minima)
             (/ (log (/ value minima)) (log ratio))))))
 
+  ;; Evaluates to a warp generator for warps with an exponetial curve
+  ;; given by `curve'.
+  
   (define (warp-make-warp-curve curve)
     (lambda (minima maxima)
       (let ((range (- maxima minima)))
@@ -5950,12 +6055,18 @@
             (/ (asin (linear (quote unmap) value))
                (/ pi 2))))))
 
+  ;; The minima and maxima values are ignored, they are implicitly zero
+  ;; and one.
+  
   (define (warp-fader minima maxima)
     (lambda (direction value)
       (if (warp-fwd? direction)
           (* value value)
           (sqrt value))))
 
+  ;; The minima and maxima values are ignored, they are implicitly
+  ;; negative infinity and zero. An input value of zero gives -180.
+  
   (define (warp-db-fader minima maxima)
     (lambda (direction value)
       (if (warp-fwd? direction)
@@ -5964,6 +6075,8 @@
               (amp-db (* value value)))
           (sqrt (db-amp value)))))
 
+  ;; Translate a symbolic warp name to a warp procedure.
+  
   (define (symbol->warp s)
     (case s
       ((lin linear) warp-linear)
@@ -5974,21 +6087,27 @@
       ((db) warp-db-fader)
       (else (error (quote symbol->warp) "unknown symbol" s))))
 
+  ;; Translate a number to a warp.
+  
   (define (number->warp n)
     (warp-make-warp-curve n))
 
+  ;; int -> int -> [a] -> [[a]]
   (define (segment n k l)
     (let ((s (take n l)))
       (if (null? s)
           s
           (cons s (segment n k (drop k l))))))
 
+  ;; A Signal is half the size of a Wavetable, each element is the sum
+  ;; of two adjacent elements of the Wavetable.
   (define (wavetable->signal l)
     (concat-map sum (segment 2 2 l)))
 
+  ;; A Wavetable is twice the size of a Signal. Each element 'e0'
+  ;; expands to {2*e0-e1, e1-e0} where e1 is the next element.
   (define (signal->wavetable l)
     (let ((f (lambda (e0 e1)
                (list (- (* 2.0 e0) e1)
                      (- e1 e0)))))
-      (concat-map f (segment 1 2 (append l (list1 (head l)))))))
-  )
+      (concat-map f (segment 1 2 (append l (list1 (head l))))))))
