@@ -1,0 +1,18 @@
+#!r6rs
+(import (akku format lockfile))
+(projects
+ ((name "libc")
+  (location (git "git@github.com:paullucas/libc.git"))
+  (revision "61592b820f858855a4a001e143b5fa97737af4bb"))
+ ((name "socket")
+  (location (git "git@github.com:paullucas/socket.git"))
+  (revision "092cec738f77fbd9cebab8c91ebe1afe0d7a8306"))
+ ((name "rhs")
+  (location (git "git@github.com:paullucas/rhs-chez.git"))
+  (revision "cac2a012f1acd3bca2dbe307ea063dfd0ed369a9"))
+ ((name "sosc")
+  (location (git "git@github.com:paullucas/sosc-chez.git"))
+  (revision "19303497061d5989a471bd814665b888a3d6387a"))
+ ((name "srfi")
+  (location (git "git@github.com:arcfide/chez-srfi.git"))
+  (revision "73bbf95564184140242fa3d806bdb5995af42ae3")))
